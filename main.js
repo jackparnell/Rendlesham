@@ -1,7 +1,3 @@
-var attackerGroups = ['attackers'];
-var bulletGroups = ['bullets'];
-var towerGroups = ['rocks', 'boulders', 'logs'];
-
 var map;
 var layer;
 var timerEvents = [];
@@ -86,21 +82,10 @@ var mainState = {
         this.game.goalX = game.width * .025;
         this.game.goalY = game.height * .41;
 
-
-        // Add attacker groups
-        for (i = 0; i < attackerGroups.length; i++) {
-            this[attackerGroups[i]] = game.add.group();
-        }
-
-        // Add bullet groups
-        for (i = 0; i < bulletGroups.length; i++) {
-            this[bulletGroups[i]] = game.add.group();
-        }
-
-        // Add tower groups
-        for (i = 0; i < towerGroups.length; i++) {
-            this[towerGroups[i]] = game.add.group();
-        }
+        this.towers = game.add.group();
+        this.attackers = game.add.group();
+        this.weapons = game.add.group();
+        this.bullets = game.add.group();
 
         this.initiateLabels();
 
@@ -133,30 +118,6 @@ var mainState = {
     render: function() {
         this.bullets.debug(100, 100);
 
-    },
-
-    cleanUp: function()
-    {
-        // Code based on an article at http://davidp.net/phaser-sprite-destroy/
-
-        var aCleanup = [];
-
-        // Tower groups
-        for (i = 0; i < towerGroups.length; i++) {
-            this[towerGroups[i]].forEachDead(function(item){
-                aCleanup.push(item);
-            });
-        }
-
-        var i = aCleanup.length - 1;
-        while(i > -1)
-        {
-            var getitem = aCleanup[i];
-            getitem.destroy();
-            i--;
-        }
-
-        // console.log(aCleanup.length);
     },
 
     getDifficulty: function() {
@@ -475,8 +436,7 @@ var mainState = {
 
     spawnTower: function(className, x, y) {
         var item = new window[className](game, x, y);
-        var groupName = className.toLowerCase() + 's';
-        this[groupName].add(item);
+        this.towers.add(item);
     },
 
     move_player: function() {
@@ -565,13 +525,11 @@ var mainState = {
 
         var towerExists = false;
 
-        for (i = 0; i < towerGroups.length; i++) {
-            this[towerGroups[i]].forEach(function(item){
-                if (Phaser.Rectangle.intersects(item.getBounds(), placementRectangle)) {
-                    towerExists = true;
-                }
-            });
-        }
+        this.towers.forEachAlive(function(item){
+            if (Phaser.Rectangle.intersects(item.getBounds(), placementRectangle)) {
+                towerExists = true;
+            }
+        });
 
         return towerExists;
     },
@@ -599,16 +557,19 @@ var mainState = {
 
     clearMap: function()
     {
-        // TODO below code is only affecting some sprites, make clear all.
-        for (i = 0; i < attackerGroups.length; i++) {
-            this[attackerGroups[i]].callAll('die');
+
+        this.attackers.callAll('die');
+
+        // Oddness of code below is intentional. Towers get destroyed instead of killed,
+        // causing array index issues, meaning die() doesn't get called on all elements.
+        // Keep calling until all are gone.
+        while (this.towers.length >= 1) {
+            this.towers.callAll('die');
         }
-        for (i = 0; i < towerGroups.length; i++) {
-            this[towerGroups[i]].callAll('die');
-        }
-        for (i = 0; i < bulletGroups.length; i++) {
-            this[bulletGroups[i]].callAll('kill');
-        }
+
+        this.bullets.callAll('kill');
+
+        this.clearTimedEvents();
 
     },
 

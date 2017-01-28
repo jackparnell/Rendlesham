@@ -6,13 +6,6 @@ function Tower(game, x, y, spriteName) {
     this.guid = guid();
 
     this.damageValue = window[this.constructor.name].defaultDamageValue;
-
-    if (!x) {
-        x = game.width;
-    }
-    if (!y) {
-        y = game.height + getRandomInteger(-20, 20);
-    }
     
     Phaser.Sprite.call(this, game, x, y, spriteName);
     game.physics.arcade.enable(this);
@@ -59,7 +52,12 @@ Tower.prototype.fire = function()
 }
 Tower.prototype.die = function()
 {
+    if (!this.alive) {
+        return false;
+    }
+    // Weapon doesn't have a kill function
     this.weapon1.destroy();
+    // Use destroy instead of kill, as otherwise weapon lingers.
     this.destroy();
 }
 Tower.prototype.determineTarget = function()
@@ -68,23 +66,19 @@ Tower.prototype.determineTarget = function()
     var mostAdvanced = 1;
     var mostAdvancedDistance = 999999;
 
-    for (i = 0; i < attackerGroups.length; i++) {
-        var attackerGroupName = attackerGroups[i];
-        mainState[attackerGroupName].forEach(function(item) {
-            var distanceBetween = game.physics.arcade.distanceBetween(this, item);
-            var advanced = mainState.turn - item.creationTurn;
-            if (
-                advanced > mostAdvanced
-                &&
-                distanceBetween < this.weapon1.bulletKillDistance  // Within range
-            ) {
-                mostAdvanced = advanced;
-                mostAdvancedDistance = distanceBetween;
-                target = item;
-            }
-        }, this);
-    }
-
+    mainState.attackers.forEachAlive(function(item) {
+        var distanceBetween = game.physics.arcade.distanceBetween(this, item);
+        var advanced = mainState.turn - item.creationTurn;
+        if (
+            advanced > mostAdvanced
+            &&
+            distanceBetween < this.weapon1.bulletKillDistance  // Within range
+        ) {
+            mostAdvanced = advanced;
+            mostAdvancedDistance = distanceBetween;
+            target = item;
+        }
+    }, this);
 
     this.target = target;
 

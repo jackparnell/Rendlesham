@@ -6,6 +6,7 @@ function Attacker(game, x, y, spriteName) {
     this.guid = guid();
     this.creationTurn = mainState.turn;
     this.health = 1000;
+    this.coinsValue = 0;
 
     this.walking_speed = 75;
     this.path = [];
@@ -45,22 +46,21 @@ Attacker.prototype.hit = function(attacker, bullet)
 Attacker.prototype.update = function()
 {
 
-    if (this.hasReachedGoal()) {
-        this.reachedGoal();
-    }
-
     if (!this.alive) {
         return;
+    }
+
+    if (this.hasReachedGoal()) {
+        this.reachedGoal();
     }
 
     this.followPath();
 
     // game.physics.arcade.collide(this, mainState.collisionLayer);
 
-    mainState.bullets.forEach(function(bullet) {
+    mainState.bullets.forEachAlive(function(bullet) {
         game.physics.arcade.overlap(this, bullet, this.hit, null, this);
     }, this);
-
 
     if (this.health <= 0) {
         this.health = 0;
@@ -148,12 +148,15 @@ Attacker.prototype.move_through_path = function (path) {
 
 Attacker.prototype.die = function()
 {
+    if (!this.alive) {
+        return false;
+    }
     if (this.health <= 0) {
         mainState.changeCoins(this.coinsValue, this.x, this.y);
     } else if (mainState.lives >= 1) {
         mainState.changeLives(-1, this.x, this.y);
     }
-    this.destroy();
+    this.kill();
 }
 
 Attacker.prototype.changeHealth = function(amount, notificationSpawnX, notificationSpawnY) {
