@@ -59,6 +59,7 @@ Tower.prototype.fire = function()
 }
 Tower.prototype.die = function()
 {
+    this.weapon1.destroy();
     this.destroy();
 }
 Tower.prototype.determineTarget = function()

@@ -4,6 +4,7 @@ var towerGroups = ['rocks', 'boulders', 'logs'];
 
 var map;
 var layer;
+var timerEvents = [];
 
 var mainState = {
     preload: function() {
@@ -114,9 +115,12 @@ var mainState = {
         try {
             this.turn += 1;
 
+            if (this.lives < 1) {
+                this.startLevel(this.level);
+            }
+
             this.updateCoins();
             this.updateLives();
-
             this.updateNotifications();
 
         }
@@ -511,6 +515,13 @@ var mainState = {
         var xCoordinate = Math.floor(game.input.x / this.squareWidth) * this.squareWidth;
         var yCoordinate = Math.floor(game.input.y / this.squareWidth) * this.squareWidth;
 
+        if (xCoordinate == 0) {
+            xCoordinate = 1;
+        }
+        if (yCoordinate == 0) {
+            yCoordinate = 1;
+        }
+
         if (!this.isTowerPlacementAppropriateAtPosition(xCoordinate, yCoordinate)) {
             return false;
         }
@@ -523,6 +534,9 @@ var mainState = {
     
     isTowerPlacementAppropriateAtPosition: function(x, y)
     {
+        if (!this.isPositionOnScreen(x, y)) {
+            return false;
+        }
 
         if (this.doesTowerExistAtPosition(x, y)) {
             return false;
@@ -530,6 +544,19 @@ var mainState = {
         
         return true;
         
+    },
+
+    isPositionOnScreen: function(x, y)
+    {
+        if (x < 0 || x >= game.width) {
+            return false;
+        }
+        if (y < 0 || y >= game.height) {
+            return false;
+        }
+
+        return true;
+
     },
 
     doesTowerExistAtPosition: function(x, y)
@@ -547,6 +574,11 @@ var mainState = {
         }
 
         return towerExists;
+    },
+
+    gameOver: function()
+    {
+        this.startLevel(this.level);
     },
     
     startLevel: function(levelNumber)
@@ -567,14 +599,24 @@ var mainState = {
 
     clearMap: function()
     {
+        // TODO below code is only affecting some sprites, make clear all.
         for (i = 0; i < attackerGroups.length; i++) {
-            this[attackerGroups[i]].callAll('kill');
+            this[attackerGroups[i]].callAll('die');
         }
         for (i = 0; i < towerGroups.length; i++) {
-            this[towerGroups[i]].callAll('kill');
+            this[towerGroups[i]].callAll('die');
         }
         for (i = 0; i < bulletGroups.length; i++) {
             this[bulletGroups[i]].callAll('kill');
+        }
+
+    },
+
+    clearTimedEvents: function()
+    {
+
+        for (var i=0; i < timerEvents.length; i++) {
+            game.time.events.remove(timerEvents[i]);
         }
 
     }

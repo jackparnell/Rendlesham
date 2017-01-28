@@ -150,7 +150,7 @@ Attacker.prototype.die = function()
 {
     if (this.health <= 0) {
         mainState.changeCoins(this.coinsValue, this.x, this.y);
-    } else {
+    } else if (mainState.lives >= 1) {
         mainState.changeLives(-1, this.x, this.y);
     }
     this.destroy();
