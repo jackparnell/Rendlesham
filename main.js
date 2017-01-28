@@ -67,8 +67,10 @@ var mainState = {
                 this.map.setCollision(collision_tiles, true, layer.name);
             }
         }, this);
+
         // resize the world to be the size of the current layer
         this.layers[this.map.layer.name].resizeWorld();
+
 
 
         this.backgroundLayer = this.map.createLayer('background');
@@ -107,16 +109,12 @@ var mainState = {
             this.updateCoins();
             this.updateLives();
             this.updateNotifications();
+            this.drawIndicators();
 
         }
         catch (err) {
             console.log(err);
         }
-
-    },
-
-    render: function() {
-        this.bullets.debug(100, 100);
 
     },
 
@@ -447,7 +445,7 @@ var mainState = {
     },
 
     render: function() {
-
+        // game.debug.spriteBounds(this.pathwayPlacementRectangle);
     },
 
 
@@ -501,6 +499,10 @@ var mainState = {
         if (this.doesTowerExistAtPosition(x, y)) {
             return false;
         }
+
+        if (this.isPositionOnPathway(x, y)) {
+            // return false;
+        }
         
         return true;
         
@@ -532,6 +534,23 @@ var mainState = {
         });
 
         return towerExists;
+    },
+
+    isPositionOnPathway: function(x, y)
+    {
+
+        this.pathwayPlacementRectangle = game.add.sprite(x + 8, y + 8, null);
+        game.physics.enable(this.pathwayPlacementRectangle, Phaser.Physics.ARCADE);
+        this.pathwayPlacementRectangle.body.setSize(16, 16, 0, 0);
+
+        var onPathway = true;
+
+        if (game.physics.arcade.overlap(this.pathwayPlacementRectangle, this.map.collide)) {
+            onPathway = false;
+        }
+
+        return onPathway;
+        
     },
 
     gameOver: function()
@@ -580,6 +599,27 @@ var mainState = {
             game.time.events.remove(timerEvents[i]);
         }
 
+    },
+
+    drawIndicators: function()
+    {
+        if (this.graphics) {
+            this.graphics.destroy();
+        }
+
+        this.graphics = game.add.graphics(0, 0);
+
+        var xCoordinate = Math.floor(game.input.x / this.squareWidth) * this.squareWidth;
+        var yCoordinate = Math.floor(game.input.y / this.squareWidth) * this.squareWidth;
+
+        var borderColor = 0xFF8888;
+
+        if (this.isTowerPlacementAppropriateAtPosition(xCoordinate, yCoordinate)) {
+            borderColor = 0x00FF00;
+        }
+
+        this.graphics.lineStyle(2, borderColor, 1);
+        this.graphics.drawRect(xCoordinate, yCoordinate, this.squareWidth, this.squareWidth);
     }
 
 };

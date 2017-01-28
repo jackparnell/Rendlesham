@@ -7,6 +7,7 @@ function Attacker(game, x, y, spriteName) {
     this.creationTurn = mainState.turn;
     this.health = 1000;
     this.coinsValue = 0;
+    this.invulnerable = false;
 
     this.walking_speed = 75;
     this.path = [];
@@ -40,7 +41,9 @@ Attacker.prototype.constructor = Attacker;
 
 Attacker.prototype.hit = function(attacker, bullet)
 {
-    attacker.health -= bullet.damageValue;
+    if (!this.invulnerable) {
+        attacker.health -= bullet.damageValue;
+    }
     bullet.kill();
 }
 Attacker.prototype.update = function()
@@ -92,8 +95,14 @@ Attacker.prototype.hasReachedGoal = function()
 }
 Attacker.prototype.reachedGoal = function()
 {
-    // TODO decrement player lives
-    this.die();
+    this.invulnerable = true;
+
+    // Fade out over 300 ms
+    game.add.tween(this).to( { alpha: 0 }, 300, Phaser.Easing.Linear.None, true, 0, 1000, true);
+
+    // Die in 300 ms
+    timerEvents.push(game.time.events.add(Phaser.Timer.SECOND * .3, this.die, this));
+
 }
 Attacker.prototype.followPath = function()
 {
@@ -157,11 +166,6 @@ Attacker.prototype.die = function()
         mainState.changeLives(-1, this.x, this.y);
     }
     this.kill();
-}
-
-Attacker.prototype.changeHealth = function(amount, notificationSpawnX, notificationSpawnY) {
-    this.health += amount;
-    mainState.healthChangeNotification(amount, notificationSpawnX, notificationSpawnY);
 }
 
 Attacker.prototype.moveUp = function() {

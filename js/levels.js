@@ -18,6 +18,11 @@ var level1 = {
             timerEvents.push(game.time.events.add(Phaser.Timer.SECOND * i, mainState.spawnOscar, mainState));
         }
 
+        for (i = 70; i < 80; i += .2) {
+            timerEvents.push(game.time.events.add(Phaser.Timer.SECOND * i, mainState.spawnOscar, mainState));
+        }
+
+
     },
     completed: function() {
         return false;
