@@ -33,12 +33,17 @@ var mainState = {
         game.physics.startSystem(Phaser.Physics.ARCADE);
 
         this.game = game;
-        
+
+        this.backgrounds = game.add.group();
+
         this.turn = 0;
         this.coins = 0;
         this.lives = 999;
         this.towerSelected = 'Rock';
         this.squareWidth = 35;
+
+        this.gameOverBackground = this.game.add.tileSprite(0, 0, game.width, game.height, 'gameOverBackground');
+        this.backgrounds.add(this.gameOverBackground);
 
         window.onkeydown = function() {
             if (game.input.keyboard.event.keyCode == 80) {
@@ -68,17 +73,15 @@ var mainState = {
             }
         }, this);
 
-        console.log(this.layers.collision);
-
         // resize the world to be the size of the current layer
         this.layers[this.map.layer.name].resizeWorld();
-
-
 
         this.backgroundLayer = this.map.createLayer('background');
 
         this.collisionLayer = this.map.createLayer('collision');
         game.physics.arcade.enable(this.collisionLayer);
+
+        console.log(this.collisionLayer);
 
         var tile_dimensions = new Phaser.Point(this.map.tileWidth, this.map.tileHeight);
         this.pathfinding = this.game.plugins.add(Rendlesham.Pathfinding, this.map.layers[1].data, [-1], tile_dimensions);
@@ -106,7 +109,7 @@ var mainState = {
             this.turn += 1;
 
             if (this.lives < 1) {
-                this.startLevel(this.level);
+                this.noLivesLeft();
             }
 
             this.updateCoins();
@@ -128,6 +131,12 @@ var mainState = {
     getDifficulty: function() {
         var difficulty = 3;
         return difficulty;
+    },
+
+    noLivesLeft: function()
+    {
+        game.add.tween(mainState.map).to( { alpha: 0.2 }, Phaser.Timer.SECOND * 4, Phaser.Easing.Linear.None, true, 0, 1000, true);
+        game.time.events.add(Phaser.Timer.SECOND * 4, mainState.gameOver, this);
     },
 
     gameOver: function() {
@@ -188,8 +197,8 @@ var mainState = {
         this.labelLivesNotifications = [];
 
 
-        this.messageXCoordinate = this.titlesYCoordinate;
-        this.messageYCoordinate = game.height - this.squareWidth + 5;;
+        this.messageXCoordinate = this.labelCoinsXCoordinate;
+        this.messageYCoordinate = game.height - this.squareWidth + 2;
 
         this.labelMessage = game.add.text(this.messageXCoordinate, this.messageYCoordinate, '', this.labelStyle);
 
@@ -508,11 +517,6 @@ var mainState = {
         return onPathway;
         
     },
-
-    gameOver: function()
-    {
-        this.startLevel(this.level);
-    },
     
     startLevel: function(levelNumber)
     {
@@ -572,11 +576,27 @@ var mainState = {
         var borderColor = 0xFF8888;
 
         if (this.isTowerPlacementAppropriateAtPosition(xCoordinate, yCoordinate)) {
-            borderColor = 0x00FF00;
+
+            if (!this.coinsSufficientForTowerPlacement()) {
+                borderColor = 0xFFFF88;
+            } else {
+                borderColor = 0x00FF00;
+            }
+
+
         }
 
         this.graphics.lineStyle(2, borderColor, 1);
         this.graphics.drawRect(xCoordinate, yCoordinate, this.squareWidth, this.squareWidth);
+    },
+
+    coinsSufficientForTowerPlacement: function()
+    {
+        if (this.coins < 50) {
+            return false;
+        }
+
+        return true;
     },
 
     cleanUp: function()

@@ -157,7 +157,7 @@ Attacker.prototype.move_through_path = function (path) {
 
 Attacker.prototype.die = function()
 {
-    if (!this.alive) {
+    if (!this.alive || mainState.lives < 1) {
         return false;
     }
     if (this.health <= 0) {

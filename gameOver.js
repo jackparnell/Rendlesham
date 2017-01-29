@@ -7,9 +7,9 @@ Rendlesham.gameOver.prototype = {
 
         game.load.image('goToTitleScreen', 'assets/buttons/goToTitleScreen.png');
 
-
     },
     create: function(){
+
         if (game.device.desktop == false) {
             game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
             game.scale.setMinMax(game.width/2, game.height/2, game.width, game.height);
@@ -20,7 +20,7 @@ Rendlesham.gameOver.prototype = {
         game.stage.backgroundColor = '#000000';
 
         var style = {
-            font: "100px Arial",
+            font: "100px Chewy",
             fill: "#FFFFFF",
             boundsAlignH: "center",
             boundsAlignV: "middle"
@@ -29,14 +29,13 @@ Rendlesham.gameOver.prototype = {
         text.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
         text.setTextBounds(0, 105, game.width, 100);
 
-        var goToTitleScreen = game.add.button(game.world.centerX - 95, 400, 'goToTitleScreen', this.goToTitleScreen, this);
+        var goToTitleScreen = game.add.button(game.world.centerX - 95, game.height * .8, 'goToTitleScreen', this.goToTitleScreen, this);
 
         // Press SPACE to restart the game.
         var spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
         spaceKey.onDown.add(this.playTheGame);
 
     },
-
 
     goToTitleScreen: function(){
         game.state.start('titleScreen',true,false);
