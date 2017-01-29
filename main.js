@@ -68,6 +68,8 @@ var mainState = {
             }
         }, this);
 
+        console.log(this.layers.collision);
+
         // resize the world to be the size of the current layer
         this.layers[this.map.layer.name].resizeWorld();
 
@@ -90,6 +92,7 @@ var mainState = {
         this.bullets = game.add.group();
 
         this.initiateLabels();
+        this.initiateLoops();
 
         game.input.onDown.add(this.placeTower, this);
 
@@ -110,6 +113,10 @@ var mainState = {
             this.updateLives();
             this.updateNotifications();
             this.drawIndicators();
+
+            if (window['level' + this.level].completed()) {
+                this.nextLevel();
+            }
 
         }
         catch (err) {
@@ -139,85 +146,11 @@ var mainState = {
             return;
         }
 
-        /*
-        game.time.events.loop(7000, this.spawnTower, this, 'Rock');
-        game.time.events.loop(5555, this.spawnTower, this, 'Rock');
-        game.time.events.loop(4000, this.spawnTree, this);
-        game.time.events.loop(5250, this.spawnTree, this);
-        game.time.events.loop(6700, this.spawnTree, this);
-        */
+        game.time.events.loop(9000, this.cleanUp, this);
 
         this.loopsInitiated = true;
     },
 
-    healthChangeNotification: function(healthChangeText, spawnX, spawnY)
-    {
-
-        var style = {
-            font: "18px Arial",
-            fill: "#FFFFFF",
-            boundsAlignH: "center",
-            boundsAlignV: "middle"
-        };
-
-        if (!spawnX || !spawnY) {
-            spawnX = this.healthXCoordinate;
-            spawnY = this.notificationYCoordinate + 100;
-        }
-
-        var textName = guid();
-
-        var y = this.notificationYCoordinate;
-
-        y += this.labelHealthNotifications.length * 15;
-
-        this[textName] = game.add.text(this.healthXCoordinate, y, healthChangeText, style);
-        this[textName].alpha = 0;
-
-        this.labelHealthNotifications.push(textName);
-
-        game.add.tween(this[textName]).to({alpha: 1}, 750, Phaser.Easing.Linear.None, true);
-        game.add.tween(this[textName]).from( { x: spawnX, y: spawnY }, 750, Phaser.Easing.Linear.None, true);
-
-        game.time.events.add(
-            Phaser.Timer.SECOND * 2.25,
-            function() {
-                game.add.tween(this[textName]).to({alpha: 0}, 750, Phaser.Easing.Linear.None, true);
-            },
-            this
-        ).autoDestroy = true;
-
-        game.time.events.add(
-            Phaser.Timer.SECOND * 3,
-            function() {
-                this[textName].destroy()
-            },
-            this
-        ).autoDestroy = true;
-
-        game.time.events.add(
-            Phaser.Timer.SECOND * 2.5,
-            function() {
-                this.removeNotification('labelHealthNotifications', textName)
-            },
-            this
-        ).autoDestroy = true;
-
-    },
-
-    healthChangeNotificationInFlightChanges: function()
-    {
-
-        for (i = 0; i < this.labelHealthNotifications.length; ++i) {
-            var y = Math.round(this.notificationYCoordinate + (i * 15));
-            var text = this[this.labelHealthNotifications[i]];
-
-            if (text.y > y) {
-                text.y -= .5;
-            }
-        }
-
-    },
 
     removeNotification: function(containerArrayName, guid)
     {
@@ -253,6 +186,13 @@ var mainState = {
         this.labelLives = game.add.text(this.labelLivesXCoordinate, this.valuesYCoordinate, this.lives, this.labelStyle);
         this.labelLives.setTextBounds(0, 5, 40, 10);
         this.labelLivesNotifications = [];
+
+
+        this.messageXCoordinate = this.titlesYCoordinate;
+        this.messageYCoordinate = game.height - this.squareWidth + 5;;
+
+        this.labelMessage = game.add.text(this.messageXCoordinate, this.messageYCoordinate, '', this.labelStyle);
+
 
     },
 
@@ -432,7 +372,22 @@ var mainState = {
         this.attackers.add(this.oscar);
     },
 
-    spawnTower: function(className, x, y) {
+    spawnAttacker: function(className, x, y)
+    {
+        if (!x) {
+            x = this.game.width - 5;
+        }
+        if (!y) {
+            y = this.game.height * .41;
+        }
+
+        var item = new window[className](this.game, x, y);
+
+        this.attackers.add(item);
+    },
+
+    spawnTower: function(className, x, y)
+    {
         var item = new window[className](game, x, y);
         this.towers.add(item);
     },
@@ -451,9 +406,10 @@ var mainState = {
 
     nextLevel: function()
     {
-        this.level += 1;
 
-        mainState.notification('level', '+1', this.sandcastles.children[0].x, this.sandcastles.children[0].y);
+        this.displayMessage('Level completed!');
+
+        this.level += 1;
 
         if (typeof window['level' + this.level] != 'undefined') {
             window['level' + this.level].begin();
@@ -541,11 +497,11 @@ var mainState = {
 
         this.pathwayPlacementRectangle = game.add.sprite(x + 8, y + 8, null);
         game.physics.enable(this.pathwayPlacementRectangle, Phaser.Physics.ARCADE);
-        this.pathwayPlacementRectangle.body.setSize(16, 16, 0, 0);
+        this.pathwayPlacementRectangle.scale.setTo(0.5, 0.5);
 
         var onPathway = true;
 
-        if (game.physics.arcade.overlap(this.pathwayPlacementRectangle, this.map.collide)) {
+        if (game.physics.arcade.collide(this.pathwayPlacementRectangle, this.layers.collision)) {
             onPathway = false;
         }
 
@@ -561,6 +517,7 @@ var mainState = {
     startLevel: function(levelNumber)
     {
         this.level = levelNumber;
+        this.allAttackersDispatched = false;
 
         this.clearMap();
 
@@ -620,6 +577,48 @@ var mainState = {
 
         this.graphics.lineStyle(2, borderColor, 1);
         this.graphics.drawRect(xCoordinate, yCoordinate, this.squareWidth, this.squareWidth);
+    },
+
+    cleanUp: function()
+    {
+        // Code based on an article at http://davidp.net/phaser-sprite-destroy/
+
+        var aCleanup = [];
+
+        this.attackers.forEachDead(function(item){
+            aCleanup.push(item);
+        }, this);
+        this.towers.forEachDead(function(item){
+            aCleanup.push(item);
+        }, this);
+        this.bullets.forEachDead(function(item){
+            aCleanup.push(item);
+        }, this);
+
+        var i = aCleanup.length - 1;
+        while(i > -1)
+        {
+            var getItem = aCleanup[i];
+            getItem.destroy();
+            i--;
+        }
+
+    },
+
+    lastWaveDispatched: function()
+    {
+        this.allAttackersDispatched = true;
+    },
+
+    displayMessage: function(message)
+    {
+        this.labelMessage.text = message;
+        game.time.events.add(Phaser.Timer.SECOND * 7, this.clearMessage, this).autoDestroy = true;
+    },
+
+    clearMessage: function()
+    {
+        this.labelMessage.text = '';
     }
 
 };

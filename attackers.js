@@ -5,8 +5,8 @@ function Attacker(game, x, y, spriteName) {
 
     this.guid = guid();
     this.creationTurn = mainState.turn;
-    this.health = 1000;
-    this.coinsValue = 0;
+    this.health = window[this.constructor.name].defaultHealth || 1000;
+    this.coinsValue = window[this.constructor.name].coinsValue || 1;
     this.invulnerable = false;
 
     this.walking_speed = 75;
@@ -191,18 +191,23 @@ Attacker.prototype.slowHorizontal =  function () {
 // Begin Oscar
 function Oscar(game, x, y) {
     Attacker.call(this, game, x, y, 'oscar');
-
-    this.coinsValue = 5;
-
     this.body.setSize(12, 12, 8, 8);
-
 }
 Oscar.prototype = Object.create(Attacker.prototype);
 Oscar.prototype.constructor = Oscar;
-Oscar.prototype.update = function() {
-    Attacker.prototype.update.call(this);
-
-};
 Oscar.defaultScale = 1;
 Oscar.defaultHealth = 1000;
+Oscar.coinsValue = 5;
 // End Oscar
+
+// Begin Aquila
+function Aquila(game, x, y) {
+    Attacker.call(this, game, x, y, 'aquila');
+    this.body.setSize(12, 12, 8, 8);
+}
+Aquila.prototype = Object.create(Attacker.prototype);
+Aquila.prototype.constructor = Aquila;
+Aquila.defaultScale = 1;
+Aquila.defaultHealth = 2500;
+Aquila.coinsValue = 10;
+// End Aquila
