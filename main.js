@@ -34,16 +34,12 @@ var mainState = {
 
         this.game = game;
 
-        this.backgrounds = game.add.group();
 
         this.turn = 0;
         this.coins = 0;
         this.lives = 999;
         this.towerSelected = 'Rock';
         this.squareWidth = 35;
-
-        this.gameOverBackground = this.game.add.tileSprite(0, 0, game.width, game.height, 'gameOverBackground');
-        this.backgrounds.add(this.gameOverBackground);
 
         window.onkeydown = function() {
             if (game.input.keyboard.event.keyCode == 80) {
@@ -81,7 +77,6 @@ var mainState = {
         this.collisionLayer = this.map.createLayer('collision');
         game.physics.arcade.enable(this.collisionLayer);
 
-        console.log(this.collisionLayer);
 
         var tile_dimensions = new Phaser.Point(this.map.tileWidth, this.map.tileHeight);
         this.pathfinding = this.game.plugins.add(Rendlesham.Pathfinding, this.map.layers[1].data, [-1], tile_dimensions);
@@ -93,11 +88,17 @@ var mainState = {
         this.attackers = game.add.group();
         this.weapons = game.add.group();
         this.bullets = game.add.group();
+        this.overlays = game.add.group();
 
         this.initiateLabels();
         this.initiateLoops();
 
         game.input.onDown.add(this.placeTower, this);
+
+
+        this.gameOverBackground = this.game.add.tileSprite(0, 0, game.width, game.height, 'gameOverBackground');
+        this.gameOverBackground.alpha = 0;
+        this.overlays.add(this.gameOverBackground);
 
         this.startLevel(1);
 
@@ -135,8 +136,14 @@ var mainState = {
 
     noLivesLeft: function()
     {
-        game.add.tween(mainState.map).to( { alpha: 0.2 }, Phaser.Timer.SECOND * 4, Phaser.Easing.Linear.None, true, 0, 1000, true);
-        game.time.events.add(Phaser.Timer.SECOND * 4, mainState.gameOver, this);
+        // TODO The tween below is nowhere near finished after 4 seconds. Determine why and fix.
+        game.add.tween(this.gameOverBackground, this.game).to( { alpha: 1 }, Phaser.Timer.SECOND * 4, Phaser.Easing.Linear.None, true);
+        game.time.events.add(Phaser.Timer.SECOND * 5, this.gameOver, this);
+
+
+        this.attackers.callAll('prepareForGameOver');
+        this.towers.callAll('prepareForGameOver');
+
     },
 
     gameOver: function() {
@@ -517,7 +524,7 @@ var mainState = {
         return onPathway;
         
     },
-    
+
     startLevel: function(levelNumber)
     {
         this.level = levelNumber;
@@ -575,7 +582,11 @@ var mainState = {
 
         var borderColor = 0xFF8888;
 
-        if (this.isTowerPlacementAppropriateAtPosition(xCoordinate, yCoordinate)) {
+        if (this.lives < 1) {
+
+            borderColor = 0x000000;
+
+        } else if (this.isTowerPlacementAppropriateAtPosition(xCoordinate, yCoordinate)) {
 
             if (!this.coinsSufficientForTowerPlacement()) {
                 borderColor = 0xFFFF88;

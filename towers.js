@@ -89,6 +89,11 @@ Tower.prototype.angleToSprite = function(otherSprite)
     return angleToSprite;
 }
 
+Tower.prototype.prepareForGameOver = function()
+{
+    this.weapon1.fireRate = 9999999;
+};
+
 
 function Rock(game, x, y) {
     Tower.call(this, game, x, y, 'rock');

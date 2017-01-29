@@ -155,6 +155,12 @@ Attacker.prototype.move_through_path = function (path) {
     }
 };
 
+Attacker.prototype.prepareForGameOver = function()
+{
+    this.body.enable = false;
+    this.invulnerable = true;
+};
+
 Attacker.prototype.die = function()
 {
     if (!this.alive || mainState.lives < 1) {
