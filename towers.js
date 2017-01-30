@@ -5,6 +5,8 @@ function Tower(game, x, y, spriteName) {
 
     this.guid = guid();
 
+    this.grade = 1;
+
     this.damageValue = window[this.constructor.name].defaultDamageValue;
     
     Phaser.Sprite.call(this, game, x, y, spriteName);
@@ -21,7 +23,7 @@ function Tower(game, x, y, spriteName) {
     this.weapon1.bulletKillType = Phaser.Weapon.KILL_DISTANCE;
     this.weapon1.bulletSpeed = 150;
     this.weapon1.bulletKillDistance = 200;
-    this.weapon1.fireRate = 1000;
+    this.weapon1.fireRate = window[this.constructor.name].defaultFireRate;
 
     this.weapon1.trackSprite(this, this.width/2, this.height/2);
 
@@ -87,11 +89,43 @@ Tower.prototype.angleToSprite = function(otherSprite)
 {
     var angleToSprite = Math.atan2(otherSprite.y - this.y, otherSprite.x - this.x ) * (180/Math.PI);
     return angleToSprite;
-}
+};
 
 Tower.prototype.prepareForGameOver = function()
 {
     this.weapon1.fireRate = 9999999;
+};
+
+Tower.prototype.calculateSpecs = function()
+{
+    this.damageValue = window[this.constructor.name].defaultDamageValue * this.grade;
+    this.weapon1.fireRate = window[this.constructor.name].defaultFireRate * 1.1 - (this.grade / 10);
+
+};
+Tower.prototype.upgradable = function()
+{
+    if (this.grade >= window[this.constructor.name].maximumGrade) {
+        return false;
+    }
+
+    return true;
+};
+Tower.prototype.getCost = function()
+{
+    return window[this.constructor.name].cost;
+}
+
+Tower.prototype.upgrade = function()
+{
+    if (!this.upgradable()) {
+        return false;
+    }
+
+    this.grade ++;
+
+    this.calculateSpecs();
+
+    return true;
 };
 
 
@@ -108,4 +142,7 @@ Rock.prototype.update = function() {
 };
 Rock.defaultScale = 1;
 Rock.defaultDamageValue = 400;
+Rock.defaultFireRate = 1000;
 Rock.cost = 50;
+Rock.maximumGrade = 3;
+

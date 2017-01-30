@@ -436,28 +436,49 @@ var mainState = {
 
     placeTower: function()
     {
+
         var cost = window[this.towerSelected].cost;
 
-        if (cost > this.coins) {
+        var x = Math.floor(game.input.x / this.squareWidth) * this.squareWidth;
+        var y = Math.floor(game.input.y / this.squareWidth) * this.squareWidth;
+
+        if (x == 0) {
+            x = 1;
+        }
+        if (y == 0) {
+            y = 1;
+        }
+
+
+        var action = '';
+
+        if (this.isTowerPlacementAppropriateAtPosition(x, y)) {
+            action = 'add';
+        } else if (this.isTowerUpgradeAppropriateAtPosition(x, y)) {
+            action = 'upgrade';
+        } else {
             return false;
         }
 
-        var xCoordinate = Math.floor(game.input.x / this.squareWidth) * this.squareWidth;
-        var yCoordinate = Math.floor(game.input.y / this.squareWidth) * this.squareWidth;
+        switch (action) {
+            case 'add':
+                if (!this.coinsSufficientForTowerPlacement()) {
+                    return false;
+                }
 
-        if (xCoordinate == 0) {
-            xCoordinate = 1;
-        }
-        if (yCoordinate == 0) {
-            yCoordinate = 1;
+                this.spawnTower(this.towerSelected, x, y);
+                break;
+            case 'upgrade':
+                if (!this.coinsSufficientForTowerUpgrade()) {
+                    return false;
+                }
+
+                var tower = this.getTowerAtPosition(x, y);
+                tower.upgrade();
+                break;
         }
 
-        if (!this.isTowerPlacementAppropriateAtPosition(xCoordinate, yCoordinate)) {
-            return false;
-        }
-
-        this.spawnTower(this.towerSelected, xCoordinate, yCoordinate);
-        this.changeCoins(-cost, xCoordinate, yCoordinate);
+        this.changeCoins(-cost, x, y);
 
         return true;
     },
@@ -480,6 +501,16 @@ var mainState = {
         
     },
 
+    isTowerUpgradeAppropriateAtPosition: function(x, y)
+    {
+        var tower = this.getTowerAtPosition(x, y);
+        if (tower.guid && tower.upgradable()) {
+            return true;
+        }
+
+        return false;
+    },
+
     isPositionOnScreen: function(x, y)
     {
         if (x < 0 || x >= game.width) {
@@ -495,17 +526,28 @@ var mainState = {
 
     doesTowerExistAtPosition: function(x, y)
     {
+
+        var tower = this.getTowerAtPosition(x, y);
+
+        if (tower.guid) {
+            return true;
+        } else {
+            return false;
+        }
+
+    },
+
+    getTowerAtPosition: function(x, y)
+    {
         var placementRectangle = new Phaser.Rectangle(x, y, this.squareWidth - 3, this.squareWidth - 3);
 
-        var towerExists = false;
-
-        this.towers.forEachAlive(function(item){
-            if (Phaser.Rectangle.intersects(item.getBounds(), placementRectangle)) {
-                towerExists = true;
+        this.towers.forEachAlive(function(tower){
+            if (Phaser.Rectangle.intersects(tower.getBounds(), placementRectangle)) {
+                return tower;
             }
         });
 
-        return towerExists;
+        return {};
     },
 
     isPositionOnPathway: function(x, y)
@@ -580,7 +622,10 @@ var mainState = {
         var xCoordinate = Math.floor(game.input.x / this.squareWidth) * this.squareWidth;
         var yCoordinate = Math.floor(game.input.y / this.squareWidth) * this.squareWidth;
 
-        var borderColor = 0xFF8888;
+        var inappropriateColor = 0xFF8888;
+        var notEnoughCoinsColor = 0xFFFF88;
+        var borderColor;
+
 
         if (this.lives < 1) {
 
@@ -588,12 +633,23 @@ var mainState = {
 
         } else if (this.isTowerPlacementAppropriateAtPosition(xCoordinate, yCoordinate)) {
 
-            if (!this.coinsSufficientForTowerPlacement()) {
-                borderColor = 0xFFFF88;
-            } else {
+            if (this.coinsSufficientForTowerPlacement()) {
                 borderColor = 0x00FF00;
+            } else {
+                borderColor = notEnoughCoinsColor;
             }
 
+
+        } else if (this.isTowerUpgradeAppropriateAtPosition(xCoordinate, yCoordinate)) {
+
+            if (this.coinsSufficientForTowerUpgrade()) {
+                borderColor = 0x0088FF;
+            } else {
+                borderColor = notEnoughCoinsColor;
+            }
+
+        } else {
+            borderColor = inappropriateColor;
 
         }
 
@@ -603,7 +659,17 @@ var mainState = {
 
     coinsSufficientForTowerPlacement: function()
     {
-        if (this.coins < 50) {
+
+        if (this.coins < window[this.towerSelected].cost) {
+            return false;
+        }
+
+        return true;
+    },
+
+    coinsSufficientForTowerUpgrade: function()
+    {
+        if (this.coins < window[this.towerSelected].cost) {
             return false;
         }
 
