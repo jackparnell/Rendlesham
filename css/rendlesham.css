@@ -1,4 +1,4 @@
-@import 'https://fonts.googleapis.com/css?family=Chewy';
+@import 'https://fonts.googleapis.com/css?family=Ubuntu';
 
 * {
     margin: 0;
@@ -15,7 +15,7 @@ fb:login-button, #status {
 }
 body {
     background-color: #2b669a;
-    font-family: 'Chewy', Arial, sans-serif;
+    font-family: 'Ubuntu', Arial, sans-serif;
     font-size: 1.1em;
     letter-spacing: 1px;
 }

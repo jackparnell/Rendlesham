@@ -20,7 +20,7 @@ Rendlesham.gameOver.prototype = {
         game.stage.backgroundColor = '#000000';
 
         var style = {
-            font: "80px Chewy",
+            font: "80px Ubuntu",
             fill: "#FFFFFF",
             boundsAlignH: "center",
             boundsAlignV: "middle"

@@ -38,7 +38,7 @@ var mainState = {
         this.turn = 0;
         this.coins = 0;
         this.lives = 999;
-        this.towerSelected = 'Rock';
+        this.towerSelected = 'Gun';
         this.squareWidth = 35;
 
         window.onkeydown = function() {
@@ -87,6 +87,7 @@ var mainState = {
         this.towers = game.add.group();
         this.attackers = game.add.group();
         this.weapons = game.add.group();
+        this.explosions = game.add.group();
         this.bullets = game.add.group();
         this.overlays = game.add.group();
 
@@ -180,8 +181,9 @@ var mainState = {
     initiateLabels: function()
     {
 
-        this.titleStyle = { font: "16px Chewy", fill: "#DDDDDD", boundsAlignH: "center", boundsAlignV: "middle" };
-        this.labelStyle = { font: "26px Chewy", fill: "#FFFFFF", boundsAlignH: "center", boundsAlignV: "middle" };
+        this.titleStyle = { font: "16px Ubuntu", fill: "#DDDDDD", boundsAlignH: "center", boundsAlignV: "middle" };
+        this.labelStyle = { font: "26px Ubuntu", fill: "#FFFFFF", boundsAlignH: "center", boundsAlignV: "middle" };
+        this.indicatorMessageStyle = { font: "16px Ubuntu", fill: "#FFFFFF", boundsAlignH: "right", boundsAlignV: "middle" };
 
         this.titlesYCoordinate = 10;
         this.valuesYCoordinate = 30;
@@ -208,6 +210,11 @@ var mainState = {
         this.messageYCoordinate = game.height - this.squareWidth + 2;
 
         this.labelMessage = game.add.text(this.messageXCoordinate, this.messageYCoordinate, '', this.labelStyle);
+
+        this.indicatorMessageXCoordinate = game.width * .6;
+        this.indicatorMessageYCoordinate = game.height - this.squareWidth + 8;
+
+        this.labelIndicatorMessage = game.add.text(this.indicatorMessageXCoordinate, this.indicatorMessageYCoordinate, '', this.indicatorMessageStyle);
 
 
     },
@@ -408,6 +415,24 @@ var mainState = {
         this.towers.add(item);
     },
 
+    spawnExplosion: function(x, y) {
+
+        var explosion = game.add.sprite(x, y, 'explosion');
+
+        this.explosions.add(explosion);
+
+        explosion.lifespan = 500;
+
+        explosion.animations.add('explode', [0, 1, 2, 3, 4, 5], 12, false);
+        explosion.animations.play('explode');
+
+        game.physics.arcade.enable(explosion);
+
+        explosion.checkWorldBounds = true;
+        explosion.outOfBoundsKill = true;
+
+    },
+
     move_player: function() {
         "use strict";
         var target_position;
@@ -439,8 +464,8 @@ var mainState = {
 
         var cost = window[this.towerSelected].cost;
 
-        var x = Math.floor(game.input.x / this.squareWidth) * this.squareWidth;
-        var y = Math.floor(game.input.y / this.squareWidth) * this.squareWidth;
+        var x = Math.floor(game.input.x / this.squareWidth) * this.squareWidth + (this.squareWidth / 2);
+        var y = Math.floor(game.input.y / this.squareWidth) * this.squareWidth + (this.squareWidth / 2);
 
         if (x == 0) {
             x = 1;
@@ -494,7 +519,7 @@ var mainState = {
         }
 
         if (this.isPositionOnPathway(x, y)) {
-            // return false;
+            return false;
         }
         
         return true;
@@ -539,32 +564,37 @@ var mainState = {
 
     getTowerAtPosition: function(x, y)
     {
-        var placementRectangle = new Phaser.Rectangle(x, y, this.squareWidth - 3, this.squareWidth - 3);
+
+        var towerAtPosition = {};
+
+        var gridCoordinates = this.translatePixelCoordinatesToGridCoordinates(x, y);
+        var gridX = gridCoordinates[0];
+        var gridY = gridCoordinates[1];
 
         this.towers.forEachAlive(function(tower){
-            if (Phaser.Rectangle.intersects(tower.getBounds(), placementRectangle)) {
-                return tower;
+            if (gridX == tower.gridX && gridY == tower.gridY) {
+                towerAtPosition = tower;
             }
         });
 
-        return {};
+
+        return towerAtPosition;
     },
 
     isPositionOnPathway: function(x, y)
     {
 
-        this.pathwayPlacementRectangle = game.add.sprite(x + 8, y + 8, null);
-        game.physics.enable(this.pathwayPlacementRectangle, Phaser.Physics.ARCADE);
-        this.pathwayPlacementRectangle.scale.setTo(0.5, 0.5);
+        var gridCoordinates = this.translatePixelCoordinatesToGridCoordinates(x, y);
+        var gridX = gridCoordinates[0];
+        var gridY = gridCoordinates[1];
 
-        var onPathway = true;
+        var index = this.layers.collision.layer.data[gridY][gridX].index;
 
-        if (game.physics.arcade.collide(this.pathwayPlacementRectangle, this.layers.collision)) {
-            onPathway = false;
+        if (index >= 1) {
+            return false;
+        } else {
+            return true;
         }
-
-        return onPathway;
-        
     },
 
     startLevel: function(levelNumber)
@@ -625,33 +655,40 @@ var mainState = {
         var inappropriateColor = 0xFF8888;
         var notEnoughCoinsColor = 0xFFFF88;
         var borderColor;
-
+        var indicatorMessage = '';
 
         if (this.lives < 1) {
 
             borderColor = 0x000000;
+            indicatorMessage = 'Game Over';
 
         } else if (this.isTowerPlacementAppropriateAtPosition(xCoordinate, yCoordinate)) {
 
             if (this.coinsSufficientForTowerPlacement()) {
                 borderColor = 0x00FF00;
+                indicatorMessage = 'Place ' + this.towerSelected + ' tower for £' + window[this.towerSelected].cost + '.';
             } else {
                 borderColor = notEnoughCoinsColor;
+                indicatorMessage = 'Need £' + window[this.towerSelected].cost + ' for a ' + this.towerSelected + ' tower.';
             }
 
 
         } else if (this.isTowerUpgradeAppropriateAtPosition(xCoordinate, yCoordinate)) {
 
             if (this.coinsSufficientForTowerUpgrade()) {
-                borderColor = 0x0088FF;
+                borderColor = 0x33FFFF;
+                indicatorMessage = 'Upgrade ' + this.towerSelected + ' tower for £' + window[this.towerSelected].cost + '.';
             } else {
                 borderColor = notEnoughCoinsColor;
+                indicatorMessage = 'Need £' + window[this.towerSelected].cost + ' to upgrade ' + this.towerSelected + ' tower.';
             }
 
         } else {
             borderColor = inappropriateColor;
-
+            indicatorMessage = '';
         }
+
+        this.labelIndicatorMessage.text = indicatorMessage;
 
         this.graphics.lineStyle(2, borderColor, 1);
         this.graphics.drawRect(xCoordinate, yCoordinate, this.squareWidth, this.squareWidth);
@@ -716,6 +753,14 @@ var mainState = {
     clearMessage: function()
     {
         this.labelMessage.text = '';
+    },
+
+    translatePixelCoordinatesToGridCoordinates: function(x, y)
+    {
+        x = Math.floor(game.input.x / this.squareWidth);
+        y = Math.floor(game.input.y / this.squareWidth);
+
+        return [x, y];
     }
 
 };

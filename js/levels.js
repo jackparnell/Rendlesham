@@ -28,7 +28,7 @@ var level1 = {
 
 
         // Wave 3
-        for (i = 40; i < 50; i++) {
+        for (i = 40; i < 55; i += 2) {
             timerEvents.push(
                 game.time.events.add(
                     Phaser.Timer.SECOND * i,
@@ -38,7 +38,7 @@ var level1 = {
                 ).autoDestroy = true
             );
         }
-        for (i = 40.5; i < 50; i += 2) {
+        for (i = 41; i < 55; i += 2) {
             timerEvents.push(
                 game.time.events.add(
                     Phaser.Timer.SECOND * i,
@@ -50,7 +50,7 @@ var level1 = {
         }
 
         // Wave 4
-        for (i = 55; i < 65; i += .5) {
+        for (i = 60; i < 70; i += .75) {
             timerEvents.push(
                 game.time.events.add(
                     Phaser.Timer.SECOND * i,
@@ -62,7 +62,7 @@ var level1 = {
         }
 
         // Wave 5
-        for (i = 70; i < 80; i += .35) {
+        for (i = 75; i < 85; i += .5) {
             timerEvents.push(
                 game.time.events.add(
                     Phaser.Timer.SECOND * i,
@@ -73,7 +73,7 @@ var level1 = {
             );
         }
 
-        timerEvents.push(game.time.events.add(Phaser.Timer.SECOND * 81, mainState.lastWaveDispatched, mainState));
+        timerEvents.push(game.time.events.add(Phaser.Timer.SECOND * 86, mainState.lastWaveDispatched, mainState));
 
 
     },

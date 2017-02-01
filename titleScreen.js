@@ -47,7 +47,7 @@ Rendlesham.titleScreen.prototype = {
     {
 
         var style = {
-            font: "48px Chewy",
+            font: "48px Ubuntu",
             fill: "#FFFFFF",
             boundsAlignH: "center",
             boundsAlignV: "middle"
@@ -58,7 +58,7 @@ Rendlesham.titleScreen.prototype = {
 
 
         var captionStyle = {
-            font: "36px Chewy",
+            font: "36px Ubuntu",
             fill: "#FFCCCC",
             boundsAlignH: "center",
             boundsAlignV: "middle"
@@ -68,7 +68,7 @@ Rendlesham.titleScreen.prototype = {
         this.captionText.anchor.set(0.5);
 
         var tipStyle = {
-            font: "20px Chewy",
+            font: "20px Ubuntu",
             fill: "#CCFFCC",
             boundsAlignH: "center",
             boundsAlignV: "middle"

@@ -44,6 +44,7 @@ Attacker.prototype.hit = function(attacker, bullet)
     if (!this.invulnerable) {
         attacker.health -= bullet.damageValue;
     }
+    mainState.spawnExplosion(bullet.x, bullet.y);
     bullet.kill();
 }
 Attacker.prototype.update = function()
