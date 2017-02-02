@@ -6,6 +6,7 @@ function Attacker(game, x, y, spriteName) {
     this.guid = guid();
     this.creationTurn = mainState.turn;
     this.health = window[this.constructor.name].defaultHealth || 1000;
+    this.maximumHealth = this.health;
     this.coinsValue = window[this.constructor.name].coinsValue || 1;
     this.invulnerable = false;
 
@@ -65,6 +66,8 @@ Attacker.prototype.update = function()
     mainState.bullets.forEachAlive(function(bullet) {
         game.physics.arcade.overlap(this, bullet, this.hit, null, this);
     }, this);
+
+    this.updateHealthBar();
 
     if (this.health <= 0) {
         this.health = 0;
@@ -172,6 +175,9 @@ Attacker.prototype.die = function()
     } else if (mainState.lives >= 1) {
         mainState.changeLives(-1, this.x, this.y);
     }
+    if (this.healthBar) {
+        this.healthBar.kill();
+    }
     this.kill();
 }
 
@@ -193,6 +199,47 @@ Attacker.prototype.slowVertical =  function () {
 Attacker.prototype.slowHorizontal =  function () {
     this.body.velocity.x *= .9;
 }
+Attacker.prototype.createHealthBar = function()
+{
+    var barColor;
+
+    var barConfig = {
+        width: 20,
+        height: 5,
+        animationDuration: 100,
+        bg: {
+            color: '#333333'
+        },
+        bar: {
+            color: '#00FF00'
+        },
+    };
+    this.healthBar = new HealthBar(game, barConfig);
+};
+Attacker.prototype.updateHealthBar = function()
+{
+
+    var healthPercentage = Math.round((this.health / this.maximumHealth) * 100);
+
+    // No health bar if at full health
+    if (healthPercentage >= 100) {
+        return;
+    }
+
+    if (!this.healthBar) {
+        this.createHealthBar();
+    }
+
+    this.healthBar.setPercent(healthPercentage);
+    this.healthBar.setPosition(this.x, this.y - 30);
+
+    if (healthPercentage < 60) {
+        this.healthBar.config.bar.color = '#FFFF00;'
+    } else if (healthPercentage < 30) {
+        this.healthBar.config.bar.color = '#FF0000;'
+    }
+
+};
 
 
 // Begin Oscar
