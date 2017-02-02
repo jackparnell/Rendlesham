@@ -23,9 +23,9 @@ function Tower(game, x, y, spriteName) {
 
     this.bulletDamageValue = window[this.constructor.name].defaultDamageValue;
 
-    this.weapon1 = this.game.add.weapon(50, 'bullet');
+    this.weapon1 = this.game.add.weapon(500, 'bullet');
     this.weapon1.bulletKillType = Phaser.Weapon.KILL_DISTANCE;
-    this.weapon1.bulletSpeed = 150;
+    this.weapon1.bulletSpeed = 300;
     this.weapon1.bulletKillDistance = 200;
     this.weapon1.fireRate = window[this.constructor.name].defaultFireRate;
     this.weapon1.angle = this.angleToTarget;
