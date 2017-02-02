@@ -86,14 +86,17 @@ Tower.prototype.determineTarget = function()
         var distanceBetween = game.physics.arcade.distanceBetween(this, item);
         var advanced = mainState.turn - item.creationTurn;
         if (
-            advanced > mostAdvanced
+            !target.targeted // If target is targeted, we've found the target.
             &&
             distanceBetween < this.weapon1.bulletKillDistance  // Within range
+            &&
+            (advanced > mostAdvanced || item.targeted)
         ) {
             mostAdvanced = advanced;
             mostAdvancedDistance = distanceBetween;
             target = item;
         }
+
     }, this);
 
     this.target = target;

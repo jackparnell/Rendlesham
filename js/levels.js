@@ -73,7 +73,19 @@ var level1 = {
             );
         }
 
-        timerEvents.push(game.time.events.add(Phaser.Timer.SECOND * 86, mainState.lastWaveDispatched, mainState));
+        // Wave 6
+        for (i = 90; i < 100; i += .3) {
+            timerEvents.push(
+                game.time.events.add(
+                    Phaser.Timer.SECOND * i,
+                    mainState.spawnAttacker,
+                    mainState,
+                    'Aquila'
+                ).autoDestroy = true
+            );
+        }
+
+        timerEvents.push(game.time.events.add(Phaser.Timer.SECOND * 101, mainState.lastWaveDispatched, mainState));
 
 
     },

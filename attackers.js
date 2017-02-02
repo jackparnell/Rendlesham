@@ -33,6 +33,8 @@ function Attacker(game, x, y, spriteName) {
         this.scale.setTo(scale, scale);
     }
 
+    this.targeted = false;
+
     this.moveToGoal();
 
 
@@ -68,6 +70,7 @@ Attacker.prototype.update = function()
     }, this);
 
     this.updateHealthBar();
+    this.updateCrosshair();
 
     if (this.health <= 0) {
         this.health = 0;
@@ -178,6 +181,10 @@ Attacker.prototype.die = function()
     if (this.healthBar) {
         this.healthBar.kill();
     }
+    if (this.crosshair) {
+        this.crosshair.kill();
+    }
+
     this.kill();
 }
 
@@ -240,6 +247,53 @@ Attacker.prototype.updateHealthBar = function()
     }
 
 };
+Attacker.prototype.targetToggle = function()
+{
+    if (this.targeted) {
+        this.untarget();
+    } else {
+        this.target();
+    }
+}
+Attacker.prototype.target = function()
+{
+    // Un-target all other attackers
+    mainState.attackers.forEachAlive(function(otherAttacker) {
+        if (otherAttacker.targeted) {
+            otherAttacker.untarget();
+        }
+    });
+
+    this.targeted = true;
+
+    this.crosshair = game.add.sprite(this.x, this.y, 'crosshair');
+    game.physics.arcade.enable(this.crosshair);
+
+    this.crosshair.anchor.setTo(0.5, 0.75);
+
+
+    this.crosshair.trackSprite(this);
+
+    mainState.crosshairs.add(this.crosshair);
+
+};
+Attacker.prototype.untarget = function()
+{
+    this.targeted = false;
+
+    if (this.crosshair) {
+        this.crosshair.kill();
+    }
+};
+Attacker.prototype.updateCrosshair = function()
+{
+    if (!this.crosshair) {
+        return false;
+    }
+
+    this.crosshair.x = this.x;
+    this.crosshair.y = this.y;
+}
 
 
 // Begin Oscar

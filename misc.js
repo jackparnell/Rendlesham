@@ -27,6 +27,7 @@ function loadMainFiles()
     game.load.image('button', 'assets/buttons/startGame.png');
 
     game.load.spritesheet('explosion', 'assets/sprites/decorations/Explosion.png', 32, 32, 6);
+    game.load.spritesheet('crosshair', 'assets/sprites/decorations/Crosshair.png', 42, 42, 1);
 
     game.load.spritesheet('bullet', 'assets/sprites/weapons/Bullet.png', 64, 64, 2);
 

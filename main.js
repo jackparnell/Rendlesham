@@ -88,6 +88,7 @@ var mainState = {
         this.attackers = game.add.group();
         this.weapons = game.add.group();
         this.explosions = game.add.group();
+        this.crosshairs = game.add.group();
         this.bullets = game.add.group();
         this.overlays = game.add.group();
 
@@ -440,8 +441,9 @@ var mainState = {
         this.player1.move_to(target_position);
     },
 
-    render: function() {
-        // game.debug.spriteBounds(this.pathwayPlacementRectangle);
+    render: function()
+    {
+
     },
 
 
@@ -481,6 +483,8 @@ var mainState = {
             action = 'add';
         } else if (this.isTowerUpgradeAppropriateAtPosition(x, y)) {
             action = 'upgrade';
+        } else if (this.doesAttackerExistAtPosition(x, y)) {
+            action = 'target';
         } else {
             return false;
         }
@@ -492,6 +496,7 @@ var mainState = {
                 }
 
                 this.spawnTower(this.towerSelected, x, y);
+                this.changeCoins(-cost, x, y);
                 break;
             case 'upgrade':
                 if (!this.coinsSufficientForTowerUpgrade()) {
@@ -500,10 +505,16 @@ var mainState = {
 
                 var tower = this.getTowerAtPosition(x, y);
                 tower.upgrade();
+                this.changeCoins(-cost, x, y);
+                break;
+            case 'target':
+
+                var attacker = this.getAttackerAtPosition(x, y);
+                attacker.targetToggle();
+                
                 break;
         }
 
-        this.changeCoins(-cost, x, y);
 
         return true;
     },
@@ -581,6 +592,34 @@ var mainState = {
         return towerAtPosition;
     },
 
+    doesAttackerExistAtPosition: function(x, y)
+    {
+
+        var attacker = this.getAttackerAtPosition(x, y);
+
+        if (attacker.guid) {
+            return true;
+        } else {
+            return false;
+        }
+
+    },
+
+    getAttackerAtPosition: function (x, y)
+    {
+        var placementRectangle = new Phaser.Rectangle(x-5, y-5, 10, 10);
+
+        var attackerAtPosition = {};
+
+        this.attackers.forEachAlive(function(attacker){
+            if (Phaser.Rectangle.intersects(attacker.getBounds(), placementRectangle)) {
+                attackerAtPosition = attacker;
+            }
+        });
+
+        return attackerAtPosition;
+    },
+
     isPositionOnPathway: function(x, y)
     {
 
@@ -627,6 +666,9 @@ var mainState = {
         }
 
         this.bullets.callAll('kill');
+
+        this.crosshairs.callAll('kill');
+        this.explosions.callAll('kill');
 
         this.clearTimedEvents();
 
@@ -682,6 +724,10 @@ var mainState = {
                 borderColor = notEnoughCoinsColor;
                 indicatorMessage = 'Need £' + window[this.towerSelected].cost + ' to upgrade ' + this.towerSelected + ' tower.';
             }
+
+        } else if (this.doesAttackerExistAtPosition(xCoordinate, yCoordinate)) {
+            borderColor = 0xFF8800;
+            indicatorMessage = 'Target this attacker.';
 
         } else {
             borderColor = inappropriateColor;
