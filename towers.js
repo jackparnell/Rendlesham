@@ -26,7 +26,7 @@ function Tower(game, x, y, spriteName) {
     this.weapon1 = this.game.add.weapon(500, 'bullet');
     this.weapon1.bulletKillType = Phaser.Weapon.KILL_DISTANCE;
     this.weapon1.bulletSpeed = 300;
-    this.weapon1.bulletKillDistance = 200;
+    this.weapon1.bulletKillDistance = window[this.constructor.name].defaultKillDistance;
     this.weapon1.fireRate = window[this.constructor.name].defaultFireRate;
     this.weapon1.angle = this.angleToTarget;
 
@@ -131,7 +131,12 @@ Tower.prototype.calculateSpecs = function()
 {
     this.bulletDamageValue = window[this.constructor.name].defaultDamageValue * this.grade;
     this.weapon1.fireRate = window[this.constructor.name].defaultFireRate * 1.1 - (this.grade / 8);
+    this.weapon1.bulletKillDistance = this.calculateBulletKillDistance(this.grade);
 
+};
+Tower.prototype.calculateBulletKillDistance = function(grade)
+{
+    return window[this.constructor.name].defaultKillDistance * (1 + ((grade - 1) * .3));
 };
 Tower.prototype.upgradable = function()
 {
@@ -188,7 +193,8 @@ Gun.prototype.update = function() {
     Tower.prototype.update.call(this);
 };
 Gun.defaultScale = .5;
-Gun.defaultDamageValue = 400;
-Gun.defaultFireRate = 1000;
+Gun.defaultDamageValue = 500;
+Gun.defaultFireRate = 1100;
+Gun.defaultKillDistance = 100;
 Gun.cost = 50;
 Gun.maximumGrade = 3;

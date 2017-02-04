@@ -696,6 +696,7 @@ var mainState = {
 
         var inappropriateColor = 0xFF8888;
         var notEnoughCoinsColor = 0xFFFF88;
+        var upgradeColor = 0x33FFFF;
         var borderColor;
         var indicatorMessage = '';
 
@@ -718,7 +719,7 @@ var mainState = {
         } else if (this.isTowerUpgradeAppropriateAtPosition(xCoordinate, yCoordinate)) {
 
             if (this.coinsSufficientForTowerUpgrade()) {
-                borderColor = 0x33FFFF;
+                borderColor = upgradeColor;
                 indicatorMessage = 'Upgrade ' + this.towerSelected + ' tower for £' + window[this.towerSelected].cost + '.';
             } else {
                 borderColor = notEnoughCoinsColor;
@@ -738,6 +739,26 @@ var mainState = {
 
         this.graphics.lineStyle(2, borderColor, 1);
         this.graphics.drawRect(xCoordinate, yCoordinate, this.squareWidth, this.squareWidth);
+
+        if (this.doesTowerExistAtPosition(xCoordinate, yCoordinate)) {
+            var tower = this.getTowerAtPosition(xCoordinate, yCoordinate);
+
+
+            if (tower.weapon1) {
+                this.graphics.lineStyle(2, 0x88FF88, 0.5);
+                this.graphics.beginFill(0x88FF88, 0.2);
+                this.graphics.drawCircle(tower.x, tower.y, tower.calculateBulletKillDistance(tower.grade)*2);
+                this.graphics.endFill();
+
+                if (tower.upgradable()) {
+                    this.graphics.lineStyle(2, upgradeColor, 0.5);
+                    this.graphics.drawCircle(tower.x, tower.y, tower.calculateBulletKillDistance(tower.grade+1)*2);
+                    this.graphics.endFill();
+                }
+
+            }
+
+        }
     },
 
     coinsSufficientForTowerPlacement: function()
