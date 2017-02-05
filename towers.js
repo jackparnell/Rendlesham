@@ -149,7 +149,16 @@ Tower.prototype.upgradable = function()
 Tower.prototype.getCost = function()
 {
     return window[this.constructor.name].cost;
-}
+};
+Tower.prototype.getSellValue = function()
+{
+    return Math.round((window[this.constructor.name].cost * this.grade) * (2/3));
+};
+Tower.prototype.sell = function()
+{
+    mainState.changeCoins(this.getSellValue(), this.x, this.y);
+    this.die();
+};
 
 Tower.prototype.upgrade = function()
 {
@@ -194,7 +203,7 @@ Gun.prototype.update = function() {
 };
 Gun.defaultScale = .5;
 Gun.defaultDamageValue = 500;
-Gun.defaultFireRate = 1100;
+Gun.defaultFireRate = 1200;
 Gun.defaultKillDistance = 100;
 Gun.cost = 50;
 Gun.maximumGrade = 3;

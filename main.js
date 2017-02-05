@@ -42,8 +42,13 @@ var mainState = {
         this.squareWidth = 35;
 
         window.onkeydown = function() {
+            // Press P
             if (game.input.keyboard.event.keyCode == 80) {
                 mainState.togglePause();
+            }
+            // Press S
+            if (game.input.keyboard.event.keyCode == 83) {
+                mainState.toggleSellMode();
             }
         };
 
@@ -101,6 +106,8 @@ var mainState = {
         this.gameOverBackground = this.game.add.tileSprite(0, 0, game.width, game.height, 'gameOverBackground');
         this.gameOverBackground.alpha = 0;
         this.overlays.add(this.gameOverBackground);
+
+        this.mode = 'place';
 
         this.startLevel(1);
 
@@ -375,6 +382,17 @@ var mainState = {
         }
     },
 
+    toggleSellMode: function()
+    {
+        if (this.mode != 'sell') {
+            this.mode = 'sell';
+        } else {
+            this.mode = 'place';
+        }
+
+        console.log(this.mode);
+    },
+
     pause: function()
     {
         game.paused = true;
@@ -479,7 +497,13 @@ var mainState = {
 
         var action = '';
 
-        if (this.isTowerPlacementAppropriateAtPosition(x, y)) {
+        if (this.mode == 'sell') {
+            if (this.isTowerSaleAppropriateAtPosition(x, y)) {
+                action = 'sell';
+            } else {
+                return false;
+            }
+        } else if (this.isTowerPlacementAppropriateAtPosition(x, y)) {
             action = 'add';
         } else if (this.isTowerUpgradeAppropriateAtPosition(x, y)) {
             action = 'upgrade';
@@ -513,6 +537,12 @@ var mainState = {
                 attacker.targetToggle();
                 
                 break;
+            case 'sell':
+
+                var tower = this.getTowerAtPosition(x, y);
+                tower.sell();
+
+                break;
         }
 
 
@@ -541,6 +571,16 @@ var mainState = {
     {
         var tower = this.getTowerAtPosition(x, y);
         if (tower.guid && tower.upgradable()) {
+            return true;
+        }
+
+        return false;
+    },
+
+    isTowerSaleAppropriateAtPosition: function(x, y)
+    {
+        var tower = this.getTowerAtPosition(x, y);
+        if (tower.guid && tower.getSellValue()) {
             return true;
         }
 
@@ -697,6 +737,7 @@ var mainState = {
         var inappropriateColor = 0xFF8888;
         var notEnoughCoinsColor = 0xFFFF88;
         var upgradeColor = 0x33FFFF;
+        var sellColor = 0xBB33BB;
         var borderColor;
         var indicatorMessage = '';
 
@@ -705,7 +746,14 @@ var mainState = {
             borderColor = 0x000000;
             indicatorMessage = 'Game Over';
 
-        } else if (this.isTowerPlacementAppropriateAtPosition(xCoordinate, yCoordinate)) {
+        } else if (this.mode == 'sell' && this.isTowerSaleAppropriateAtPosition(xCoordinate, yCoordinate)) {
+
+            var tower = this.getTowerAtPosition(xCoordinate, yCoordinate);
+
+            borderColor = sellColor;
+            indicatorMessage = 'Sell ' + this.towerSelected + ' tower for £' + tower.getSellValue() + '.';
+
+        } else if (this.mode == 'place' && this.isTowerPlacementAppropriateAtPosition(xCoordinate, yCoordinate)) {
 
             if (this.coinsSufficientForTowerPlacement()) {
                 borderColor = 0x00FF00;
@@ -716,7 +764,7 @@ var mainState = {
             }
 
 
-        } else if (this.isTowerUpgradeAppropriateAtPosition(xCoordinate, yCoordinate)) {
+        } else if (this.mode == 'place' && this.isTowerUpgradeAppropriateAtPosition(xCoordinate, yCoordinate)) {
 
             if (this.coinsSufficientForTowerUpgrade()) {
                 borderColor = upgradeColor;
@@ -726,7 +774,7 @@ var mainState = {
                 indicatorMessage = 'Need £' + window[this.towerSelected].cost + ' to upgrade ' + this.towerSelected + ' tower.';
             }
 
-        } else if (this.doesAttackerExistAtPosition(xCoordinate, yCoordinate)) {
+        } else if (this.mode == 'place' && this.doesAttackerExistAtPosition(xCoordinate, yCoordinate)) {
             borderColor = 0xFF8800;
             indicatorMessage = 'Target this attacker.';
 
@@ -740,7 +788,7 @@ var mainState = {
         this.graphics.lineStyle(2, borderColor, 1);
         this.graphics.drawRect(xCoordinate, yCoordinate, this.squareWidth, this.squareWidth);
 
-        if (this.doesTowerExistAtPosition(xCoordinate, yCoordinate)) {
+        if (this.mode == 'place' && this.doesTowerExistAtPosition(xCoordinate, yCoordinate)) {
             var tower = this.getTowerAtPosition(xCoordinate, yCoordinate);
 
 
