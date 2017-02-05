@@ -9,11 +9,10 @@ var mainState = {
 
         this.version = '0.1.1';
 
-        this.backgrounds = game.add.group();
-
         loadMainFiles();
 
         game.load.tilemap('map1', 'assets/tilemaps/maps/map1.json', null, Phaser.Tilemap.TILED_JSON);
+        game.load.tilemap('map2', 'assets/tilemaps/maps/map2.json', null, Phaser.Tilemap.TILED_JSON);
         game.load.image('tiles', 'assets/tilemaps/tiles/tiles_spritesheet.png');
 
     },
@@ -34,12 +33,12 @@ var mainState = {
 
         this.game = game;
 
-
         this.turn = 0;
         this.coins = 0;
         this.lives = 999;
         this.towerSelected = 'Gun';
         this.squareWidth = 35;
+        this.level = 1;
 
         window.onkeydown = function() {
             // Press P
@@ -52,39 +51,9 @@ var mainState = {
             }
         };
 
-        this.map = game.add.tilemap('map1');
-        this.map.addTilesetImage('tiles_spritesheet', 'tiles');
+        this.backgrounds = game.add.group();
 
-
-        // create map layers
-        this.layers = {};
-        this.map.layers.forEach(function (layer) {
-            this.layers[layer.name] = this.map.createLayer(layer.name);
-            if (layer.properties.collision) { // collision layer
-                var collision_tiles = [];
-                layer.data.forEach(function (data_row) { // find tiles used in the layer
-                    data_row.forEach(function (tile) {
-                        // check if it's a valid tile index and isn't already in the list
-                        if (tile.index > 0 && collision_tiles.indexOf(tile.index) === -1) {
-                            collision_tiles.push(tile.index);
-                        }
-                    }, this);
-                }, this);
-                this.map.setCollision(collision_tiles, true, layer.name);
-            }
-        }, this);
-
-        // resize the world to be the size of the current layer
-        this.layers[this.map.layer.name].resizeWorld();
-
-        this.backgroundLayer = this.map.createLayer('background');
-
-        this.collisionLayer = this.map.createLayer('collision');
-        game.physics.arcade.enable(this.collisionLayer);
-
-
-        var tile_dimensions = new Phaser.Point(this.map.tileWidth, this.map.tileHeight);
-        this.pathfinding = this.game.plugins.add(Rendlesham.Pathfinding, this.map.layers[1].data, [-1], tile_dimensions);
+        this.setupMap();
 
         this.game.goalX = game.width * .025;
         this.game.goalY = game.height * .41;
@@ -109,7 +78,7 @@ var mainState = {
 
         this.mode = 'place';
 
-        this.startLevel(1);
+        this.startLevel();
 
     },
 
@@ -127,7 +96,7 @@ var mainState = {
             this.updateNotifications();
             this.drawIndicators();
 
-            if (window['level' + this.level].completed()) {
+            if (!this.pendingNextLevel && window['level' + this.level].completed()) {
                 this.nextLevel();
             }
 
@@ -468,13 +437,13 @@ var mainState = {
     nextLevel: function()
     {
 
-        this.displayMessage('Level completed!');
+        this.pendingNextLevel = true;
 
-        this.level += 1;
+        this.displayMessage('Level ' + this.level + ' completed!');
+        
+        this.level ++;
 
-        if (typeof window['level' + this.level] != 'undefined') {
-            window['level' + this.level].begin();
-        }
+        game.time.events.add(Phaser.Timer.SECOND * 4, this.startLevel, this).autoDestroy = true;
 
         return true;
     },
@@ -676,12 +645,15 @@ var mainState = {
         }
     },
 
-    startLevel: function(levelNumber)
+    startLevel: function()
     {
-        this.level = levelNumber;
+
+        console.log('Starting level ' + this.level);
         this.allAttackersDispatched = false;
+        this.pendingNextLevel = false;
 
         this.clearMap();
+        this.setupMap();
 
         window['level' + this.level].begin();
 
@@ -876,6 +848,49 @@ var mainState = {
         y = Math.floor(game.input.y / this.squareWidth);
 
         return [x, y];
+    },
+
+    setupMap: function()
+    {
+        this.map = game.add.tilemap('map' + this.level);
+        this.map.addTilesetImage('tiles_spritesheet', 'tiles');
+
+        // create map layers
+        this.layers = {};
+        this.map.layers.forEach(function (layer) {
+            this.layers[layer.name] = this.map.createLayer(layer.name);
+
+            this.backgrounds.add(this.layers[layer.name]);
+
+            if (layer.properties.collision) { // collision layer
+                var collision_tiles = [];
+                layer.data.forEach(function (data_row) { // find tiles used in the layer
+                    data_row.forEach(function (tile) {
+                        // check if it's a valid tile index and isn't already in the list
+                        if (tile.index > 0 && collision_tiles.indexOf(tile.index) === -1) {
+                            collision_tiles.push(tile.index);
+                        }
+                    }, this);
+                }, this);
+                this.map.setCollision(collision_tiles, true, layer.name);
+            }
+        }, this);
+
+
+
+        // resize the world to be the size of the current layer
+        this.layers[this.map.layer.name].resizeWorld();
+
+        this.backgroundLayer = this.map.createLayer('background');
+        this.backgrounds.add(this.backgroundLayer);
+
+        this.collisionLayer = this.map.createLayer('collision');
+        this.backgrounds.add(this.collisionLayer);
+
+        game.physics.arcade.enable(this.collisionLayer);
+
+        var tile_dimensions = new Phaser.Point(this.map.tileWidth, this.map.tileHeight);
+        this.pathfinding = this.game.plugins.add(Rendlesham.Pathfinding, this.map.layers[1].data, [-1], tile_dimensions);
     }
 
 };

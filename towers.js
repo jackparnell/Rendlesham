@@ -13,9 +13,7 @@ function Tower(game, x, y, spriteName) {
     var gridCoordinates = mainState.translatePixelCoordinatesToGridCoordinates(x, y);
     this.gridX = gridCoordinates[0];
     this.gridY = gridCoordinates[1];
-
-    console.log(this.gridX + ', ' + this.gridY);
-
+    
     this.checkWorldBounds = true;
     this.outOfBoundsKill = false;
 
