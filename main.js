@@ -8,12 +8,9 @@ var mainState = {
         this.guid = guid();
 
         this.version = '0.1.1';
+        this.name = 'rendlesham';
 
         loadMainFiles();
-
-        game.load.tilemap('map1', 'assets/tilemaps/maps/map1.json', null, Phaser.Tilemap.TILED_JSON);
-        game.load.tilemap('map2', 'assets/tilemaps/maps/map2.json', null, Phaser.Tilemap.TILED_JSON);
-        game.load.image('tiles', 'assets/tilemaps/tiles/tiles_spritesheet.png');
 
     },
 
@@ -32,6 +29,8 @@ var mainState = {
         game.physics.startSystem(Phaser.Physics.ARCADE);
 
         this.game = game;
+
+        this.loadUser();
 
         this.turn = 0;
         this.coins = 0;
@@ -440,10 +439,13 @@ var mainState = {
         this.pendingNextLevel = true;
 
         this.displayMessage('Level ' + this.level + ' completed!');
-        
+
+        this.user.levelsComplete[this.level] = true;
+        this.save();
+
         this.level ++;
 
-        game.time.events.add(Phaser.Timer.SECOND * 4, this.startLevel, this).autoDestroy = true;
+        game.time.events.add(Phaser.Timer.SECOND * 6, this.startLevel, this).autoDestroy = true;
 
         return true;
     },
@@ -504,7 +506,7 @@ var mainState = {
 
                 var attacker = this.getAttackerAtPosition(x, y);
                 attacker.targetToggle();
-                
+
                 break;
             case 'sell':
 
@@ -517,7 +519,7 @@ var mainState = {
 
         return true;
     },
-    
+
     isTowerPlacementAppropriateAtPosition: function(x, y)
     {
         if (!this.isPositionOnScreen(x, y)) {
@@ -531,9 +533,9 @@ var mainState = {
         if (this.isPositionOnPathway(x, y)) {
             return false;
         }
-        
+
         return true;
-        
+
     },
 
     isTowerUpgradeAppropriateAtPosition: function(x, y)
@@ -662,6 +664,8 @@ var mainState = {
 
         // Set lives to the startingLives value from the level
         this.lives = window['level' + this.level].startingLives;
+
+        console.log(this.user);
 
     },
 
@@ -834,7 +838,7 @@ var mainState = {
     displayMessage: function(message)
     {
         this.labelMessage.text = message;
-        game.time.events.add(Phaser.Timer.SECOND * 7, this.clearMessage, this).autoDestroy = true;
+        game.time.events.add(Phaser.Timer.SECOND * 6, this.clearMessage, this).autoDestroy = true;
     },
 
     clearMessage: function()
@@ -891,6 +895,26 @@ var mainState = {
 
         var tile_dimensions = new Phaser.Point(this.map.tileWidth, this.map.tileHeight);
         this.pathfinding = this.game.plugins.add(Rendlesham.Pathfinding, this.map.layers[1].data, [-1], tile_dimensions);
+    },
+
+    loadUser: function()
+    {
+
+        if (localStorage.getItem(this.name)) {
+            this.user = JSON.parse(localStorage.getItem(this.name));
+        } else {
+            this.user = {
+                levelsComplete: []
+            }
+            this.save();
+        }
+
+    },
+
+    save: function()
+    {
+        localStorage.setItem(this.name, JSON.stringify(this.user));
+
     }
 
 };
