@@ -37,7 +37,7 @@ var mainState = {
         this.lives = 999;
         this.towerSelected = 'Gun';
         this.squareWidth = 35;
-        this.level = 1;
+        this.level = 2;
 
         window.onkeydown = function() {
             // Press P

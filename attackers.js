@@ -319,3 +319,15 @@ Aquila.defaultScale = 1;
 Aquila.defaultHealth = 2500;
 Aquila.coinsValue = 10;
 // End Aquila
+
+// Begin Mib
+function Mib(game, x, y) {
+    Attacker.call(this, game, x, y, 'mib');
+    this.body.setSize(12, 12, 8, 8);
+}
+Mib.prototype = Object.create(Attacker.prototype);
+Mib.prototype.constructor = Mib;
+Mib.defaultScale = 1;
+Mib.defaultHealth = 5000;
+Mib.coinsValue = 15;
+// End Mib
