@@ -1,3 +1,5 @@
+var waveNumber;
+
 var level1 = {
     begin: function() {
         var i;
@@ -115,24 +117,14 @@ var level2 = {
                 var i;
 
                 for (i = s; i < s+20; i += 1.75) {
-                    timerEvents.push(
-                        game.time.events.add(
-                            Phaser.Timer.SECOND * i,
-                            mainState.spawnAttacker,
-                            mainState,
-                            'Oscar'
-                        ).autoDestroy = true
-                    );
+
+                    mainState.spawnAttackerDelayed('Oscar', i, waveNumber);
+
                 }
                 for (i = s+20; i < s+25; i += 1.75) {
-                    timerEvents.push(
-                        game.time.events.add(
-                            Phaser.Timer.SECOND * i,
-                            mainState.spawnAttacker,
-                            mainState,
-                            'Mib'
-                        ).autoDestroy = true
-                    );
+
+                    mainState.spawnAttackerDelayed('Mib', i, waveNumber);
+
                 }
 
             }
@@ -144,24 +136,10 @@ var level2 = {
                 var i;
 
                 for (i = s; i < s+10; i++) {
-                    timerEvents.push(
-                        game.time.events.add(
-                            Phaser.Timer.SECOND * i,
-                            mainState.spawnAttacker,
-                            mainState,
-                            'Oscar'
-                        ).autoDestroy = true
-                    );
+                    mainState.spawnAttackerDelayed('Oscar', i, waveNumber);
                 }
                 for (i = s+10; i < s+14; i ++) {
-                    timerEvents.push(
-                        game.time.events.add(
-                            Phaser.Timer.SECOND * i,
-                            mainState.spawnAttacker,
-                            mainState,
-                            'Mib'
-                        ).autoDestroy = true
-                    );
+                    mainState.spawnAttackerDelayed('Mib', i, waveNumber);
                 }
 
             }
@@ -173,24 +151,10 @@ var level2 = {
                 var i;
 
                 for (i = s; i < s+15; i += 2) {
-                    timerEvents.push(
-                        game.time.events.add(
-                            Phaser.Timer.SECOND * i,
-                            mainState.spawnAttacker,
-                            mainState,
-                            'Oscar'
-                        ).autoDestroy = true
-                    );
+                    mainState.spawnAttackerDelayed('Oscar', i, waveNumber);
                 }
                 for (i = s+1; i < s+16; i += 2) {
-                    timerEvents.push(
-                        game.time.events.add(
-                            Phaser.Timer.SECOND * i,
-                            mainState.spawnAttacker,
-                            mainState,
-                            'Mib'
-                        ).autoDestroy = true
-                    );
+                    mainState.spawnAttackerDelayed('Mib', i, waveNumber);
                 }
 
             }
@@ -202,24 +166,10 @@ var level2 = {
                 var i;
 
                 for (i = s; i < s+10; i += .5) {
-                    timerEvents.push(
-                        game.time.events.add(
-                            Phaser.Timer.SECOND * i,
-                            mainState.spawnAttacker,
-                            mainState,
-                            'Aquila'
-                        ).autoDestroy = true
-                    );
+                    mainState.spawnAttackerDelayed('Oscar', i, waveNumber);
                 }
                 for (i = s+10; i < s+20; i++) {
-                    timerEvents.push(
-                        game.time.events.add(
-                            Phaser.Timer.SECOND * i,
-                            mainState.spawnAttacker,
-                            mainState,
-                            'Mib'
-                        ).autoDestroy = true
-                    );
+                    mainState.spawnAttackerDelayed('Mib', i, waveNumber);
                 }
 
             }
@@ -231,24 +181,10 @@ var level2 = {
                 var i;
 
                 for (i = s; i < s+10; i += .5) {
-                    timerEvents.push(
-                        game.time.events.add(
-                            Phaser.Timer.SECOND * i,
-                            mainState.spawnAttacker,
-                            mainState,
-                            'Aquila'
-                        ).autoDestroy = true
-                    );
+                    mainState.spawnAttackerDelayed('Aquila', i, waveNumber);
                 }
                 for (i = s+10; i < s+15; i += .75) {
-                    timerEvents.push(
-                        game.time.events.add(
-                            Phaser.Timer.SECOND * i,
-                            mainState.spawnAttacker,
-                            mainState,
-                            'Mib'
-                        ).autoDestroy = true
-                    );
+                    mainState.spawnAttackerDelayed('Mib', i, waveNumber);
                 }
 
             }
@@ -260,24 +196,10 @@ var level2 = {
                 var i;
 
                 for (i = s; i < s+5; i += .3) {
-                    timerEvents.push(
-                        game.time.events.add(
-                            Phaser.Timer.SECOND * i,
-                            mainState.spawnAttacker,
-                            mainState,
-                            'Aquila'
-                        ).autoDestroy = true
-                    );
+                    mainState.spawnAttackerDelayed('Aquila', i, waveNumber);
                 }
-                for (i = s+5; i < s+15; i += .3) {
-                    timerEvents.push(
-                        game.time.events.add(
-                            Phaser.Timer.SECOND * i,
-                            mainState.spawnAttacker,
-                            mainState,
-                            'Mib'
-                        ).autoDestroy = true
-                    );
+                for (i = s+5; i < s+15; i += .5) {
+                    mainState.spawnAttackerDelayed('Mib', i, waveNumber);
                 }
 
             }
@@ -287,7 +209,7 @@ var level2 = {
     begin: function() {
 
         var s = 0;
-        var waveNumber = 0;
+        waveNumber = 0;
         var totalWaves = Object.keys(level2.waveInfo).length;
 
         for (var wave in level2.waveInfo) {
@@ -298,9 +220,9 @@ var level2 = {
                 timerEvents.push(
                     game.time.events.add(
                         Phaser.Timer.SECOND * s,
-                        mainState.displayMessage,
+                        mainState.startWave,
                         mainState,
-                        'Wave ' + waveNumber + ' / ' + totalWaves
+                        waveNumber
                     ).autoDestroy = true
                 );
 

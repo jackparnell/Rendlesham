@@ -1,10 +1,11 @@
-function Attacker(game, x, y, spriteName) {
+function Attacker(game, x, y, spriteName, waveNumber) {
     
     $.extend( this, standard );
     $.extend( this, shadow );
 
     this.guid = guid();
     this.creationTurn = mainState.turn;
+    this.waveNumber = waveNumber;
     this.health = window[this.constructor.name].defaultHealth || 1000;
     this.maximumHealth = this.health;
     this.coinsValue = window[this.constructor.name].coinsValue || 1;

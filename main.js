@@ -395,6 +395,19 @@ var mainState = {
 
         this.attackers.add(item);
     },
+    
+    spawnAttackerDelayed: function(className, seconds, waveNumber, x, y)
+    {
+        timerEvents.push(
+            game.time.events.add(
+                Phaser.Timer.SECOND * seconds,
+                this.spawnAttacker,
+                this,
+                className
+            ).autoDestroy = true
+        );
+        console.log(className);
+    },
 
     spawnTower: function(className, x, y)
     {
@@ -666,6 +679,15 @@ var mainState = {
         this.lives = window['level' + this.level].startingLives;
 
         console.log(this.user);
+
+    },
+
+    startWave: function(waveNumber)
+    {
+
+        this.waveNumber = waveNumber;
+        console.log('Starting wave ' + this.waveNumber);
+        this.displayMessage('Wave ' + this.waveNumber);
 
     },
 
