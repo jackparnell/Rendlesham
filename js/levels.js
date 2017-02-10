@@ -1,93 +1,114 @@
 var waveNumber;
 
 var level1 = {
+    waveInfo: {
+        wave1: {
+            duration: 25,
+            createEvents: function(s) {
+
+                var i;
+
+                for (i = s; i < s+20; i += 2) {
+
+                    mainState.spawnAttackerDelayed('Oscar', i, waveNumber);
+
+                }
+
+            }
+        },
+        wave2: {
+            duration: 15,
+            createEvents: function(s) {
+
+                var i;
+
+                for (i = s; i < s+10; i++) {
+                    mainState.spawnAttackerDelayed('Oscar', i, waveNumber);
+                }
+
+            }
+        },
+        wave3: {
+            duration: 20,
+            createEvents: function(s) {
+
+                var i;
+
+                for (i = s; i < s+15; i += 2) {
+                    mainState.spawnAttackerDelayed('Oscar', i, waveNumber);
+                }
+                for (i = s+1; i < s+16; i += 2) {
+                    mainState.spawnAttackerDelayed('Aquila', i, waveNumber);
+                }
+
+            }
+        },
+        wave4: {
+            duration: 15,
+            createEvents: function(s) {
+
+                var i;
+
+                for (i = s; i < s+10; i += .75) {
+                    mainState.spawnAttackerDelayed('Aquila', i, waveNumber);
+                }
+
+            }
+        },
+        wave5: {
+            duration: 15,
+            createEvents: function(s) {
+
+                var i;
+
+                for (i = s; i < s+10; i += .5) {
+                    mainState.spawnAttackerDelayed('Aquila', i, waveNumber);
+                }
+
+            }
+        },
+        wave6: {
+            duration: 12,
+            createEvents: function(s) {
+
+                var i;
+
+                for (i = s; i < s+10; i += .3) {
+                    mainState.spawnAttackerDelayed('Aquila', i, waveNumber);
+                }
+
+            }
+        }
+
+    },
     begin: function() {
-        var i;
 
-        // Wave 1
-        for (i = 0; i < 20; i += 2) {
-            timerEvents.push(
-                game.time.events.add(
-                    Phaser.Timer.SECOND * i,
-                    mainState.spawnAttacker,
-                    mainState,
-                    'Oscar'
-                ).autoDestroy = true
-            );
+        var s = 0;
+        waveNumber = 0;
+        var totalWaves = Object.keys(level1.waveInfo).length;
+
+        for (var wave in level1.waveInfo) {
+            if (level1.waveInfo.hasOwnProperty(wave)) {
+
+                waveNumber ++;
+
+                timerEvents.push(
+                    game.time.events.add(
+                        Phaser.Timer.SECOND * s,
+                        mainState.startWave,
+                        mainState,
+                        waveNumber
+                    ).autoDestroy = true
+                );
+
+                level1.waveInfo[wave].createEvents(s);
+
+                s += level1.waveInfo[wave].duration;
+
+            }
         }
 
-        // Wave 2
-        for (i = 25; i < 35; i++) {
-            timerEvents.push(
-                game.time.events.add(
-                    Phaser.Timer.SECOND * i,
-                    mainState.spawnAttacker,
-                    mainState,
-                    'Oscar'
-                ).autoDestroy = true
-            );
-        }
-
-
-        // Wave 3
-        for (i = 40; i < 55; i += 2) {
-            timerEvents.push(
-                game.time.events.add(
-                    Phaser.Timer.SECOND * i,
-                    mainState.spawnAttacker,
-                    mainState,
-                    'Oscar'
-                ).autoDestroy = true
-            );
-        }
-        for (i = 41; i < 55; i += 2) {
-            timerEvents.push(
-                game.time.events.add(
-                    Phaser.Timer.SECOND * i,
-                    mainState.spawnAttacker,
-                    mainState,
-                    'Aquila'
-                ).autoDestroy = true
-            );
-        }
-
-        // Wave 4
-        for (i = 60; i < 70; i += .75) {
-            timerEvents.push(
-                game.time.events.add(
-                    Phaser.Timer.SECOND * i,
-                    mainState.spawnAttacker,
-                    mainState,
-                    'Aquila'
-                ).autoDestroy = true
-            );
-        }
-
-        // Wave 5
-        for (i = 75; i < 85; i += .5) {
-            timerEvents.push(
-                game.time.events.add(
-                    Phaser.Timer.SECOND * i,
-                    mainState.spawnAttacker,
-                    mainState,
-                    'Aquila'
-                ).autoDestroy = true
-            );
-        }
-
-        // Wave 6
-        for (i = 90; i < 100; i += .3) {
-            timerEvents.push(
-                game.time.events.add(
-                    Phaser.Timer.SECOND * i,
-                    mainState.spawnAttacker,
-                    mainState,
-                    'Aquila'
-                ).autoDestroy = true
-            );
-        }
-
-        timerEvents.push(game.time.events.add(Phaser.Timer.SECOND * 101, mainState.lastWaveDispatched, mainState));
+        timerEvents.push(game.time.events.add(Phaser.Timer.SECOND * s, mainState.lastWaveDispatched, mainState));
 
 
     },
@@ -454,7 +475,7 @@ var level3 = {
 
                 level3.waveInfo[wave].createEvents(s);
 
-                s += level2.waveInfo[wave].duration;
+                s += level3.waveInfo[wave].duration;
 
             }
         }

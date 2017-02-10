@@ -37,7 +37,7 @@ var mainState = {
         this.lives = 999;
         this.towerSelected = 'Gun';
         this.squareWidth = 35;
-        this.level = 2;
+        this.level = 1;
 
         window.onkeydown = function() {
             // Press P
@@ -95,8 +95,8 @@ var mainState = {
             this.updateNotifications();
             this.drawIndicators();
 
-            if (!this.pendingNextLevel && window['level' + this.level].completed()) {
-                this.nextLevel();
+            if (!this.pendingLevelCompleted && window['level' + this.level].completed()) {
+                this.levelCompleted();
             }
 
         }
@@ -445,20 +445,40 @@ var mainState = {
 
     },
 
-
-    nextLevel: function()
+    levelCompleted: function()
     {
-
-        this.pendingNextLevel = true;
+        this.pendingLevelCompleted = true;
 
         this.displayMessage('Level ' + this.level + ' completed!');
+        this.labelIndicatorMessage.text = '';
 
         this.user.levelsComplete[this.level] = true;
         this.save();
 
-        this.level ++;
+        game.time.events.add(Phaser.Timer.SECOND * 5, this.levelCompletedScreen, this).autoDestroy = true;
 
-        game.time.events.add(Phaser.Timer.SECOND * 6, this.startLevel, this).autoDestroy = true;
+    },
+
+    levelCompletedScreen: function()
+    {
+
+        this.gameOverBackground.alpha = .5;
+
+        this.levelCompleteStyle = { font: "48px Ubuntu", fill: "#FFFFFF", boundsAlignH: "center", boundsAlignV: "middle" };
+
+        this.levelCompleteText = game.add.text(game.width * .5, game.height * .4, 'Level ' + this.level + ' complete!', this.levelCompleteStyle);
+        this.levelCompleteText.setTextBounds(0, 5, 40, 10);
+
+        this.nextLevelButton = game.add.button(game.world.centerX - 80, game.height * .8, 'button', this.nextLevel, this);
+
+    },
+
+
+    nextLevel: function()
+    {
+
+        this.level ++;
+        this.startLevel();
 
         return true;
     },
@@ -665,7 +685,7 @@ var mainState = {
 
         console.log('Starting level ' + this.level);
         this.allAttackersDispatched = false;
-        this.pendingNextLevel = false;
+        this.pendingLevelCompleted = false;
 
         this.clearMap();
         this.setupMap();
@@ -708,6 +728,14 @@ var mainState = {
         this.crosshairs.callAll('kill');
         this.explosions.callAll('kill');
 
+        if (this.levelCompleteText) {
+            this.levelCompleteText.destroy();
+        }
+        if (this.nextLevelButton) {
+            this.nextLevelButton.destroy();
+        }
+        this.gameOverBackground.alpha = 0;
+
         this.clearTimedEvents();
 
     },
@@ -725,6 +753,10 @@ var mainState = {
     {
         if (this.graphics) {
             this.graphics.destroy();
+        }
+
+        if (this.pendingLevelCompleted) {
+            return;
         }
 
         this.graphics = game.add.graphics(0, 0);
