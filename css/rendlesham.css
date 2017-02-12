@@ -93,7 +93,9 @@ p {
     text-align: center;
     color: #FFFFFF;
     font-weight: bold;
+    font-size: 60%;
 }
+
 a {
     color: aquamarine;
 }

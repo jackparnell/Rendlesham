@@ -741,6 +741,8 @@ var mainState = {
     startLevel: function()
     {
 
+        $('p').css('opacity', '0.01');
+
         console.log('Starting level ' + this.level);
         this.allAttackersDispatched = false;
         this.pendingLevelCompleted = false;
@@ -812,6 +814,10 @@ var mainState = {
     {
         if (this.graphics) {
             this.graphics.destroy();
+        }
+
+        if (!this.game.device.desktop) {
+            return;
         }
 
         if (this.pendingLevelCompleted) {
