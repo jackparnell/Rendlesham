@@ -20,7 +20,9 @@ var mainState = {
 
         if (game.device.desktop == false) {
             game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
-            game.scale.setMinMax(game.width/2, game.height/2, game.width, game.height);
+            game.scale.setMinMax(game.width/2, game.height/2, game.width*2, game.height*2);
+
+            this.goFullScreen();
         }
         game.scale.pageAlignHorizontally = true;
         game.scale.pageAlignVertically = true;
@@ -682,8 +684,6 @@ var mainState = {
         var gridX = gridCoordinates[0];
         var gridY = gridCoordinates[1];
 
-        console.log(gridX + ' ' + gridY);
-
         this.obstacles.forEachAlive(function(obstacles){
             if (gridX == obstacles.gridX && gridY == obstacles.gridY) {
                 obstacleAtPosition = obstacles;
@@ -766,8 +766,16 @@ var mainState = {
     {
 
         this.waveNumber = waveNumber;
-        console.log('Starting wave ' + this.waveNumber);
-        this.displayMessage('Wave ' + this.waveNumber);
+
+        var message = '';
+
+        if (waveNumber == 1) {
+            message = 'Level ' + this.level + ' ';
+        }
+
+        message += 'Wave ' + this.waveNumber;
+
+        this.displayMessage(message);
 
     },
 
@@ -1061,6 +1069,21 @@ var mainState = {
             }
         });
 
+    },
+
+    goFullScreen: function()
+    {
+        game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
+        game.scale.startFullScreen(false);
+    },
+
+    toggleFullScreen: function()
+    {
+        if (game.scale.isFullScreen)  {
+            game.scale.stopFullScreen();
+        } else {
+            this.goFullScreen();
+        }
     }
 
 };

@@ -43,9 +43,10 @@ function loadMainFiles()
     game.load.audio('woosh', 'assets/sound/Woosh-Mark_DiAngelo-4778593.wav');
     game.load.audio('whack', 'assets/sound/punch_or_whack_-Vladimir-403040765.wav');
 
-    game.load.tilemap('map1', 'assets/tilemaps/maps/map1.json', null, Phaser.Tilemap.TILED_JSON);
-    game.load.tilemap('map2', 'assets/tilemaps/maps/map2.json', null, Phaser.Tilemap.TILED_JSON);
-    game.load.tilemap('map3', 'assets/tilemaps/maps/map3.json', null, Phaser.Tilemap.TILED_JSON);
+    for (var i = 1; i <= lastLevel; i++) {
+        game.load.tilemap('map' + i, 'assets/tilemaps/maps/map' + i + '.json', null, Phaser.Tilemap.TILED_JSON);
+    }
+
     game.load.image('tiles', 'assets/tilemaps/tiles/tiles_spritesheet.png');
 
 
