@@ -89,7 +89,6 @@ Tower.prototype.determineTarget = function()
 
     // If an obstacle target already found, no need to iterate through attackers
     if (target.guid) {
-        console.log("target is " + target.constructor.name);
         this.target = target;
         return;
     }
