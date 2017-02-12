@@ -59,6 +59,7 @@ var mainState = {
 
         this.towers = game.add.group();
         this.attackers = game.add.group();
+        this.obstacles = game.add.group();
         this.weapons = game.add.group();
         this.explosions = game.add.group();
         this.crosshairs = game.add.group();
@@ -406,7 +407,19 @@ var mainState = {
                 className
             ).autoDestroy = true
         );
-        console.log(className);
+    },
+
+    spawnObstacle: function(className, x, y, coordinateType)
+    {
+
+        if (coordinateType && coordinateType == 'grid') {
+            var coordinates = mainState.translateGridCoordinatesToPixelCoordinates(x, y);
+            x = coordinates[0];
+            y = coordinates[1];
+        }
+
+        var item = new window[className](this.game, x, y);
+        this.obstacles.add(item);
     },
 
     spawnTower: function(className, x, y)
@@ -442,7 +455,7 @@ var mainState = {
 
     render: function()
     {
-
+        // game.debug.body(this.test);
     },
 
     levelCompleted: function()
@@ -513,6 +526,8 @@ var mainState = {
             action = 'upgrade';
         } else if (this.doesAttackerExistAtPosition(x, y)) {
             action = 'target';
+        } else if (this.doesObstacleExistAtPosition(x, y)) {
+            action = 'target';
         } else {
             return false;
         }
@@ -537,8 +552,13 @@ var mainState = {
                 break;
             case 'target':
 
-                var attacker = this.getAttackerAtPosition(x, y);
-                attacker.targetToggle();
+                if (this.doesAttackerExistAtPosition(x, y)) {
+                    var item = this.getAttackerAtPosition(x, y);
+                } else if (this.doesObstacleExistAtPosition(x, y)) {
+                    var item = this.getObstacleAtPosition(x, y);
+                }
+
+                item.targetToggle();
 
                 break;
             case 'sell':
@@ -560,6 +580,10 @@ var mainState = {
         }
 
         if (this.doesTowerExistAtPosition(x, y)) {
+            return false;
+        }
+
+        if (this.doesObstacleExistAtPosition(x, y)) {
             return false;
         }
 
@@ -634,6 +658,40 @@ var mainState = {
 
 
         return towerAtPosition;
+    },
+
+    doesObstacleExistAtPosition: function(x, y)
+    {
+
+        var obstacle = this.getObstacleAtPosition(x, y);
+
+        if (obstacle.guid) {
+            return true;
+        } else {
+            return false;
+        }
+
+    },
+
+    getObstacleAtPosition: function(x, y)
+    {
+
+        var obstacleAtPosition = {};
+
+        var gridCoordinates = this.translatePixelCoordinatesToGridCoordinates(x, y);
+        var gridX = gridCoordinates[0];
+        var gridY = gridCoordinates[1];
+
+        console.log(gridX + ' ' + gridY);
+
+        this.obstacles.forEachAlive(function(obstacles){
+            if (gridX == obstacles.gridX && gridY == obstacles.gridY) {
+                obstacleAtPosition = obstacles;
+            }
+        });
+
+
+        return obstacleAtPosition;
     },
 
     doesAttackerExistAtPosition: function(x, y)
@@ -715,6 +773,7 @@ var mainState = {
     {
 
         this.attackers.callAll('die');
+        this.obstacles.callAll('die');
 
         // Oddness of code below is intentional. Towers get destroyed instead of killed,
         // causing array index issues, meaning die() doesn't get called on all elements.
@@ -761,8 +820,8 @@ var mainState = {
 
         this.graphics = game.add.graphics(0, 0);
 
-        var xCoordinate = Math.floor(game.input.x / this.squareWidth) * this.squareWidth;
-        var yCoordinate = Math.floor(game.input.y / this.squareWidth) * this.squareWidth;
+        var x = Math.floor(game.input.x / this.squareWidth) * this.squareWidth;
+        var y = Math.floor(game.input.y / this.squareWidth) * this.squareWidth;
 
         var inappropriateColor = 0xFF8888;
         var notEnoughCoinsColor = 0xFFFF88;
@@ -776,14 +835,14 @@ var mainState = {
             borderColor = 0x000000;
             indicatorMessage = 'Game Over';
 
-        } else if (this.mode == 'sell' && this.isTowerSaleAppropriateAtPosition(xCoordinate, yCoordinate)) {
+        } else if (this.mode == 'sell' && this.isTowerSaleAppropriateAtPosition(x, y)) {
 
-            var tower = this.getTowerAtPosition(xCoordinate, yCoordinate);
+            var tower = this.getTowerAtPosition(x, y);
 
             borderColor = sellColor;
             indicatorMessage = 'Sell ' + this.towerSelected + ' tower for £' + tower.getSellValue() + '.';
 
-        } else if (this.mode == 'place' && this.isTowerPlacementAppropriateAtPosition(xCoordinate, yCoordinate)) {
+        } else if (this.mode == 'place' && this.isTowerPlacementAppropriateAtPosition(x, y)) {
 
             if (this.coinsSufficientForTowerPlacement()) {
                 borderColor = 0x00FF00;
@@ -794,7 +853,7 @@ var mainState = {
             }
 
 
-        } else if (this.mode == 'place' && this.isTowerUpgradeAppropriateAtPosition(xCoordinate, yCoordinate)) {
+        } else if (this.mode == 'place' && this.isTowerUpgradeAppropriateAtPosition(x, y)) {
 
             if (this.coinsSufficientForTowerUpgrade()) {
                 borderColor = upgradeColor;
@@ -804,9 +863,13 @@ var mainState = {
                 indicatorMessage = 'Need £' + window[this.towerSelected].cost + ' to upgrade ' + this.towerSelected + ' tower.';
             }
 
-        } else if (this.mode == 'place' && this.doesAttackerExistAtPosition(xCoordinate, yCoordinate)) {
+        } else if (this.mode == 'place' && this.doesAttackerExistAtPosition(x, y)) {
             borderColor = 0xFF8800;
             indicatorMessage = 'Target this attacker.';
+
+        } else if (this.mode == 'place' && this.doesObstacleExistAtPosition(x, y)) {
+            borderColor = 0xFF8800;
+            indicatorMessage = 'Target this obstacle.';
 
         } else {
             borderColor = inappropriateColor;
@@ -816,10 +879,10 @@ var mainState = {
         this.labelIndicatorMessage.text = indicatorMessage;
 
         this.graphics.lineStyle(2, borderColor, 1);
-        this.graphics.drawRect(xCoordinate, yCoordinate, this.squareWidth, this.squareWidth);
+        this.graphics.drawRect(x, y, this.squareWidth, this.squareWidth);
 
-        if (this.mode == 'place' && this.doesTowerExistAtPosition(xCoordinate, yCoordinate)) {
-            var tower = this.getTowerAtPosition(xCoordinate, yCoordinate);
+        if (this.mode == 'place' && this.doesTowerExistAtPosition(x, y)) {
+            var tower = this.getTowerAtPosition(x, y);
 
 
             if (tower.weapon1) {
@@ -902,8 +965,16 @@ var mainState = {
 
     translatePixelCoordinatesToGridCoordinates: function(x, y)
     {
-        x = Math.floor(game.input.x / this.squareWidth);
-        y = Math.floor(game.input.y / this.squareWidth);
+        x = Math.floor(x / this.squareWidth);
+        y = Math.floor(y / this.squareWidth);
+
+        return [x, y];
+    },
+
+    translateGridCoordinatesToPixelCoordinates: function(x, y)
+    {
+        x = Math.floor(x * this.squareWidth);
+        y = Math.floor(y * this.squareWidth);
 
         return [x, y];
     },
@@ -968,6 +1039,21 @@ var mainState = {
     save: function()
     {
         localStorage.setItem(this.name, JSON.stringify(this.user));
+
+    },
+
+    untargetAll: function()
+    {
+        this.attackers.forEachAlive(function(item) {
+            if (item.targeted) {
+                item.untarget();
+            }
+        });
+        this.obstacles.forEachAlive(function(item) {
+            if (item.targeted) {
+                item.untarget();
+            }
+        });
 
     }
 

@@ -258,12 +258,7 @@ Attacker.prototype.targetToggle = function()
 }
 Attacker.prototype.target = function()
 {
-    // Un-target all other attackers
-    mainState.attackers.forEachAlive(function(otherAttacker) {
-        if (otherAttacker.targeted) {
-            otherAttacker.untarget();
-        }
-    });
+    mainState.untargetAll();
 
     this.targeted = true;
 

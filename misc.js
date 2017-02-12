@@ -38,6 +38,8 @@ function loadMainFiles()
     game.load.spritesheet('rock', 'assets/sprites/towers/Rock.png', 64, 64, 1);
     game.load.spritesheet('gun', 'assets/sprites/towers/Gun.png', 64, 64, 3);
 
+    game.load.spritesheet('tallBrownMushroom', 'assets/sprites/obstacles/tallBrownMushroom.png', 35, 35, 1);
+
     game.load.audio('woosh', 'assets/sound/Woosh-Mark_DiAngelo-4778593.wav');
     game.load.audio('whack', 'assets/sound/punch_or_whack_-Vladimir-403040765.wav');
 

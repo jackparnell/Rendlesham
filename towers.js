@@ -80,6 +80,20 @@ Tower.prototype.determineTarget = function()
     var mostAdvanced = 1;
     var mostAdvancedDistance = 999999;
 
+    mainState.obstacles.forEachAlive(function(item) {
+        var distanceBetween = game.physics.arcade.distanceBetween(this, item);
+        if (item.targeted  && distanceBetween < this.weapon1.bulletKillDistance) {
+            target = item;
+        }
+    }, this);
+
+    // If an obstacle target already found, no need to iterate through attackers
+    if (target.guid) {
+        console.log("target is " + target.constructor.name);
+        this.target = target;
+        return;
+    }
+
     mainState.attackers.forEachAlive(function(item) {
         var distanceBetween = game.physics.arcade.distanceBetween(this, item);
         var advanced = mainState.turn - item.creationTurn;

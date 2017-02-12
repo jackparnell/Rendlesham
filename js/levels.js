@@ -110,6 +110,11 @@ var level1 = {
 
         timerEvents.push(game.time.events.add(Phaser.Timer.SECOND * s, mainState.lastWaveDispatched, mainState));
 
+        mainState.spawnObstacle('TallBrownMushroom', 2, 2, 'grid');
+        mainState.spawnObstacle('TallBrownMushroom', 11, 8, 'grid');
+        mainState.spawnObstacle('TallBrownMushroom', 9, 8, 'grid');
+        mainState.spawnObstacle('TallBrownMushroom', 18, 6, 'grid');
+
 
     },
     completed: function() {
@@ -132,7 +137,7 @@ var level1 = {
 var level2 = {
     waveInfo: {
         wave1: {
-            duration: 28,
+            duration: 27,
             createEvents: function(s) {
 
                 var i;
@@ -142,7 +147,7 @@ var level2 = {
                     mainState.spawnAttackerDelayed('Oscar', i, waveNumber);
 
                 }
-                for (i = s+20; i < s+25; i += 1.75) {
+                for (i = s+20; i < s+23; i += 1.75) {
 
                     mainState.spawnAttackerDelayed('Mib', i, waveNumber);
 
@@ -159,7 +164,7 @@ var level2 = {
                 for (i = s; i < s+10; i++) {
                     mainState.spawnAttackerDelayed('Oscar', i, waveNumber);
                 }
-                for (i = s+10; i < s+14; i ++) {
+                for (i = s+10; i < s+14; i += 1.5) {
                     mainState.spawnAttackerDelayed('Mib', i, waveNumber);
                 }
 
@@ -255,6 +260,13 @@ var level2 = {
         }
 
         timerEvents.push(game.time.events.add(Phaser.Timer.SECOND * s, mainState.lastWaveDispatched, mainState));
+
+        mainState.spawnObstacle('TallBrownMushroom', 7, 1, 'grid');
+        mainState.spawnObstacle('TallBrownMushroom', 9, 1, 'grid');
+        mainState.spawnObstacle('TallBrownMushroom', 11, 8, 'grid');
+        mainState.spawnObstacle('TallBrownMushroom', 13, 8, 'grid');
+        mainState.spawnObstacle('TallBrownMushroom', 17, 3, 'grid');
+        mainState.spawnObstacle('TallBrownMushroom', 16, 4, 'grid');
 
 
     },
@@ -479,6 +491,11 @@ var level3 = {
 
             }
         }
+
+        mainState.spawnObstacle('TallBrownMushroom', 17, 2, 'grid');
+        mainState.spawnObstacle('TallBrownMushroom', 18, 2, 'grid');
+        mainState.spawnObstacle('TallBrownMushroom', 5, 2, 'grid');
+        mainState.spawnObstacle('TallBrownMushroom', 2, 8, 'grid');
 
         timerEvents.push(game.time.events.add(Phaser.Timer.SECOND * s, mainState.lastWaveDispatched, mainState));
 
