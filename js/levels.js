@@ -86,10 +86,10 @@ var level1 = {
 
         var s = 0;
         waveNumber = 0;
-        var totalWaves = Object.keys(level1.waveInfo).length;
+        var totalWaves = Object.keys(this.waveInfo).length;
 
-        for (var wave in level1.waveInfo) {
-            if (level1.waveInfo.hasOwnProperty(wave)) {
+        for (var wave in this.waveInfo) {
+            if (this.waveInfo.hasOwnProperty(wave)) {
 
                 waveNumber ++;
 
@@ -102,9 +102,9 @@ var level1 = {
                     ).autoDestroy = true
                 );
 
-                level1.waveInfo[wave].createEvents(s);
+                this.waveInfo[wave].createEvents(s);
 
-                s += level1.waveInfo[wave].duration;
+                s += this.waveInfo[wave].duration;
 
             }
         }
@@ -127,6 +127,16 @@ var level1 = {
             return false;
         }
         return true;
+    },
+    calculateCompletionStars: function() {
+        var stars = 1;
+        if (mainState.lives == this.startingLives) {
+            stars ++;
+        }
+        if (mainState.obstacles.countLiving() <= 3) {
+            stars ++;
+        }
+        return stars;
     },
     update: function() {
 
@@ -237,10 +247,10 @@ var level2 = {
 
         var s = 0;
         waveNumber = 0;
-        var totalWaves = Object.keys(level2.waveInfo).length;
+        var totalWaves = Object.keys(this.waveInfo).length;
 
-        for (var wave in level2.waveInfo) {
-            if (level2.waveInfo.hasOwnProperty(wave)) {
+        for (var wave in this.waveInfo) {
+            if (this.waveInfo.hasOwnProperty(wave)) {
 
                 waveNumber ++;
 
@@ -253,9 +263,9 @@ var level2 = {
                     ).autoDestroy = true
                 );
 
-                level2.waveInfo[wave].createEvents(s);
+                this.waveInfo[wave].createEvents(s);
 
-                s += level2.waveInfo[wave].duration;
+                s += this.waveInfo[wave].duration;
 
             }
         }
@@ -280,6 +290,16 @@ var level2 = {
             return false;
         }
         return true;
+    },
+    calculateCompletionStars: function() {
+        var stars = 1;
+        if (mainState.lives == this.startingLives) {
+            stars ++;
+        }
+        if (mainState.obstacles.countLiving() <= 3) {
+            stars ++;
+        }
+        return stars;
     },
     update: function() {
 
@@ -470,10 +490,10 @@ var level3 = {
 
         var s = 0;
         var waveNumber = 0;
-        var totalWaves = Object.keys(level3.waveInfo).length;
+        var totalWaves = Object.keys(this.waveInfo).length;
 
-        for (var wave in level3.waveInfo) {
-            if (level3.waveInfo.hasOwnProperty(wave)) {
+        for (var wave in this.waveInfo) {
+            if (this.waveInfo.hasOwnProperty(wave)) {
 
                 waveNumber ++;
 
@@ -486,9 +506,9 @@ var level3 = {
                     ).autoDestroy = true
                 );
 
-                level3.waveInfo[wave].createEvents(s);
+                this.waveInfo[wave].createEvents(s);
 
-                s += level3.waveInfo[wave].duration;
+                s += this.waveInfo[wave].duration;
 
             }
         }
@@ -511,6 +531,16 @@ var level3 = {
             return false;
         }
         return true;
+    },
+    calculateCompletionStars: function() {
+        var stars = 1;
+        if (mainState.lives == this.startingLives) {
+            stars ++;
+        }
+        if (mainState.obstacles.countLiving() <= 3) {
+            stars ++;
+        }
+        return stars;
     },
     update: function() {
 
@@ -609,14 +639,12 @@ var level4 = {
     },
     begin: function() {
 
-        var currentLevel = level2;
-
         var s = 0;
         waveNumber = 0;
-        var totalWaves = Object.keys(currentLevel.waveInfo).length;
+        var totalWaves = Object.keys(this.waveInfo).length;
 
-        for (var wave in level2.waveInfo) {
-            if (currentLevel.waveInfo.hasOwnProperty(wave)) {
+        for (var wave in this.waveInfo) {
+            if (this.waveInfo.hasOwnProperty(wave)) {
 
                 waveNumber ++;
 
@@ -629,9 +657,9 @@ var level4 = {
                     ).autoDestroy = true
                 );
 
-                currentLevel.waveInfo[wave].createEvents(s);
+                this.waveInfo[wave].createEvents(s);
 
-                s += currentLevel.waveInfo[wave].duration;
+                s += this.waveInfo[wave].duration;
 
             }
         }
@@ -658,6 +686,16 @@ var level4 = {
             return false;
         }
         return true;
+    },
+    calculateCompletionStars: function() {
+        var stars = 1;
+        if (mainState.lives == this.startingLives) {
+            stars ++;
+        }
+        if (mainState.obstacles.countLiving() <= 3) {
+            stars ++;
+        }
+        return stars;
     },
     update: function() {
 

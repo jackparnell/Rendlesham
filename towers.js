@@ -42,6 +42,11 @@ Tower.prototype = Object.create(Phaser.Sprite.prototype);
 Tower.prototype.constructor = Tower;
 Tower.prototype.update = function()
 {
+    // If pendingLevelCompleted, do nothing
+    if (mainState.pendingLevelCompleted) {
+        return;
+    }
+
     this.determineTarget();
     this.fire();
 

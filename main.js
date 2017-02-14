@@ -98,7 +98,7 @@ var mainState = {
             this.updateNotifications();
             this.drawIndicators();
 
-            if (!this.pendingLevelCompleted && window['level' + this.level].completed()) {
+            if (!this.pendingLevelCompleted && this.getCurrentLevel().completed()) {
                 this.levelCompleted();
             }
 
@@ -468,6 +468,12 @@ var mainState = {
         this.labelIndicatorMessage.text = '';
 
         this.user.levelsComplete[this.level] = true;
+
+        if (!this.user.levelStars) {
+            this.user.levelStars = {};
+        }
+
+        this.user.levelStars[this.level] = window['level' + this.level].calculateCompletionStars();
         this.save();
 
         game.time.events.add(Phaser.Timer.SECOND * 5, this.levelCompletedScreen, this).autoDestroy = true;
@@ -1084,6 +1090,11 @@ var mainState = {
         } else {
             this.goFullScreen();
         }
+    },
+
+    getCurrentLevel: function()
+    {
+        return window['level' + this.level];
     }
 
 };
