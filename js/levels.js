@@ -9,7 +9,7 @@ var level1 = {
 
                 var i;
 
-                for (i = s; i < s+20; i += 2) {
+                for (i = s; i < s+20; i += 2.5) {
 
                     mainState.spawnAttackerDelayed('Oscar', i, waveNumber);
 
@@ -23,7 +23,7 @@ var level1 = {
 
                 var i;
 
-                for (i = s; i < s+10; i++) {
+                for (i = s; i < s+10; i += 1.5) {
                     mainState.spawnAttackerDelayed('Oscar', i, waveNumber);
                 }
 
@@ -50,7 +50,7 @@ var level1 = {
 
                 var i;
 
-                for (i = s; i < s+10; i += .75) {
+                for (i = s; i < s+10; i += 1) {
                     mainState.spawnAttackerDelayed('Aquila', i, waveNumber);
                 }
 
@@ -62,7 +62,7 @@ var level1 = {
 
                 var i;
 
-                for (i = s; i < s+10; i += .5) {
+                for (i = s; i < s+10; i += .75) {
                     mainState.spawnAttackerDelayed('Aquila', i, waveNumber);
                 }
 
@@ -74,7 +74,7 @@ var level1 = {
 
                 var i;
 
-                for (i = s; i < s+10; i += .3) {
+                for (i = s; i < s+10; i += .5) {
                     mainState.spawnAttackerDelayed('Aquila', i, waveNumber);
                 }
 
@@ -172,10 +172,10 @@ var level2 = {
 
                 var i;
 
-                for (i = s; i < s+10; i++) {
+                for (i = s; i < s+10; i += 1.25) {
                     mainState.spawnAttackerDelayed('Oscar', i, waveNumber);
                 }
-                for (i = s+10; i < s+14; i += 1.5) {
+                for (i = s+10; i < s+14; i += 1.75) {
                     mainState.spawnAttackerDelayed('Mib', i, waveNumber);
                 }
 
@@ -202,10 +202,10 @@ var level2 = {
 
                 var i;
 
-                for (i = s; i < s+10; i += .5) {
+                for (i = s; i < s+10; i += .75) {
                     mainState.spawnAttackerDelayed('Oscar', i, waveNumber);
                 }
-                for (i = s+10; i < s+20; i++) {
+                for (i = s+10; i < s+20; i += 1.5) {
                     mainState.spawnAttackerDelayed('Mib', i, waveNumber);
                 }
 
@@ -217,10 +217,10 @@ var level2 = {
 
                 var i;
 
-                for (i = s; i < s+10; i += .5) {
+                for (i = s; i < s+10; i += .75) {
                     mainState.spawnAttackerDelayed('Aquila', i, waveNumber);
                 }
-                for (i = s+10; i < s+15; i += .75) {
+                for (i = s+10; i < s+15; i += 1.25) {
                     mainState.spawnAttackerDelayed('Mib', i, waveNumber);
                 }
 
@@ -232,10 +232,10 @@ var level2 = {
 
                 var i;
 
-                for (i = s; i < s+5; i += .3) {
+                for (i = s; i < s+5; i += .5) {
                     mainState.spawnAttackerDelayed('Aquila', i, waveNumber);
                 }
-                for (i = s+5; i < s+15; i += .5) {
+                for (i = s+5; i < s+15; i += .75) {
                     mainState.spawnAttackerDelayed('Mib', i, waveNumber);
                 }
 
@@ -345,7 +345,7 @@ var level3 = {
 
                 var i;
 
-                for (i = s; i < s+10; i++) {
+                for (i = s; i < s+10; i += 1.25) {
                     timerEvents.push(
                         game.time.events.add(
                             Phaser.Timer.SECOND * i,
@@ -355,7 +355,7 @@ var level3 = {
                         ).autoDestroy = true
                     );
                 }
-                for (i = s+10; i < s+14; i ++) {
+                for (i = s+10; i < s+14; i+= 1.25) {
                     timerEvents.push(
                         game.time.events.add(
                             Phaser.Timer.SECOND * i,
@@ -403,7 +403,7 @@ var level3 = {
 
                 var i;
 
-                for (i = s; i < s+10; i += .5) {
+                for (i = s; i < s+10; i += .75) {
                     timerEvents.push(
                         game.time.events.add(
                             Phaser.Timer.SECOND * i,
@@ -413,7 +413,7 @@ var level3 = {
                         ).autoDestroy = true
                     );
                 }
-                for (i = s+10; i < s+20; i++) {
+                for (i = s+10; i < s+20; i += 1.5) {
                     timerEvents.push(
                         game.time.events.add(
                             Phaser.Timer.SECOND * i,
@@ -432,7 +432,7 @@ var level3 = {
 
                 var i;
 
-                for (i = s; i < s+10; i += .5) {
+                for (i = s; i < s+10; i += .75) {
                     timerEvents.push(
                         game.time.events.add(
                             Phaser.Timer.SECOND * i,
@@ -442,7 +442,7 @@ var level3 = {
                         ).autoDestroy = true
                     );
                 }
-                for (i = s+10; i < s+15; i += .75) {
+                for (i = s+10; i < s+15; i += 1.25) {
                     timerEvents.push(
                         game.time.events.add(
                             Phaser.Timer.SECOND * i,
@@ -461,7 +461,7 @@ var level3 = {
 
                 var i;
 
-                for (i = s; i < s+5; i += .3) {
+                for (i = s; i < s+5; i += .5) {
                     timerEvents.push(
                         game.time.events.add(
                             Phaser.Timer.SECOND * i,
@@ -471,7 +471,7 @@ var level3 = {
                         ).autoDestroy = true
                     );
                 }
-                for (i = s+5; i < s+10; i += .5) {
+                for (i = s+5; i < s+10; i += .75) {
                     timerEvents.push(
                         game.time.events.add(
                             Phaser.Timer.SECOND * i,

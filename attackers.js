@@ -6,12 +6,12 @@ function Attacker(game, x, y, spriteName, waveNumber) {
     this.guid = guid();
     this.creationTurn = mainState.turn;
     this.waveNumber = waveNumber;
-    this.health = window[this.constructor.name].defaultHealth || 1000;
+    this.health = (window[this.constructor.name].defaultHealth || 1000) * this.calculateHealthModifier();
     this.maximumHealth = this.health;
     this.coinsValue = window[this.constructor.name].coinsValue || 1;
     this.invulnerable = false;
 
-    this.walking_speed = 75;
+    this.speed = (window[this.constructor.name].defaultSpeed || 75);
     this.path = [];
     this.path_step = -1;
 
@@ -85,13 +85,13 @@ Attacker.prototype.update = function()
     }
 
 
-}
+};
 Attacker.prototype.moveToGoal = function()
 {
     var target_position = new Phaser.Point(this.game.goalX, this.game.goalY);
     this.move_to(target_position);
 
-}
+};
 Attacker.prototype.hasReachedGoal = function()
 {
     if (this.x < game.width * .025) {
@@ -100,7 +100,7 @@ Attacker.prototype.hasReachedGoal = function()
     }
 
     return false;
-}
+};
 Attacker.prototype.reachedGoal = function()
 {
     this.invulnerable = true;
@@ -111,7 +111,7 @@ Attacker.prototype.reachedGoal = function()
     // Die in 300 ms
     timerEvents.push(game.time.events.add(Phaser.Timer.SECOND * .3, this.die, this));
 
-}
+};
 Attacker.prototype.followPath = function()
 {
     mainState.game.physics.arcade.collide(this, mainState.layers.collision);
@@ -123,8 +123,8 @@ Attacker.prototype.followPath = function()
             this.velocity = new Phaser.Point(this.next_position.x - this.position.x,
                 this.next_position.y - this.position.y);
             this.velocity.normalize();
-            this.body.velocity.x = this.velocity.x * this.walking_speed;
-            this.body.velocity.y = this.velocity.y * this.walking_speed;
+            this.body.velocity.x = this.velocity.x * this.speed;
+            this.body.velocity.y = this.velocity.y * this.speed;
         } else {
             this.position.x = this.next_position.x;
             this.position.y = this.next_position.y;
@@ -139,7 +139,7 @@ Attacker.prototype.followPath = function()
         }
     }
 
-}
+};
 
 Attacker.prototype.reached_target_position = function (target_position) {
     "use strict";
@@ -187,26 +187,7 @@ Attacker.prototype.die = function()
     }
 
     this.kill();
-}
-
-Attacker.prototype.moveUp = function() {
-    this.changeVelocity('y', -5);
-}
-Attacker.prototype.moveDown = function() {
-    this.changeVelocity('y', 5);
-}
-Attacker.prototype.moveLeft = function() {
-    this.changeVelocity('x', -5);
-}
-Attacker.prototype.moveRight = function() {
-    this.changeVelocity('x', 5);
-}
-Attacker.prototype.slowVertical =  function () {
-    this.body.velocity.y *= .9;
-}
-Attacker.prototype.slowHorizontal =  function () {
-    this.body.velocity.x *= .9;
-}
+};
 Attacker.prototype.createHealthBar = function()
 {
     var barColor;
@@ -255,7 +236,7 @@ Attacker.prototype.targetToggle = function()
     } else {
         this.target();
     }
-}
+};
 Attacker.prototype.target = function()
 {
     mainState.untargetAll();
@@ -289,7 +270,11 @@ Attacker.prototype.updateCrosshair = function()
 
     this.crosshair.x = this.x;
     this.crosshair.y = this.y;
-}
+};
+Attacker.prototype.calculateHealthModifier = function()
+{
+    return .8 + (mainState.waveNumber / 5);
+};
 
 
 // Begin Oscar
@@ -301,6 +286,7 @@ Oscar.prototype = Object.create(Attacker.prototype);
 Oscar.prototype.constructor = Oscar;
 Oscar.defaultScale = 1;
 Oscar.defaultHealth = 1000;
+Oscar.defaultSpeed = 75;
 Oscar.coinsValue = 5;
 // End Oscar
 
@@ -313,6 +299,7 @@ Aquila.prototype = Object.create(Attacker.prototype);
 Aquila.prototype.constructor = Aquila;
 Aquila.defaultScale = 1;
 Aquila.defaultHealth = 2500;
+Aquila.defaultSpeed = 75;
 Aquila.coinsValue = 10;
 // End Aquila
 
@@ -325,5 +312,6 @@ Mib.prototype = Object.create(Attacker.prototype);
 Mib.prototype.constructor = Mib;
 Mib.defaultScale = 1;
 Mib.defaultHealth = 5000;
+Mib.defaultSpeed = 75;
 Mib.coinsValue = 15;
 // End Mib
