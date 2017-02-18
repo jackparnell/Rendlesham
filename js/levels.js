@@ -6,78 +6,38 @@ var level1 = {
         wave1: {
             duration: 25,
             createEvents: function(s) {
-
-                var i;
-
-                for (i = s; i < s+20; i += 2.5) {
-
-                    mainState.spawnAttackerDelayed('Oscar', i, waveNumber);
-
-                }
-
+                mainState.scheduleAttackersWave('Oscar', waveNumber, s, 20, 2.5);
             }
         },
         wave2: {
             duration: 15,
             createEvents: function(s) {
-
-                var i;
-
-                for (i = s; i < s+10; i += 1.5) {
-                    mainState.spawnAttackerDelayed('Oscar', i, waveNumber);
-                }
-
+                mainState.scheduleAttackersWave('Oscar', waveNumber, s, 10, 1.5);
             }
         },
         wave3: {
             duration: 20,
             createEvents: function(s) {
-
-                var i;
-
-                for (i = s; i < s+15; i += 2) {
-                    mainState.spawnAttackerDelayed('Oscar', i, waveNumber);
-                }
-                for (i = s+1; i < s+16; i += 2) {
-                    mainState.spawnAttackerDelayed('Aquila', i, waveNumber);
-                }
-
+                mainState.scheduleAttackersWave('Oscar', waveNumber, s, 15, 2);
+                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 15, 2, 1);
             }
         },
         wave4: {
             duration: 15,
             createEvents: function(s) {
-
-                var i;
-
-                for (i = s; i < s+10; i += 1) {
-                    mainState.spawnAttackerDelayed('Aquila', i, waveNumber);
-                }
-
+                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 10, 1);
             }
         },
         wave5: {
             duration: 15,
             createEvents: function(s) {
-
-                var i;
-
-                for (i = s; i < s+10; i += .75) {
-                    mainState.spawnAttackerDelayed('Aquila', i, waveNumber);
-                }
-
+                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 10, .75);
             }
         },
         wave6: {
             duration: 12,
             createEvents: function(s) {
-
-                var i;
-
-                for (i = s; i < s+10; i += .5) {
-                    mainState.spawnAttackerDelayed('Aquila', i, waveNumber);
-                }
-
+                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 10, .5);
             }
         }
 
@@ -151,18 +111,8 @@ var level2 = {
             duration: 27,
             createEvents: function(s) {
 
-                var i;
-
-                for (i = s; i < s+20; i += 1.75) {
-
-                    mainState.spawnAttackerDelayed('Oscar', i, waveNumber);
-
-                }
-                for (i = s+20; i < s+23; i += 1.75) {
-
-                    mainState.spawnAttackerDelayed('Mib', i, waveNumber);
-
-                }
+                mainState.scheduleAttackersWave('Oscar', waveNumber, s, 20, 1.75);
+                mainState.scheduleAttackersWave('Mib', waveNumber, s, 3, 1.75, 20);
 
             }
         },
@@ -170,14 +120,8 @@ var level2 = {
             duration: 17,
             createEvents: function(s) {
 
-                var i;
-
-                for (i = s; i < s+10; i += 1.25) {
-                    mainState.spawnAttackerDelayed('Oscar', i, waveNumber);
-                }
-                for (i = s+10; i < s+14; i += 1.75) {
-                    mainState.spawnAttackerDelayed('Mib', i, waveNumber);
-                }
+                mainState.scheduleAttackersWave('Oscar', waveNumber, s, 10, 1.25);
+                mainState.scheduleAttackersWave('Mib', waveNumber, s, 4, 1.75, 10);
 
             }
         },
@@ -185,14 +129,8 @@ var level2 = {
             duration: 18,
             createEvents: function(s) {
 
-                var i;
-
-                for (i = s; i < s+15; i += 2) {
-                    mainState.spawnAttackerDelayed('Oscar', i, waveNumber);
-                }
-                for (i = s+1; i < s+16; i += 2) {
-                    mainState.spawnAttackerDelayed('Mib', i, waveNumber);
-                }
+                mainState.scheduleAttackersWave('Oscar', waveNumber, s, 15, 2);
+                mainState.scheduleAttackersWave('Mib', waveNumber, s, 15, 2, 1);
 
             }
         },
@@ -200,14 +138,8 @@ var level2 = {
             duration: 23,
             createEvents: function(s) {
 
-                var i;
-
-                for (i = s; i < s+10; i += .75) {
-                    mainState.spawnAttackerDelayed('Oscar', i, waveNumber);
-                }
-                for (i = s+10; i < s+20; i += 1.5) {
-                    mainState.spawnAttackerDelayed('Mib', i, waveNumber);
-                }
+                mainState.scheduleAttackersWave('Oscar', waveNumber, s, 10, .75);
+                mainState.scheduleAttackersWave('Mib', waveNumber, s, 10, 1.5, 10);
 
             }
         },
@@ -215,14 +147,8 @@ var level2 = {
             duration: 18,
             createEvents: function(s) {
 
-                var i;
-
-                for (i = s; i < s+10; i += .75) {
-                    mainState.spawnAttackerDelayed('Aquila', i, waveNumber);
-                }
-                for (i = s+10; i < s+15; i += 1.25) {
-                    mainState.spawnAttackerDelayed('Mib', i, waveNumber);
-                }
+                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 10, .75);
+                mainState.scheduleAttackersWave('Mib', waveNumber, s, 5, 1.25, 10);
 
             }
         },
@@ -230,14 +156,8 @@ var level2 = {
             duration: 17,
             createEvents: function(s) {
 
-                var i;
-
-                for (i = s; i < s+5; i += .5) {
-                    mainState.spawnAttackerDelayed('Aquila', i, waveNumber);
-                }
-                for (i = s+5; i < s+15; i += .75) {
-                    mainState.spawnAttackerDelayed('Mib', i, waveNumber);
-                }
+                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 5, .5);
+                mainState.scheduleAttackersWave('Mib', waveNumber, s, 10, .75, 5);
 
             }
         }
@@ -314,28 +234,8 @@ var level3 = {
             duration: 30,
             createEvents: function(s) {
 
-                var i;
-
-                for (i = s; i < s+20; i += 1.75) {
-                    timerEvents.push(
-                        game.time.events.add(
-                            Phaser.Timer.SECOND * i,
-                            mainState.spawnAttacker,
-                            mainState,
-                            'Oscar'
-                        ).autoDestroy = true
-                    );
-                }
-                for (i = s+20; i < s+25; i += 1.75) {
-                    timerEvents.push(
-                        game.time.events.add(
-                            Phaser.Timer.SECOND * i,
-                            mainState.spawnAttacker,
-                            mainState,
-                            'Mib'
-                        ).autoDestroy = true
-                    );
-                }
+                mainState.scheduleAttackersWave('Oscar', waveNumber, s, 20, 1.75);
+                mainState.scheduleAttackersWave('Mib', waveNumber, s, 5, 1.75, 20);
 
             }
         },
@@ -343,28 +243,8 @@ var level3 = {
             duration: 20,
             createEvents: function(s) {
 
-                var i;
-
-                for (i = s; i < s+10; i += 1.25) {
-                    timerEvents.push(
-                        game.time.events.add(
-                            Phaser.Timer.SECOND * i,
-                            mainState.spawnAttacker,
-                            mainState,
-                            'Oscar'
-                        ).autoDestroy = true
-                    );
-                }
-                for (i = s+10; i < s+14; i+= 1.25) {
-                    timerEvents.push(
-                        game.time.events.add(
-                            Phaser.Timer.SECOND * i,
-                            mainState.spawnAttacker,
-                            mainState,
-                            'Mib'
-                        ).autoDestroy = true
-                    );
-                }
+                mainState.scheduleAttackersWave('Oscar', waveNumber, s, 10, 1.25);
+                mainState.scheduleAttackersWave('Mib', waveNumber, s, 4, 1.25, 10);
 
             }
         },
@@ -372,28 +252,8 @@ var level3 = {
             duration: 20,
             createEvents: function(s) {
 
-                var i;
-
-                for (i = s; i < s+15; i += 2) {
-                    timerEvents.push(
-                        game.time.events.add(
-                            Phaser.Timer.SECOND * i,
-                            mainState.spawnAttacker,
-                            mainState,
-                            'Oscar'
-                        ).autoDestroy = true
-                    );
-                }
-                for (i = s+1; i < s+16; i += 2) {
-                    timerEvents.push(
-                        game.time.events.add(
-                            Phaser.Timer.SECOND * i,
-                            mainState.spawnAttacker,
-                            mainState,
-                            'Mib'
-                        ).autoDestroy = true
-                    );
-                }
+                mainState.scheduleAttackersWave('Oscar', waveNumber, s, 15, 2);
+                mainState.scheduleAttackersWave('Mib', waveNumber, s, 15, 2, 1);
 
             }
         },
@@ -401,28 +261,8 @@ var level3 = {
             duration: 25,
             createEvents: function(s) {
 
-                var i;
-
-                for (i = s; i < s+10; i += .75) {
-                    timerEvents.push(
-                        game.time.events.add(
-                            Phaser.Timer.SECOND * i,
-                            mainState.spawnAttacker,
-                            mainState,
-                            'Aquila'
-                        ).autoDestroy = true
-                    );
-                }
-                for (i = s+10; i < s+20; i += 1.5) {
-                    timerEvents.push(
-                        game.time.events.add(
-                            Phaser.Timer.SECOND * i,
-                            mainState.spawnAttacker,
-                            mainState,
-                            'Mib'
-                        ).autoDestroy = true
-                    );
-                }
+                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 10, .75);
+                mainState.scheduleAttackersWave('Mib', waveNumber, s, 10, 1.5, 10);
 
             }
         },
@@ -430,28 +270,8 @@ var level3 = {
             duration: 20,
             createEvents: function(s) {
 
-                var i;
-
-                for (i = s; i < s+10; i += .75) {
-                    timerEvents.push(
-                        game.time.events.add(
-                            Phaser.Timer.SECOND * i,
-                            mainState.spawnAttacker,
-                            mainState,
-                            'Aquila'
-                        ).autoDestroy = true
-                    );
-                }
-                for (i = s+10; i < s+15; i += 1.25) {
-                    timerEvents.push(
-                        game.time.events.add(
-                            Phaser.Timer.SECOND * i,
-                            mainState.spawnAttacker,
-                            mainState,
-                            'Mib'
-                        ).autoDestroy = true
-                    );
-                }
+                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 10, .75);
+                mainState.scheduleAttackersWave('Mib', waveNumber, s, 5, 1.25, 10);
 
             }
         },
@@ -459,28 +279,8 @@ var level3 = {
             duration: 15,
             createEvents: function(s) {
 
-                var i;
-
-                for (i = s; i < s+5; i += .5) {
-                    timerEvents.push(
-                        game.time.events.add(
-                            Phaser.Timer.SECOND * i,
-                            mainState.spawnAttacker,
-                            mainState,
-                            'Aquila'
-                        ).autoDestroy = true
-                    );
-                }
-                for (i = s+5; i < s+10; i += .75) {
-                    timerEvents.push(
-                        game.time.events.add(
-                            Phaser.Timer.SECOND * i,
-                            mainState.spawnAttacker,
-                            mainState,
-                            'Mib'
-                        ).autoDestroy = true
-                    );
-                }
+                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 5, .5);
+                mainState.scheduleAttackersWave('Mib', waveNumber, s, 10, .75, 5);
 
             }
         }
@@ -489,7 +289,7 @@ var level3 = {
     begin: function() {
 
         var s = 0;
-        var waveNumber = 0;
+        waveNumber = 0;
         var totalWaves = Object.keys(this.waveInfo).length;
 
         for (var wave in this.waveInfo) {
@@ -500,9 +300,9 @@ var level3 = {
                 timerEvents.push(
                     game.time.events.add(
                         Phaser.Timer.SECOND * s,
-                        mainState.displayMessage,
+                        mainState.startWave,
                         mainState,
-                        'Wave ' + waveNumber + ' / ' + totalWaves
+                        waveNumber
                     ).autoDestroy = true
                 );
 
@@ -554,27 +354,18 @@ var level4 = {
         wave1: {
             duration: 25,
             createEvents: function(s) {
-                var i;
-                for (i = s; i < s+20; i += 1.75) {
-                    mainState.spawnAttackerDelayed('Aquila', i, waveNumber);
-                }
+
+                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 20, 1.75);
+
             }
         },
         wave2: {
             duration: 25,
             createEvents: function(s) {
 
-                var i;
-
-                for (i = s; i < s+5; i++) {
-                    mainState.spawnAttackerDelayed('Oscar', i, waveNumber);
-                }
-                for (i = s+10; i < s+15; i++) {
-                    mainState.spawnAttackerDelayed('Mib', i, waveNumber);
-                }
-                for (i = s+15; i < s+20; i++) {
-                    mainState.spawnAttackerDelayed('Oscar', i, waveNumber);
-                }
+                mainState.scheduleAttackersWave('Oscar', waveNumber, s, 10, 1);
+                mainState.scheduleAttackersWave('Mib', waveNumber, s, 5, 1, 10);
+                mainState.scheduleAttackersWave('Oscar', waveNumber, s, 5, 1, 15);
 
             }
         },
@@ -582,14 +373,8 @@ var level4 = {
             duration: 18,
             createEvents: function(s) {
 
-                var i;
-
-                for (i = s; i < s+15; i += 2) {
-                    mainState.spawnAttackerDelayed('Mib', i, waveNumber);
-                }
-                for (i = s+1; i < s+16; i += 2) {
-                    mainState.spawnAttackerDelayed('Aquila', i, waveNumber);
-                }
+                mainState.scheduleAttackersWave('Mib', waveNumber, s, 15, 2);
+                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 15, 2, 1);
 
             }
         },
@@ -597,14 +382,8 @@ var level4 = {
             duration: 25,
             createEvents: function(s) {
 
-                var i;
-
-                for (i = s; i < s+10; i += .5) {
-                    mainState.spawnAttackerDelayed('Aquila', i, waveNumber);
-                }
-                for (i = s+10; i < s+20; i++) {
-                    mainState.spawnAttackerDelayed('Mib', i, waveNumber);
-                }
+                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 10, .5);
+                mainState.scheduleAttackersWave('Mib', waveNumber, s, 10, 1, 10);
 
             }
         },
@@ -612,14 +391,8 @@ var level4 = {
             duration: 30,
             createEvents: function(s) {
 
-                var i;
-
-                for (i = s; i < s+10; i += .5) {
-                    mainState.spawnAttackerDelayed('Aquila', i, waveNumber);
-                }
-                for (i = s+10; i < s+25; i += .8) {
-                    mainState.spawnAttackerDelayed('Mib', i, waveNumber);
-                }
+                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 10, .5);
+                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 15, .8);
 
             }
         },
@@ -627,11 +400,7 @@ var level4 = {
             duration: 35,
             createEvents: function(s) {
 
-                var i;
-
-                for (i = s+5; i < s+15; i += .75) {
-                    mainState.spawnAttackerDelayed('Mib', i, waveNumber);
-                }
+                mainState.scheduleAttackersWave('Mib', waveNumber, s, 30, .75);
 
             }
         }

@@ -39,7 +39,7 @@ var mainState = {
         this.lives = 999;
         this.towerSelected = 'Gun';
         this.squareWidth = 35;
-        this.level = 1;
+        this.level = 4;
 
         window.onkeydown = function() {
             // Press P
@@ -1095,6 +1095,26 @@ var mainState = {
     getCurrentLevel: function()
     {
         return window['level' + this.level];
+    },
+
+    scheduleAttackersWave: function(attackerClassName, waveNumber, s, duration, gap, startOffset)
+    {
+
+        if (!startOffset) {
+            startOffset = 0;
+        }
+
+        var start = s + startOffset;
+        var end = start + duration;
+
+        var i;
+
+        for (i = start; i < end; i += gap) {
+
+            this.spawnAttackerDelayed(attackerClassName, i, waveNumber);
+
+        }
+
     }
 
 };

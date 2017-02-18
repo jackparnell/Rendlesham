@@ -273,6 +273,7 @@ Attacker.prototype.updateCrosshair = function()
 };
 Attacker.prototype.calculateHealthModifier = function()
 {
+    console.log(mainState.waveNumber);
     return .8 + (mainState.waveNumber / 5);
 };
 
@@ -298,7 +299,7 @@ function Aquila(game, x, y) {
 Aquila.prototype = Object.create(Attacker.prototype);
 Aquila.prototype.constructor = Aquila;
 Aquila.defaultScale = 1;
-Aquila.defaultHealth = 2500;
+Aquila.defaultHealth = 2000;
 Aquila.defaultSpeed = 75;
 Aquila.coinsValue = 10;
 // End Aquila
@@ -311,7 +312,7 @@ function Mib(game, x, y) {
 Mib.prototype = Object.create(Attacker.prototype);
 Mib.prototype.constructor = Mib;
 Mib.defaultScale = 1;
-Mib.defaultHealth = 5000;
+Mib.defaultHealth = 4000;
 Mib.defaultSpeed = 75;
 Mib.coinsValue = 15;
 // End Mib
