@@ -52,7 +52,7 @@ Attacker.prototype.hit = function(attacker, bullet)
     console.log(bullet.towerClass);
 
     if (bullet.towerClass == 'Freezer') {
-        attacker.freeze();
+        attacker.freeze(bullet.grade);
     }
 
     mainState.spawnExplosion(bullet.x, bullet.y);
@@ -282,15 +282,33 @@ Attacker.prototype.calculateHealthModifier = function()
 {
     return .8 + (mainState.waveNumber / 5);
 };
-Attacker.prototype.freeze = function()
+Attacker.prototype.freeze = function(bulletGrade)
 {
-    console.log('speed was ' + this.speed);
-
     // Change speed to half default speed
     this.speed = window[this.constructor.name].defaultSpeed * .5;
 
-    console.log('speed now ' + this.speed);
-}
+    // Tint blue
+    this.tint = 0x8888ff;
+    
+    var frozenSeconds = 3 + (bulletGrade * 2);
+
+    // Schedule unfreeze event
+    game.time.events.add(
+        Phaser.Timer.SECOND * frozenSeconds,
+        this.unfreeze,
+        this
+    ).autoDestroy = true;
+
+};
+Attacker.prototype.unfreeze = function()
+{
+    // Change speed to default
+    this.speed = window[this.constructor.name].defaultSpeed;
+
+    // Remove tint
+    this.tint = 0xffffff;
+
+};
 
 
 // Begin Oscar

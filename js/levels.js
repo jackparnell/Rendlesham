@@ -25,19 +25,19 @@ var level1 = {
         wave4: {
             duration: 15,
             createEvents: function(s) {
-                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 10, 1);
+                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 10, 1.25);
             }
         },
         wave5: {
             duration: 15,
             createEvents: function(s) {
-                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 10, .75);
+                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 10, 1);
             }
         },
         wave6: {
             duration: 12,
             createEvents: function(s) {
-                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 10, .5);
+                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 10, .75);
             }
         }
 
@@ -138,7 +138,7 @@ var level2 = {
             duration: 23,
             createEvents: function(s) {
 
-                mainState.scheduleAttackersWave('Oscar', waveNumber, s, 10, .75);
+                mainState.scheduleAttackersWave('Oscar', waveNumber, s, 10, .8);
                 mainState.scheduleAttackersWave('Mib', waveNumber, s, 10, 1.5, 10);
 
             }
@@ -147,7 +147,7 @@ var level2 = {
             duration: 18,
             createEvents: function(s) {
 
-                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 10, .75);
+                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 10, .8);
                 mainState.scheduleAttackersWave('Mib', waveNumber, s, 5, 1.25, 10);
 
             }
@@ -156,8 +156,8 @@ var level2 = {
             duration: 17,
             createEvents: function(s) {
 
-                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 5, .5);
-                mainState.scheduleAttackersWave('Mib', waveNumber, s, 10, .75, 5);
+                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 5, .6);
+                mainState.scheduleAttackersWave('Mib', waveNumber, s, 10, .8, 5);
 
             }
         }

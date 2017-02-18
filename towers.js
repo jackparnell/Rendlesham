@@ -21,7 +21,7 @@ function Tower(game, x, y, spriteName) {
 
     this.bulletDamageValue = window[this.constructor.name].defaultDamageValue;
 
-    this.weapon1 = this.game.add.weapon(500, 'bullet');
+    this.weapon1 = this.game.add.weapon(500, window[this.constructor.name].bulletSpriteName);
     this.weapon1.bulletKillType = Phaser.Weapon.KILL_DISTANCE;
     this.weapon1.bulletSpeed = 300;
     this.weapon1.bulletKillDistance = window[this.constructor.name].defaultKillDistance;
@@ -66,6 +66,7 @@ Tower.prototype.fire = function()
             bullet.scale.setTo(0.75, 0.75);
             bullet.frame = (this.grade-1);
             bullet.towerClass = this.constructor.name;
+            bullet.grade = this.grade;
             mainState.bullets.add(bullet);
         }
     }
@@ -220,10 +221,11 @@ Gun.prototype.update = function() {
 };
 Gun.defaultScale = .5;
 Gun.defaultDamageValue = 500;
-Gun.defaultFireRate = 1200;
+Gun.defaultFireRate = 1000;
 Gun.defaultKillDistance = 100;
 Gun.cost = 50;
 Gun.maximumGrade = 3;
+Gun.bulletSpriteName = 'bullet';
 
 function Freezer(game, x, y) {
     Tower.call(this, game, x, y, 'freezer');
@@ -237,8 +239,9 @@ Freezer.prototype.update = function() {
     Tower.prototype.update.call(this);
 };
 Freezer.defaultScale = .5;
-Freezer.defaultDamageValue = 250;
-Freezer.defaultFireRate = 1200;
+Freezer.defaultDamageValue = 200;
+Freezer.defaultFireRate = 1500;
 Freezer.defaultKillDistance = 100;
 Freezer.cost = 100;
 Freezer.maximumGrade = 3;
+Freezer.bulletSpriteName = 'iceLance';
