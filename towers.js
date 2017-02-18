@@ -225,6 +225,7 @@ Gun.defaultFireRate = 1000;
 Gun.defaultKillDistance = 100;
 Gun.cost = 50;
 Gun.maximumGrade = 3;
+Gun.spriteName = 'gun';
 Gun.bulletSpriteName = 'bullet';
 
 function Freezer(game, x, y) {
@@ -244,4 +245,5 @@ Freezer.defaultFireRate = 1500;
 Freezer.defaultKillDistance = 100;
 Freezer.cost = 100;
 Freezer.maximumGrade = 3;
+Freezer.spriteName = 'freezer';
 Freezer.bulletSpriteName = 'iceLance';

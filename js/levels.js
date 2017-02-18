@@ -76,6 +76,8 @@ var level1 = {
         mainState.spawnObstacle('TallBrownMushroom', 9, 8, 'grid');
         mainState.spawnObstacle('TallBrownMushroom', 18, 6, 'grid');
 
+        mainState.spawnCharacter('Nathan', 0, 4, 'grid');
+
 
     },
     completed: function() {

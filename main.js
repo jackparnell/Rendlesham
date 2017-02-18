@@ -70,6 +70,7 @@ var mainState = {
 
         this.towers = game.add.group();
         this.attackers = game.add.group();
+        this.characters = game.add.group();
         this.obstacles = game.add.group();
         this.weapons = game.add.group();
         this.explosions = game.add.group();
@@ -431,6 +432,19 @@ var mainState = {
 
         var item = new window[className](this.game, x, y);
         this.obstacles.add(item);
+    },
+
+    spawnCharacter: function(className, x, y, coordinateType)
+    {
+
+        if (coordinateType && coordinateType == 'grid') {
+            var coordinates = mainState.translateGridCoordinatesToPixelCoordinates(x, y);
+            x = coordinates[0];
+            y = coordinates[1];
+        }
+
+        var item = new window[className](this.game, x, y);
+        this.characters.add(item);
     },
 
     spawnTower: function(className, x, y)
@@ -880,6 +894,8 @@ var mainState = {
                 borderColor = notEnoughCoinsColor;
                 indicatorMessage = 'Need £' + window[this.towerSelected].cost + ' for a ' + this.towerSelected + ' tower.';
             }
+
+            // this.placementGhost = game.add.sprite(x, y, window[this.towerSelected].spriteName);
 
 
         } else if (this.mode == 'place' && this.isTowerUpgradeAppropriateAtPosition(x, y)) {
