@@ -37,6 +37,7 @@ function loadMainFiles()
 
     game.load.spritesheet('rock', 'assets/sprites/towers/Rock.png', 64, 64, 1);
     game.load.spritesheet('gun', 'assets/sprites/towers/Gun.png', 64, 64, 3);
+    game.load.spritesheet('freezer', 'assets/sprites/towers/Freezer.png', 64, 64, 3);
 
     game.load.spritesheet('tallBrownMushroom', 'assets/sprites/obstacles/tallBrownMushroom.png', 35, 35, 1);
 

@@ -39,7 +39,7 @@ var mainState = {
         this.lives = 999;
         this.towerSelected = 'Gun';
         this.squareWidth = 35;
-        this.level = 4;
+        this.level = 1;
 
         window.onkeydown = function() {
             // Press P
@@ -50,6 +50,15 @@ var mainState = {
             if (game.input.keyboard.event.keyCode == 83) {
                 mainState.toggleSellMode();
             }
+            // Press 1
+            if (game.input.keyboard.event.keyCode == 49) {
+                mainState.towerSelected = 'Gun';
+            }
+            // Press 2
+            if (game.input.keyboard.event.keyCode == 50) {
+                mainState.towerSelected = 'Freezer';
+            }
+
         };
 
         this.backgrounds = game.add.group();

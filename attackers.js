@@ -48,6 +48,13 @@ Attacker.prototype.hit = function(attacker, bullet)
     if (!this.invulnerable) {
         attacker.health -= bullet.damageValue;
     }
+
+    console.log(bullet.towerClass);
+
+    if (bullet.towerClass == 'Freezer') {
+        attacker.freeze();
+    }
+
     mainState.spawnExplosion(bullet.x, bullet.y);
     bullet.kill();
 }
@@ -273,9 +280,17 @@ Attacker.prototype.updateCrosshair = function()
 };
 Attacker.prototype.calculateHealthModifier = function()
 {
-    console.log(mainState.waveNumber);
     return .8 + (mainState.waveNumber / 5);
 };
+Attacker.prototype.freeze = function()
+{
+    console.log('speed was ' + this.speed);
+
+    // Change speed to half default speed
+    this.speed = window[this.constructor.name].defaultSpeed * .5;
+
+    console.log('speed now ' + this.speed);
+}
 
 
 // Begin Oscar

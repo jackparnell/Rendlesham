@@ -65,6 +65,7 @@ Tower.prototype.fire = function()
             bullet.damageValue = this.bulletDamageValue;
             bullet.scale.setTo(0.75, 0.75);
             bullet.frame = (this.grade-1);
+            bullet.towerClass = this.constructor.name;
             mainState.bullets.add(bullet);
         }
     }
@@ -223,3 +224,21 @@ Gun.defaultFireRate = 1200;
 Gun.defaultKillDistance = 100;
 Gun.cost = 50;
 Gun.maximumGrade = 3;
+
+function Freezer(game, x, y) {
+    Tower.call(this, game, x, y, 'freezer');
+
+    this.body.setSize(14, 19, 4, 7);
+
+}
+Freezer.prototype = Object.create(Tower.prototype);
+Freezer.prototype.constructor = Freezer;
+Freezer.prototype.update = function() {
+    Tower.prototype.update.call(this);
+};
+Freezer.defaultScale = .5;
+Freezer.defaultDamageValue = 250;
+Freezer.defaultFireRate = 1200;
+Freezer.defaultKillDistance = 100;
+Freezer.cost = 100;
+Freezer.maximumGrade = 3;
