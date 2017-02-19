@@ -203,6 +203,7 @@ var level2 = {
         mainState.spawnObstacle('TallBrownMushroom', 17, 3, 'grid');
         mainState.spawnObstacle('TallBrownMushroom', 16, 4, 'grid');
 
+        mainState.nathan = mainState.spawnCharacter('Nathan', 0, 4, 'grid');
 
     },
     completed: function() {
@@ -326,6 +327,7 @@ var level3 = {
 
         timerEvents.push(game.time.events.add(Phaser.Timer.SECOND * s, mainState.lastWaveDispatched, mainState));
 
+        mainState.nathan = mainState.spawnCharacter('Nathan', 0, 4, 'grid');
 
     },
     completed: function() {
@@ -452,6 +454,7 @@ var level4 = {
         mainState.spawnObstacle('TallBrownMushroom', 18, 2, 'grid');
         mainState.spawnObstacle('TallBrownMushroom', 16, 8, 'grid');
 
+        mainState.nathan = mainState.spawnCharacter('Nathan', 0, 4, 'grid');
 
     },
     completed: function() {
