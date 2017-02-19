@@ -39,8 +39,9 @@ Rendlesham.titleScreen.prototype = {
 
     },
 
-    playTheGame: function(){
-        changeGameState('main');
+    playTheGame: function()
+    {
+        changeGameState('eastAnglia');
     },
 
     showTipText: function()

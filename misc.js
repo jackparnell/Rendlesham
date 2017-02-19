@@ -22,9 +22,11 @@ function changeGameState(stateName){
 function loadMainFiles()
 {
 
+    game.load.image('eastAnglia', 'assets/backgrounds/eastAnglia.png');
     game.load.image('gameOverBackground', 'assets/backgrounds/gameOverBackground.png');
 
     game.load.image('button', 'assets/buttons/startGame.png');
+    game.load.image('ufo', 'assets/sprites/decorations/Ufo.png');
 
     game.load.spritesheet('explosion', 'assets/sprites/decorations/Explosion.png', 32, 32, 6);
     game.load.spritesheet('crosshair', 'assets/sprites/decorations/Crosshair.png', 42, 42, 1);
