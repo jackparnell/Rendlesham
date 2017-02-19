@@ -106,7 +106,8 @@ var level1 = {
     startingCoins: 100,
     startingLives: 5,
     goalXGrid: 0,
-    goalYGrid: 4
+    goalYGrid: 4,
+    waveHealthModifier: .2
 };
 
 var level2 = {
@@ -232,7 +233,8 @@ var level2 = {
     startingCoins: 150,
     startingLives: 5,
     goalXGrid: 0,
-    goalYGrid: 4
+    goalYGrid: 4,
+    waveHealthModifier: .2
 };
 
 var level3 = {
@@ -356,7 +358,8 @@ var level3 = {
     startingCoins: 150,
     startingLives: 5,
     goalXGrid: 0,
-    goalYGrid: 4
+    goalYGrid: 4,
+    waveHealthModifier: .3
 };
 
 var level4 = {
@@ -370,7 +373,7 @@ var level4 = {
             }
         },
         wave2: {
-            duration: 25,
+            duration: 23,
             createEvents: function(s) {
 
                 mainState.scheduleAttackersWave('Oscar', waveNumber, s, 10, 1);
@@ -389,7 +392,7 @@ var level4 = {
             }
         },
         wave4: {
-            duration: 25,
+            duration: 23,
             createEvents: function(s) {
 
                 mainState.scheduleAttackersWave('Aquila', waveNumber, s, 10, .5);
@@ -398,7 +401,7 @@ var level4 = {
             }
         },
         wave5: {
-            duration: 30,
+            duration: 28,
             createEvents: function(s) {
 
                 mainState.scheduleAttackersWave('Aquila', waveNumber, s, 10, .5);
@@ -407,7 +410,7 @@ var level4 = {
             }
         },
         wave6: {
-            duration: 35,
+            duration: 32,
             createEvents: function(s) {
 
                 mainState.scheduleAttackersWave('Mib', waveNumber, s, 30, .75);
@@ -483,5 +486,6 @@ var level4 = {
     startingCoins: 150,
     startingLives: 5,
     goalXGrid: 0,
-    goalYGrid: 4
+    goalYGrid: 4,
+    waveHealthModifier: .33
 };

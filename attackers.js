@@ -303,7 +303,9 @@ Attacker.prototype.updateCrosshair = function()
 };
 Attacker.prototype.calculateHealthModifier = function()
 {
-    return .8 + (mainState.waveNumber / 5);
+    var waveHealthModifier = window['level' + mainState.level].waveHealthModifier || .2;
+    
+    return (1 - waveHealthModifier) + (mainState.waveNumber * waveHealthModifier);
 };
 Attacker.prototype.freeze = function(bulletGrade)
 {
