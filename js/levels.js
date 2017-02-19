@@ -76,7 +76,7 @@ var level1 = {
         mainState.spawnObstacle('TallBrownMushroom', 9, 8, 'grid');
         mainState.spawnObstacle('TallBrownMushroom', 18, 6, 'grid');
 
-        mainState.spawnCharacter('Nathan', 0, 4, 'grid');
+        mainState.nathan = mainState.spawnCharacter('Nathan', 0, 4, 'grid');
 
 
     },
@@ -104,7 +104,9 @@ var level1 = {
 
     },
     startingCoins: 100,
-    startingLives: 5
+    startingLives: 5,
+    goalXGrid: 0,
+    goalYGrid: 4
 };
 
 var level2 = {
@@ -227,7 +229,9 @@ var level2 = {
 
     },
     startingCoins: 150,
-    startingLives: 5
+    startingLives: 5,
+    goalXGrid: 0,
+    goalYGrid: 4
 };
 
 var level3 = {
@@ -348,7 +352,9 @@ var level3 = {
 
     },
     startingCoins: 150,
-    startingLives: 5
+    startingLives: 5,
+    goalXGrid: 0,
+    goalYGrid: 4
 };
 
 var level4 = {
@@ -472,5 +478,7 @@ var level4 = {
 
     },
     startingCoins: 150,
-    startingLives: 5
+    startingLives: 5,
+    goalXGrid: 0,
+    goalYGrid: 4
 };

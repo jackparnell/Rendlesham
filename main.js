@@ -65,9 +65,11 @@ var mainState = {
 
         this.setupMap();
 
+        /*
         this.game.goalX = game.width * .025;
         this.game.goalY = game.height * .41;
-
+        */
+        
         this.towers = game.add.group();
         this.attackers = game.add.group();
         this.characters = game.add.group();
@@ -439,12 +441,14 @@ var mainState = {
 
         if (coordinateType && coordinateType == 'grid') {
             var coordinates = mainState.translateGridCoordinatesToPixelCoordinates(x, y);
-            x = coordinates[0];
-            y = coordinates[1];
+            x = coordinates[0] + (this.squareWidth / 2);
+            y = coordinates[1] + (this.squareWidth / 2);
         }
 
         var item = new window[className](this.game, x, y);
         this.characters.add(item);
+
+        return item;
     },
 
     spawnTower: function(className, x, y)
@@ -945,6 +949,42 @@ var mainState = {
             }
 
         }
+
+        if (this.nathan) {
+            this.drawForceFields(this.nathan, this.lives);
+        }
+    },
+    
+    drawForceFields: function(sprite, number) {
+
+        if (number >= 5) {
+            mainState.graphics.lineStyle(2, 0xBBBBFF, 0.5);
+            mainState.graphics.beginFill(0xCCCCFF, 0.1);
+            mainState.graphics.drawCircle(sprite.x, sprite.y, 80);
+            mainState.graphics.endFill();
+        }
+
+        if (number >= 4) {
+            mainState.graphics.lineStyle(2, 0x9999FF, 0.5);
+            mainState.graphics.beginFill(0xBBBBFF, 0.1);
+            mainState.graphics.drawCircle(sprite.x, sprite.y, 65);
+            mainState.graphics.endFill();
+        }
+
+        if (number >= 3) {
+            mainState.graphics.lineStyle(2, 0x7777FF, 0.5);
+            mainState.graphics.beginFill(0xBBBBFF, 0.1);
+            mainState.graphics.drawCircle(sprite.x, sprite.y, 50);
+            mainState.graphics.endFill();
+        }
+
+        if (number >= 2) {
+            mainState.graphics.lineStyle(2, 0x5555FF, 0.5);
+            mainState.graphics.beginFill(0xBBBBFF, 0.1);
+            mainState.graphics.drawCircle(sprite.x, sprite.y, 35);
+            mainState.graphics.endFill();
+        }
+        
     },
 
     coinsSufficientForTowerPlacement: function()

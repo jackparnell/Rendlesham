@@ -95,14 +95,37 @@ Attacker.prototype.update = function()
 };
 Attacker.prototype.moveToGoal = function()
 {
-    var target_position = new Phaser.Point(this.game.goalX, this.game.goalY);
+
+    var pixelCoordinates = mainState.translateGridCoordinatesToPixelCoordinates(
+        window['level' + mainState.level].goalXGrid,
+        window['level' + mainState.level].goalYGrid
+    );
+
+    var target_position = new Phaser.Point(pixelCoordinates[0], pixelCoordinates[1]);
     this.move_to(target_position);
 
 };
 Attacker.prototype.hasReachedGoal = function()
 {
-    if (this.x < game.width * .025) {
+    var goalX;
 
+    if (mainState.nathan) {
+
+        goalX = mainState.nathan.x;
+
+    } else {
+        var pixelCoordinates = mainState.translateGridCoordinatesToPixelCoordinates(
+            window['level' + mainState.level].goalXGrid,
+            window['level' + mainState.level].goalYGrid
+        );
+
+        goalX = pixelCoordinates[0] + (mainState.squareWidth / 2);
+
+    }
+
+    goalX += (32 + ((mainState.lives-1) * 7.5));
+
+    if (this.x <= goalX) {
         return true;
     }
 

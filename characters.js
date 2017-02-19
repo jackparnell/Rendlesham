@@ -14,6 +14,8 @@ function Character(game, x, y, spriteName) {
     
     game.physics.arcade.enable(this);
 
+    this.anchor.setTo(0.5, 0.5);
+
     this.x = x;
     this.y = y;
 

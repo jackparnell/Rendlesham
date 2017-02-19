@@ -53,7 +53,7 @@ Tower.prototype.update = function()
     if (this.hasTarget()) {
         this.angle = this.angleToTarget();
     }
-}
+};
 Tower.prototype.fire = function()
 {
     if (this.hasTarget()) {
@@ -70,7 +70,7 @@ Tower.prototype.fire = function()
             mainState.bullets.add(bullet);
         }
     }
-}
+};
 Tower.prototype.die = function()
 {
     if (!this.alive) {
@@ -80,7 +80,7 @@ Tower.prototype.die = function()
     this.weapon1.destroy();
     // Use destroy instead of kill, as otherwise weapon lingers.
     this.destroy();
-}
+};
 Tower.prototype.determineTarget = function()
 {
     var target = {};
@@ -119,11 +119,11 @@ Tower.prototype.determineTarget = function()
 
     this.target = target;
 
-}
+};
 Tower.prototype.hasTarget = function()
 {
     return this.target.hasOwnProperty("body");
-}
+};
 Tower.prototype.angleToTarget = function(otherSprite)
 {
     var angleToTarget = 0;
