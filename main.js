@@ -14,7 +14,13 @@ var mainState = {
 
     },
 
-    create: function() {
+    init: function(levelNumber)
+    {
+        this.level = levelNumber;
+    },
+
+    create: function()
+    {
 
         game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
 
@@ -40,9 +46,7 @@ var mainState = {
         this.towerSelected = 'Gun';
         this.squareWidth = 35;
 
-        if (game.playLevel) {
-            this.level = game.playLevel;
-        } else {
+        if (!this.level) {
             this.level = 1;
         }
 
