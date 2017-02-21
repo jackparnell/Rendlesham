@@ -628,5 +628,5 @@ var level5 = {
     entryYGrid: 2,
     goalXGrid: 0,
     goalYGrid: 7,
-    waveHealthModifier: .33
+    waveHealthModifier: .3
 };
