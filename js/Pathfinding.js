@@ -28,12 +28,26 @@ Rendlesham.Pathfinding.prototype.init = function (world_grid, acceptable_tiles, 
     this.tile_dimensions = tile_dimensions;
 };
 
-Rendlesham.Pathfinding.prototype.find_path = function (origin, target, callback, context) {
-    "use strict";
+// additionalCostTiles argument added for Rendlesham
+Rendlesham.Pathfinding.prototype.find_path = function (origin, target, callback, context, additionalCostTiles)
+{
     var origin_coord, target_coord;
 
     origin_coord = this.get_coord_from_point(origin);
     target_coord = this.get_coord_from_point(target);
+
+    if (additionalCostTiles) {
+        var i;
+        for (i = 0; i < additionalCostTiles.length; i++) {
+
+            if (additionalCostTiles[i][2]) {
+                this.easy_star.setAdditionalPointCost(additionalCostTiles[i][0], additionalCostTiles[i][1], additionalCostTiles[i][2])
+            } else {
+                this.easy_star.removeAdditionalPointCost(additionalCostTiles[i][0], additionalCostTiles[i][1]);
+            }
+
+        }
+    }
     
     if (!this.outside_grid(origin_coord) && !this.outside_grid(target_coord)) {
         this.easy_star.findPath(origin_coord.column, origin_coord.row, target_coord.column, target_coord.row, this.call_callback_function.bind(this, callback, context));

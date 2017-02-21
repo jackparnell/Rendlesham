@@ -313,7 +313,11 @@ EasyStar.js = function() {
 	* @param {Number} The multiplicative cost associated with the given point.
 	**/
 	this.setAdditionalPointCost = function(x, y, cost) {
+
 		pointsToCost[x + '_' + y] = cost;
+
+		console.log(pointsToCost);
+
 	};
 
 	/**

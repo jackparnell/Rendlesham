@@ -105,6 +105,8 @@ var mainState = {
 
         this.startLevel();
 
+        this.attackersSpawnedCount = 0;
+
     },
 
     update: function() {
@@ -414,8 +416,17 @@ var mainState = {
             x = this.game.width - 5;
         }
         if (!y) {
-            y = this.game.height * .41;
+
+            if (window['level' + this.level].entryYGrid) {
+                var gridY = window['level' + this.level].entryYGrid;
+                y = (gridY * this.squareWidth) + (this.squareWidth/2);
+            } else {
+                y = this.game.height * .41;
+            }
+            
         }
+
+        this.attackersSpawnedCount ++;
 
         var item = new window[className](this.game, x, y);
 
@@ -468,8 +479,8 @@ var mainState = {
         this.towers.add(item);
     },
 
-    spawnExplosion: function(x, y) {
-
+    spawnExplosion: function(x, y, tint) {
+        
         var explosion = game.add.sprite(x, y, 'explosion');
 
         this.explosions.add(explosion);
@@ -480,6 +491,11 @@ var mainState = {
         explosion.animations.play('explode');
 
         game.physics.arcade.enable(explosion);
+        
+        if (tint) {
+            explosion.tint = tint;
+        }
+        
 
         explosion.checkWorldBounds = true;
         explosion.outOfBoundsKill = true;

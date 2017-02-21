@@ -10,6 +10,7 @@ function Attacker(game, x, y, spriteName, waveNumber) {
     this.maximumHealth = this.health;
     this.coinsValue = window[this.constructor.name].coinsValue || 1;
     this.invulnerable = false;
+    this.incrementalId = mainState.attackersSpawnedCount;
 
     this.speed = (window[this.constructor.name].defaultSpeed || 75);
     this.path = [];
@@ -111,17 +112,24 @@ Attacker.prototype.hasReachedGoal = function()
 
     if (mainState.nathan) {
 
-        goalX = mainState.nathan.x;
+        var distanceToGoal = game.physics.arcade.distanceBetween(this, mainState.nathan);
 
-    } else {
-        var pixelCoordinates = mainState.translateGridCoordinatesToPixelCoordinates(
-            window['level' + mainState.level].goalXGrid,
-            window['level' + mainState.level].goalYGrid
-        );
+        var distanceNeeded = 26 + (mainState.lives-1) * 7.5;
 
-        goalX = pixelCoordinates[0] + (mainState.squareWidth / 2);
+        if (distanceToGoal <= distanceNeeded) {
+            return true;
+        } else {
+            return false;
+        }
 
     }
+
+    var pixelCoordinates = mainState.translateGridCoordinatesToPixelCoordinates(
+        window['level' + mainState.level].goalXGrid,
+        window['level' + mainState.level].goalYGrid
+    );
+
+    goalX = pixelCoordinates[0] + (mainState.squareWidth / 2);
 
     goalX += (32 + ((mainState.lives-1) * 7.5));
 
@@ -133,13 +141,22 @@ Attacker.prototype.hasReachedGoal = function()
 };
 Attacker.prototype.reachedGoal = function()
 {
+
+    if (this.reachedGoalProcessed) {
+        return;
+    }
+
     this.invulnerable = true;
 
-    // Fade out over 300 ms
-    game.add.tween(this).to( { alpha: 0 }, 300, Phaser.Easing.Linear.None, true, 0, 1000, true);
+    mainState.spawnExplosion(this.x - 10, this.y, 0x8888ff);
 
-    // Die in 300 ms
-    timerEvents.push(game.time.events.add(Phaser.Timer.SECOND * .3, this.die, this));
+    // Fade out over 200 ms
+    game.add.tween(this).to( { alpha: 0 }, 200, Phaser.Easing.Linear.None, true, 0, 1000, true);
+
+    // Die in 200 ms
+    timerEvents.push(game.time.events.add(Phaser.Timer.SECOND * .2, this.die, this));
+
+    this.reachedGoalProcessed = true;
 
 };
 Attacker.prototype.followPath = function()
@@ -150,8 +167,10 @@ Attacker.prototype.followPath = function()
         this.next_position = this.path[this.path_step];
 
         if (!this.reached_target_position(this.next_position)) {
-            this.velocity = new Phaser.Point(this.next_position.x - this.position.x,
-                this.next_position.y - this.position.y);
+            this.velocity = new Phaser.Point(
+                this.next_position.x - this.position.x,
+                this.next_position.y - this.position.y
+            );
             this.velocity.normalize();
             this.body.velocity.x = this.velocity.x * this.speed;
             this.body.velocity.y = this.velocity.y * this.speed;
@@ -180,7 +199,17 @@ Attacker.prototype.reached_target_position = function (target_position) {
 
 Attacker.prototype.move_to = function (target_position) {
     "use strict";
-    mainState.pathfinding.find_path(this.position, target_position, this.move_through_path, this);
+    mainState.pathfinding.find_path(this.position, target_position, this.move_through_path, this, this.getAdditionalCostTiles());
+};
+
+Attacker.prototype.getAdditionalCostTiles = function() {
+
+    if (typeof window['level' + mainState.level].pathAdditionalCostTiles == 'function') {
+        return window['level' + mainState.level].pathAdditionalCostTiles(this);
+    }
+
+    return [];
+
 };
 
 Attacker.prototype.move_through_path = function (path) {
