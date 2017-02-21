@@ -89,6 +89,7 @@ var mainState = {
         this.crosshairs = game.add.group();
         this.bullets = game.add.group();
         this.overlays = game.add.group();
+        this.finishedItems = game.add.group();
 
         this.initiateLabels();
         this.initiateLoops();
@@ -529,8 +530,33 @@ var mainState = {
 
         this.levelCompleteStyle = { font: "48px Ubuntu", fill: "#FFFFFF", boundsAlignH: "center", boundsAlignV: "middle" };
 
-        this.levelCompleteText = game.add.text(game.width * .5, game.height * .4, 'Level ' + this.level + ' complete!', this.levelCompleteStyle);
-        this.levelCompleteText.setTextBounds(0, 5, 40, 10);
+        this.levelCompleteText = game.add.text(game.width * .5, game.height * .23, 'Level ' + this.level + ' complete!', this.levelCompleteStyle);
+        this.levelCompleteText.setTextBounds(0, 0, 1, 1);
+
+        // Begin stars
+        var completionStars = window['level' + this.level].calculateCompletionStars();
+
+        var x = (game.width * .5) - 180;
+        var y = game.height * .38;
+
+        var starSpriteName;
+
+        for (i = 1; i <= 3; i++) {
+
+            if (i <= completionStars) {
+                starSpriteName = 'starYellow';
+            } else {
+                starSpriteName = 'starCharcoal';
+            }
+
+            var star = game.add.sprite(x, y, starSpriteName);
+
+            this.finishedItems.add(star);
+
+            star.scale.setTo(.55, .55);
+            x += 120;
+        }
+        // End stars
 
         this.nextLevelButton = game.add.button(game.world.centerX - 80, game.height * .8, 'button', this.nextLevel, this);
 
@@ -844,6 +870,7 @@ var mainState = {
 
         this.crosshairs.callAll('kill');
         this.explosions.callAll('kill');
+        this.finishedItems.callAll('kill');
 
         if (this.levelCompleteText) {
             this.levelCompleteText.destroy();
