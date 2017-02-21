@@ -26,6 +26,8 @@ function loadMainFiles()
     game.load.image('gameOverBackground', 'assets/backgrounds/gameOverBackground.png');
 
     game.load.image('button', 'assets/buttons/startGame.png');
+    game.load.image('starCharcoal', 'assets/sprites/decorations/StarCharcoal.png');
+    game.load.image('starYellow', 'assets/sprites/decorations/StarYellow.png');
     game.load.image('ufo', 'assets/sprites/decorations/Ufo.png');
 
     game.load.spritesheet('explosion', 'assets/sprites/decorations/Explosion.png', 32, 32, 6);

@@ -510,7 +510,12 @@ var mainState = {
             this.user.levelStars = {};
         }
 
-        this.user.levelStars[this.level] = window['level' + this.level].calculateCompletionStars();
+        var completionStars = window['level' + this.level].calculateCompletionStars();
+
+        if (!this.user.levelStars[this.level] || this.user.levelStars[this.level] < completionStars) {
+            this.user.levelStars[this.level] = completionStars;
+        }
+
         this.save();
 
         game.time.events.add(Phaser.Timer.SECOND * 5, this.levelCompletedScreen, this).autoDestroy = true;

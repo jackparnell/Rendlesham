@@ -34,7 +34,7 @@ Rendlesham.eastAnglia.prototype = {
 
         this.loadUser();
 
-        var levelInfo = {
+        this.levelInfo = {
             1: {
                 x: game.width * .1,
                 y: game.height * .1
@@ -44,54 +44,49 @@ Rendlesham.eastAnglia.prototype = {
                 y: game.height * .15
             },
             3: {
-                x: game.width * .4,
+                x: game.width * .5,
                 y: game.height * .25
             },
             4: {
-                x: game.width * .5,
+                x: game.width * .7,
                 y: game.height * .175
             }
         };
 
-        var textStyle = {
-            font: "18px Ubuntu",
-            fill: "#FFCCCC",
-            boundsAlignH: "center",
-            boundsAlignV: "middle"
-        };
+        this.level1Button = game.add.button(this.levelInfo[1].x, this.levelInfo[1].y, 'ufo', this.clickLevel1, this);
 
-        this.level1Button = game.add.button(levelInfo[1].x, levelInfo[1].y, 'ufo', this.clickLevel1, this);
-
-        this.level2Button = game.add.button(levelInfo[2].x, levelInfo[2].y, 'ufo', this.clickLevel2, this);
+        this.level2Button = game.add.button(this.levelInfo[2].x, this.levelInfo[2].y, 'ufo', this.clickLevel2, this);
         if (!this.isLevelUnlocked(2)) {
             this.level2Button.tint = 0x333333;
             this.level2Button.input.useHandCursor = false;
         }
 
-        this.level3Button = game.add.button(levelInfo[3].x, levelInfo[3].y, 'ufo', this.clickLevel3, this);
+        this.level3Button = game.add.button(this.levelInfo[3].x, this.levelInfo[3].y, 'ufo', this.clickLevel3, this);
         if (!this.isLevelUnlocked(3)) {
             this.level3Button.tint = 0x333333;
             this.level3Button.input.useHandCursor = false;
         }
 
-        this.level4Button = game.add.button(levelInfo[4].x, levelInfo[4].y, 'ufo', this.clickLevel4, this);
+        this.level4Button = game.add.button(this.levelInfo[4].x, this.levelInfo[4].y, 'ufo', this.clickLevel4, this);
         if (!this.isLevelUnlocked(4)) {
             this.level4Button.tint = 0x333333;
             this.level4Button.input.useHandCursor = false;
         }
 
 
-        this.level1Text = game.add.text(levelInfo[1].x, levelInfo[1].y, 'Level 1', textStyle);
-        this.level1Text.anchor.set(0.5);
+        this.writeLevelText(1);
+        this.addLevelStars(1);
 
-        this.level2Text = game.add.text(levelInfo[2].x, levelInfo[2].y, 'Level 2', textStyle);
-        this.level2Text.anchor.set(0.5);
+        this.writeLevelText(2);
+        this.addLevelStars(2);
 
-        this.level3Text = game.add.text(levelInfo[3].x, levelInfo[3].y, 'Level 3', textStyle);
-        this.level3Text.anchor.set(0.5);
+        this.writeLevelText(3);
+        this.addLevelStars(3);
 
-        this.level4Text = game.add.text(levelInfo[4].x, levelInfo[4].y, 'Level 4', textStyle);
-        this.level4Text.anchor.set(0.5);
+        this.writeLevelText(4);
+        this.addLevelStars(4);
+
+        console.log(this.user.levelStars);
 
     },
 
@@ -146,6 +141,55 @@ Rendlesham.eastAnglia.prototype = {
         }
 
         return false;
+
+    },
+
+    writeLevelText: function(levelNumber)
+    {
+
+        var textStyle = {
+            font: "18px Ubuntu",
+            fill: "#FFCCCC",
+            boundsAlignH: "center",
+            boundsAlignV: "middle"
+        };
+
+        var x = this.levelInfo[levelNumber].x + 16;
+        var y = this.levelInfo[levelNumber].y - 9;
+
+        this['level' + levelNumber + 'Text'] = game.add.text(x, y, 'Level ' + levelNumber, textStyle);
+        this['level' + levelNumber + 'Text'].anchor.set(0.5);
+
+    },
+
+    addLevelStars: function(levelNumber)
+    {
+
+        if (!this.isLevelUnlocked(levelNumber)) {
+            return;
+        }
+
+        var stars = this.user.levelStars[levelNumber] || 0;
+
+        var x = this.levelInfo[levelNumber].x - 13;
+        var y = this.levelInfo[levelNumber].y + 35;
+
+        var spriteName;
+
+        for (i = 1; i <= 3; i++) {
+
+            if (i <= stars) {
+                spriteName = 'starYellow';
+            } else {
+                spriteName = 'starCharcoal';
+            }
+
+            var star = game.add.sprite(x, y, spriteName);
+            star.scale.setTo(.1, .1);
+
+            x += 20;
+        }
+
 
     }
 
