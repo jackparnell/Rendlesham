@@ -691,6 +691,15 @@ var mainState = {
             return false;
         }
 
+        if (window['level' + this.level].towerPlacementForbiddenRows) {
+            var gridCoordinates = this.translatePixelCoordinatesToGridCoordinates(x, y);
+            var gridY = gridCoordinates[1];
+
+            if (window['level' + this.level].towerPlacementForbiddenRows.indexOf(gridY) != -1) {
+                return false;
+            }
+        }
+
         return true;
 
     },

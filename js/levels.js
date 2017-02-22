@@ -71,10 +71,10 @@ var level1 = {
 
         timerEvents.push(game.time.events.add(Phaser.Timer.SECOND * s, mainState.lastWaveDispatched, mainState));
 
-        mainState.spawnObstacle('TallBrownMushroom', 2, 2, 'grid');
-        mainState.spawnObstacle('TallBrownMushroom', 11, 8, 'grid');
-        mainState.spawnObstacle('TallBrownMushroom', 9, 8, 'grid');
-        mainState.spawnObstacle('TallBrownMushroom', 18, 6, 'grid');
+        mainState.spawnObstacle('TallBrownMushroom', 2, 3, 'grid');
+        mainState.spawnObstacle('TallBrownMushroom', 11, 9, 'grid');
+        mainState.spawnObstacle('TallBrownMushroom', 9, 9, 'grid');
+        mainState.spawnObstacle('TallBrownMushroom', 18, 7, 'grid');
 
         mainState.nathan = mainState.spawnCharacter('Nathan', this.goalXGrid, this.goalYGrid, 'grid');
 
@@ -109,7 +109,8 @@ var level1 = {
     entryYGrid: 5,
     goalXGrid: 0,
     goalYGrid: 5,
-    waveHealthModifier: .2
+    waveHealthModifier: .2,
+    towerPlacementForbiddenRows: [0, 11]
 };
 
 var level2 = {
@@ -199,12 +200,12 @@ var level2 = {
 
         timerEvents.push(game.time.events.add(Phaser.Timer.SECOND * s, mainState.lastWaveDispatched, mainState));
 
-        mainState.spawnObstacle('TallBrownMushroom', 7, 1, 'grid');
-        mainState.spawnObstacle('TallBrownMushroom', 9, 1, 'grid');
-        mainState.spawnObstacle('TallBrownMushroom', 11, 8, 'grid');
-        mainState.spawnObstacle('TallBrownMushroom', 13, 8, 'grid');
-        mainState.spawnObstacle('TallBrownMushroom', 17, 3, 'grid');
-        mainState.spawnObstacle('TallBrownMushroom', 16, 4, 'grid');
+        mainState.spawnObstacle('TallBrownMushroom', 7, 2, 'grid');
+        mainState.spawnObstacle('TallBrownMushroom', 9, 2, 'grid');
+        mainState.spawnObstacle('TallBrownMushroom', 11, 9, 'grid');
+        mainState.spawnObstacle('TallBrownMushroom', 13, 9, 'grid');
+        mainState.spawnObstacle('TallBrownMushroom', 17, 4, 'grid');
+        mainState.spawnObstacle('TallBrownMushroom', 16, 5, 'grid');
 
         mainState.nathan = mainState.spawnCharacter('Nathan', this.goalXGrid, this.goalYGrid, 'grid');
 
@@ -238,7 +239,8 @@ var level2 = {
     entryYGrid: 5,
     goalXGrid: 0,
     goalYGrid: 5,
-    waveHealthModifier: .25
+    waveHealthModifier: .25,
+    towerPlacementForbiddenRows: [0, 11]
 };
 
 var level3 = {
@@ -326,10 +328,10 @@ var level3 = {
             }
         }
 
-        mainState.spawnObstacle('TallBrownMushroom', 17, 2, 'grid');
-        mainState.spawnObstacle('TallBrownMushroom', 18, 2, 'grid');
-        mainState.spawnObstacle('TallBrownMushroom', 5, 2, 'grid');
-        mainState.spawnObstacle('TallBrownMushroom', 2, 8, 'grid');
+        mainState.spawnObstacle('TallBrownMushroom', 17, 3, 'grid');
+        mainState.spawnObstacle('TallBrownMushroom', 18, 3, 'grid');
+        mainState.spawnObstacle('TallBrownMushroom', 5, 3, 'grid');
+        mainState.spawnObstacle('TallBrownMushroom', 2, 9, 'grid');
 
         timerEvents.push(game.time.events.add(Phaser.Timer.SECOND * s, mainState.lastWaveDispatched, mainState));
 
@@ -365,7 +367,8 @@ var level3 = {
     entryYGrid: 5,
     goalXGrid: 0,
     goalYGrid: 5,
-    waveHealthModifier: .33
+    waveHealthModifier: .33,
+    towerPlacementForbiddenRows: [0, 11]
 };
 
 var level4 = {
@@ -454,14 +457,14 @@ var level4 = {
 
         timerEvents.push(game.time.events.add(Phaser.Timer.SECOND * s, mainState.lastWaveDispatched, mainState));
 
-        mainState.spawnObstacle('TallBrownMushroom', 1, 3, 'grid');
-        mainState.spawnObstacle('TallBrownMushroom', 7, 1, 'grid');
-        mainState.spawnObstacle('TallBrownMushroom', 7, 3, 'grid');
-        mainState.spawnObstacle('TallBrownMushroom', 7, 5, 'grid');
-        mainState.spawnObstacle('TallBrownMushroom', 14, 2, 'grid');
-        mainState.spawnObstacle('TallBrownMushroom', 16, 3, 'grid');
-        mainState.spawnObstacle('TallBrownMushroom', 18, 2, 'grid');
-        mainState.spawnObstacle('TallBrownMushroom', 16, 8, 'grid');
+        mainState.spawnObstacle('TallBrownMushroom', 1, 4, 'grid');
+        mainState.spawnObstacle('TallBrownMushroom', 7, 2, 'grid');
+        mainState.spawnObstacle('TallBrownMushroom', 7, 4, 'grid');
+        mainState.spawnObstacle('TallBrownMushroom', 7, 6, 'grid');
+        mainState.spawnObstacle('TallBrownMushroom', 14, 3, 'grid');
+        mainState.spawnObstacle('TallBrownMushroom', 16, 4, 'grid');
+        mainState.spawnObstacle('TallBrownMushroom', 18, 3, 'grid');
+        mainState.spawnObstacle('TallBrownMushroom', 16, 9, 'grid');
 
         mainState.nathan = mainState.spawnCharacter('Nathan', this.goalXGrid, this.goalYGrid, 'grid');
 
@@ -495,7 +498,8 @@ var level4 = {
     entryYGrid: 5,
     goalXGrid: 0,
     goalYGrid: 5,
-    waveHealthModifier: .35
+    waveHealthModifier: .35,
+    towerPlacementForbiddenRows: [0, 11]
 };
 
 var level5 = {
@@ -584,12 +588,12 @@ var level5 = {
 
         timerEvents.push(game.time.events.add(Phaser.Timer.SECOND * s, mainState.lastWaveDispatched, mainState));
 
-        mainState.spawnObstacle('TallBrownMushroom', 8, 3, 'grid');
-        mainState.spawnObstacle('TallBrownMushroom', 15, 3, 'grid');
-        mainState.spawnObstacle('TallBrownMushroom', 6, 2, 'grid');
-        mainState.spawnObstacle('TallBrownMushroom', 6, 6, 'grid');
-        mainState.spawnObstacle('TallBrownMushroom', 3, 8, 'grid');
-        mainState.spawnObstacle('TallBrownMushroom', 1, 1, 'grid');
+        mainState.spawnObstacle('TallBrownMushroom', 8, 4, 'grid');
+        mainState.spawnObstacle('TallBrownMushroom', 15, 4, 'grid');
+        mainState.spawnObstacle('TallBrownMushroom', 6, 3, 'grid');
+        mainState.spawnObstacle('TallBrownMushroom', 6, 7, 'grid');
+        mainState.spawnObstacle('TallBrownMushroom', 3, 9, 'grid');
+        mainState.spawnObstacle('TallBrownMushroom', 1, 2, 'grid');
 
         mainState.nathan = mainState.spawnCharacter('Nathan', this.goalXGrid, this.goalYGrid, 'grid');
 
@@ -622,9 +626,9 @@ var level5 = {
         var additionalCostTiles = [];
 
         if (attacker.incrementalId % 2) {
-            additionalCostTiles.push([10, 2, 20]);
+            additionalCostTiles.push([10, 3, 20]);
         } else {
-            additionalCostTiles.push([10, 2, 0]);
+            additionalCostTiles.push([10, 3, 0]);
         }
 
         return additionalCostTiles;
@@ -633,8 +637,9 @@ var level5 = {
     startingCoins: 200,
     startingLives: 5,
     entryXGrid: 20,
-    entryYGrid: 2,
+    entryYGrid: 3,
     goalXGrid: 0,
-    goalYGrid: 7,
-    waveHealthModifier: .3
+    goalYGrid: 8,
+    waveHealthModifier: .3,
+    towerPlacementForbiddenRows: [0, 11]
 };
