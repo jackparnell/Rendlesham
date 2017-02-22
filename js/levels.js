@@ -76,7 +76,7 @@ var level1 = {
         mainState.spawnObstacle('TallBrownMushroom', 9, 8, 'grid');
         mainState.spawnObstacle('TallBrownMushroom', 18, 6, 'grid');
 
-        mainState.nathan = mainState.spawnCharacter('Nathan', 0, 4, 'grid');
+        mainState.nathan = mainState.spawnCharacter('Nathan', this.goalXGrid, this.goalYGrid, 'grid');
 
 
     },
@@ -105,8 +105,10 @@ var level1 = {
     },
     startingCoins: 100,
     startingLives: 5,
+    entryXGrid: 19,
+    entryYGrid: 5,
     goalXGrid: 0,
-    goalYGrid: 4,
+    goalYGrid: 5,
     waveHealthModifier: .2
 };
 
@@ -204,7 +206,7 @@ var level2 = {
         mainState.spawnObstacle('TallBrownMushroom', 17, 3, 'grid');
         mainState.spawnObstacle('TallBrownMushroom', 16, 4, 'grid');
 
-        mainState.nathan = mainState.spawnCharacter('Nathan', 0, 4, 'grid');
+        mainState.nathan = mainState.spawnCharacter('Nathan', this.goalXGrid, this.goalYGrid, 'grid');
 
     },
     completed: function() {
@@ -232,8 +234,10 @@ var level2 = {
     },
     startingCoins: 150,
     startingLives: 5,
+    entryXGrid: 19,
+    entryYGrid: 5,
     goalXGrid: 0,
-    goalYGrid: 4,
+    goalYGrid: 5,
     waveHealthModifier: .25
 };
 
@@ -329,7 +333,7 @@ var level3 = {
 
         timerEvents.push(game.time.events.add(Phaser.Timer.SECOND * s, mainState.lastWaveDispatched, mainState));
 
-        mainState.nathan = mainState.spawnCharacter('Nathan', 0, 4, 'grid');
+        mainState.nathan = mainState.spawnCharacter('Nathan', this.goalXGrid, this.goalYGrid, 'grid');
 
     },
     completed: function() {
@@ -357,8 +361,10 @@ var level3 = {
     },
     startingCoins: 150,
     startingLives: 5,
+    entryXGrid: 19,
+    entryYGrid: 5,
     goalXGrid: 0,
-    goalYGrid: 4,
+    goalYGrid: 5,
     waveHealthModifier: .33
 };
 
@@ -457,7 +463,7 @@ var level4 = {
         mainState.spawnObstacle('TallBrownMushroom', 18, 2, 'grid');
         mainState.spawnObstacle('TallBrownMushroom', 16, 8, 'grid');
 
-        mainState.nathan = mainState.spawnCharacter('Nathan', 0, 4, 'grid');
+        mainState.nathan = mainState.spawnCharacter('Nathan', this.goalXGrid, this.goalYGrid, 'grid');
 
     },
     completed: function() {
@@ -485,8 +491,10 @@ var level4 = {
     },
     startingCoins: 150,
     startingLives: 5,
+    entryXGrid: 19,
+    entryYGrid: 5,
     goalXGrid: 0,
-    goalYGrid: 4,
+    goalYGrid: 5,
     waveHealthModifier: .35
 };
 
@@ -583,7 +591,7 @@ var level5 = {
         mainState.spawnObstacle('TallBrownMushroom', 3, 8, 'grid');
         mainState.spawnObstacle('TallBrownMushroom', 1, 1, 'grid');
 
-        mainState.nathan = mainState.spawnCharacter('Nathan', 0, 7, 'grid');
+        mainState.nathan = mainState.spawnCharacter('Nathan', this.goalXGrid, this.goalYGrid, 'grid');
 
     },
     completed: function() {
