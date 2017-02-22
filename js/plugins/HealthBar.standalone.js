@@ -137,3 +137,12 @@ HealthBar.prototype.kill = function() {
     this.bgSprite.kill();
     this.barSprite.kill();
 };
+
+/**
+ * Reuse function added for Rendlesham
+ */
+HealthBar.prototype.reuse = function() {
+    this.setPercent(100);
+    this.bgSprite.reset(0, 0);
+    this.barSprite.reset(0, 0);
+};

@@ -4,17 +4,6 @@ function Attacker(game, x, y, spriteName, waveNumber) {
     $.extend( this, shadow );
 
     this.guid = guid();
-    this.creationTurn = mainState.turn;
-    this.waveNumber = waveNumber;
-    this.health = (window[this.constructor.name].defaultHealth || 1000) * this.calculateHealthModifier();
-    this.maximumHealth = this.health;
-    this.coinsValue = window[this.constructor.name].coinsValue || 1;
-    this.invulnerable = false;
-    this.incrementalId = mainState.attackersSpawnedCount;
-
-    this.speed = (window[this.constructor.name].defaultSpeed || 75);
-    this.path = [];
-    this.path_step = -1;
 
     Phaser.Sprite.call(this, game, x, y, spriteName);
     
@@ -35,22 +24,38 @@ function Attacker(game, x, y, spriteName, waveNumber) {
         this.scale.setTo(scale, scale);
     }
 
-    this.targeted = false;
 
-    this.moveToGoal();
-
+    this.initialise(waveNumber);
 
 }
 Attacker.prototype = Object.create(Phaser.Sprite.prototype);
 Attacker.prototype.constructor = Attacker;
+Attacker.prototype.initialise = function(waveNumber)
+{
+    this.creationTurn = mainState.turn;
+    this.waveNumber = waveNumber;
+    this.health = (window[this.constructor.name].defaultHealth || 1000) * this.calculateHealthModifier();
+    this.maximumHealth = this.health;
+    this.coinsValue = window[this.constructor.name].coinsValue || 1;
+    this.invulnerable = false;
+    this.incrementalId = mainState.attackersSpawnedCount;
 
+    this.speed = (window[this.constructor.name].defaultSpeed || 75);
+    this.path = [];
+    this.path_step = -1;
+
+    this.targeted = false;
+
+    this.tint = 0xffffff;
+
+    this.moveToGoal();
+
+};
 Attacker.prototype.hit = function(attacker, bullet)
 {
     if (!this.invulnerable) {
         attacker.health -= bullet.damageValue;
     }
-
-    console.log(bullet.towerClass);
 
     if (bullet.towerClass == 'Freezer') {
         attacker.freeze(bullet.grade);
@@ -361,6 +366,23 @@ Attacker.prototype.unfreeze = function()
 
     // Remove tint
     this.tint = 0xffffff;
+
+};
+Attacker.prototype.reuse = function()
+{
+
+    // console.log('Reusing ' + this.constructor.name + ' ' + this.guid);
+
+    var coordinates = mainState.generateSpawnAttackerPixelCoordinates();
+
+    var x = coordinates[0];
+    var y = coordinates[1];
+
+    this.reset(x, y);
+    this.healthBar.reuse();
+
+    this.initialise(mainState.waveNumber);
+
 
 };
 

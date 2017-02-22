@@ -98,7 +98,7 @@ var mainState = {
         game.input.onDown.add(this.placeTower, this);
 
 
-        this.gameOverBackground = this.game.add.tileSprite(0, 0, game.width, game.height, 'gameOverBackground');
+        this.gameOverBackground = this.game.add.tileSprite(game.camera.x, game.camera.y, game.width, game.height, 'gameOverBackground');
         this.gameOverBackground.alpha = 0;
         this.overlays.add(this.gameOverBackground);
 
@@ -133,11 +133,6 @@ var mainState = {
             console.log(err);
         }
 
-    },
-
-    getDifficulty: function() {
-        var difficulty = 3;
-        return difficulty;
     },
 
     noLivesLeft: function()
@@ -436,9 +431,24 @@ var mainState = {
 
         this.attackersSpawnedCount ++;
 
-        var item = new window[className](this.game, x, y);
 
-        this.attackers.add(item);
+        var reusable = {};
+
+        this.attackers.forEachDead(function(attacker) {
+            if (attacker.constructor.name == className) {
+                reusable = attacker;
+            }
+        }, this);
+        
+
+        if (reusable.guid) {
+            reusable.reuse();
+        } else {
+            var item = new window[className](this.game, x, y);
+            this.attackers.add(item);
+        }
+
+
     },
     
     spawnAttackerDelayed: function(className, seconds, waveNumber, x, y)
@@ -902,6 +912,7 @@ var mainState = {
 
         this.crosshairs.callAll('kill');
         this.explosions.callAll('kill');
+        this.characters.callAll('kill');
         this.finishedItems.callAll('kill');
 
         if (this.levelCompleteText) {
@@ -1262,6 +1273,15 @@ var mainState = {
 
         game.camera.y = y;
 
+    },
+    
+    generateSpawnAttackerPixelCoordinates: function()
+    {
+        return mainState.translateGridCoordinatesToPixelCoordinates(
+            window['level' + mainState.level].entryXGrid,
+            window['level' + mainState.level].entryYGrid
+        );
+        
     }
 
 };
