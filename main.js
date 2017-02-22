@@ -74,6 +74,7 @@ var mainState = {
         this.backgrounds = game.add.group();
 
         this.setupMap();
+        this.positionCamera();
 
         /*
         this.game.goalX = game.width * .025;
@@ -189,9 +190,9 @@ var mainState = {
         this.labelStyle = { font: "26px Ubuntu", fill: "#FFFFFF", boundsAlignH: "center", boundsAlignV: "middle" };
         this.indicatorMessageStyle = { font: "16px Ubuntu", fill: "#FFFFFF", boundsAlignH: "right", boundsAlignV: "middle" };
 
-        this.titlesYCoordinate = 10;
-        this.valuesYCoordinate = 30;
-        this.notificationYCoordinate = 50;
+        this.titlesYCoordinate = game.camera.y + 10;
+        this.valuesYCoordinate = game.camera.y + 30;
+        this.notificationYCoordinate = game.camera.y + 50;
 
         this.labelCoinsXCoordinate = 10;
 
@@ -211,12 +212,12 @@ var mainState = {
 
 
         this.messageXCoordinate = this.labelCoinsXCoordinate;
-        this.messageYCoordinate = game.height - this.squareWidth + 2;
+        this.messageYCoordinate = game.camera.y + (game.height - this.squareWidth + 2);
 
         this.labelMessage = game.add.text(this.messageXCoordinate, this.messageYCoordinate, '', this.labelStyle);
 
         this.indicatorMessageXCoordinate = game.width * .6;
-        this.indicatorMessageYCoordinate = game.height - this.squareWidth + 8;
+        this.indicatorMessageYCoordinate = game.camera.y + (game.height - this.squareWidth + 8);
 
         this.labelIndicatorMessage = game.add.text(this.indicatorMessageXCoordinate, this.indicatorMessageYCoordinate, '', this.indicatorMessageStyle);
 
@@ -846,6 +847,7 @@ var mainState = {
 
         this.clearMap();
         this.setupMap();
+        this.positionCamera();
 
         window['level' + this.level].begin();
 
@@ -854,8 +856,6 @@ var mainState = {
 
         // Set lives to the startingLives value from the level
         this.lives = window['level' + this.level].startingLives;
-
-        console.log(this.user);
 
     },
 
@@ -1244,6 +1244,14 @@ var mainState = {
             this.spawnAttackerDelayed(attackerClassName, i, waveNumber);
 
         }
+
+    },
+
+    positionCamera: function()
+    {
+        var y = (this.map.heightInPixels - game.height) / 2;
+
+        game.camera.y = y;
 
     }
 
