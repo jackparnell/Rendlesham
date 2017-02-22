@@ -101,6 +101,12 @@ Tower.prototype.determineTarget = function()
     }
 
     mainState.attackers.forEachAlive(function(item) {
+
+        // If not in camera, don't target
+        if (!item.inCamera) {
+            return;
+        }
+
         var distanceBetween = game.physics.arcade.distanceBetween(this, item);
         var advanced = mainState.turn - item.creationTurn;
         if (

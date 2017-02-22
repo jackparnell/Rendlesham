@@ -413,7 +413,14 @@ var mainState = {
     spawnAttacker: function(className, x, y)
     {
         if (!x) {
-            x = this.game.width - 5;
+
+            if (window['level' + this.level].entryYGrid) {
+                var gridX = window['level' + this.level].entryXGrid;
+                x = (gridX * this.squareWidth) + (this.squareWidth-1);
+            } else {
+                x = this.game.width - 5;
+            }
+
         }
         if (!y) {
 
