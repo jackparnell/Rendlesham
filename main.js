@@ -189,7 +189,7 @@ var mainState = {
         this.valuesYCoordinate = game.camera.y + 30;
         this.notificationYCoordinate = game.camera.y + 50;
 
-        this.labelCoinsXCoordinate = 10;
+        this.labelCoinsXCoordinate = game.camera.x + 10;
 
         this.labelCoinsTitle = game.add.text(this.labelCoinsXCoordinate, this.titlesYCoordinate, 'Coins', this.titleStyle);
         this.labelCoinsTitle.setTextBounds(0, 5, 40, 10);
@@ -197,7 +197,7 @@ var mainState = {
         this.labelCoins.setTextBounds(0, 5, 40, 10);
         this.labelCoinsNotifications = [];
 
-        this.labelLivesXCoordinate = 75;
+        this.labelLivesXCoordinate = game.camera.x + 75;
 
         this.labelLivesTitle = game.add.text(this.labelLivesXCoordinate, this.titlesYCoordinate, 'Lives', this.titleStyle);
         this.labelLivesTitle.setTextBounds(0, 5, 40, 10);
@@ -211,7 +211,7 @@ var mainState = {
 
         this.labelMessage = game.add.text(this.messageXCoordinate, this.messageYCoordinate, '', this.labelStyle);
 
-        this.indicatorMessageXCoordinate = game.width * .6;
+        this.indicatorMessageXCoordinate = game.camera.x + game.width * .6;
         this.indicatorMessageYCoordinate = game.camera.y + (game.height - this.squareWidth + 8);
 
         this.labelIndicatorMessage = game.add.text(this.indicatorMessageXCoordinate, this.indicatorMessageYCoordinate, '', this.indicatorMessageStyle);
@@ -435,19 +435,23 @@ var mainState = {
         var reusable = {};
 
         this.attackers.forEachDead(function(attacker) {
+            if (reusable.guid) {
+                return;
+            }
             if (attacker.constructor.name == className) {
                 reusable = attacker;
             }
         }, this);
-        
 
-        if (reusable.guid) {
+
+        if (typeof reusable.reuse == 'function') {
+            // console.log(typeof reusable.reuse);
+            // console.log(reusable);
             reusable.reuse();
         } else {
             var item = new window[className](this.game, x, y);
             this.attackers.add(item);
         }
-
 
     },
     
@@ -562,16 +566,21 @@ var mainState = {
 
         this.gameOverBackground.alpha = .5;
 
-        this.levelCompleteStyle = { font: "48px Ubuntu", fill: "#FFFFFF", boundsAlignH: "center", boundsAlignV: "middle" };
+        this.levelCompleteStyle = {
+            font: "48px Ubuntu",
+            fill: "#FFFFFF",
+            boundsAlignH: "center",
+            boundsAlignV: "middle"
+        };
 
-        this.levelCompleteText = game.add.text(game.width * .5, game.height * .23, 'Level ' + this.level + ' complete!', this.levelCompleteStyle);
-        this.levelCompleteText.setTextBounds(0, 0, 1, 1);
+        this.levelCompleteText = game.add.text(0, 50, 'Level ' + this.level + ' complete!', this.levelCompleteStyle);
+        this.levelCompleteText.setTextBounds(game.camera.x, 0, game.width, 100);
 
         // Begin stars
         var completionStars = window['level' + this.level].calculateCompletionStars();
 
-        var x = (game.width * .5) - 180;
-        var y = game.height * .38;
+        var x = (game.width * .5) - 180 + game.camera.x;
+        var y = (game.height * .38) + game.camera.y;
 
         var starSpriteName;
 
@@ -611,8 +620,8 @@ var mainState = {
 
         var cost = window[this.towerSelected].cost;
 
-        var x = Math.floor(game.input.x / this.squareWidth) * this.squareWidth + (this.squareWidth / 2);
-        var y = Math.floor(game.input.y / this.squareWidth) * this.squareWidth + (this.squareWidth / 2);
+        var x = Math.floor((game.input.x + game.camera.x) / this.squareWidth) * this.squareWidth + (this.squareWidth / 2);
+        var y = Math.floor((game.input.y + game.camera.y) / this.squareWidth) * this.squareWidth + (this.squareWidth / 2);
 
         if (x == 0) {
             x = 1;
@@ -634,7 +643,7 @@ var mainState = {
             action = 'add';
         } else if (this.isTowerUpgradeAppropriateAtPosition(x, y)) {
             action = 'upgrade';
-        } else if (this.doesAttackerExistAtPosition(x, y)) {
+        } else if (this.doesAttackerExistAtPosition(x - (this.squareWidth / 2), y - (this.squareWidth / 2))) {
             action = 'target';
         } else if (this.doesObstacleExistAtPosition(x, y)) {
             action = 'target';
@@ -662,8 +671,8 @@ var mainState = {
                 break;
             case 'target':
 
-                if (this.doesAttackerExistAtPosition(x, y)) {
-                    var item = this.getAttackerAtPosition(x, y);
+                if (this.doesAttackerExistAtPosition(x - (this.squareWidth / 2), y - (this.squareWidth / 2))) {
+                    var item = this.getAttackerAtPosition(x - (this.squareWidth / 2), y - (this.squareWidth / 2));
                 } else if (this.doesObstacleExistAtPosition(x, y)) {
                     var item = this.getObstacleAtPosition(x, y);
                 }
@@ -736,10 +745,10 @@ var mainState = {
 
     isPositionOnScreen: function(x, y)
     {
-        if (x < 0 || x >= game.width) {
+        if (x < game.camera.x || x >= game.width + game.camera.x) {
             return false;
         }
-        if (y < 0 || y >= game.height) {
+        if (y < game.camera.y || y >= game.height + game.camera.y) {
             return false;
         }
 
@@ -826,7 +835,7 @@ var mainState = {
 
     getAttackerAtPosition: function (x, y)
     {
-        var placementRectangle = new Phaser.Rectangle(x-5, y-5, 10, 10);
+        var placementRectangle = new Phaser.Rectangle(x-8, y-8, 16, 16);
 
         var attackerAtPosition = {};
 
@@ -952,8 +961,8 @@ var mainState = {
 
         this.graphics = game.add.graphics(0, 0);
 
-        var x = Math.floor(game.input.x / this.squareWidth) * this.squareWidth;
-        var y = Math.floor(game.input.y / this.squareWidth) * this.squareWidth;
+        var x = Math.floor((game.input.x + game.camera.x) / this.squareWidth) * this.squareWidth;
+        var y = Math.floor((game.input.y + game.camera.y) / this.squareWidth) * this.squareWidth;
 
         var inappropriateColor = 0xFF8888;
         var notEnoughCoinsColor = 0xFFFF88;
@@ -1269,8 +1278,10 @@ var mainState = {
 
     positionCamera: function()
     {
+        var x = (this.map.widthInPixels - game.width) / 2;
         var y = (this.map.heightInPixels - game.height) / 2;
 
+        game.camera.x = x;
         game.camera.y = y;
 
     },

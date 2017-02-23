@@ -29,7 +29,7 @@ Rendlesham.titleScreen.prototype = {
 
         game.canvas.oncontextmenu = function (e) { e.preventDefault(); }
 
-        var button = game.add.button(game.world.centerX - 80, game.height * .8, 'button', this.playTheGame, this);
+        var button = game.add.button((game.width/2) - 80, game.height * .8, 'button', this.playTheGame, this);
 
         // Press SPACE to play the game.
         var spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
@@ -54,7 +54,7 @@ Rendlesham.titleScreen.prototype = {
             boundsAlignV: "middle"
         };
 
-        this.titleText = game.add.text(game.world.centerX, game.height * .2, "Rendlesham Forest", style);
+        this.titleText = game.add.text((game.width/2), game.height * .2, "Rendlesham Forest", style);
         this.titleText.anchor.set(0.5);
 
 
@@ -65,7 +65,7 @@ Rendlesham.titleScreen.prototype = {
             boundsAlignV: "middle"
         };
 
-        this.captionText = game.add.text(game.world.centerX, game.height * .35, "An extra-terrestrial tower defense game.", captionStyle);
+        this.captionText = game.add.text((game.width/2), game.height * .35, "An extra-terrestrial tower defense game.", captionStyle);
         this.captionText.anchor.set(0.5);
 
         var tipStyle = {
@@ -77,7 +77,7 @@ Rendlesham.titleScreen.prototype = {
 
         var tipTextContent = tips[Math.floor(Math.random() * tips.length)];
 
-        this.captionText = game.add.text(game.world.centerX, game.height * .5, tipTextContent, tipStyle);
+        this.captionText = game.add.text((game.width/2), game.height * .5, tipTextContent, tipStyle);
         this.captionText.anchor.set(0.5);
 
     }

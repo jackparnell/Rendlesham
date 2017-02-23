@@ -47,6 +47,11 @@ Attacker.prototype.initialise = function(waveNumber)
     this.targeted = false;
 
     this.tint = 0xffffff;
+    this.alpha = 1;
+
+    if (this.fadeOutTween) {
+        game.tweens.remove(this.fadeOutTween);
+    }
 
     this.moveToGoal();
 
@@ -156,7 +161,7 @@ Attacker.prototype.reachedGoal = function()
     mainState.spawnExplosion(this.x - 10, this.y, 0x8888ff);
 
     // Fade out over 200 ms
-    game.add.tween(this).to( { alpha: 0 }, 200, Phaser.Easing.Linear.None, true, 0, 1000, true);
+    this.fadeOutTween = game.add.tween(this).to( { alpha: 0 }, 200, Phaser.Easing.Linear.None, true, 0, 1000, true);
 
     // Die in 200 ms
     timerEvents.push(game.time.events.add(Phaser.Timer.SECOND * .2, this.die, this));
@@ -379,10 +384,12 @@ Attacker.prototype.reuse = function()
     var y = coordinates[1];
 
     this.reset(x, y);
-    this.healthBar.reuse();
+
+    if (this.healthBar) {
+        this.healthBar.reuse();
+    }
 
     this.initialise(mainState.waveNumber);
-
 
 };
 

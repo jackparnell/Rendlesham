@@ -29,7 +29,7 @@ Rendlesham.gameOver.prototype = {
         text.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
         text.setTextBounds(0, 105, game.width, 100);
 
-        var goToTitleScreen = game.add.button(game.world.centerX - 95, game.height * .75, 'goToTitleScreen', this.goToTitleScreen, this);
+        var goToTitleScreen = game.add.button((game.width/2) - 95, game.height * .75, 'goToTitleScreen', this.goToTitleScreen, this);
 
         // Press SPACE to restart the game.
         var spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
