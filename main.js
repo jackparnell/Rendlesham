@@ -480,6 +480,23 @@ var mainState = {
         this.obstacles.add(item);
     },
 
+    spawnLevelObstacles: function()
+    {
+
+        var level = window['level' + this.level];
+
+        if (level.obstacles) {
+            for (var obstacleClassName in level.obstacles) {
+                if (level.obstacles.hasOwnProperty(obstacleClassName)) {
+                    level.obstacles[obstacleClassName].forEach(function(coordinates) {
+                        mainState.spawnObstacle(obstacleClassName, coordinates[0], coordinates[1], 'grid');
+                    });
+                }
+            }
+        }
+
+    },
+
     spawnCharacter: function(className, x, y, coordinateType)
     {
 
@@ -875,6 +892,7 @@ var mainState = {
 
         this.clearMap();
         this.setupMap();
+        this.spawnLevelObstacles();
         this.positionCamera();
 
         window['level' + this.level].begin();

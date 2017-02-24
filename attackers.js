@@ -349,12 +349,12 @@ Attacker.prototype.calculateHealthModifier = function()
 Attacker.prototype.freeze = function(bulletGrade)
 {
     // Change speed to half default speed
-    this.speed = window[this.constructor.name].defaultSpeed * .5;
+    this.speed = window[this.constructor.name].defaultSpeed * .4;
 
     // Tint blue
     this.tint = 0x8888ff;
     
-    var frozenSeconds = 3 + (bulletGrade * 2);
+    var frozenSeconds = 3 + (bulletGrade * 3);
 
     // Schedule unfreeze event
     game.time.events.add(

@@ -189,3 +189,17 @@ TallBrownMushroom.defaultScale = 1;
 TallBrownMushroom.defaultHealth = 10000;
 TallBrownMushroom.coinsValue = 50;
 // End TallBrownMushroom
+
+// Begin TallRedMushroom
+function TallRedMushroom(game, x, y) {
+    Obstacle.call(this, game, x, y, 'tallRedMushroom');
+
+    this.body.setSize(5, 5, 17, 17);
+
+}
+TallRedMushroom.prototype = Object.create(Obstacle.prototype);
+TallRedMushroom.prototype.constructor = TallRedMushroom;
+TallRedMushroom.defaultScale = 1;
+TallRedMushroom.defaultHealth = 25000;
+TallRedMushroom.coinsValue = 100;
+// End TallBrownMushroom
