@@ -200,6 +200,6 @@ function TallRedMushroom(game, x, y) {
 TallRedMushroom.prototype = Object.create(Obstacle.prototype);
 TallRedMushroom.prototype.constructor = TallRedMushroom;
 TallRedMushroom.defaultScale = 1;
-TallRedMushroom.defaultHealth = 25000;
+TallRedMushroom.defaultHealth = 30000;
 TallRedMushroom.coinsValue = 100;
 // End TallBrownMushroom
