@@ -645,7 +645,7 @@ var level5 = {
     entryYGrid: 3,
     goalXGrid: 1,
     goalYGrid: 8,
-    waveHealthModifier: .33,
+    waveHealthModifier: .35,
     towerPlacementForbiddenRows: [0, 11],
     obstacles: {
         TallBrownMushroom: [
@@ -655,9 +655,11 @@ var level5 = {
             [4, 9],
             [2, 2]
         ],
-        TallRedMushroom: [
-            [16, 4],
+        TallGreyMushroom: [
             [19, 10]
+        ],
+        TallRedMushroom: [
+            [16, 4]
         ]
     }
 };

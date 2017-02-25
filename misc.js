@@ -47,6 +47,7 @@ function loadMainFiles()
     game.load.spritesheet('freezer', 'assets/sprites/towers/Freezer.png', 64, 64, 3);
 
     game.load.spritesheet('tallBrownMushroom', 'assets/sprites/obstacles/tallBrownMushroom.png', 35, 35, 1);
+    game.load.spritesheet('tallGreyMushroom', 'assets/sprites/obstacles/tallGreyMushroom.png', 35, 35, 1);
     game.load.spritesheet('tallRedMushroom', 'assets/sprites/obstacles/tallRedMushroom.png', 35, 35, 1);
 
     game.load.audio('woosh', 'assets/sound/Woosh-Mark_DiAngelo-4778593.wav');

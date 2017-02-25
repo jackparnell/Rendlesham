@@ -316,8 +316,6 @@ EasyStar.js = function() {
 
 		pointsToCost[x + '_' + y] = cost;
 
-		console.log(pointsToCost);
-
 	};
 
 	/**

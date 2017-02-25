@@ -1311,6 +1311,31 @@ var mainState = {
             window['level' + mainState.level].entryYGrid
         );
         
+    },
+
+    addItem: function(itemName)
+    {
+        if (!this.user.items) {
+            this.user.items = {};
+        }
+
+        if (!this.user.items[itemName]) {
+            this.user.items[itemName] = 1;
+        } else {
+            this.user.items[itemName] ++;
+        }
+
+        this.save();
+
+    },
+
+    hasItem: function(itemName)
+    {
+        if (this.user.items.hasOwnProperty('itemName')  && this.user.items.hasOwnProperty('itemName') >= 1) {
+            return true;
+        }
+
+        return false;
     }
 
 };

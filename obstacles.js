@@ -200,6 +200,29 @@ function TallRedMushroom(game, x, y) {
 TallRedMushroom.prototype = Object.create(Obstacle.prototype);
 TallRedMushroom.prototype.constructor = TallRedMushroom;
 TallRedMushroom.defaultScale = 1;
-TallRedMushroom.defaultHealth = 30000;
+TallRedMushroom.defaultHealth = 35000;
 TallRedMushroom.coinsValue = 100;
 // End TallBrownMushroom
+
+// Begin TallGreyMushroom
+function TallGreyMushroom(game, x, y) {
+    Obstacle.call(this, game, x, y, 'tallGreyMushroom');
+
+    this.body.setSize(5, 5, 17, 17);
+
+}
+TallGreyMushroom.prototype = Object.create(Obstacle.prototype);
+TallGreyMushroom.prototype.constructor = TallGreyMushroom;
+TallGreyMushroom.defaultScale = 1;
+TallGreyMushroom.defaultHealth = 100000;
+TallGreyMushroom.coinsValue = 100;
+TallGreyMushroom.prototype.die = function() {
+    Obstacle.prototype.die.call(this);
+    
+    if (!mainState.hasItem('greyMushroomSpore')) {
+        mainState.addItem('greyMushroomSpore');
+    }
+
+};
+
+// End TallGreyMushroom
