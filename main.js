@@ -495,9 +495,11 @@ var mainState = {
             }
         }
 
-        this.map.createFromObjects('objects', 105, 'tallBrownMushroom', 0, true, false, this.obstacles, TallBrownMushroom, false);
-        this.map.createFromObjects('objects', 106, 'tallRedMushroom', 0, true, false, this.obstacles, TallRedMushroom, false);
-        this.map.createFromObjects('objects', 107, 'tallGreyMushroom', 0, true, false, this.obstacles, TallGreyMushroom, false);
+        this.map.createFromObjects('objects', 105, 'tallBrownMushroom', 0, true, false, this.obstacles, TallBrownMushroom, true);
+        this.map.createFromObjects('objects', 106, 'tallRedMushroom', 0, true, false, this.obstacles, TallRedMushroom, true);
+        this.map.createFromObjects('objects', 107, 'tallGreyMushroom', 0, true, false, this.obstacles, TallGreyMushroom, true);
+
+        // this.map.createFromObjects('objects', 108, 'nathan', 0, true, false, this.characters, Nathan, true);
 
     },
 
