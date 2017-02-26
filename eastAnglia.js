@@ -9,6 +9,7 @@ Rendlesham.eastAnglia.prototype = {
     {
 
         this.backgrounds = game.add.group();
+        this.pathways = game.add.group();
         this.name = 'rendlesham';
 
         loadMainFiles();
@@ -61,56 +62,20 @@ Rendlesham.eastAnglia.prototype = {
             }
         };
 
-        this.level1Button = game.add.button(this.levelInfo[1].x, this.levelInfo[1].y, 'ufo', this.clickLevel1, this);
+        this.drawLinesBetweenLevels();
 
-        this.level2Button = game.add.button(this.levelInfo[2].x, this.levelInfo[2].y, 'ufo', this.clickLevel2, this);
-        if (!this.isLevelUnlocked(2)) {
-            this.level2Button.tint = 0x333333;
-            this.level2Button.input.useHandCursor = false;
+        for (var i = 1; i <= lastLevel; i++) {
+
+            this['level' + i + 'Button'] = game.add.button(this.levelInfo[i].x, this.levelInfo[i].y, 'ufo', this['clickLevel' + i], this);
+            if (!this.isLevelUnlocked(i)) {
+                this['level' + i + 'Button'].tint = 0x333333;
+                this['level' + i + 'Button'].input.useHandCursor = false;
+            }
+
+            this.writeLevelText(i);
+            this.addLevelStars(i);
+
         }
-
-        this.level3Button = game.add.button(this.levelInfo[3].x, this.levelInfo[3].y, 'ufo', this.clickLevel3, this);
-        if (!this.isLevelUnlocked(3)) {
-            this.level3Button.tint = 0x333333;
-            this.level3Button.input.useHandCursor = false;
-        }
-
-        this.level4Button = game.add.button(this.levelInfo[4].x, this.levelInfo[4].y, 'ufo', this.clickLevel4, this);
-        if (!this.isLevelUnlocked(4)) {
-            this.level4Button.tint = 0x333333;
-            this.level4Button.input.useHandCursor = false;
-        }
-
-        this.level5Button = game.add.button(this.levelInfo[5].x, this.levelInfo[5].y, 'ufo', this.clickLevel5, this);
-        if (!this.isLevelUnlocked(5)) {
-            this.level5Button.tint = 0x333333;
-            this.level5Button.input.useHandCursor = false;
-        }
-
-        this.level6Button = game.add.button(this.levelInfo[6].x, this.levelInfo[6].y, 'ufo', this.clickLevel6, this);
-        if (!this.isLevelUnlocked(6)) {
-            this.level6Button.tint = 0x333333;
-            this.level6Button.input.useHandCursor = false;
-        }
-
-
-        this.writeLevelText(1);
-        this.addLevelStars(1);
-
-        this.writeLevelText(2);
-        this.addLevelStars(2);
-
-        this.writeLevelText(3);
-        this.addLevelStars(3);
-
-        this.writeLevelText(4);
-        this.addLevelStars(4);
-
-        this.writeLevelText(5);
-        this.addLevelStars(5);
-
-        this.writeLevelText(6);
-        this.addLevelStars(6);
 
     },
 
@@ -222,6 +187,28 @@ Rendlesham.eastAnglia.prototype = {
             x += 20;
         }
 
+    },
+
+    drawLinesBetweenLevels: function()
+    {
+
+        var graphics = game.add.graphics(0, 0);
+
+        graphics.lineStyle(3, 0x886666, 1);
+
+        for (var i = 1; i < lastLevel; i++) {
+
+            graphics.moveTo(
+                Math.round(this.levelInfo[i].x + 16),
+                Math.round(this.levelInfo[i].y + 16)
+            );
+
+            graphics.lineTo(
+                Math.round(this.levelInfo[String(i+1)].x + 16),
+                Math.round(this.levelInfo[String(i+1)].y + 16)
+            );
+
+        }
 
     }
 
