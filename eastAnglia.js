@@ -54,6 +54,10 @@ Rendlesham.eastAnglia.prototype = {
             5: {
                 x: game.width * .85,
                 y: game.height * .45
+            },
+            6: {
+                x: game.width * .7,
+                y: game.height * .55
             }
         };
 
@@ -83,6 +87,12 @@ Rendlesham.eastAnglia.prototype = {
             this.level5Button.input.useHandCursor = false;
         }
 
+        this.level6Button = game.add.button(this.levelInfo[6].x, this.levelInfo[6].y, 'ufo', this.clickLevel6, this);
+        if (!this.isLevelUnlocked(6)) {
+            this.level6Button.tint = 0x333333;
+            this.level6Button.input.useHandCursor = false;
+        }
+
 
         this.writeLevelText(1);
         this.addLevelStars(1);
@@ -98,6 +108,9 @@ Rendlesham.eastAnglia.prototype = {
 
         this.writeLevelText(5);
         this.addLevelStars(5);
+
+        this.writeLevelText(6);
+        this.addLevelStars(6);
 
     },
 
@@ -120,6 +133,10 @@ Rendlesham.eastAnglia.prototype = {
     clickLevel5: function()
     {
         this.clickLevel(5);
+    },
+    clickLevel6: function()
+    {
+        this.clickLevel(6);
     },
 
     clickLevel: function(levelNumber)

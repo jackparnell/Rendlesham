@@ -188,6 +188,7 @@ TallBrownMushroom.prototype.constructor = TallBrownMushroom;
 TallBrownMushroom.defaultScale = 1;
 TallBrownMushroom.defaultHealth = 10000;
 TallBrownMushroom.coinsValue = 50;
+TallBrownMushroom.spriteSheetGid = 105;
 // End TallBrownMushroom
 
 // Begin TallRedMushroom
@@ -202,6 +203,7 @@ TallRedMushroom.prototype.constructor = TallRedMushroom;
 TallRedMushroom.defaultScale = 1;
 TallRedMushroom.defaultHealth = 35000;
 TallRedMushroom.coinsValue = 100;
+TallRedMushroom.spriteSheetGid = 106;
 // End TallBrownMushroom
 
 // Begin TallGreyMushroom
@@ -216,6 +218,7 @@ TallGreyMushroom.prototype.constructor = TallGreyMushroom;
 TallGreyMushroom.defaultScale = 1;
 TallGreyMushroom.defaultHealth = 100000;
 TallGreyMushroom.coinsValue = 100;
+TallGreyMushroom.spriteSheetGid = 107;
 TallGreyMushroom.prototype.die = function() {
     Obstacle.prototype.die.call(this);
     
