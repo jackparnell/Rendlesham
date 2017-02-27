@@ -520,8 +520,28 @@ var mainState = {
 
     spawnTower: function(className, x, y)
     {
-        var item = new window[className](game, x, y);
-        this.towers.add(item);
+
+        var reusable = {};
+
+        this.towers.forEachDead(function(tower) {
+            if (reusable.guid) {
+                return;
+            }
+            if (tower.constructor.name == className) {
+                reusable = tower;
+            }
+        }, this);
+
+
+        if (typeof reusable.reuse == 'function') {
+            reusable.reuse(x, y);
+        } else {
+            var item = new window[className](this.game, x, y);
+            this.towers.add(item);
+        }
+
+        return true;
+
     },
 
     spawnExplosion: function(x, y, tint) {
@@ -680,8 +700,9 @@ var mainState = {
                     return false;
                 }
 
-                this.spawnTower(this.towerSelected, x, y);
-                this.changeCoins(-cost, x, y);
+                if (this.spawnTower(this.towerSelected, x, y)) {
+                    this.changeCoins(-cost, x, y);
+                }
                 break;
             case 'upgrade':
                 if (!this.coinsSufficientForTowerUpgrade()) {
@@ -689,8 +710,10 @@ var mainState = {
                 }
 
                 var tower = this.getTowerAtPosition(x, y);
-                tower.upgrade();
-                this.changeCoins(-cost, x, y);
+                if (tower.upgrade()) {
+                    this.changeCoins(-cost, x, y);
+                }
+
                 break;
             case 'target':
 

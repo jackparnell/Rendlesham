@@ -5,21 +5,11 @@ function Tower(game, x, y, spriteName) {
 
     this.guid = guid();
 
-    this.grade = 1;
-    
     Phaser.Sprite.call(this, game, x, y, spriteName);
     game.physics.arcade.enable(this);
 
-    var gridCoordinates = mainState.translatePixelCoordinatesToGridCoordinates(x, y);
-    this.gridX = gridCoordinates[0];
-    this.gridY = gridCoordinates[1];
-    
     this.checkWorldBounds = true;
     this.outOfBoundsKill = false;
-
-    this.target = {};
-
-    this.bulletDamageValue = window[this.constructor.name].defaultDamageValue;
 
     this.weapon1 = this.game.add.weapon(500, window[this.constructor.name].bulletSpriteName);
     this.weapon1.bulletKillType = Phaser.Weapon.KILL_DISTANCE;
@@ -37,9 +27,26 @@ function Tower(game, x, y, spriteName) {
         this.scale.setTo(scale, scale);
     }
 
+    this.initialise(x, y);
+
 }
 Tower.prototype = Object.create(Phaser.Sprite.prototype);
 Tower.prototype.constructor = Tower;
+Tower.prototype.initialise = function(x, y)
+{
+    this.grade = 1;
+    this.frame = this.grade - 1;
+
+    var gridCoordinates = mainState.translatePixelCoordinatesToGridCoordinates(x, y);
+    this.gridX = gridCoordinates[0];
+    this.gridY = gridCoordinates[1];
+
+    this.target = {};
+
+    this.bulletDamageValue = window[this.constructor.name].defaultDamageValue;
+
+
+};
 Tower.prototype.update = function()
 {
     // If pendingLevelCompleted, do nothing
@@ -76,10 +83,10 @@ Tower.prototype.die = function()
     if (!this.alive) {
         return false;
     }
-    // Weapon doesn't have a kill function
-    this.weapon1.destroy();
-    // Use destroy instead of kill, as otherwise weapon lingers.
-    this.destroy();
+
+    // this.weapon1.destroy();
+
+    this.kill();
 };
 Tower.prototype.determineTarget = function()
 {
@@ -193,9 +200,16 @@ Tower.prototype.upgrade = function()
     this.grade ++;
     this.calculateSpecs();
     this.frame = (this.grade - 1);
+
     return true;
 };
+Tower.prototype.reuse = function(x, y)
+{
 
+    this.reset(x, y);
+    this.initialise(x, y);
+
+};
 
 function Rock(game, x, y) {
     Tower.call(this, game, x, y, 'rock');
