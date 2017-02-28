@@ -1,5 +1,5 @@
 var tips = [
-    "Stop the humans from collecting evidence of your existance."
+    "Stop the humans from collecting evidence of your existence."
 ];
 
 var Rendlesham = Rendlesham || {};
