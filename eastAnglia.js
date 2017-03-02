@@ -46,7 +46,7 @@ Rendlesham.eastAnglia.prototype = {
             },
             3: {
                 x: game.width * .5,
-                y: game.height * .25
+                y: game.height * .125
             },
             4: {
                 x: game.width * .7,
@@ -59,6 +59,10 @@ Rendlesham.eastAnglia.prototype = {
             6: {
                 x: game.width * .7,
                 y: game.height * .55
+            },
+            7: {
+                x: game.width * .525,
+                y: game.height * .425
             }
         };
 
@@ -102,6 +106,10 @@ Rendlesham.eastAnglia.prototype = {
     clickLevel6: function()
     {
         this.clickLevel(6);
+    },
+    clickLevel7: function()
+    {
+        this.clickLevel(7);
     },
 
     clickLevel: function(levelNumber)
