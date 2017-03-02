@@ -281,3 +281,26 @@ Rock.defaultHealth = 15000;
 Rock.coinsValue = 0;
 Rock.spriteSheetGid = 51;
 // End SmallBush
+
+// Begin Bulrush
+function Bulrush(game, x, y) {
+    Obstacle.call(this, game, x, y, 'bulrush');
+
+    this.body.setSize(5, 5, 17, 17);
+
+}
+Bulrush.prototype = Object.create(Obstacle.prototype);
+Bulrush.prototype.constructor = Bulrush;
+Bulrush.defaultScale = 1;
+Bulrush.defaultHealth = 20000;
+Bulrush.coinsValue = 100;
+Bulrush.spriteSheetGid = 78;
+Bulrush.prototype.die = function() {
+    Obstacle.prototype.die.call(this);
+
+    if (!mainState.hasItem('bulrushSeed')) {
+        mainState.addItem('bulrushSeed');
+    }
+
+};
+// End Bulrush

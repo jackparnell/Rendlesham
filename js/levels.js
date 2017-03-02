@@ -901,12 +901,12 @@ var level7 = {
         return additionalCostTiles;
 
     },
-    startingCoins: 250,
+    startingCoins: 200,
     startingLives: 5,
     entryXGrid: 21,
     entryYGrid: 5,
     goalXGrid: 1,
     goalYGrid: 5,
-    waveHealthModifier: .3,
+    waveHealthModifier: .33,
     towerPlacementForbiddenRows: [0, 11]
 };

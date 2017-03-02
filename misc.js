@@ -46,6 +46,7 @@ function loadMainFiles()
     game.load.spritesheet('freezer', 'assets/sprites/towers/Freezer.png', 64, 64, 3);
 
     game.load.spritesheet('bigBush', 'assets/sprites/obstacles/bigBush.png', 35, 35, 1);
+    game.load.spritesheet('bulrush', 'assets/sprites/obstacles/Bulrush.png', 35, 35, 1);
     game.load.spritesheet('smallBush', 'assets/sprites/obstacles/smallBush.png', 35, 35, 1);
     game.load.spritesheet('rock', 'assets/sprites/obstacles/rock.png', 35, 35, 1);
 
