@@ -211,23 +211,6 @@ Tower.prototype.reuse = function(x, y)
 
 };
 
-function Rock(game, x, y) {
-    Tower.call(this, game, x, y, 'rock');
-
-    this.body.setSize(14, 19, 4, 7);
-
-}
-Rock.prototype = Object.create(Tower.prototype);
-Rock.prototype.constructor = Rock;
-Rock.prototype.update = function() {
-    Tower.prototype.update.call(this);
-};
-Rock.defaultScale = 1;
-Rock.defaultDamageValue = 400;
-Rock.defaultFireRate = 1000;
-Rock.cost = 50;
-Rock.maximumGrade = 3;
-
 function Gun(game, x, y) {
     Tower.call(this, game, x, y, 'gun');
 

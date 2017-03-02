@@ -14,8 +14,10 @@ function Obstacle(game, x, y, spriteName) {
     
     game.physics.arcade.enable(this);
 
-    this.x = x;
-    this.y = y;
+    this.x = x + (mainState.squareWidth/2);
+    this.y = y + (mainState.squareWidth/2);
+
+    this.anchor.setTo(0.5, 0.5);
 
     this.checkWorldBounds = true;
     this.collideWorldBounds = false;
@@ -133,7 +135,7 @@ Obstacle.prototype.updateHealthBar = function()
     }
 
     this.healthBar.setPercent(healthPercentage);
-    this.healthBar.setPosition(this.x + 17, this.y - 3);
+    this.healthBar.setPosition(this.x + 2, this.y - 21);
 
     if (healthPercentage < 60) {
         this.healthBar.config.bar.color = '#FFFF00;'
@@ -177,8 +179,8 @@ Obstacle.prototype.updateCrosshair = function()
         return false;
     }
 
-    this.crosshair.x = this.x - 2;
-    this.crosshair.y = this.y;
+    this.crosshair.x = this.x - (mainState.squareWidth/2) - 2 ;
+    this.crosshair.y = this.y - (mainState.squareWidth/2) - 2;
 };
 
 
@@ -263,4 +265,19 @@ SmallBush.defaultScale = 1;
 SmallBush.defaultHealth = 5000;
 SmallBush.coinsValue = 0;
 SmallBush.spriteSheetGid = 64;
-// End BigBush
+// End SmallBush
+
+// Begin Rock
+function Rock(game, x, y) {
+    Obstacle.call(this, game, x, y, 'rock');
+
+    this.body.setSize(7, 7, 15, 15);
+
+}
+Rock.prototype = Object.create(Obstacle.prototype);
+Rock.prototype.constructor = Rock;
+Rock.defaultScale = 1;
+Rock.defaultHealth = 15000;
+Rock.coinsValue = 0;
+Rock.spriteSheetGid = 51;
+// End SmallBush

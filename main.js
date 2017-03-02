@@ -495,6 +495,7 @@ var mainState = {
             }
         }
 
+        this.map.createFromObjects('objects', 51, 'rock', 0, true, false, this.obstacles, Rock, true);
         this.map.createFromObjects('objects', 63, 'bigBush', 0, true, false, this.obstacles, BigBush, true);
         this.map.createFromObjects('objects', 64, 'smallBush', 0, true, false, this.obstacles, SmallBush, true);
 
