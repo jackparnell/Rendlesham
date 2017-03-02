@@ -224,7 +224,7 @@ function TallGreyMushroom(game, x, y) {
 TallGreyMushroom.prototype = Object.create(Obstacle.prototype);
 TallGreyMushroom.prototype.constructor = TallGreyMushroom;
 TallGreyMushroom.defaultScale = 1;
-TallGreyMushroom.defaultHealth = 100000;
+TallGreyMushroom.defaultHealth = 50000;
 TallGreyMushroom.coinsValue = 100;
 TallGreyMushroom.spriteSheetGid = 107;
 TallGreyMushroom.prototype.die = function() {
