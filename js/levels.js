@@ -423,7 +423,7 @@ var level4 = {
             createEvents: function(s) {
 
                 mainState.scheduleAttackersWave('Aquila', waveNumber, s, 10, .5);
-                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 15, .8);
+                mainState.scheduleAttackersWave('Mib', waveNumber, s, 15, .8, 10);
 
             }
         },
@@ -498,20 +498,8 @@ var level4 = {
     entryYGrid: 5,
     goalXGrid: 1,
     goalYGrid: 5,
-    waveHealthModifier: .35,
-    towerPlacementForbiddenRows: [0, 11],
-    obstacles: {
-        TallBrownMushroom: [
-            [2, 4],
-            [8, 2],
-            [8, 4],
-            [8, 6],
-            [15, 3],
-            [17, 4],
-            [19, 3],
-            [17, 9]
-        ]
-    }
+    waveHealthModifier: .4,
+    towerPlacementForbiddenRows: [0, 11]
 };
 
 var level5 = {

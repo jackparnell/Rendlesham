@@ -964,7 +964,7 @@ var mainState = {
         // Oddness of code below is intentional. Towers get destroyed instead of killed,
         // causing array index issues, meaning die() doesn't get called on all elements.
         // Keep calling until all are gone.
-        while (this.towers.length >= 1) {
+        while (this.towers.countLiving() >= 1) {
             this.towers.callAll('die');
         }
 
