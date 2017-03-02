@@ -129,8 +129,6 @@ Rendlesham.eastAnglia.prototype = {
 
     isLevelUnlocked: function(levelNumber)
     {
-        return true;
-        
         if (levelNumber == 1) {
             return true;
         }
