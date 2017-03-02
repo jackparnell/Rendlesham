@@ -49,6 +49,10 @@ Tower.prototype.initialise = function(x, y)
 };
 Tower.prototype.update = function()
 {
+    if (!this.alive) {
+        return false;
+    }
+
     // If pendingLevelCompleted, do nothing
     if (mainState.pendingLevelCompleted) {
         return;
