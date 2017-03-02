@@ -7,12 +7,8 @@ function Obstacle(game, x, y, spriteName) {
     this.creationTurn = mainState.turn;
     this.health = window[this.constructor.name].defaultHealth || 1000;
     this.maximumHealth = this.health;
-    this.coinsValue = window[this.constructor.name].coinsValue || 1;
+    this.coinsValue = window[this.constructor.name].coinsValue || 0;
     this.invulnerable = false;
-
-    var gridCoordinates = mainState.translatePixelCoordinatesToGridCoordinates(x, y);
-    this.gridX = gridCoordinates[0];
-    this.gridY = gridCoordinates[1];
 
     Phaser.Sprite.call(this, game, x, y, spriteName);
     
@@ -44,12 +40,22 @@ Obstacle.prototype.hit = function(attacker, bullet)
     }
     mainState.spawnExplosion(bullet.x, bullet.y);
     bullet.kill();
-}
+};
+Obstacle.prototype.generateGridCoordinates = function()
+{
+    var gridCoordinates = mainState.translatePixelCoordinatesToGridCoordinates(this.x, this.y);
+    this.gridX = gridCoordinates[0];
+    this.gridY = gridCoordinates[1];
+};
 Obstacle.prototype.update = function()
 {
 
     if (!this.alive) {
         return;
+    }
+
+    if (!this.gridX || this.gridY) {
+        this.generateGridCoordinates();
     }
 
     mainState.bullets.forEachAlive(function(bullet) {
@@ -227,5 +233,34 @@ TallGreyMushroom.prototype.die = function() {
     }
 
 };
-
 // End TallGreyMushroom
+
+// Begin BigBush
+function BigBush(game, x, y) {
+    Obstacle.call(this, game, x, y, 'bigBush');
+
+    this.body.setSize(7, 7, 15, 15);
+
+}
+BigBush.prototype = Object.create(Obstacle.prototype);
+BigBush.prototype.constructor = BigBush;
+BigBush.defaultScale = 1;
+BigBush.defaultHealth = 10000;
+BigBush.coinsValue = 0;
+BigBush.spriteSheetGid = 63;
+// End BigBush
+
+// Begin SmallBush
+function SmallBush(game, x, y) {
+    Obstacle.call(this, game, x, y, 'smallBush');
+
+    this.body.setSize(7, 7, 15, 15);
+
+}
+SmallBush.prototype = Object.create(Obstacle.prototype);
+SmallBush.prototype.constructor = SmallBush;
+SmallBush.defaultScale = 1;
+SmallBush.defaultHealth = 5000;
+SmallBush.coinsValue = 0;
+SmallBush.spriteSheetGid = 64;
+// End BigBush

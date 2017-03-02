@@ -495,6 +495,9 @@ var mainState = {
             }
         }
 
+        this.map.createFromObjects('objects', 63, 'bigBush', 0, true, false, this.obstacles, BigBush, true);
+        this.map.createFromObjects('objects', 64, 'smallBush', 0, true, false, this.obstacles, SmallBush, true);
+
         this.map.createFromObjects('objects', 105, 'tallBrownMushroom', 0, true, false, this.obstacles, TallBrownMushroom, true);
         this.map.createFromObjects('objects', 106, 'tallRedMushroom', 0, true, false, this.obstacles, TallRedMushroom, true);
         this.map.createFromObjects('objects', 107, 'tallGreyMushroom', 0, true, false, this.obstacles, TallGreyMushroom, true);
@@ -1255,7 +1258,8 @@ var mainState = {
             this.user = JSON.parse(localStorage.getItem(this.name));
         } else {
             this.user = {
-                levelsComplete: []
+                levelsComplete: [],
+                items: {}
             }
             this.save();
         }
