@@ -11,7 +11,7 @@ function Tower(game, x, y, spriteName) {
     this.checkWorldBounds = true;
     this.outOfBoundsKill = false;
 
-    this.weapon1 = this.game.add.weapon(500, window[this.constructor.name].bulletSpriteName);
+    this.weapon1 = this.game.add.weapon(-1, window[this.constructor.name].bulletSpriteName);
     this.weapon1.bulletKillType = Phaser.Weapon.KILL_DISTANCE;
     this.weapon1.bulletSpeed = 300;
     this.weapon1.bulletKillDistance = window[this.constructor.name].defaultKillDistance;
