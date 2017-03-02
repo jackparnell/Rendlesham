@@ -1350,17 +1350,23 @@ var mainState = {
 
     addItem: function(itemName)
     {
-        if (!this.user.items) {
-            this.user.items = {};
-        }
 
-        if (!this.user.items[itemName]) {
-            this.user.items[itemName] = 1;
-        } else {
-            this.user.items[itemName] ++;
-        }
+        try {
+            if (!this.user.items) {
+                this.user.items = {};
+            }
 
-        this.save();
+            if (!this.user.items[itemName]) {
+                this.user.items[itemName] = 1;
+            } else {
+                this.user.items[itemName] ++;
+            }
+
+            this.save();
+        }
+        catch (err) {
+            console.log(err);
+        }
 
     },
 
