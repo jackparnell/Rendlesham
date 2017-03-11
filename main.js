@@ -181,9 +181,23 @@ var mainState = {
     initiateLabels: function()
     {
 
-        this.titleStyle = { font: "16px Ubuntu", fill: "#DDDDDD", boundsAlignH: "center", boundsAlignV: "middle" };
-        this.labelStyle = { font: "26px Ubuntu", fill: "#FFFFFF", boundsAlignH: "center", boundsAlignV: "middle" };
-        this.indicatorMessageStyle = { font: "16px Ubuntu", fill: "#FFFFFF", boundsAlignH: "right", boundsAlignV: "middle" };
+        switch(window['level' + this.level].theme) {
+            case 'snow':
+                var titleFill = "#666666";
+                var labelFill = "#333333";
+                var indicatorMessageFill = "#333333";
+                break;
+            default:
+                var titleFill = "#DDDDDD";
+                var labelFill = "#FFFFFF";
+                var indicatorMessageFill = "#FFFFFF";
+                break;
+
+        }
+
+        this.titleStyle = { font: "16px Ubuntu", fill: titleFill, boundsAlignH: "center", boundsAlignV: "middle" };
+        this.labelStyle = { font: "26px Ubuntu", fill: labelFill, boundsAlignH: "center", boundsAlignV: "middle" };
+        this.indicatorMessageStyle = { font: "16px Ubuntu", fill: indicatorMessageFill, boundsAlignH: "right", boundsAlignV: "middle" };
 
         this.titlesYCoordinate = game.camera.y + 10;
         this.valuesYCoordinate = game.camera.y + 30;
@@ -457,6 +471,13 @@ var mainState = {
     
     spawnAttackerDelayed: function(className, seconds, waveNumber, x, y)
     {
+
+        // Very slightly delay first attacker, to allow objects which may affect
+        // attacker path to be generated first.
+        if (seconds == 0) {
+            seconds = 0.05;
+        }
+
         timerEvents.push(
             game.time.events.add(
                 Phaser.Timer.SECOND * seconds,
@@ -478,6 +499,7 @@ var mainState = {
 
         var item = new window[className](this.game, x, y);
         this.obstacles.add(item);
+
     },
 
     spawnLevelObstacles: function()
@@ -498,7 +520,9 @@ var mainState = {
         this.map.createFromObjects('objects', 51, 'rock', 0, true, false, this.obstacles, Rock, true);
         this.map.createFromObjects('objects', 63, 'bigBush', 0, true, false, this.obstacles, BigBush, true);
         this.map.createFromObjects('objects', 64, 'smallBush', 0, true, false, this.obstacles, SmallBush, true);
+        this.map.createFromObjects('objects', 76, 'snowman', 0, true, false, this.obstacles, Snowman, true);
         this.map.createFromObjects('objects', 78, 'bulrush', 0, true, false, this.obstacles, Bulrush, true);
+        this.map.createFromObjects('objects', 94, 'snowyPine', 0, true, false, this.obstacles, SnowyPine, true);
 
         this.map.createFromObjects('objects', 105, 'tallBrownMushroom', 0, true, false, this.obstacles, TallBrownMushroom, true);
         this.map.createFromObjects('objects', 106, 'tallRedMushroom', 0, true, false, this.obstacles, TallRedMushroom, true);
@@ -757,8 +781,8 @@ var mainState = {
             return false;
         }
 
-        if (this.isPositionOnPathway(x, y)) {
-            return false;
+        if (this.isPositionOnPathway(x, y) && !window['level' + this.level].canPlaceTowerOnPathway) {
+             return false;
         }
 
         if (window['level' + this.level].towerPlacementForbiddenRows) {
@@ -1377,6 +1401,35 @@ var mainState = {
         }
 
         return false;
+    },
+
+    addGlobalAdditionalCostTile: function(x, y, coordinateType, cost)
+    {
+
+        if (!this.globalAdditionalCostTiles) {
+            this.globalAdditionalCostTiles = [];
+        }
+
+        if (!cost) {
+            cost = 9999;
+        }
+
+        if (coordinateType && coordinateType == 'pixels') {
+            var gridCoordinates = this.translatePixelCoordinatesToGridCoordinates(x, y);
+            x = gridCoordinates[0];
+            y = gridCoordinates[1];
+        }
+
+        this.globalAdditionalCostTiles.push([
+            x,
+            y,
+            cost
+        ]);
+
+        this.attackers.forEachAlive(function(attacker){
+            attacker.pathNeedsRegenerating = true;
+        });
+
     }
 
 };

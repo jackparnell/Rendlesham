@@ -45,6 +45,8 @@ Tower.prototype.initialise = function(x, y)
 
     this.bulletDamageValue = window[this.constructor.name].defaultDamageValue;
 
+    mainState.addGlobalAdditionalCostTile(this.gridX, this.gridY, 'grid');
+
 
 };
 Tower.prototype.update = function()

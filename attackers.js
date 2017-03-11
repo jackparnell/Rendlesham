@@ -68,7 +68,7 @@ Attacker.prototype.hit = function(attacker, bullet)
 
     mainState.spawnExplosion(bullet.x, bullet.y);
     bullet.kill();
-}
+};
 Attacker.prototype.update = function()
 {
 
@@ -78,6 +78,12 @@ Attacker.prototype.update = function()
 
     if (this.hasReachedGoal()) {
         this.reachedGoal();
+    }
+    
+    if (this.haveGridCoordinatesChanged()) {
+        if (this.pathNeedsRegenerating) {
+            this.moveToGoal();
+        }
     }
 
     this.followPath();
@@ -114,6 +120,8 @@ Attacker.prototype.moveToGoal = function()
 
     var target_position = new Phaser.Point(pixelCoordinates[0], pixelCoordinates[1]);
     this.move_to(target_position);
+
+    this.pathNeedsRegenerating = false;
 
 };
 Attacker.prototype.hasReachedGoal = function()
@@ -392,7 +400,29 @@ Attacker.prototype.reuse = function()
     this.initialise(mainState.waveNumber);
 
 };
+/**
+ * Determines whether grid coordinates have changed since last turn.
+ *
+ * @returns {boolean}
+ */
+Attacker.prototype.haveGridCoordinatesChanged = function()
+{
+    var gridCoordinatesChanges = false;
 
+    var gridCoordinates = mainState.translatePixelCoordinatesToGridCoordinates(this.x, this.y);
+
+    if (gridCoordinates[0] != this.gridX) {
+        this.gridX = gridCoordinates[0];
+        gridCoordinatesChanges = true;
+    }
+
+    if (gridCoordinates[1] != this.gridY) {
+        this.gridY = gridCoordinates[1];
+        gridCoordinatesChanges = true;
+    }
+
+    return gridCoordinatesChanges;
+};
 
 // Begin Oscar
 function Oscar(game, x, y) {

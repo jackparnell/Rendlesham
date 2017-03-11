@@ -30,10 +30,25 @@ function Obstacle(game, x, y, spriteName) {
 
     this.targeted = false;
 
+    this.initialise();
+
 
 }
 Obstacle.prototype = Object.create(Phaser.Sprite.prototype);
 Obstacle.prototype.constructor = Obstacle;
+
+Obstacle.prototype.initialise = function()
+{
+
+};
+
+Obstacle.prototype.firstUpdate = function()
+{
+    this.generateGridCoordinates();
+    mainState.addGlobalAdditionalCostTile(this.gridX, this.gridY, 'grid');
+
+    this.firstUpdateRun = true;
+};
 
 Obstacle.prototype.hit = function(attacker, bullet)
 {
@@ -48,6 +63,9 @@ Obstacle.prototype.generateGridCoordinates = function()
     var gridCoordinates = mainState.translatePixelCoordinatesToGridCoordinates(this.x, this.y);
     this.gridX = gridCoordinates[0];
     this.gridY = gridCoordinates[1];
+
+    console.log(this.x + ' ' + this.y + ', ' + this.gridX + ' ' + this.gridY);
+
 };
 Obstacle.prototype.update = function()
 {
@@ -56,7 +74,11 @@ Obstacle.prototype.update = function()
         return;
     }
 
-    if (!this.gridX || this.gridY) {
+    if (!this.firstUpdateRun) {
+        this.firstUpdate();
+    }
+
+    if (!this.gridX || !this.gridY) {
         this.generateGridCoordinates();
     }
 
@@ -267,6 +289,21 @@ SmallBush.coinsValue = 0;
 SmallBush.spriteSheetGid = 64;
 // End SmallBush
 
+// Begin SnowyPine
+function SnowyPine(game, x, y) {
+    Obstacle.call(this, game, x, y, 'smallBush');
+
+    this.body.setSize(7, 7, 15, 15);
+
+}
+SnowyPine.prototype = Object.create(Obstacle.prototype);
+SnowyPine.prototype.constructor = SnowyPine;
+SnowyPine.defaultScale = 1;
+SnowyPine.defaultHealth = 5000;
+SnowyPine.coinsValue = 0;
+SnowyPine.spriteSheetGid = 94;
+// End SnowyPine
+
 // Begin Rock
 function Rock(game, x, y) {
     Obstacle.call(this, game, x, y, 'rock');
@@ -304,3 +341,26 @@ Bulrush.prototype.die = function() {
 
 };
 // End Bulrush
+
+// Begin Snowman
+function Snowman(game, x, y) {
+    Obstacle.call(this, game, x, y, 'snowman');
+
+    this.body.setSize(5, 5, 17, 17);
+
+}
+Snowman.prototype = Object.create(Obstacle.prototype);
+Snowman.prototype.constructor = Snowman;
+Snowman.defaultScale = 1;
+Snowman.defaultHealth = 100000;
+Snowman.coinsValue = 100;
+Snowman.spriteSheetGid = 76;
+Snowman.prototype.die = function() {
+    Obstacle.prototype.die.call(this);
+
+    if (!mainState.hasItem('carrot')) {
+        mainState.addItem('carrot');
+    }
+
+};
+// End Snowman

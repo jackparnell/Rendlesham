@@ -1,5 +1,5 @@
 var waveNumber;
-var lastLevel = 7;
+var lastLevel = 8;
 
 var level1 = {
     waveInfo: {
@@ -909,4 +909,133 @@ var level7 = {
     goalYGrid: 5,
     waveHealthModifier: .33,
     towerPlacementForbiddenRows: [0, 11]
+};
+
+var level8 = {
+    waveInfo: {
+        wave1: {
+            duration: 25,
+            createEvents: function(s) {
+
+                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 20, 1.75);
+
+            }
+        },
+        wave2: {
+            duration: 23,
+            createEvents: function(s) {
+
+                mainState.scheduleAttackersWave('Oscar', waveNumber, s, 10, 1);
+                mainState.scheduleAttackersWave('Mib', waveNumber, s, 5, 1, 10);
+                mainState.scheduleAttackersWave('Oscar', waveNumber, s, 5, 1, 15);
+
+            }
+        },
+        wave3: {
+            duration: 18,
+            createEvents: function(s) {
+
+                mainState.scheduleAttackersWave('Mib', waveNumber, s, 15, 2);
+                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 15, 2, 1);
+
+            }
+        },
+        wave4: {
+            duration: 23,
+            createEvents: function(s) {
+
+                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 10, .5);
+                mainState.scheduleAttackersWave('Mib', waveNumber, s, 10, 1, 10);
+
+            }
+        },
+        wave5: {
+            duration: 28,
+            createEvents: function(s) {
+
+                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 10, .5);
+                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 15, .8, 10);
+
+            }
+        },
+        wave6: {
+            duration: 32,
+            createEvents: function(s) {
+
+                mainState.scheduleAttackersWave('Mib', waveNumber, s, 30, .75);
+
+            }
+        }
+
+    },
+    begin: function() {
+
+        var s = 0;
+        waveNumber = 0;
+        var totalWaves = Object.keys(this.waveInfo).length;
+
+        for (var wave in this.waveInfo) {
+            if (this.waveInfo.hasOwnProperty(wave)) {
+
+                waveNumber ++;
+
+                timerEvents.push(
+                    game.time.events.add(
+                        Phaser.Timer.SECOND * s,
+                        mainState.startWave,
+                        mainState,
+                        waveNumber
+                    ).autoDestroy = true
+                );
+
+                this.waveInfo[wave].createEvents(s);
+
+                s += this.waveInfo[wave].duration;
+
+            }
+        }
+
+        timerEvents.push(game.time.events.add(Phaser.Timer.SECOND * s, mainState.lastWaveDispatched, mainState));
+
+        mainState.nathan = mainState.spawnCharacter('Nathan', this.goalXGrid, this.goalYGrid, 'grid');
+
+    },
+    completed: function() {
+
+        if (!mainState.allAttackersDispatched) {
+            return false;
+        }
+        if (mainState.attackers.countLiving() >= 1) {
+            return false;
+        }
+        return true;
+    },
+    calculateCompletionStars: function() {
+        var stars = 1;
+        if (mainState.lives == this.startingLives) {
+            stars ++;
+        }
+        if (mainState.obstacles.countLiving() <= 3) {
+            stars ++;
+        }
+        return stars;
+    },
+    update: function() {
+
+    },
+    pathAdditionalCostTiles: function(attacker) {
+
+        return mainState.globalAdditionalCostTiles;
+
+    },
+    startingCoins: 400,
+    startingLives: 5,
+    entryXGrid: 21,
+    entryYGrid: 5,
+    goalXGrid: 1,
+    goalYGrid: 5,
+    waveHealthModifier: .25,
+    towerPlacementForbiddenRows: [0, 11],
+    canPlaceTowerOnPathway: true,
+    theme: 'snow'
 };
