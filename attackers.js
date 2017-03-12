@@ -216,7 +216,6 @@ Attacker.prototype.reached_target_position = function (target_position) {
 };
 
 Attacker.prototype.move_to = function (target_position) {
-    "use strict";
     mainState.pathfinding.find_path(this.position, target_position, this.move_through_path, this, this.getAdditionalCostTiles());
 };
 

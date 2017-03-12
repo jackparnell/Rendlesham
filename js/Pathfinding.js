@@ -23,7 +23,8 @@ Rendlesham.Pathfinding.prototype.init = function (world_grid, acceptable_tiles, 
     }
 
     this.easy_star.setGrid(grid_indices);
-    this.easy_star.setAcceptableTiles(acceptable_tiles);    
+    this.easy_star.setAcceptableTiles(acceptable_tiles);
+    // this.easy_star.enableDiagonals();
 
     this.tile_dimensions = tile_dimensions;
 };

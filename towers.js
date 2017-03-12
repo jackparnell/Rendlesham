@@ -45,7 +45,10 @@ Tower.prototype.initialise = function(x, y)
 
     this.bulletDamageValue = window[this.constructor.name].defaultDamageValue;
 
-    mainState.addGlobalAdditionalCostTile(this.gridX, this.gridY, 'grid');
+    mainState.addGlobalImpassablePoint(this.gridX, this.gridY, 'grid');
+
+    this.body.immovable = true;
+    this.body.moves = false;
 
 
 };
@@ -91,6 +94,8 @@ Tower.prototype.die = function()
     }
 
     // this.weapon1.destroy();
+
+    mainState.pathfinding.easy_star.stopAvoidingAdditionalPoint(this.gridX, this.gridY);
 
     this.kill();
 };

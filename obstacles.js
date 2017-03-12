@@ -63,9 +63,7 @@ Obstacle.prototype.generateGridCoordinates = function()
     var gridCoordinates = mainState.translatePixelCoordinatesToGridCoordinates(this.x, this.y);
     this.gridX = gridCoordinates[0];
     this.gridY = gridCoordinates[1];
-
-    console.log(this.x + ' ' + this.y + ', ' + this.gridX + ' ' + this.gridY);
-
+    
 };
 Obstacle.prototype.update = function()
 {

@@ -115,6 +115,8 @@ var mainState = {
         try {
             this.turn += 1;
 
+            // this.performanceModifier = game.time.elapsed / 16.66;
+
             if (this.lives < 1) {
                 this.noLivesLeft();
             }
@@ -1010,6 +1012,8 @@ var mainState = {
 
         this.clearTimedEvents();
 
+        this.globalAdditionalCostTiles = [];
+        this.pathfinding.easy_star.removeAllAdditionalPointCosts();
     },
 
     clearTimedEvents: function()
@@ -1242,6 +1246,7 @@ var mainState = {
         // create map layers
         this.layers = {};
         this.map.layers.forEach(function (layer) {
+
             this.layers[layer.name] = this.map.createLayer(layer.name);
 
             this.backgrounds.add(this.layers[layer.name]);
@@ -1261,12 +1266,16 @@ var mainState = {
         }, this);
 
 
-
         // resize the world to be the size of the current layer
         this.layers[this.map.layer.name].resizeWorld();
 
         this.backgroundLayer = this.map.createLayer('background');
         this.backgrounds.add(this.backgroundLayer);
+
+        if (this.layers.hasOwnProperty('walkable')) {
+            this.walkableLayer = this.map.createLayer('walkable');
+            this.backgrounds.add(this.walkableLayer);
+        }
 
         this.collisionLayer = this.map.createLayer('collision');
         this.backgrounds.add(this.collisionLayer);
@@ -1275,6 +1284,8 @@ var mainState = {
 
         var tile_dimensions = new Phaser.Point(this.map.tileWidth, this.map.tileHeight);
         this.pathfinding = this.game.plugins.add(Rendlesham.Pathfinding, this.map.layers[1].data, [-1], tile_dimensions);
+
+        // this.pathfinding.easy_star.setIterationsPerCalculation(5);
     },
 
     loadUser: function()
@@ -1430,6 +1441,17 @@ var mainState = {
             attacker.pathNeedsRegenerating = true;
         });
 
+    },
+
+    addGlobalImpassablePoint: function(x, y, coordinateType)
+    {
+        if (coordinateType && coordinateType == 'pixels') {
+            var gridCoordinates = this.translatePixelCoordinatesToGridCoordinates(x, y);
+            x = gridCoordinates[0];
+            y = gridCoordinates[1];
+        }
+
+        this.pathfinding.easy_star.avoidAdditionalPoint(x, y);
     }
 
 };
