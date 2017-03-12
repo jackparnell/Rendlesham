@@ -16,6 +16,17 @@ Rendlesham.eastAnglia.prototype = {
 
     },
 
+    init: function ()
+    {
+        this.game.kineticScrolling = this.game.plugins.add(Phaser.Plugin.KineticScrolling);
+
+        this.game.kineticScrolling.configure({
+            kineticMovement: false,
+            verticalScroll: true,
+            verticalWheel: true
+        });
+    },
+
     create: function()
     {
 
@@ -30,8 +41,10 @@ Rendlesham.eastAnglia.prototype = {
 
         game.canvas.oncontextmenu = function (e) { e.preventDefault(); }
 
-        this.eastAngliaMap = this.game.add.tileSprite(0, 0, game.width, game.height, 'eastAnglia');
+        this.eastAngliaMap = this.game.add.tileSprite(0, 0, 1400, 700, 'eastAnglia');
         this.backgrounds.add(this.eastAngliaMap);
+
+        this.game.world.setBounds(0, 0, this.eastAngliaMap.width, this.eastAngliaMap.height);
 
         this.loadUser();
 
@@ -84,6 +97,11 @@ Rendlesham.eastAnglia.prototype = {
             this.addLevelStars(i);
 
         }
+
+
+
+        this.game.kineticScrolling.start();
+
 
     },
 
