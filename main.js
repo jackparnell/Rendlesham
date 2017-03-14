@@ -796,6 +796,12 @@ var mainState = {
             }
         }
 
+        /*
+        if (this.wouldObstaclePlacementBlockPath(x, y, 'pixels')) {
+            return false;
+        }
+        */
+
         return true;
 
     },
@@ -1407,7 +1413,7 @@ var mainState = {
 
     hasItem: function(itemName)
     {
-        if (this.user.items.hasOwnProperty('itemName')  && this.user.items.hasOwnProperty('itemName') >= 1) {
+        if (this.user.hasOwnProperty('items') && this.user.items.hasOwnProperty('itemName')  && this.user.items.hasOwnProperty('itemName') >= 1) {
             return true;
         }
 
@@ -1452,6 +1458,58 @@ var mainState = {
         }
 
         this.pathfinding.easy_star.avoidAdditionalPoint(x, y);
+    },
+
+    removeGlobalImpassablePoint: function(x, y) {
+
+        this.pathfinding.easy_star.stopAvoidingAdditionalPoint(x, y);
+
+    },
+
+    wouldObstaclePlacementBlockPath: function(x, y, coordinateType)
+    {
+
+
+        if (coordinateType && coordinateType == 'pixels') {
+            var gridCoordinates = this.translatePixelCoordinatesToGridCoordinates(x, y);
+            x = gridCoordinates[0];
+            y = gridCoordinates[1];
+        }
+
+        this.addGlobalImpassablePoint(x, y, 'grid');
+
+        var goalX = this.getGoalXGrid();
+        var goalY = this.getGoalYGrid();
+
+        // this.pathfinding.easy_star.enableSync();
+
+        this.pathfinding.easy_star.findPath(x, y, goalX, goalY, this.wouldObstaclePlacementBlockPathCallbackHandler);
+
+        // this.pathfinding.easy_star.disableSync();
+
+        this.removeGlobalImpassablePoint(x, y);
+
+        if (this.wouldObstaclePlacementBlockPathResult === null) {
+            return true;
+        } else {
+            return false;
+        }
+
+    },
+
+    wouldObstaclePlacementBlockPathCallbackHandler: function(path)
+    {
+        this.wouldObstaclePlacementBlockPathResult = path;
+    },
+
+    getGoalXGrid: function()
+    {
+        return window['level' + this.level].goalXGrid;
+    },
+
+    getGoalYGrid: function()
+    {
+        return window['level' + this.level].goalYGrid;
     }
 
 };

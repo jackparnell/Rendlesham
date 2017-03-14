@@ -95,7 +95,7 @@ Tower.prototype.die = function()
 
     // this.weapon1.destroy();
 
-    mainState.pathfinding.easy_star.stopAvoidingAdditionalPoint(this.gridX, this.gridY);
+    mainState.removeGlobalImpassablePoint(this.gridX, this.gridY);
 
     this.kill();
 };

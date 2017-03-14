@@ -181,7 +181,13 @@ Attacker.prototype.followPath = function()
 {
     mainState.game.physics.arcade.collide(this, mainState.layers.collision);
 
-    if (this.path.length > 0) {
+    if (this.path.length == 0) {
+
+        this.body.velocity.x = -this.speed;
+        this.body.velocity.y = 0;
+
+    } else {
+
         this.next_position = this.path[this.path_step];
 
         if (!this.reached_target_position(this.next_position)) {
