@@ -25,9 +25,20 @@ Rendlesham.gameOver.prototype = {
             boundsAlignH: "center",
             boundsAlignV: "middle"
         };
-        text = game.add.text(0, 0, 'Game Over :-(', style);
+        text = game.add.text(0, 0, 'Captured', style);
         text.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
         text.setTextBounds(0, 105, game.width, 100);
+
+        var detailsStyle = {
+            font: "24px Ubuntu",
+            fill: "#FFFFFF",
+            boundsAlignH: "center",
+            boundsAlignV: "middle"
+        };
+
+        var details = game.add.text(0, 0, 'You were captured by the humans.', detailsStyle);
+        details.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
+        details.setTextBounds(0, 105, game.width, game.height * .6);
 
         var goToTitleScreen = game.add.button((game.width/2) - 95, game.height * .75, 'goToTitleScreen', this.goToTitleScreen, this);
 
