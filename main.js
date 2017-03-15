@@ -282,6 +282,9 @@ var mainState = {
 
     notification: function(statisticName, changeText, spawnX, spawnY)
     {
+        if (this.clearingMap) {
+            return;
+        }
 
         if (changeText === 0) {
             return;
