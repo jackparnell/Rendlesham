@@ -49,7 +49,7 @@ Obstacle.prototype.initialise = function()
 Obstacle.prototype.firstUpdate = function()
 {
     this.generateGridCoordinates();
-    mainState.addGlobalAdditionalCostTile(this.gridX, this.gridY, 'grid');
+    mainState.addGlobalImpassablePoint(this.gridX, this.gridY, 'grid');
 
     this.firstUpdateRun = true;
 };
@@ -122,6 +122,9 @@ Obstacle.prototype.die = function()
     if (this.crosshair) {
         this.crosshair.kill();
     }
+
+    mainState.removeGlobalImpassablePoint(this.gridX, this.gridY, 'grid');
+
 
     this.kill();
 }

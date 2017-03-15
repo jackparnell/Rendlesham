@@ -1307,10 +1307,12 @@ var mainState = {
     initiateEasyStar: function()
     {
 
+        var collisionLayer = this.getCollisionLayer();
+
         // Begin async pathfinding plugin instance
 
         var tile_dimensions = new Phaser.Point(this.map.tileWidth, this.map.tileHeight);
-        this.pathfinding = this.game.plugins.add(Rendlesham.Pathfinding, this.map.layers[1].data, [-1], tile_dimensions);
+        this.pathfinding = this.game.plugins.add(Rendlesham.Pathfinding, collisionLayer.data, [-1], tile_dimensions);
         this.pathfinding.easy_star.setIterationsPerCalculation(1000);
 
         // End async pathfinding plugin instance
@@ -1319,7 +1321,7 @@ var mainState = {
         // Begin sync instance
         this.easyStarSync = new EasyStar.js();
 
-        var world_grid = this.map.layers[1].data;
+        var world_grid = collisionLayer.data;
         var acceptable_tiles = [-1];
         var tile_dimensions = new Phaser.Point(this.map.tileWidth, this.map.tileHeight);
 
@@ -1337,6 +1339,23 @@ var mainState = {
         this.easyStarSync.setAcceptableTiles(acceptable_tiles);
         this.easyStarSync.enableSync();
         // End sync instance
+
+    },
+
+    getCollisionLayer: function()
+    {
+
+        var collisionLayer;
+
+        for (var i in this.map.layers) {
+            if (this.map.layers.hasOwnProperty(i)) {
+                if (this.map.layers[i].name == 'collision') {
+                    collisionLayer = this.map.layers[i];
+                }
+            }
+        }
+
+        return collisionLayer;
 
     },
 
