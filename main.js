@@ -1,6 +1,7 @@
 var map;
 var layer;
 var timerEvents = [];
+var wouldObstaclePlacementBlockPathResult;
 
 var mainState = {
     preload: function() {
@@ -796,11 +797,11 @@ var mainState = {
             }
         }
 
-        /*
+
         if (this.wouldObstaclePlacementBlockPath(x, y, 'pixels')) {
             return false;
         }
-        */
+
 
         return true;
 
@@ -990,6 +991,7 @@ var mainState = {
 
     clearMap: function()
     {
+        this.clearingMap = true;
 
         this.attackers.callAll('die');
         this.obstacles.callAll('die');
@@ -1020,6 +1022,12 @@ var mainState = {
 
         this.globalAdditionalCostTiles = [];
         this.pathfinding.easy_star.removeAllAdditionalPointCosts();
+        this.pathfinding.easy_star.stopAvoidingAllAdditionalPoints();
+        this.easyStarSync.removeAllAdditionalPointCosts();
+        this.easyStarSync.stopAvoidingAllAdditionalPoints();
+
+        this.clearingMap = false;
+
     },
 
     clearTimedEvents: function()
@@ -1288,10 +1296,43 @@ var mainState = {
 
         game.physics.arcade.enable(this.collisionLayer);
 
+        this.initiateEasyStar();
+    },
+
+    initiateEasyStar: function()
+    {
+
+        // Begin async pathfinding plugin instance
+
         var tile_dimensions = new Phaser.Point(this.map.tileWidth, this.map.tileHeight);
         this.pathfinding = this.game.plugins.add(Rendlesham.Pathfinding, this.map.layers[1].data, [-1], tile_dimensions);
+        this.pathfinding.easy_star.setIterationsPerCalculation(1000);
 
-        // this.pathfinding.easy_star.setIterationsPerCalculation(5);
+        // End async pathfinding plugin instance
+
+
+        // Begin sync instance
+        this.easyStarSync = new EasyStar.js();
+
+        var world_grid = this.map.layers[1].data;
+        var acceptable_tiles = [-1];
+        var tile_dimensions = new Phaser.Point(this.map.tileWidth, this.map.tileHeight);
+
+        this.grid_dimensions = {row: world_grid.length, column: world_grid[0].length};
+
+        grid_indices = [];
+        for (grid_row = 0; grid_row < world_grid.length; grid_row += 1) {
+            grid_indices[grid_row] = [];
+            for (grid_column = 0; grid_column < world_grid[grid_row].length; grid_column += 1) {
+                grid_indices[grid_row][grid_column] = world_grid[grid_row][grid_column].index;
+            }
+        }
+
+        this.easyStarSync.setGrid(grid_indices);
+        this.easyStarSync.setAcceptableTiles(acceptable_tiles);
+        this.easyStarSync.enableSync();
+        // End sync instance
+
     },
 
     loadUser: function()
@@ -1443,10 +1484,14 @@ var mainState = {
             cost
         ]);
 
+        this.setAllAttackerPathNeedsRegenerating();
+    },
+
+    setAllAttackerPathNeedsRegenerating: function()
+    {
         this.attackers.forEachAlive(function(attacker){
             attacker.pathNeedsRegenerating = true;
         });
-
     },
 
     addGlobalImpassablePoint: function(x, y, coordinateType)
@@ -1458,11 +1503,20 @@ var mainState = {
         }
 
         this.pathfinding.easy_star.avoidAdditionalPoint(x, y);
+        this.easyStarSync.avoidAdditionalPoint(x, y);
+
+        this.setAllAttackerPathNeedsRegenerating();
+
     },
 
-    removeGlobalImpassablePoint: function(x, y) {
+    removeGlobalImpassablePoint: function(x, y)
+    {
 
         this.pathfinding.easy_star.stopAvoidingAdditionalPoint(x, y);
+        this.easyStarSync.stopAvoidingAdditionalPoint(x, y);
+
+        this.setAllAttackerPathNeedsRegenerating();
+
 
     },
 
@@ -1478,18 +1532,19 @@ var mainState = {
 
         this.addGlobalImpassablePoint(x, y, 'grid');
 
-        var goalX = this.getGoalXGrid();
-        var goalY = this.getGoalYGrid();
+        this.easyStarSync.findPath(
+            this.getEntryXGrid(),
+            this.getEntryYGrid(),
+            this.getGoalXGrid(),
+            this.getGoalYGrid(),
+            this.wouldObstaclePlacementBlockPathCallbackHandler
+        );
 
-        // this.pathfinding.easy_star.enableSync();
-
-        this.pathfinding.easy_star.findPath(x, y, goalX, goalY, this.wouldObstaclePlacementBlockPathCallbackHandler);
-
-        // this.pathfinding.easy_star.disableSync();
+        this.easyStarSync.calculate();
 
         this.removeGlobalImpassablePoint(x, y);
 
-        if (this.wouldObstaclePlacementBlockPathResult === null) {
+        if (wouldObstaclePlacementBlockPathResult === null) {
             return true;
         } else {
             return false;
@@ -1499,7 +1554,17 @@ var mainState = {
 
     wouldObstaclePlacementBlockPathCallbackHandler: function(path)
     {
-        this.wouldObstaclePlacementBlockPathResult = path;
+        wouldObstaclePlacementBlockPathResult = path;
+    },
+
+    getEntryXGrid: function()
+    {
+        return window['level' + this.level].entryXGrid;
+    },
+
+    getEntryYGrid: function()
+    {
+        return window['level' + this.level].entryYGrid;
     },
 
     getGoalXGrid: function()
