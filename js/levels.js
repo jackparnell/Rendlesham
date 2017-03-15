@@ -90,7 +90,7 @@ var level1 = {
         if (mainState.lives == this.startingLives) {
             stars ++;
         }
-        if (mainState.obstacles.countLiving() <= 3) {
+        if (mainState.countObstaclesWithCoinsValue() <= mainState.startingObstaclesWithCoinsValue * .4) {
             stars ++;
         }
         return stars;
@@ -213,7 +213,7 @@ var level2 = {
         if (mainState.lives == this.startingLives) {
             stars ++;
         }
-        if (mainState.obstacles.countLiving() <= 3) {
+        if (mainState.countObstaclesWithCoinsValue() <= mainState.startingObstaclesWithCoinsValue * .4) {
             stars ++;
         }
         return stars;
@@ -336,7 +336,7 @@ var level3 = {
         if (mainState.lives == this.startingLives) {
             stars ++;
         }
-        if (mainState.obstacles.countLiving() <= 3) {
+        if (mainState.countObstaclesWithCoinsValue() <= mainState.startingObstaclesWithCoinsValue * .4) {
             stars ++;
         }
         return stars;
@@ -466,7 +466,7 @@ var level4 = {
         if (mainState.lives == this.startingLives) {
             stars ++;
         }
-        if (mainState.obstacles.countLiving() <= 3) {
+        if (mainState.countObstaclesWithCoinsValue() <= mainState.startingObstaclesWithCoinsValue * .4) {
             stars ++;
         }
         return stars;
@@ -588,7 +588,7 @@ var level5 = {
         if (mainState.lives == this.startingLives) {
             stars ++;
         }
-        if (mainState.obstacles.countLiving() <= 3) {
+        if (mainState.countObstaclesWithCoinsValue() <= mainState.startingObstaclesWithCoinsValue * .4) {
             stars ++;
         }
         return stars;
@@ -723,7 +723,7 @@ var level6 = {
         if (mainState.lives == this.startingLives) {
             stars ++;
         }
-        if (mainState.obstacles.countLiving() <= 3) {
+        if (mainState.countObstaclesWithCoinsValue() <= mainState.startingObstaclesWithCoinsValue * .4) {
             stars ++;
         }
         return stars;
@@ -860,7 +860,7 @@ var level7 = {
         if (mainState.lives == this.startingLives) {
             stars ++;
         }
-        if (mainState.obstacles.countLiving() <= 3) {
+        if (mainState.countObstaclesWithCoinsValue() <= mainState.startingObstaclesWithCoinsValue * .4) {
             stars ++;
         }
         return stars;
@@ -997,7 +997,7 @@ var level8 = {
         if (mainState.lives == this.startingLives) {
             stars ++;
         }
-        if (mainState.obstacles.countLiving() <= 3) {
+        if (mainState.countObstaclesWithCoinsValue() <= mainState.startingObstaclesWithCoinsValue * .4) {
             stars ++;
         }
         return stars;

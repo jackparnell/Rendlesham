@@ -973,6 +973,8 @@ var mainState = {
         // Set lives to the startingLives value from the level
         this.lives = window['level' + this.level].startingLives;
 
+        this.startingObstaclesWithCoinsValue = this.countObstaclesWithCoinsValue();
+
     },
 
     startWave: function(waveNumber)
@@ -1586,6 +1588,20 @@ var mainState = {
             Math.round(x / this.squareWidth) * this.squareWidth,
             Math.round(y / this.squareWidth) * this.squareWidth
         ];
+    },
+
+    countObstaclesWithCoinsValue: function()
+    {
+        i = 0;
+
+        this.obstacles.forEachAlive(function(obstacle){
+            if (obstacle.coinsValue >= 1) {
+                i++;
+            }
+        });
+
+        return i;
+
     }
 
 };
