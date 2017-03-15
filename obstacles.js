@@ -14,6 +14,10 @@ function Obstacle(game, x, y, spriteName) {
     
     game.physics.arcade.enable(this);
 
+    this.roundedCoordinates = mainState.pixelsNearestTileTopLeftCoordinates(x, y);
+    x = this.roundedCoordinates[0];
+    y = this.roundedCoordinates[1];
+
     this.x = x + (mainState.squareWidth/2);
     this.y = y + (mainState.squareWidth/2);
 

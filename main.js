@@ -1578,6 +1578,14 @@ var mainState = {
     getGoalYGrid: function()
     {
         return window['level' + this.level].goalYGrid;
+    },
+
+    pixelsNearestTileTopLeftCoordinates: function(x, y)
+    {
+        return [
+            Math.round(x / this.squareWidth) * this.squareWidth,
+            Math.round(y / this.squareWidth) * this.squareWidth
+        ];
     }
 
 };
