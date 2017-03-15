@@ -83,9 +83,9 @@ var mainState = {
         */
         
         this.towers = game.add.group();
-        this.attackers = game.add.group();
-        this.characters = game.add.group();
         this.obstacles = game.add.group();
+        this.characters = game.add.group();
+        this.attackers = game.add.group();
         this.weapons = game.add.group();
         this.explosions = game.add.group();
         this.crosshairs = game.add.group();
@@ -612,6 +612,15 @@ var mainState = {
     render: function()
     {
         // game.debug.body(this.test);
+
+        this.bullets.forEachAlive(function(item){
+            game.debug.body(item);
+        });
+
+        this.obstacles.forEachAlive(function(item){
+            game.debug.body(item);
+        });
+
     },
 
     levelCompleted: function()

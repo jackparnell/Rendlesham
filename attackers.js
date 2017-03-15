@@ -179,7 +179,7 @@ Attacker.prototype.reachedGoal = function()
 };
 Attacker.prototype.followPath = function()
 {
-    mainState.game.physics.arcade.collide(this, mainState.layers.collision);
+    // mainState.game.physics.arcade.collide(this, mainState.layers.collision);
 
     if (this.path.length == 0) {
 
@@ -432,7 +432,7 @@ Attacker.prototype.haveGridCoordinatesChanged = function()
 // Begin Oscar
 function Oscar(game, x, y) {
     Attacker.call(this, game, x, y, 'oscar');
-    this.body.setSize(12, 12, 8, 8);
+    this.body.setSize(20, 30, 6, 1);
 }
 Oscar.prototype = Object.create(Attacker.prototype);
 Oscar.prototype.constructor = Oscar;
@@ -445,7 +445,7 @@ Oscar.coinsValue = 5;
 // Begin Aquila
 function Aquila(game, x, y) {
     Attacker.call(this, game, x, y, 'aquila');
-    this.body.setSize(12, 12, 8, 8);
+    this.body.setSize(20, 30, 6, 1);
 }
 Aquila.prototype = Object.create(Attacker.prototype);
 Aquila.prototype.constructor = Aquila;
@@ -458,7 +458,7 @@ Aquila.coinsValue = 10;
 // Begin Mib
 function Mib(game, x, y) {
     Attacker.call(this, game, x, y, 'mib');
-    this.body.setSize(12, 12, 8, 8);
+    this.body.setSize(20, 30, 6, 1);
 }
 Mib.prototype = Object.create(Attacker.prototype);
 Mib.prototype.constructor = Mib;

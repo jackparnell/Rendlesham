@@ -209,13 +209,19 @@ Obstacle.prototype.updateCrosshair = function()
     this.crosshair.x = this.x - (mainState.squareWidth/2) - 2 ;
     this.crosshair.y = this.y - (mainState.squareWidth/2) - 2;
 };
+Obstacle.prototype.createCentralCircle = function(circleDiameter)
+{
+    var offset = Math.round(mainState.squareWidth / 2) - circleDiameter;
+
+    this.body.setCircle(circleDiameter, offset, offset);
+
+}
 
 
 // Begin TallBrownMushroom
 function TallBrownMushroom(game, x, y) {
     Obstacle.call(this, game, x, y, 'tallBrownMushroom');
-
-    this.body.setSize(5, 5, 17, 17);
+    this.createCentralCircle(16);
 
 }
 TallBrownMushroom.prototype = Object.create(Obstacle.prototype);
@@ -229,9 +235,7 @@ TallBrownMushroom.spriteSheetGid = 105;
 // Begin TallRedMushroom
 function TallRedMushroom(game, x, y) {
     Obstacle.call(this, game, x, y, 'tallRedMushroom');
-
-    this.body.setSize(5, 5, 17, 17);
-
+    this.createCentralCircle(16);
 }
 TallRedMushroom.prototype = Object.create(Obstacle.prototype);
 TallRedMushroom.prototype.constructor = TallRedMushroom;
@@ -244,9 +248,7 @@ TallRedMushroom.spriteSheetGid = 106;
 // Begin TallGreyMushroom
 function TallGreyMushroom(game, x, y) {
     Obstacle.call(this, game, x, y, 'tallGreyMushroom');
-
-    this.body.setSize(5, 5, 17, 17);
-
+    this.createCentralCircle(16);
 }
 TallGreyMushroom.prototype = Object.create(Obstacle.prototype);
 TallGreyMushroom.prototype.constructor = TallGreyMushroom;
@@ -267,8 +269,7 @@ TallGreyMushroom.prototype.die = function() {
 // Begin BigBush
 function BigBush(game, x, y) {
     Obstacle.call(this, game, x, y, 'bigBush');
-
-    this.body.setSize(7, 7, 15, 15);
+    this.createCentralCircle(16);
 
 }
 BigBush.prototype = Object.create(Obstacle.prototype);
@@ -282,9 +283,7 @@ BigBush.spriteSheetGid = 63;
 // Begin SmallBush
 function SmallBush(game, x, y) {
     Obstacle.call(this, game, x, y, 'smallBush');
-
-    this.body.setSize(7, 7, 15, 15);
-
+    this.createCentralCircle(10);
 }
 SmallBush.prototype = Object.create(Obstacle.prototype);
 SmallBush.prototype.constructor = SmallBush;
@@ -297,9 +296,7 @@ SmallBush.spriteSheetGid = 64;
 // Begin SnowyPine
 function SnowyPine(game, x, y) {
     Obstacle.call(this, game, x, y, 'smallBush');
-
-    this.body.setSize(7, 7, 15, 15);
-
+    this.createCentralCircle(16);
 }
 SnowyPine.prototype = Object.create(Obstacle.prototype);
 SnowyPine.prototype.constructor = SnowyPine;
@@ -312,9 +309,7 @@ SnowyPine.spriteSheetGid = 94;
 // Begin Rock
 function Rock(game, x, y) {
     Obstacle.call(this, game, x, y, 'rock');
-
-    this.body.setSize(7, 7, 15, 15);
-
+    // this.createCentralCircle(18);
 }
 Rock.prototype = Object.create(Obstacle.prototype);
 Rock.prototype.constructor = Rock;
@@ -327,9 +322,7 @@ Rock.spriteSheetGid = 51;
 // Begin Bulrush
 function Bulrush(game, x, y) {
     Obstacle.call(this, game, x, y, 'bulrush');
-
-    this.body.setSize(5, 5, 17, 17);
-
+    this.createCentralCircle(8);
 }
 Bulrush.prototype = Object.create(Obstacle.prototype);
 Bulrush.prototype.constructor = Bulrush;
@@ -350,9 +343,7 @@ Bulrush.prototype.die = function() {
 // Begin Snowman
 function Snowman(game, x, y) {
     Obstacle.call(this, game, x, y, 'snowman');
-
-    this.body.setSize(5, 5, 17, 17);
-
+    this.createCentralCircle(16);
 }
 Snowman.prototype = Object.create(Obstacle.prototype);
 Snowman.prototype.constructor = Snowman;

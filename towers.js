@@ -17,6 +17,7 @@ function Tower(game, x, y, spriteName) {
     this.weapon1.bulletKillDistance = window[this.constructor.name].defaultKillDistance;
     this.weapon1.fireRate = window[this.constructor.name].defaultFireRate;
     this.weapon1.angle = this.angleToTarget;
+    this.weapon1.setBulletBodyOffset(15, 15, 25, 25);
 
     this.anchor.setTo(0.5, 0.5);
 
