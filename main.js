@@ -613,6 +613,7 @@ var mainState = {
     {
         // game.debug.body(this.test);
 
+        /*
         this.bullets.forEachAlive(function(item){
             game.debug.body(item);
         });
@@ -620,6 +621,7 @@ var mainState = {
         this.obstacles.forEachAlive(function(item){
             game.debug.body(item);
         });
+        */
 
     },
 
