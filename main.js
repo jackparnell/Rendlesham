@@ -23,6 +23,8 @@ var mainState = {
     create: function()
     {
 
+        game.time.advancedTiming = true;
+
         game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
 
         if (game.device.desktop == false) {
@@ -130,6 +132,8 @@ var mainState = {
             if (!this.pendingLevelCompleted && this.getCurrentLevel().completed()) {
                 this.levelCompleted();
             }
+
+            // console.log(game.time.fps);
 
         }
         catch (err) {

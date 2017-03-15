@@ -212,6 +212,10 @@ Attacker.prototype.followPath = function()
         }
     }
 
+    var deltaTime = (game.time.elapsedMS * game.time.fps) / 1000;
+    this.body.velocity.x *= deltaTime;
+    this.body.velocity.y *= deltaTime;
+
 };
 
 Attacker.prototype.reached_target_position = function (target_position) {
