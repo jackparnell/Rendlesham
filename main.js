@@ -584,10 +584,12 @@ var mainState = {
     },
 
     spawnExplosion: function(x, y, tint) {
-        
+
         var explosion = game.add.sprite(x, y, 'explosion');
 
         this.explosions.add(explosion);
+
+        explosion.anchor.setTo(0.5, 0.5);
 
         explosion.lifespan = 500;
 
@@ -626,6 +628,17 @@ var mainState = {
             game.debug.body(item);
         });
         */
+
+        /*
+        if (this.towers.children[0]) {
+            this.towers.children[0].weapon1.debug();
+        }
+        */
+
+        // console.log(this.bullets.countLiving() + ' ' + this.bullets.countDead());
+
+        console.log(this.explosions.countLiving() + ' ' + this.explosions.countDead());
+
 
     },
 
@@ -1227,6 +1240,9 @@ var mainState = {
             aCleanup.push(item);
         }, this);
         this.bullets.forEachDead(function(item){
+            aCleanup.push(item);
+        }, this);
+        this.explosions.forEachDead(function(item){
             aCleanup.push(item);
         }, this);
 
