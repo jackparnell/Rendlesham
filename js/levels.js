@@ -351,15 +351,7 @@ var level3 = {
     goalXGrid: 1,
     goalYGrid: 5,
     waveHealthModifier: .33,
-    towerPlacementForbiddenRows: [0, 11],
-    obstacles: {
-        TallBrownMushroom: [
-            [18, 3],
-            [19, 3],
-            [6, 3],
-            [3, 9]
-        ]
-    }
+    towerPlacementForbiddenRows: [0, 10, 11]
 };
 
 var level4 = {

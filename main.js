@@ -197,8 +197,8 @@ var mainState = {
         var labelPropertyNames = ['labelCoinsTitle', 'labelCoins', 'labelLivesTitle', 'labelMessage', 'labelIndicatorMessage'];
 
         labelPropertyNames.forEach(function(labelPropertyName) {
-            if (this[labelPropertyName]) {
-                this[labelPropertyName].destroy();
+            if (mainState[labelPropertyName]) {
+                mainState[labelPropertyName].destroy();
             }
         });
 
