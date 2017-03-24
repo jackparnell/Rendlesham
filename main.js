@@ -11,6 +11,8 @@ var mainState = {
         this.version = '0.1.1';
         this.name = 'rendlesham';
 
+        game.forceSingleUpdate = true;
+
         loadMainFiles();
 
     },
@@ -24,6 +26,7 @@ var mainState = {
     {
 
         game.time.advancedTiming = true;
+        game.time.desiredFps = 60;
 
         game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
 
@@ -95,7 +98,6 @@ var mainState = {
         this.overlays = game.add.group();
         this.finishedItems = game.add.group();
 
-        this.initiateLabels();
         this.initiateLoops();
 
         game.input.onDown.add(this.placeTower, this);
@@ -116,6 +118,10 @@ var mainState = {
     update: function() {
 
         try {
+
+            console.log(game.time.elapsedMS);
+            console.log(1 / game.time.elapsedMS);
+
             this.turn += 1;
 
             // this.performanceModifier = game.time.elapsed / 16.66;
@@ -185,8 +191,23 @@ var mainState = {
         }
     },
 
+    destroyLabels: function()
+    {
+
+        var labelPropertyNames = ['labelCoinsTitle', 'labelCoins', 'labelLivesTitle', 'labelMessage', 'labelIndicatorMessage'];
+
+        labelPropertyNames.forEach(function(labelPropertyName) {
+            if (this[labelPropertyName]) {
+                this[labelPropertyName].destroy();
+            }
+        });
+
+    },
+
     initiateLabels: function()
     {
+
+        this.destroyLabels();
 
         switch(window['level' + this.level].theme) {
             case 'snow':
@@ -637,8 +658,7 @@ var mainState = {
 
         // console.log(this.bullets.countLiving() + ' ' + this.bullets.countDead());
 
-        console.log(this.explosions.countLiving() + ' ' + this.explosions.countDead());
-
+        game.debug.text(game.time.fps, game.width - 50, 30)
 
     },
 
@@ -992,6 +1012,7 @@ var mainState = {
         this.setupMap();
         this.spawnLevelObstacles();
         this.positionCamera();
+        this.initiateLabels();
 
         window['level' + this.level].begin();
 

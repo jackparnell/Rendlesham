@@ -19,6 +19,8 @@ function Tower(game, x, y, spriteName) {
     this.weapon1.angle = this.angleToTarget;
     this.weapon1.setBulletBodyOffset(15, 15, 25, 25);
 
+    // mainState.weapons.add(this.weapon1);
+
     this.anchor.setTo(0.5, 0.5);
 
     this.weapon1.trackSprite(this);

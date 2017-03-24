@@ -446,6 +446,19 @@ Oscar.defaultSpeed = 75;
 Oscar.coinsValue = 5;
 // End Oscar
 
+// Begin Roger
+function Roger(game, x, y) {
+    Attacker.call(this, game, x, y, 'roger');
+    this.body.setSize(20, 30, 6, 1);
+}
+Roger.prototype = Object.create(Attacker.prototype);
+Roger.prototype.constructor = Roger;
+Roger.defaultScale = 1;
+Roger.defaultHealth = 1000;
+Roger.defaultSpeed = 100;
+Roger.coinsValue = 5;
+// End Oscar
+
 // Begin Aquila
 function Aquila(game, x, y) {
     Attacker.call(this, game, x, y, 'aquila');
