@@ -209,55 +209,40 @@ var mainState = {
 
         this.destroyLabels();
 
-        switch(window['level' + this.level].theme) {
-            case 'snow':
-                var titleFill = "#666666";
-                var labelFill = "#333333";
-                var indicatorMessageFill = "#333333";
-                break;
-            default:
-                var titleFill = "#DDDDDD";
-                var labelFill = "#FFFFFF";
-                var indicatorMessageFill = "#FFFFFF";
-                break;
+        var bitmapFontName = 'gem';
 
-        }
-
-        this.titleStyle = { font: "16px Ubuntu", fill: titleFill, boundsAlignH: "center", boundsAlignV: "middle" };
-        this.labelStyle = { font: "26px Ubuntu", fill: labelFill, boundsAlignH: "center", boundsAlignV: "middle" };
-        this.indicatorMessageStyle = { font: "16px Ubuntu", fill: indicatorMessageFill, boundsAlignH: "right", boundsAlignV: "middle" };
+        this.titleStyle = { font: "16px Ubuntu", fill: "#DDDDDD", boundsAlignH: "center", boundsAlignV: "middle" };
 
         this.titlesYCoordinate = game.camera.y + 10;
-        this.valuesYCoordinate = game.camera.y + 30;
+        this.valuesYCoordinate = game.camera.y + 25;
         this.notificationYCoordinate = game.camera.y + 50;
 
         this.labelCoinsXCoordinate = game.camera.x + 10;
 
-        this.labelCoinsTitle = game.add.text(this.labelCoinsXCoordinate, this.titlesYCoordinate, 'Coins', this.titleStyle);
-        this.labelCoinsTitle.setTextBounds(0, 5, 40, 10);
-        this.labelCoins = game.add.text(this.labelCoinsXCoordinate, this.valuesYCoordinate, this.coins, this.labelStyle);
-        this.labelCoins.setTextBounds(0, 5, 40, 10);
+        this.labelCoinsTitle = game.add.bitmapText(this.labelCoinsXCoordinate, this.titlesYCoordinate, bitmapFontName, 'Coins', 16);
+
+        this.labelCoins = game.add.bitmapText(this.labelCoinsXCoordinate, this.valuesYCoordinate, bitmapFontName, this.coins, 32);
+        this.labelCoins.align = 'center';
         this.labelCoinsNotifications = [];
 
         this.labelLivesXCoordinate = game.camera.x + 75;
 
-        this.labelLivesTitle = game.add.text(this.labelLivesXCoordinate, this.titlesYCoordinate, 'Lives', this.titleStyle);
-        this.labelLivesTitle.setTextBounds(0, 5, 40, 10);
-        this.labelLives = game.add.text(this.labelLivesXCoordinate, this.valuesYCoordinate, this.lives, this.labelStyle);
-        this.labelLives.setTextBounds(0, 5, 40, 10);
+        this.labelLivesTitle = game.add.bitmapText(this.labelLivesXCoordinate, this.titlesYCoordinate, bitmapFontName, 'Lives', 16);
+
+        this.labelLives = game.add.bitmapText(this.labelLivesXCoordinate, this.valuesYCoordinate, bitmapFontName, this.lives, 32);
+        this.labelLives.align = 'center';
         this.labelLivesNotifications = [];
 
 
         this.messageXCoordinate = this.labelCoinsXCoordinate;
         this.messageYCoordinate = game.camera.y + (game.height - this.squareWidth + 2);
 
-        this.labelMessage = game.add.text(this.messageXCoordinate, this.messageYCoordinate, '', this.labelStyle);
+        this.labelMessage = game.add.bitmapText(this.messageXCoordinate, this.messageYCoordinate, bitmapFontName, '', 24);
 
         this.indicatorMessageXCoordinate = game.camera.x + game.width * .6;
         this.indicatorMessageYCoordinate = game.camera.y + (game.height - this.squareWidth + 8);
 
-        this.labelIndicatorMessage = game.add.text(this.indicatorMessageXCoordinate, this.indicatorMessageYCoordinate, '', this.indicatorMessageStyle);
-
+        this.labelIndicatorMessage = game.add.bitmapText(this.indicatorMessageXCoordinate, this.indicatorMessageYCoordinate, bitmapFontName, '', 18);
 
     },
 
@@ -280,12 +265,12 @@ var mainState = {
 
     updateCoins: function()
     {
-        this.labelCoins.text = this.coins;
+        this.labelCoins.setText(this.coins);
     },
 
     updateLives: function()
     {
-        this.labelLives.text = this.lives;
+        this.labelLives.setText(this.lives);
     },
 
     changeLives: function(amount, notificationSpawnX, notificationSpawnY)
@@ -667,7 +652,7 @@ var mainState = {
         this.pendingLevelCompleted = true;
 
         this.displayMessage('Level ' + this.level + ' completed!');
-        this.labelIndicatorMessage.text = '';
+        this.labelIndicatorMessage.setText('');
 
         this.user.levelsComplete[this.level] = true;
 
@@ -709,6 +694,7 @@ var mainState = {
         var y = (game.height * .38) + game.camera.y;
 
         var starSpriteName;
+
 
         for (i = 1; i <= 3; i++) {
 
@@ -1167,7 +1153,7 @@ var mainState = {
             indicatorMessage = '';
         }
 
-        this.labelIndicatorMessage.text = indicatorMessage;
+        this.labelIndicatorMessage.setText(indicatorMessage);
 
         this.graphics.lineStyle(2, borderColor, 1);
         this.graphics.drawRect(x, y, this.squareWidth, this.squareWidth);
@@ -1284,13 +1270,13 @@ var mainState = {
 
     displayMessage: function(message)
     {
-        this.labelMessage.text = message;
+        this.labelMessage.setText(message);
         game.time.events.add(Phaser.Timer.SECOND * 6, this.clearMessage, this).autoDestroy = true;
     },
 
     clearMessage: function()
     {
-        this.labelMessage.text = '';
+        this.labelMessage.setText('');
     },
 
     translatePixelCoordinatesToGridCoordinates: function(x, y)

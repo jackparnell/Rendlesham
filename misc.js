@@ -66,6 +66,8 @@ function loadMainFiles()
 
     game.load.image('tiles', 'assets/tilemaps/tiles/tiles_spritesheet.png');
 
+    game.load.bitmapFont('gem', 'assets/fonts/bitmapFonts/gem.png', 'assets/fonts/bitmapFonts/gem.xml');
+
 
 
 }
