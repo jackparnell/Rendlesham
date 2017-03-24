@@ -210,26 +210,29 @@ var mainState = {
         this.destroyLabels();
 
         var bitmapFontName = 'gem';
+        var titleTint = 0xDDDDDD;
 
         this.titleStyle = { font: "16px Ubuntu", fill: "#DDDDDD", boundsAlignH: "center", boundsAlignV: "middle" };
 
-        this.titlesYCoordinate = game.camera.y + 10;
-        this.valuesYCoordinate = game.camera.y + 25;
+        this.titlesYCoordinate = game.camera.y + 5;
+        this.valuesYCoordinate = game.camera.y + 21;
         this.notificationYCoordinate = game.camera.y + 50;
 
         this.labelCoinsXCoordinate = game.camera.x + 10;
 
         this.labelCoinsTitle = game.add.bitmapText(this.labelCoinsXCoordinate, this.titlesYCoordinate, bitmapFontName, 'Coins', 16);
+        this.labelCoinsTitle.tint = titleTint;
 
-        this.labelCoins = game.add.bitmapText(this.labelCoinsXCoordinate, this.valuesYCoordinate, bitmapFontName, this.coins, 32);
+        this.labelCoins = game.add.bitmapText(this.labelCoinsXCoordinate, this.valuesYCoordinate, bitmapFontName, this.coins, 28);
         this.labelCoins.align = 'center';
         this.labelCoinsNotifications = [];
 
         this.labelLivesXCoordinate = game.camera.x + 75;
 
         this.labelLivesTitle = game.add.bitmapText(this.labelLivesXCoordinate, this.titlesYCoordinate, bitmapFontName, 'Lives', 16);
+        this.labelLivesTitle.tint = titleTint;
 
-        this.labelLives = game.add.bitmapText(this.labelLivesXCoordinate, this.valuesYCoordinate, bitmapFontName, this.lives, 32);
+        this.labelLives = game.add.bitmapText(this.labelLivesXCoordinate + 12, this.valuesYCoordinate, bitmapFontName, this.lives, 28);
         this.labelLives.align = 'center';
         this.labelLivesNotifications = [];
 
@@ -265,6 +268,15 @@ var mainState = {
 
     updateCoins: function()
     {
+
+        if (this.coins >= 100) {
+            this.labelCoins.x = this.labelCoinsXCoordinate;
+        } else if (this.coins >= 10) {
+            this.labelCoins.x = this.labelCoinsXCoordinate + 6;
+        } else {
+            this.labelCoins.x = this.labelCoinsXCoordinate + 12;
+        }
+
         this.labelCoins.setText(this.coins);
     },
 
@@ -316,17 +328,20 @@ var mainState = {
 
         y += this[notificationsArrayName].length * 15;
 
-        this[textName] = game.add.text(this[xCoordinateName], y, changeText, this.titleStyle);
+        var x = this[xCoordinateName] + 11;
+
+        this[textName] = game.add.bitmapText(x, y, 'gem', changeText, 16);
+
         this[textName].alpha = 0;
-        this[textName].setTextBounds(0, 5, 40, 10);
+
 
 
         if (changeText >= 1) {
-            this[textName].addColor('#33FF33', 0) ;
+            this[textName].tint = 0x33FF33;
         } else if (changeText <= -1) {
-            this[textName].addColor('#FF0000', 0) ;
+            this[textName].tint = 0xFF0000;
         } else {
-            this[textName].addColor('#FFFFFF', 0) ;
+            // White
         }
 
         this[notificationsArrayName].push(textName);
