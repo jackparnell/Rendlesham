@@ -19,11 +19,11 @@ Rendlesham.gameOver.prototype = {
 
         game.stage.backgroundColor = '#000000';
 
-        this.capturedText = game.add.bitmapText(500, 100, 'gem', 'Captured', 80);
+        this.capturedText = game.add.bitmapText(500, 100, bitmapFontName, 'Captured', 80);
         this.capturedText.align = 'center';
         this.capturedText.x = (game.width / 2) - (this.capturedText.width / 2);
 
-        this.detailsText = game.add.bitmapText(500, 200, 'gem', 'You were captured by the humans', 20);
+        this.detailsText = game.add.bitmapText(500, 200, bitmapFontName, 'You were captured by the humans', 20);
         this.detailsText.align = 'center';
         this.detailsText.x = (game.width / 2) - (this.detailsText.width / 2);
 

@@ -2,6 +2,7 @@ var map;
 var layer;
 var timerEvents = [];
 var wouldObstaclePlacementBlockPathResult;
+var bitmapFontName = 'gem';
 
 var mainState = {
     preload: function() {
@@ -119,8 +120,8 @@ var mainState = {
 
         try {
 
-            console.log(game.time.elapsedMS);
-            console.log(1 / game.time.elapsedMS);
+            // console.log(game.time.elapsedMS);
+            // console.log(1 / game.time.elapsedMS);
 
             this.turn += 1;
 
@@ -194,7 +195,14 @@ var mainState = {
     destroyLabels: function()
     {
 
-        var labelPropertyNames = ['labelCoinsTitle', 'labelCoins', 'labelLivesTitle', 'labelMessage', 'labelIndicatorMessage'];
+        var labelPropertyNames = [
+            'labelCoinsTitle',
+            'labelCoins',
+            'labelLivesTitle',
+            'labelLives',
+            'labelMessage',
+            'labelIndicatorMessage'
+        ];
 
         labelPropertyNames.forEach(function(labelPropertyName) {
             if (mainState[labelPropertyName]) {
@@ -209,10 +217,19 @@ var mainState = {
 
         this.destroyLabels();
 
-        var bitmapFontName = 'gem';
-        var titleTint = 0xDDDDDD;
 
-        this.titleStyle = { font: "16px Ubuntu", fill: "#DDDDDD", boundsAlignH: "center", boundsAlignV: "middle" };
+        switch(window['level' + this.level].theme) {
+            case 'snow':
+                var titleTint = 0x666666;
+                var valueTint = 0x333333;
+                break;
+            default:
+                var titleTint = 0xDDDDDD;
+                var valueTint = 0xFFFFFF;
+
+                break;
+
+        }
 
         this.titlesYCoordinate = game.camera.y + 5;
         this.valuesYCoordinate = game.camera.y + 21;
@@ -224,7 +241,7 @@ var mainState = {
         this.labelCoinsTitle.tint = titleTint;
 
         this.labelCoins = game.add.bitmapText(this.labelCoinsXCoordinate, this.valuesYCoordinate, bitmapFontName, this.coins, 28);
-        this.labelCoins.align = 'center';
+        this.labelCoins.tint = valueTint;
         this.labelCoinsNotifications = [];
 
         this.labelLivesXCoordinate = game.camera.x + 75;
@@ -233,7 +250,7 @@ var mainState = {
         this.labelLivesTitle.tint = titleTint;
 
         this.labelLives = game.add.bitmapText(this.labelLivesXCoordinate + 12, this.valuesYCoordinate, bitmapFontName, this.lives, 28);
-        this.labelLives.align = 'center';
+        this.labelLives.tint = valueTint;
         this.labelLivesNotifications = [];
 
 
@@ -241,11 +258,13 @@ var mainState = {
         this.messageYCoordinate = game.camera.y + (game.height - this.squareWidth + 2);
 
         this.labelMessage = game.add.bitmapText(this.messageXCoordinate, this.messageYCoordinate, bitmapFontName, '', 24);
+        this.labelMessage.tint = valueTint;
 
         this.indicatorMessageXCoordinate = game.camera.x + game.width * .6;
         this.indicatorMessageYCoordinate = game.camera.y + (game.height - this.squareWidth + 8);
 
         this.labelIndicatorMessage = game.add.bitmapText(this.indicatorMessageXCoordinate, this.indicatorMessageYCoordinate, bitmapFontName, '', 18);
+        this.labelIndicatorMessage.tint = valueTint;
 
     },
 
@@ -330,7 +349,7 @@ var mainState = {
 
         var x = this[xCoordinateName] + 11;
 
-        this[textName] = game.add.bitmapText(x, y, 'gem', changeText, 16);
+        this[textName] = game.add.bitmapText(x, y, bitmapFontName, changeText, 16);
 
         this[textName].alpha = 0;
 
@@ -699,8 +718,14 @@ var mainState = {
             boundsAlignV: "middle"
         };
 
-        this.levelCompleteText = game.add.text(0, 50, 'Level ' + this.level + ' complete!', this.levelCompleteStyle);
-        this.levelCompleteText.setTextBounds(game.camera.x, 0, game.width, 100);
+        this.levelCompleteText = game.add.bitmapText(
+            500,
+            game.height * .18,
+            bitmapFontName,
+            ' Level ' + this.level + ' complete!',
+            58
+        );
+        this.levelCompleteText.x = (game.width / 2) - (this.levelCompleteText.width / 2);
 
         // Begin stars
         var completionStars = window['level' + this.level].calculateCompletionStars();

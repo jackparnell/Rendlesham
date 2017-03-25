@@ -194,18 +194,17 @@ Rendlesham.eastAnglia.prototype = {
     writeLevelText: function(levelNumber)
     {
 
-        var textStyle = {
-            font: "18px Ubuntu",
-            fill: "#FFCCCC",
-            boundsAlignH: "center",
-            boundsAlignV: "middle"
-        };
-
         var x = this.levelInfo[levelNumber].x + 16;
-        var y = this.levelInfo[levelNumber].y - 9;
+        var y = this.levelInfo[levelNumber].y - 19;
 
-        this['level' + levelNumber + 'Text'] = game.add.text(x, y, 'Level ' + levelNumber, textStyle);
-        this['level' + levelNumber + 'Text'].anchor.set(0.5);
+        this['level' + levelNumber + 'Text'] = game.add.bitmapText(
+            x,
+            y,
+            bitmapFontName,
+            'Level ' + levelNumber,
+            18
+        );
+        this['level' + levelNumber + 'Text'].x = x - (this['level' + levelNumber + 'Text'].width / 2);
 
     },
 
