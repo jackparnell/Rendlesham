@@ -8,6 +8,7 @@ function Obstacle(game, x, y, spriteName) {
     this.health = window[this.constructor.name].defaultHealth || 1000;
     this.maximumHealth = this.health;
     this.coinsValue = window[this.constructor.name].coinsValue || 0;
+    this.scoreValue = window[this.constructor.name].scoreValue || 0;
     this.invulnerable = false;
 
     Phaser.Sprite.call(this, game, x, y, spriteName);
@@ -115,6 +116,7 @@ Obstacle.prototype.die = function()
 {
     if (this.health <= 0) {
         mainState.changeCoins(this.coinsValue, this.x, this.y);
+        mainState.changeScore(this.scoreValue, this.x, this.y);
     }
     if (this.healthBar) {
         this.healthBar.kill();
@@ -229,6 +231,7 @@ TallBrownMushroom.prototype.constructor = TallBrownMushroom;
 TallBrownMushroom.defaultScale = 1;
 TallBrownMushroom.defaultHealth = 10000;
 TallBrownMushroom.coinsValue = 50;
+TallBrownMushroom.scoreValue = 50;
 TallBrownMushroom.spriteSheetGid = 105;
 // End TallBrownMushroom
 
@@ -242,6 +245,7 @@ TallRedMushroom.prototype.constructor = TallRedMushroom;
 TallRedMushroom.defaultScale = 1;
 TallRedMushroom.defaultHealth = 35000;
 TallRedMushroom.coinsValue = 100;
+TallRedMushroom.scoreValue = 100;
 TallRedMushroom.spriteSheetGid = 106;
 // End TallBrownMushroom
 
@@ -255,6 +259,7 @@ TallGreyMushroom.prototype.constructor = TallGreyMushroom;
 TallGreyMushroom.defaultScale = 1;
 TallGreyMushroom.defaultHealth = 50000;
 TallGreyMushroom.coinsValue = 100;
+TallGreyMushroom.scoreValue = 150;
 TallGreyMushroom.spriteSheetGid = 107;
 TallGreyMushroom.prototype.die = function() {
     Obstacle.prototype.die.call(this);
@@ -277,6 +282,7 @@ BigBush.prototype.constructor = BigBush;
 BigBush.defaultScale = 1;
 BigBush.defaultHealth = 10000;
 BigBush.coinsValue = 0;
+BigBush.scoreValue = 20;
 BigBush.spriteSheetGid = 63;
 // End BigBush
 
@@ -290,6 +296,7 @@ SmallBush.prototype.constructor = SmallBush;
 SmallBush.defaultScale = 1;
 SmallBush.defaultHealth = 5000;
 SmallBush.coinsValue = 0;
+SmallBush.scoreValue = 10;
 SmallBush.spriteSheetGid = 64;
 // End SmallBush
 
@@ -303,6 +310,7 @@ SnowyPine.prototype.constructor = SnowyPine;
 SnowyPine.defaultScale = 1;
 SnowyPine.defaultHealth = 5000;
 SnowyPine.coinsValue = 0;
+SnowyPine.scoreValue = 20;
 SnowyPine.spriteSheetGid = 94;
 // End SnowyPine
 
@@ -316,8 +324,9 @@ Rock.prototype.constructor = Rock;
 Rock.defaultScale = 1;
 Rock.defaultHealth = 15000;
 Rock.coinsValue = 0;
+Rock.scoreValue = 50;
 Rock.spriteSheetGid = 51;
-// End SmallBush
+// End Rock
 
 // Begin Bulrush
 function Bulrush(game, x, y) {
@@ -329,6 +338,7 @@ Bulrush.prototype.constructor = Bulrush;
 Bulrush.defaultScale = 1;
 Bulrush.defaultHealth = 20000;
 Bulrush.coinsValue = 100;
+Bulrush.scoreValue = 150;
 Bulrush.spriteSheetGid = 78;
 Bulrush.prototype.die = function() {
     Obstacle.prototype.die.call(this);
@@ -350,6 +360,7 @@ Snowman.prototype.constructor = Snowman;
 Snowman.defaultScale = 1;
 Snowman.defaultHealth = 100000;
 Snowman.coinsValue = 100;
+Snowman.scoreValue = 150;
 Snowman.spriteSheetGid = 76;
 Snowman.prototype.die = function() {
     Obstacle.prototype.die.call(this);

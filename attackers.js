@@ -37,6 +37,7 @@ Attacker.prototype.initialise = function(waveNumber)
     this.health = (window[this.constructor.name].defaultHealth || 1000) * this.calculateHealthModifier();
     this.maximumHealth = this.health;
     this.coinsValue = window[this.constructor.name].coinsValue || 1;
+    this.scoreValue = window[this.constructor.name].scoreValue || 5;
     this.invulnerable = false;
     this.incrementalId = mainState.attackersSpawnedCount;
 
@@ -262,6 +263,7 @@ Attacker.prototype.die = function()
     }
     if (this.health <= 0) {
         mainState.changeCoins(this.coinsValue, this.x, this.y);
+        mainState.changeScore(this.scoreValue, this.x, this.y);
     } else if (mainState.lives >= 1) {
         mainState.changeLives(-1, this.x, this.y);
     }
@@ -444,6 +446,7 @@ Oscar.defaultScale = 1;
 Oscar.defaultHealth = 1000;
 Oscar.defaultSpeed = 75;
 Oscar.coinsValue = 5;
+Oscar.scoreValue = 5;
 // End Oscar
 
 // Begin Roger
@@ -457,7 +460,8 @@ Roger.defaultScale = 1;
 Roger.defaultHealth = 1000;
 Roger.defaultSpeed = 100;
 Roger.coinsValue = 5;
-// End Oscar
+Roger.scoreValue = 5;
+// End Roger
 
 // Begin Aquila
 function Aquila(game, x, y) {
@@ -470,6 +474,7 @@ Aquila.defaultScale = 1;
 Aquila.defaultHealth = 2000;
 Aquila.defaultSpeed = 75;
 Aquila.coinsValue = 10;
+Aquila.scoreValue = 10;
 // End Aquila
 
 // Begin Mib
@@ -483,4 +488,5 @@ Mib.defaultScale = 1;
 Mib.defaultHealth = 4000;
 Mib.defaultSpeed = 75;
 Mib.coinsValue = 15;
+Mib.scoreValue = 15;
 // End Mib

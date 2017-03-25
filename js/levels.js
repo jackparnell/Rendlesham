@@ -472,7 +472,7 @@ var level4 = {
     entryYGrid: 5,
     goalXGrid: 1,
     goalYGrid: 5,
-    waveHealthModifier: .4,
+    waveHealthModifier: .35,
     towerPlacementForbiddenRows: [0, 11]
 };
 

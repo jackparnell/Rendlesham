@@ -50,6 +50,7 @@ var mainState = {
         this.turn = 0;
         this.coins = 0;
         this.lives = 999;
+        this.score = 0;
         this.towerSelected = 'Gun';
         this.squareWidth = 35;
 
@@ -131,8 +132,6 @@ var mainState = {
                 this.noLivesLeft();
             }
 
-            this.updateCoins();
-            this.updateLives();
             this.updateNotifications();
             this.drawIndicators();
 
@@ -200,6 +199,8 @@ var mainState = {
             'labelCoins',
             'labelLivesTitle',
             'labelLives',
+            'labelScoreTitle',
+            'labelScore',
             'labelMessage',
             'labelIndicatorMessage'
         ];
@@ -244,6 +245,7 @@ var mainState = {
         this.labelCoins.tint = valueTint;
         this.labelCoinsNotifications = [];
 
+        // Begin lives
         this.labelLivesXCoordinate = game.camera.x + 75;
 
         this.labelLivesTitle = game.add.bitmapText(this.labelLivesXCoordinate, this.titlesYCoordinate, bitmapFontName, 'Lives', 16);
@@ -252,7 +254,18 @@ var mainState = {
         this.labelLives = game.add.bitmapText(this.labelLivesXCoordinate + 12, this.valuesYCoordinate, bitmapFontName, this.lives, 28);
         this.labelLives.tint = valueTint;
         this.labelLivesNotifications = [];
+        // End lives
 
+        // Begin score
+        this.labelScoreXCoordinate = game.width - 25;
+
+        this.labelScoreTitle = game.add.bitmapText(this.labelScoreXCoordinate, this.titlesYCoordinate, bitmapFontName, 'Score', 16);
+        this.labelScoreTitle.tint = titleTint;
+
+        this.labelScore = game.add.bitmapText(this.labelScoreXCoordinate + 12, this.valuesYCoordinate, bitmapFontName, this.score, 28);
+        this.labelScore.tint = valueTint;
+        this.labelScoreNotifications = [];
+        // End score
 
         this.messageXCoordinate = this.labelCoinsXCoordinate;
         this.messageYCoordinate = game.camera.y + (game.height - this.squareWidth + 2);
@@ -281,6 +294,7 @@ var mainState = {
             var displayAmount = amount;
         }
 
+        this.updateCoins();
         this.notification('coins', displayAmount, notificationSpawnX, notificationSpawnY);
 
     },
@@ -304,6 +318,21 @@ var mainState = {
         this.labelLives.setText(this.lives);
     },
 
+    updateScore: function()
+    {
+        if (this.score >= 1000) {
+            this.labelScore.x = this.labelScoreXCoordinate - 6;
+        } else if (this.score >= 100) {
+            this.labelScore.x = this.labelScoreXCoordinate;
+        } else if (this.score >= 10) {
+            this.labelScore.x = this.labelScoreXCoordinate + 6;
+        } else {
+            this.labelScore.x = this.labelScoreXCoordinate + 12;
+        }
+
+        this.labelScore.setText(this.score);
+    },
+
     changeLives: function(amount, notificationSpawnX, notificationSpawnY)
     {
         if (isNaN(amount)) {
@@ -317,8 +346,26 @@ var mainState = {
             var displayAmount = amount;
         }
 
+        this.updateLives();
         this.notification('lives', displayAmount, notificationSpawnX, notificationSpawnY);
 
+    },
+
+    changeScore: function(amount, notificationSpawnX, notificationSpawnY)
+    {
+        if (isNaN(amount)) {
+            return false;
+        }
+        this.score += amount;
+
+        if (amount >= 1) {
+            var displayAmount = '+' + amount;
+        } else {
+            var displayAmount = amount;
+        }
+
+        this.updateScore();
+        this.notification('score', displayAmount, notificationSpawnX, notificationSpawnY);
     },
 
     notification: function(statisticName, changeText, spawnX, spawnY)
@@ -399,7 +446,8 @@ var mainState = {
 
         var notificationArrayNames = [
             'labelCoinsNotifications',
-            'labelLivesNotifications'
+            'labelLivesNotifications',
+            'labelScoreNotifications'
         ];
 
         for (j = 0; j < notificationArrayNames.length; ++j) {
@@ -677,7 +725,7 @@ var mainState = {
 
         // console.log(this.bullets.countLiving() + ' ' + this.bullets.countDead());
 
-        game.debug.text(game.time.fps, game.width - 50, 30)
+        // game.debug.text(game.time.fps, game.width - 50, 30)
 
     },
 
@@ -690,6 +738,7 @@ var mainState = {
 
         this.user.levelsComplete[this.level] = true;
 
+        // Begin stars
         if (!this.user.levelStars) {
             this.user.levelStars = {};
         }
@@ -699,6 +748,17 @@ var mainState = {
         if (!this.user.levelStars[this.level] || this.user.levelStars[this.level] < completionStars) {
             this.user.levelStars[this.level] = completionStars;
         }
+        // End stars
+
+        // Begin score
+        if (!this.user.levelHighScores) {
+            this.user.levelHighScores = {};
+        }
+
+        if (!this.user.levelHighScores[this.level] || this.user.levelHighScores[this.level] < this.score) {
+            this.user.levelHighScores[this.level] = this.score;
+        }
+        // End score
 
         this.save();
 
@@ -711,13 +771,6 @@ var mainState = {
 
         this.gameOverBackground.alpha = .5;
 
-        this.levelCompleteStyle = {
-            font: "48px Ubuntu",
-            fill: "#FFFFFF",
-            boundsAlignH: "center",
-            boundsAlignV: "middle"
-        };
-
         this.levelCompleteText = game.add.bitmapText(
             500,
             game.height * .18,
@@ -725,7 +778,7 @@ var mainState = {
             ' Level ' + this.level + ' complete!',
             58
         );
-        this.levelCompleteText.x = (game.width / 2) - (this.levelCompleteText.width / 2);
+        this.levelCompleteText.x = game.world.centerX - (this.levelCompleteText.width / 2);
 
         // Begin stars
         var completionStars = window['level' + this.level].calculateCompletionStars();
@@ -753,7 +806,17 @@ var mainState = {
         }
         // End stars
 
-        this.nextLevelButton = game.add.button(game.world.centerX - 80, game.height * .8, 'button', this.nextLevel, this);
+        this.scoreText = game.add.bitmapText(
+            500,
+            game.height * .71,
+            bitmapFontName,
+            'Score: ' + this.score,
+            24
+        );
+        this.scoreText.tint = 0xCCCCCC;
+        this.scoreText.x = game.world.centerX - (this.scoreText.width / 2);
+
+        this.nextLevelButton = game.add.button(game.world.centerX - 80, game.height * .82, 'button', this.nextLevel, this);
 
     },
 
@@ -1044,9 +1107,14 @@ var mainState = {
 
         // Set coins to the startingCoins value from the level
         this.coins = window['level' + this.level].startingCoins;
+        this.updateCoins();
 
         // Set lives to the startingLives value from the level
         this.lives = window['level' + this.level].startingLives;
+        this.updateLives();
+
+        this.score = 0;
+        this.updateScore();
 
         this.startingObstaclesWithCoinsValue = this.countObstaclesWithCoinsValue();
 
