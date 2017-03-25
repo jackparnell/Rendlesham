@@ -891,7 +891,7 @@ var level8 = {
             duration: 25,
             createEvents: function(s) {
 
-                mainState.scheduleAttackersWave('Roger', waveNumber, s, 20, 1.75);
+                mainState.scheduleAttackersWave('Oscar', waveNumber, s, 20, 1.75);
 
             }
         },
@@ -899,9 +899,9 @@ var level8 = {
             duration: 23,
             createEvents: function(s) {
 
-                mainState.scheduleAttackersWave('Oscar', waveNumber, s, 10, 1);
+                mainState.scheduleAttackersWave('Roger', waveNumber, s, 10, 1);
                 mainState.scheduleAttackersWave('Mib', waveNumber, s, 5, 1, 10);
-                mainState.scheduleAttackersWave('Oscar', waveNumber, s, 5, 1, 15);
+                mainState.scheduleAttackersWave('Roger', waveNumber, s, 5, 1, 15);
 
             }
         },

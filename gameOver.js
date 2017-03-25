@@ -19,26 +19,13 @@ Rendlesham.gameOver.prototype = {
 
         game.stage.backgroundColor = '#000000';
 
-        var style = {
-            font: "80px Ubuntu",
-            fill: "#FFFFFF",
-            boundsAlignH: "center",
-            boundsAlignV: "middle"
-        };
-        text = game.add.text(0, 0, 'Captured', style);
-        text.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
-        text.setTextBounds(0, 105, game.width, 100);
+        this.capturedText = game.add.bitmapText(500, 100, 'gem', 'Captured', 80);
+        this.capturedText.align = 'center';
+        this.capturedText.x = (game.width / 2) - (this.capturedText.width / 2);
 
-        var detailsStyle = {
-            font: "24px Ubuntu",
-            fill: "#FFFFFF",
-            boundsAlignH: "center",
-            boundsAlignV: "middle"
-        };
-
-        var details = game.add.text(0, 0, 'You were captured by the humans.', detailsStyle);
-        details.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
-        details.setTextBounds(0, 105, game.width, game.height * .6);
+        this.detailsText = game.add.bitmapText(500, 200, 'gem', 'You were captured by the humans', 20);
+        this.detailsText.align = 'center';
+        this.detailsText.x = (game.width / 2) - (this.detailsText.width / 2);
 
         var goToTitleScreen = game.add.button((game.width/2) - 95, game.height * .75, 'goToTitleScreen', this.goToTitleScreen, this);
 

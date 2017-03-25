@@ -47,26 +47,12 @@ Rendlesham.titleScreen.prototype = {
     showTipText: function()
     {
 
-        var style = {
-            font: "48px Ubuntu",
-            fill: "#FFFFFF",
-            boundsAlignH: "center",
-            boundsAlignV: "middle"
-        };
+        this.titleText = game.add.bitmapText(500, game.height * .15, 'gem', 'Rendlesham Forest', 64);
+        this.titleText.x = (game.width / 2) - (this.titleText.width / 2);
 
-        this.titleText = game.add.text((game.width/2), game.height * .2, "Rendlesham Forest", style);
-        this.titleText.anchor.set(0.5);
-
-
-        var captionStyle = {
-            font: "36px Ubuntu",
-            fill: "#FFCCCC",
-            boundsAlignH: "center",
-            boundsAlignV: "middle"
-        };
-
-        this.captionText = game.add.text((game.width/2), game.height * .35, "An extra-terrestrial tower defense game.", captionStyle);
-        this.captionText.anchor.set(0.5);
+        this.captionText = game.add.bitmapText(500, game.height * .375, 'gem', 'An extra-terrestrial tower defense game', 32);
+        this.captionText.x = (game.width / 2) - (this.captionText.width / 2);
+        this.captionText.tint = 0xFFCCCC;
 
         var tipStyle = {
             font: "20px Ubuntu",
@@ -77,8 +63,10 @@ Rendlesham.titleScreen.prototype = {
 
         var tipTextContent = tips[Math.floor(Math.random() * tips.length)];
 
-        this.captionText = game.add.text((game.width/2), game.height * .5, tipTextContent, tipStyle);
-        this.captionText.anchor.set(0.5);
+        this.tipText = game.add.bitmapText(500, game.height * .55, 'gem', tipTextContent, 20);
+        this.tipText.x = (game.width / 2) - (this.tipText.width / 2);
+        this.tipText.tint = 0xCCFFCC;
+
 
     }
 }
