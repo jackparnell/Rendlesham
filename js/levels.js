@@ -3,22 +3,23 @@ var lastLevel = 11;
 
 var levelOrdering = {
     'eastAnglia': {
-        1: 'level1',
-        2: 'level2',
-        3: 'level3',
-        4: 'level4',
-        5: 'level5',
-        6: 'level6',
-        7: 'level7',
-        8: 'level8',
-        9: 'level9',
-        10: 'level10',
-        11: 'level11'
+        1: 'fridayStreet',
+        2: 'orfordRoad',
+        3: 'orfordness',
+        4: 'westletonHeath',
+        5: 'bartonMills',
+        6: 'worthamLing',
+        7: 'waveneyCrossing',
+        8: 'frozenFen',
+        9: 'sandringhamWoods',
+        10: 'holkhamBeach',
+        11: 'northCreake'
     }
 };
 
-var level1 = {
-    mapName: 'map1',
+var fridayStreet = {
+    mapName: 'fridayStreet',
+    title: 'Friday Street',
     waveInfo: {
         wave1: {
             duration: 25,
@@ -125,8 +126,9 @@ var level1 = {
     towerPlacementForbiddenRows: [0, 11]
 };
 
-var level2 = {
-    mapName: 'map2',
+var orfordRoad = {
+    mapName: 'orfordRoad',
+    title: 'Orford Road',
     waveInfo: {
         wave1: {
             duration: 27,
@@ -249,8 +251,9 @@ var level2 = {
     towerPlacementForbiddenRows: [0, 11]
 };
 
-var level3 = {
-    mapName: 'map3',
+var orfordness = {
+    mapName: 'orfordness',
+    title: 'Orfordness',
     waveInfo: {
         wave1: {
             duration: 30,
@@ -373,8 +376,9 @@ var level3 = {
     towerPlacementForbiddenRows: [0, 10, 11]
 };
 
-var level4 = {
-    mapName: 'map4',
+var westletonHeath = {
+    mapName: 'westletonHeath',
+    title: 'Westleton Heath',
     waveInfo: {
         wave1: {
             duration: 25,
@@ -496,8 +500,9 @@ var level4 = {
     towerPlacementForbiddenRows: [0, 11]
 };
 
-var level5 = {
-    mapName: 'map5',
+var bartonMills = {
+    mapName: 'bartonMills',
+    title: 'Barton Mills',
     waveInfo: {
         wave1: {
             duration: 25,
@@ -632,8 +637,9 @@ var level5 = {
     towerPlacementForbiddenRows: [0, 11]
 };
 
-var level6 = {
-    mapName: 'map6',
+var worthamLing = {
+    mapName: 'worthamLing',
+    title: 'Wortham Ling',
     waveInfo: {
         wave1: {
             duration: 25,
@@ -770,8 +776,9 @@ var level6 = {
     towerPlacementForbiddenRows: [0, 11]
 };
 
-var level7 = {
-    mapName: 'map7',
+var waveneyCrossing = {
+    mapName: 'waveneyCrossing',
+    title: 'Waveney Crossing',
     waveInfo: {
         wave1: {
             duration: 25,
@@ -908,8 +915,9 @@ var level7 = {
     towerPlacementForbiddenRows: [0, 11]
 };
 
-var level8 = {
-    mapName: 'map8',
+var frozenFen = {
+    mapName: 'frozenFen',
+    title: 'Frozen Fen',
     waveInfo: {
         wave1: {
             duration: 25,
@@ -1038,8 +1046,9 @@ var level8 = {
     theme: 'snow'
 };
 
-var level9 = {
-    mapName: 'map9',
+var sandringhamWoods = {
+    mapName: 'sandringhamWoods',
+    title: 'Sandringham Woods',
     waveInfo: {
         wave1: {
             duration: 25,
@@ -1167,8 +1176,9 @@ var level9 = {
     canPlaceTowerOnPathway: true
 };
 
-var level10 = {
-    mapName: 'map10',
+var holkhamBeach = {
+    mapName: 'holkhamBeach',
+    title: 'Holkham Beach',
     waveInfo: {
         wave1: {
             duration: 25,
@@ -1296,8 +1306,9 @@ var level10 = {
     canPlaceTowerOnPathway: true
 };
 
-var level11 = {
-    mapName: 'map11',
+var northCreake = {
+    mapName: 'northCreake',
+    title: 'North Creake',
     waveInfo: {
         wave1: {
             duration: 25,
