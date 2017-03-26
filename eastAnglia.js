@@ -48,7 +48,7 @@ Rendlesham.eastAnglia.prototype = {
 
         this.loadUser();
 
-        this.levelInfo = {
+        this.level = {
             1: {
                 x: game.width * .1,
                 y: game.height * .1
@@ -99,7 +99,7 @@ Rendlesham.eastAnglia.prototype = {
 
         for (var i = 1; i <= lastLevel; i++) {
 
-            this['level' + i + 'Button'] = game.add.button(this.levelInfo[i].x, this.levelInfo[i].y, 'ufo', this['clickLevel' + i], this);
+            this['level' + i + 'Button'] = game.add.button(this.level[i].x, this.level[i].y, 'ufo', this['clickLevel' + i], this);
             if (!this.isLevelUnlocked(i)) {
                 this['level' + i + 'Button'].tint = 0x333333;
                 this['level' + i + 'Button'].input.useHandCursor = false;
@@ -202,8 +202,8 @@ Rendlesham.eastAnglia.prototype = {
     writeLevelText: function(levelNumber)
     {
 
-        var x = this.levelInfo[levelNumber].x + 16;
-        var y = this.levelInfo[levelNumber].y - 19;
+        var x = this.level[levelNumber].x + 16;
+        var y = this.level[levelNumber].y - 19;
 
         this['level' + levelNumber + 'Text'] = game.add.bitmapText(
             x,
@@ -225,8 +225,8 @@ Rendlesham.eastAnglia.prototype = {
 
         var stars = this.user.levelStars[levelNumber] || 0;
 
-        var x = this.levelInfo[levelNumber].x - 13;
-        var y = this.levelInfo[levelNumber].y + 35;
+        var x = this.level[levelNumber].x - 13;
+        var y = this.level[levelNumber].y + 35;
 
         var spriteName;
 
@@ -256,13 +256,13 @@ Rendlesham.eastAnglia.prototype = {
         for (var i = 1; i < lastLevel; i++) {
 
             graphics.moveTo(
-                Math.round(this.levelInfo[i].x + 16),
-                Math.round(this.levelInfo[i].y + 16)
+                Math.round(this.level[i].x + 16),
+                Math.round(this.level[i].y + 16)
             );
 
             graphics.lineTo(
-                Math.round(this.levelInfo[String(i+1)].x + 16),
-                Math.round(this.levelInfo[String(i+1)].y + 16)
+                Math.round(this.level[String(i+1)].x + 16),
+                Math.round(this.level[String(i+1)].y + 16)
             );
 
         }

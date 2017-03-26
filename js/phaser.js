@@ -544,7 +544,7 @@ Polygon.prototype.quickDecomp = function(result,reflexVertices,steinerPoints,del
 
     level++;
     if(level > maxlevel){
-        console.warn("quickDecomp: max level ("+maxlevel+") reached.");
+        console.warn("quickDecomp: max levelId ("+maxlevel+") reached.");
         return result;
     }
 
@@ -16538,12 +16538,12 @@ PIXI.PixiShader.prototype.initSampler2D = function(uniform)
             var height = (data.height) ? data.height : 2;
             var border = (data.border) ? data.border : 0;
 
-            // void texImage2D(GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLint border, GLenum format, GLenum type, ArrayBufferView? pixels);
+            // void texImage2D(GLenum target, GLint levelId, GLenum internalformat, GLsizei width, GLsizei height, GLint border, GLenum format, GLenum type, ArrayBufferView? pixels);
             gl.texImage2D(gl.TEXTURE_2D, 0, format, width, height, border, format, gl.UNSIGNED_BYTE, null);
         }
         else
         {
-            //  void texImage2D(GLenum target, GLint level, GLenum internalformat, GLenum format, GLenum type, ImageData? pixels);
+            //  void texImage2D(GLenum target, GLint levelId, GLenum internalformat, GLenum format, GLenum type, ImageData? pixels);
             gl.texImage2D(gl.TEXTURE_2D, 0, format, gl.RGBA, gl.UNSIGNED_BYTE, uniform.value.baseTexture.source);
         }
 
@@ -26547,7 +26547,7 @@ Phaser.Point.multiplyAdd = function (a, b, s, out) {
 * @method Phaser.Point.interpolate
 * @param {Phaser.Point} a - The first Point object.
 * @param {Phaser.Point} b - The second Point object.
-* @param {number} f - The level of interpolation between the two points. Indicates where the new point will be, along the line between pt1 and pt2. If f=1, pt1 is returned; if f=0, pt2 is returned.
+* @param {number} f - The levelId of interpolation between the two points. Indicates where the new point will be, along the line between pt1 and pt2. If f=1, pt1 is returned; if f=0, pt2 is returned.
 * @param {Phaser.Point} [out] - Optional Point to store the value in, if not supplied a new Point object will be created.
 * @return {Phaser.Point} The new Point object.
 */
@@ -29969,7 +29969,7 @@ Phaser.StateManager.prototype = {
     },
 
     /**
-    * Nulls all State level Phaser properties, including a reference to Game.
+    * Nulls all State levelId Phaser properties, including a reference to Game.
     *
     * @method Phaser.StateManager#unlink
     * @param {string} key - State key.
@@ -30406,7 +30406,7 @@ Phaser.Signal.prototype = {
     * @param {function} listener - Signal handler function.
     * @param {boolean} isOnce - Should the listener only be called once?
     * @param {object} [listenerContext] - The context under which the listener is invoked.
-    * @param {number} [priority] - The priority level of the event listener. Listeners with higher priority will be executed before listeners with lower priority. Listeners with same priority level will be executed at the same order as they were added. (default = 0).
+    * @param {number} [priority] - The priority levelId of the event listener. Listeners with higher priority will be executed before listeners with lower priority. Listeners with same priority levelId will be executed at the same order as they were added. (default = 0).
     * @return {Phaser.SignalBinding} An Object representing the binding between the Signal and listener.
     */
     _registerListener: function (listener, isOnce, listenerContext, priority, args) {
@@ -30529,7 +30529,7 @@ Phaser.Signal.prototype = {
     * @method Phaser.Signal#add
     * @param {function} listener - The function to call when this Signal is dispatched.
     * @param {object} [listenerContext] - The context under which the listener will be executed (i.e. the object that should represent the `this` variable).
-    * @param {number} [priority] - The priority level of the event listener. Listeners with higher priority will be executed before listeners with lower priority. Listeners with same priority level will be executed at the same order as they were added (default = 0)
+    * @param {number} [priority] - The priority levelId of the event listener. Listeners with higher priority will be executed before listeners with lower priority. Listeners with same priority levelId will be executed at the same order as they were added (default = 0)
     * @param {...any} [args=(none)] - Additional arguments to pass to the callback (listener) function. They will be appended after any arguments usually dispatched.
     * @return {Phaser.SignalBinding} An Object representing the binding between the Signal and listener.
     */
@@ -30560,7 +30560,7 @@ Phaser.Signal.prototype = {
     * @method Phaser.Signal#addOnce
     * @param {function} listener - The function to call when this Signal is dispatched.
     * @param {object} [listenerContext] - The context under which the listener will be executed (i.e. the object that should represent the `this` variable).
-    * @param {number} [priority] - The priority level of the event listener. Listeners with higher priority will be executed before listeners with lower priority. Listeners with same priority level will be executed at the same order as they were added (default = 0)
+    * @param {number} [priority] - The priority levelId of the event listener. Listeners with higher priority will be executed before listeners with lower priority. Listeners with same priority levelId will be executed at the same order as they were added (default = 0)
     * @param {...any} [args=(none)] - Additional arguments to pass to the callback (listener) function. They will be appended after any arguments usually dispatched.
     * @return {Phaser.SignalBinding} An Object representing the binding between the Signal and listener.
     */
@@ -30802,7 +30802,7 @@ Phaser.Signal.prototype.constructor = Phaser.Signal;
 * @param {function} listener - Handler function bound to the signal.
 * @param {boolean} isOnce - If binding should be executed just once.
 * @param {object} [listenerContext=null] - Context on which listener will be executed (object that should represent the `this` variable inside listener function).
-* @param {number} [priority] - The priority level of the event listener. (default = 0).
+* @param {number} [priority] - The priority levelId of the event listener. (default = 0).
 * @param {...any} [args=(none)] - Additional arguments to pass to the callback (listener) function. They will be appended after any arguments usually dispatched.
 */
 Phaser.SignalBinding = function (signal, listener, isOnce, listenerContext, priority, args) {
@@ -31657,7 +31657,7 @@ Phaser.PluginManager.prototype.constructor = Phaser.PluginManager;
 */
 
 /**
-* The Stage controls root level display objects upon which everything is displayed.
+* The Stage controls root levelId display objects upon which everything is displayed.
 * It also handles browser visibility handling and the pausing due to loss of focus.
 *
 * @class Phaser.Stage
@@ -42410,7 +42410,7 @@ Phaser.InputHandler.prototype = {
     * @param {boolean} [lockCenter=false] - If false the Sprite will drag from where you click it minus the dragOffset. If true it will center itself to the tip of the mouse pointer.
     * @param {boolean} [bringToTop=false] - If true the Sprite will be bought to the top of the rendering list in its current Group.
     * @param {boolean} [pixelPerfect=false] - If true it will use a pixel perfect test to see if you clicked the Sprite. False uses the bounding box.
-    * @param {boolean} [alphaThreshold=255] - If using pixel perfect collision this specifies the alpha level from 0 to 255 above which a collision is processed.
+    * @param {boolean} [alphaThreshold=255] - If using pixel perfect collision this specifies the alpha levelId from 0 to 255 above which a collision is processed.
     * @param {Phaser.Rectangle} [boundsRect=null] - If you want to restrict the drag of this sprite to a specific Rectangle, pass the Phaser.Rectangle here, otherwise it's free to drag anywhere.
     * @param {Phaser.Sprite} [boundsSprite=null] - If you want to restrict the drag of this sprite to within the bounding box of another sprite, pass it here.
     */
@@ -45970,7 +45970,7 @@ Phaser.Component.Core.prototype = {
 
     /**
     * A user defined name given to this Game Object.
-    * This value isn't ever used internally by Phaser, it is meant as a game level property.
+    * This value isn't ever used internally by Phaser, it is meant as a game levelId property.
     * @property {string} name
     * @default
     */
@@ -46526,7 +46526,7 @@ Phaser.Component.Destroy.prototype = {
             this.transformCallbackContext = null;
         }
 
-        //  Pixi level DisplayObject destroy
+        //  Pixi levelId DisplayObject destroy
         this.hitArea = null;
         this.parent = null;
         this.stage = null;
@@ -51713,7 +51713,7 @@ Phaser.BitmapData.prototype = {
     * 
     * The children will be drawn at their `x` and `y` world space coordinates. If this is outside the bounds of the BitmapData 
     * they won't be drawn. Depending on your requirements you may need to resize the BitmapData in advance to match the 
-    * bounds of the top-level Game Object.
+    * bounds of the top-levelId Game Object.
     * 
     * When drawing it will take into account the child's world rotation, scale and alpha values.
     *
@@ -63624,7 +63624,7 @@ Phaser.RandomDataGenerator.prototype.constructor = Phaser.RandomDataGenerator;
 * @param {number} height - The height of the quadtree in pixels.
 * @param {number} [maxObjects=10] - The maximum number of objects per node.
 * @param {number} [maxLevels=4] - The maximum number of levels to iterate to.
-* @param {number} [level=0] - Which level is this?
+* @param {number} [level=0] - Which levelId is this?
 */
 Phaser.QuadTree = function(x, y, width, height, maxObjects, maxLevels, level) {
 
@@ -63641,9 +63641,9 @@ Phaser.QuadTree = function(x, y, width, height, maxObjects, maxLevels, level) {
     this.maxLevels = 4;
 
     /**
-    * @property {number} level - The current level.
+    * @property {number} levelId - The current levelId.
     */
-    this.level = 0;
+    this.levelId = 0;
 
     /**
     * @property {object} bounds - Object that contains the quadtree bounds.
@@ -63682,13 +63682,13 @@ Phaser.QuadTree.prototype = {
     * @param {number} height - The height of the quadtree in pixels.
     * @param {number} [maxObjects=10] - The maximum number of objects per node.
     * @param {number} [maxLevels=4] - The maximum number of levels to iterate to.
-    * @param {number} [level=0] - Which level is this?
+    * @param {number} [level=0] - Which levelId is this?
     */
     reset: function (x, y, width, height, maxObjects, maxLevels, level) {
 
         this.maxObjects = maxObjects || 10;
         this.maxLevels = maxLevels || 4;
-        this.level = level || 0;
+        this.levelId = level || 0;
 
         this.bounds = {
             x: Math.round(x),
@@ -63741,16 +63741,16 @@ Phaser.QuadTree.prototype = {
     split: function () {
 
         //  top right node
-        this.nodes[0] = new Phaser.QuadTree(this.bounds.right, this.bounds.y, this.bounds.subWidth, this.bounds.subHeight, this.maxObjects, this.maxLevels, (this.level + 1));
+        this.nodes[0] = new Phaser.QuadTree(this.bounds.right, this.bounds.y, this.bounds.subWidth, this.bounds.subHeight, this.maxObjects, this.maxLevels, (this.levelId + 1));
 
         //  top left node
-        this.nodes[1] = new Phaser.QuadTree(this.bounds.x, this.bounds.y, this.bounds.subWidth, this.bounds.subHeight, this.maxObjects, this.maxLevels, (this.level + 1));
+        this.nodes[1] = new Phaser.QuadTree(this.bounds.x, this.bounds.y, this.bounds.subWidth, this.bounds.subHeight, this.maxObjects, this.maxLevels, (this.levelId + 1));
 
         //  bottom left node
-        this.nodes[2] = new Phaser.QuadTree(this.bounds.x, this.bounds.bottom, this.bounds.subWidth, this.bounds.subHeight, this.maxObjects, this.maxLevels, (this.level + 1));
+        this.nodes[2] = new Phaser.QuadTree(this.bounds.x, this.bounds.bottom, this.bounds.subWidth, this.bounds.subHeight, this.maxObjects, this.maxLevels, (this.levelId + 1));
 
         //  bottom right node
-        this.nodes[3] = new Phaser.QuadTree(this.bounds.right, this.bounds.bottom, this.bounds.subWidth, this.bounds.subHeight, this.maxObjects, this.maxLevels, (this.level + 1));
+        this.nodes[3] = new Phaser.QuadTree(this.bounds.right, this.bounds.bottom, this.bounds.subWidth, this.bounds.subHeight, this.maxObjects, this.maxLevels, (this.levelId + 1));
 
     },
 
@@ -63779,7 +63779,7 @@ Phaser.QuadTree.prototype = {
 
         this.objects.push(body);
 
-        if (this.objects.length > this.maxObjects && this.level < this.maxLevels)
+        if (this.objects.length > this.maxObjects && this.levelId < this.maxLevels)
         {
             //  Split if we don't already have subnodes
             if (this.nodes[0] == null)
@@ -67002,7 +67002,7 @@ Phaser.Time.prototype = {
     */
     updateTimers: function () {
 
-        //  Any game level timers
+        //  Any game levelId timers
         var i = 0;
         var len = this._timers.length;
 
@@ -80970,7 +80970,7 @@ Phaser.Utils.Debug.prototype = {
     * **Note** Requires a browser that supports console.group and console.groupEnd (such as Chrome)
     *
     * @method displayList
-    * @param {Object} [displayObject] - The displayObject level display object to start from. Defaults to the World.
+    * @param {Object} [displayObject] - The displayObject levelId display object to start from. Defaults to the World.
     */
     displayList: function (displayObject) {
 
@@ -87020,7 +87020,7 @@ Phaser.Physics.Arcade.Body = function (sprite) {
     * for this signal to be dispatched.
     *
     * Usually you'd pass a callback to the `collide` method, but this signal provides for
-    * a different level of notification.
+    * a different levelId of notification.
     * 
     * Due to the potentially high volume of signals this could create it is disabled by default.
     * 
@@ -87040,7 +87040,7 @@ Phaser.Physics.Arcade.Body = function (sprite) {
     * for this signal to be dispatched.
     *
     * Usually you'd pass a callback to the `overlap` method, but this signal provides for
-    * a different level of notification.
+    * a different levelId of notification.
     * 
     * Due to the potentially high volume of signals this could create it is disabled by default.
     * 
@@ -88450,7 +88450,7 @@ Phaser.Physics.Arcade.TilemapCollision.prototype = {
 
         //  They overlap. Any custom callbacks?
 
-        //  A local callback always takes priority over a layer level callback
+        //  A local callback always takes priority over a layer levelId callback
         if (tile.collisionCallback && !tile.collisionCallback.call(tile.collisionCallbackContext, body.sprite, tile))
         {
             //  If it returns true then we can carry on, otherwise we should abort.
@@ -90133,7 +90133,7 @@ Phaser.Physics.P2.prototype = {
     * Collision Groups are handled using bitmasks, therefore you have a fixed limit you can create before you need to re-use older groups.
     *
     * @method Phaser.Physics.P2#createCollisionGroup
-    * @param {Phaser.Group|Phaser.Sprite} [object] - An optional Sprite or Group to apply the Collision Group to. If a Group is given it will be applied to all top-level children.
+    * @param {Phaser.Group|Phaser.Sprite} [object] - An optional Sprite or Group to apply the Collision Group to. If a Group is given it will be applied to all top-levelId children.
     */
     createCollisionGroup: function (object) {
 
@@ -90179,7 +90179,7 @@ Phaser.Physics.P2.prototype = {
     * Note that this resets the collisionMask and any previously set groups. See Body.collides() for appending them.
     *
     * @method Phaser.Physics.P2y#setCollisionGroup
-    * @param {Phaser.Group|Phaser.Sprite} object - A Sprite or Group to apply the Collision Group to. If a Group is given it will be applied to all top-level children.
+    * @param {Phaser.Group|Phaser.Sprite} object - A Sprite or Group to apply the Collision Group to. If a Group is given it will be applied to all top-levelId children.
     * @param {Phaser.Physics.CollisionGroup} group - The Collision Group that this Bodies shapes will use.
     */
     setCollisionGroup: function (object, group) {
@@ -95157,7 +95157,7 @@ Phaser.Tilemap.prototype = {
     * Creates a Sprite for every object matching the given tile indexes in the map data.
     * You can specify the group that the Sprite will be created in. If none is given it will be created in the World.
     * You can optional specify if the tile will be replaced with another after the Sprite is created. This is useful if you want to lay down special 
-    * tiles in a level that are converted to Sprites, but want to replace the tile itself with a floor tile or similar once converted.
+    * tiles in a levelId that are converted to Sprites, but want to replace the tile itself with a floor tile or similar once converted.
     *
     * @method Phaser.Tilemap#createFromTiles
     * @param {integer|Array} tiles - The tile index, or array of indexes, to create Sprites from.
@@ -96781,7 +96781,7 @@ Phaser.TilemapLayer = function (game, tilemap, index, width, height) {
     *
     * @property {boolean} forceFullRedraw - When debug rendering (`debug` is true), and this option is enabled, the a full redraw is forced and rendering optimization is suppressed.
     *
-    * @property {number} debugAlpha - When debug rendering (`debug` is true), the tileset is initially rendered with this alpha level. This can make the tile edges clearer.
+    * @property {number} debugAlpha - When debug rendering (`debug` is true), the tileset is initially rendered with this alpha levelId. This can make the tile edges clearer.
     *
     * @property {?string} facingEdgeStroke - When debug rendering (`debug` is true), this color/stroke is used to draw "face" edges. A value of `null` disables coloring facing edges.
     *

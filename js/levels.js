@@ -1,7 +1,24 @@
 var waveNumber;
 var lastLevel = 11;
 
+var levelOrdering = {
+    'eastAnglia': {
+        1: 'level1',
+        2: 'level2',
+        3: 'level3',
+        4: 'level4',
+        5: 'level5',
+        6: 'level6',
+        7: 'level7',
+        8: 'level8',
+        9: 'level9',
+        10: 'level10',
+        11: 'level11'
+    }
+};
+
 var level1 = {
+    mapName: 'map1',
     waveInfo: {
         wave1: {
             duration: 25,
@@ -109,6 +126,7 @@ var level1 = {
 };
 
 var level2 = {
+    mapName: 'map2',
     waveInfo: {
         wave1: {
             duration: 27,
@@ -232,6 +250,7 @@ var level2 = {
 };
 
 var level3 = {
+    mapName: 'map3',
     waveInfo: {
         wave1: {
             duration: 30,
@@ -355,6 +374,7 @@ var level3 = {
 };
 
 var level4 = {
+    mapName: 'map4',
     waveInfo: {
         wave1: {
             duration: 25,
@@ -477,6 +497,7 @@ var level4 = {
 };
 
 var level5 = {
+    mapName: 'map5',
     waveInfo: {
         wave1: {
             duration: 25,
@@ -612,6 +633,7 @@ var level5 = {
 };
 
 var level6 = {
+    mapName: 'map6',
     waveInfo: {
         wave1: {
             duration: 25,
@@ -749,6 +771,7 @@ var level6 = {
 };
 
 var level7 = {
+    mapName: 'map7',
     waveInfo: {
         wave1: {
             duration: 25,
@@ -799,7 +822,7 @@ var level7 = {
             duration: 32,
             createEvents: function(s) {
 
-                mainState.scheduleAttackersWave('Mib', waveNumber, s, 30, .75);
+                mainState.scheduleAttackersWave('Mib', waveNumber, s, 30, .8);
 
             }
         }
@@ -886,6 +909,7 @@ var level7 = {
 };
 
 var level8 = {
+    mapName: 'map8',
     waveInfo: {
         wave1: {
             duration: 25,
@@ -1015,6 +1039,7 @@ var level8 = {
 };
 
 var level9 = {
+    mapName: 'map9',
     waveInfo: {
         wave1: {
             duration: 25,
@@ -1143,6 +1168,7 @@ var level9 = {
 };
 
 var level10 = {
+    mapName: 'map10',
     waveInfo: {
         wave1: {
             duration: 25,
@@ -1271,6 +1297,7 @@ var level10 = {
 };
 
 var level11 = {
+    mapName: 'map11',
     waveInfo: {
         wave1: {
             duration: 25,

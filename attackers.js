@@ -115,8 +115,8 @@ Attacker.prototype.moveToGoal = function()
 {
 
     var pixelCoordinates = mainState.translateGridCoordinatesToPixelCoordinates(
-        window['level' + mainState.level].goalXGrid,
-        window['level' + mainState.level].goalYGrid
+        mainState.level.goalXGrid,
+        mainState.level.goalYGrid
     );
 
     var target_position = new Phaser.Point(pixelCoordinates[0], pixelCoordinates[1]);
@@ -144,8 +144,8 @@ Attacker.prototype.hasReachedGoal = function()
     }
 
     var pixelCoordinates = mainState.translateGridCoordinatesToPixelCoordinates(
-        window['level' + mainState.level].goalXGrid,
-        window['level' + mainState.level].goalYGrid
+        mainState.level.goalXGrid,
+        mainState.level.goalYGrid
     );
 
     goalX = pixelCoordinates[0] + (mainState.squareWidth / 2);
@@ -232,8 +232,8 @@ Attacker.prototype.move_to = function (target_position) {
 
 Attacker.prototype.getAdditionalCostTiles = function() {
 
-    if (typeof window['level' + mainState.level].pathAdditionalCostTiles == 'function') {
-        return window['level' + mainState.level].pathAdditionalCostTiles(this);
+    if (typeof mainState.level.pathAdditionalCostTiles == 'function') {
+        return mainState.level.pathAdditionalCostTiles(this);
     }
 
     return [];
@@ -361,7 +361,7 @@ Attacker.prototype.updateCrosshair = function()
 };
 Attacker.prototype.calculateHealthModifier = function()
 {
-    var waveHealthModifier = window['level' + mainState.level].waveHealthModifier || .2;
+    var waveHealthModifier = mainState.level.waveHealthModifier || .2;
     
     return (1 - waveHealthModifier) + (mainState.waveNumber * waveHealthModifier);
 };

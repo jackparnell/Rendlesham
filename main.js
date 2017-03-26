@@ -20,7 +20,7 @@ var mainState = {
 
     init: function(levelNumber)
     {
-        this.level = levelNumber;
+        this.levelId = levelNumber;
     },
 
     create: function()
@@ -54,8 +54,8 @@ var mainState = {
         this.towerSelected = 'Gun';
         this.squareWidth = 35;
 
-        if (!this.level) {
-            this.level = 1;
+        if (!this.levelId) {
+            this.levelId = 1;
         }
 
 
@@ -81,8 +81,7 @@ var mainState = {
 
         this.backgrounds = game.add.group();
 
-        this.setupMap();
-        this.positionCamera();
+        this.fetchLevelInfo();
 
         /*
         this.game.goalX = game.width * .025;
@@ -135,7 +134,7 @@ var mainState = {
             this.updateNotifications();
             this.drawIndicators();
 
-            if (!this.pendingLevelCompleted && this.getCurrentLevel().completed()) {
+            if (!this.pendingLevelCompleted && this.level.completed()) {
                 this.levelCompleted();
             }
 
@@ -218,8 +217,7 @@ var mainState = {
 
         this.destroyLabels();
 
-
-        switch(window['level' + this.level].theme) {
+        switch(this.level.theme) {
             case 'snow':
                 var titleTint = 0x666666;
                 var valueTint = 0x333333;
@@ -522,8 +520,8 @@ var mainState = {
     {
         if (!x) {
 
-            if (window['level' + this.level].entryYGrid) {
-                var gridX = window['level' + this.level].entryXGrid;
+            if (this.level.entryYGrid) {
+                var gridX = this.level.entryXGrid;
                 x = (gridX * this.squareWidth) + (this.squareWidth-1);
             } else {
                 x = this.game.width - 5;
@@ -532,8 +530,8 @@ var mainState = {
         }
         if (!y) {
 
-            if (window['level' + this.level].entryYGrid) {
-                var gridY = window['level' + this.level].entryYGrid;
+            if (this.level.entryYGrid) {
+                var gridY = this.level.entryYGrid;
                 y = (gridY * this.squareWidth) + (this.squareWidth/2);
             } else {
                 y = this.game.height * .41;
@@ -603,7 +601,7 @@ var mainState = {
     spawnLevelObstacles: function()
     {
 
-        var level = window['level' + this.level];
+        var level = this.level;
 
         if (level.obstacles) {
             for (var obstacleClassName in level.obstacles) {
@@ -696,13 +694,6 @@ var mainState = {
 
     },
 
-    move_player: function() {
-        "use strict";
-        var target_position;
-        target_position = new Phaser.Point(this.game.input.activePointer.x, this.game.input.activePointer.y);
-        this.player1.move_to(target_position);
-    },
-
     render: function()
     {
         // game.debug.body(this.test);
@@ -733,20 +724,20 @@ var mainState = {
     {
         this.pendingLevelCompleted = true;
 
-        this.displayMessage('Level ' + this.level + ' completed!');
+        this.displayMessage('Level ' + this.levelId + ' completed!');
         this.labelIndicatorMessage.setText('');
 
-        this.user.levelsComplete[this.level] = true;
+        this.user.levelsComplete[this.levelId] = true;
 
         // Begin stars
         if (!this.user.levelStars) {
             this.user.levelStars = {};
         }
 
-        var completionStars = window['level' + this.level].calculateCompletionStars();
+        var completionStars = this.level.calculateCompletionStars();
 
-        if (!this.user.levelStars[this.level] || this.user.levelStars[this.level] < completionStars) {
-            this.user.levelStars[this.level] = completionStars;
+        if (!this.user.levelStars[this.levelId] || this.user.levelStars[this.levelId] < completionStars) {
+            this.user.levelStars[this.levelId] = completionStars;
         }
         // End stars
 
@@ -755,8 +746,8 @@ var mainState = {
             this.user.levelHighScores = {};
         }
 
-        if (!this.user.levelHighScores[this.level] || this.user.levelHighScores[this.level] < this.score) {
-            this.user.levelHighScores[this.level] = this.score;
+        if (!this.user.levelHighScores[this.levelId] || this.user.levelHighScores[this.levelId] < this.score) {
+            this.user.levelHighScores[this.levelId] = this.score;
         }
         // End score
 
@@ -775,13 +766,13 @@ var mainState = {
             500,
             game.height * .18,
             bitmapFontName,
-            ' Level ' + this.level + ' complete!',
+            ' Level ' + this.levelId + ' complete!',
             58
         );
         this.levelCompleteText.x = game.world.centerX - (this.levelCompleteText.width / 2);
 
         // Begin stars
-        var completionStars = window['level' + this.level].calculateCompletionStars();
+        var completionStars = this.level.calculateCompletionStars();
 
         var x = (game.width * .5) - 180 + game.camera.x;
         var y = (game.height * .38) + game.camera.y;
@@ -824,7 +815,7 @@ var mainState = {
     nextLevel: function()
     {
 
-        this.level ++;
+        this.levelId ++;
         this.startLevel();
 
         return true;
@@ -924,15 +915,15 @@ var mainState = {
             return false;
         }
 
-        if (this.isPositionOnPathway(x, y) && !window['level' + this.level].canPlaceTowerOnPathway) {
+        if (this.isPositionOnPathway(x, y) && !this.level.canPlaceTowerOnPathway) {
              return false;
         }
 
-        if (window['level' + this.level].towerPlacementForbiddenRows) {
+        if (this.level.towerPlacementForbiddenRows) {
             var gridCoordinates = this.translatePixelCoordinatesToGridCoordinates(x, y);
             var gridY = gridCoordinates[1];
 
-            if (window['level' + this.level].towerPlacementForbiddenRows.indexOf(gridY) != -1) {
+            if (this.level.towerPlacementForbiddenRows.indexOf(gridY) != -1) {
                 return false;
             }
         }
@@ -1088,12 +1079,19 @@ var mainState = {
         }
     },
 
+    fetchLevelInfo: function()
+    {
+        this.level = window['level' + this.levelId];
+        return this.level;
+    },
+
     startLevel: function()
     {
 
         $('p').css('opacity', '0.01');
 
-        console.log('Starting level ' + this.level);
+        this.fetchLevelInfo();
+
         this.allAttackersDispatched = false;
         this.pendingLevelCompleted = false;
 
@@ -1103,14 +1101,14 @@ var mainState = {
         this.positionCamera();
         this.initiateLabels();
 
-        window['level' + this.level].begin();
+        this.level.begin();
 
         // Set coins to the startingCoins value from the level
-        this.coins = window['level' + this.level].startingCoins;
+        this.coins = this.level.startingCoins;
         this.updateCoins();
 
         // Set lives to the startingLives value from the level
-        this.lives = window['level' + this.level].startingLives;
+        this.lives = this.level.startingLives;
         this.updateLives();
 
         this.score = 0;
@@ -1128,7 +1126,7 @@ var mainState = {
         var message = '';
 
         if (waveNumber == 1) {
-            message = 'Level ' + this.level + ' ';
+            message = 'Level ' + this.levelId + ' ';
         }
 
         message += 'Wave ' + this.waveNumber;
@@ -1169,10 +1167,14 @@ var mainState = {
         this.clearTimedEvents();
 
         this.globalAdditionalCostTiles = [];
-        this.pathfinding.easy_star.removeAllAdditionalPointCosts();
-        this.pathfinding.easy_star.stopAvoidingAllAdditionalPoints();
-        this.easyStarSync.removeAllAdditionalPointCosts();
-        this.easyStarSync.stopAvoidingAllAdditionalPoints();
+        if (this.pathfinding) {
+            this.pathfinding.easy_star.removeAllAdditionalPointCosts();
+            this.pathfinding.easy_star.stopAvoidingAllAdditionalPoints();
+        }
+        if (this.easyStarSync) {
+            this.easyStarSync.removeAllAdditionalPointCosts();
+            this.easyStarSync.stopAvoidingAllAdditionalPoints();
+        }
 
         this.clearingMap = false;
 
@@ -1261,7 +1263,9 @@ var mainState = {
             indicatorMessage = '';
         }
 
-        this.labelIndicatorMessage.setText(indicatorMessage);
+        if (this.labelIndicatorMessage) {
+            this.labelIndicatorMessage.setText(indicatorMessage);
+        }
 
         this.graphics.lineStyle(2, borderColor, 1);
         this.graphics.drawRect(x, y, this.squareWidth, this.squareWidth);
@@ -1405,7 +1409,11 @@ var mainState = {
 
     setupMap: function()
     {
-        this.map = game.add.tilemap('map' + this.level);
+        if (!this.level.mapName) {
+            throw 'Level mapName not found';
+        }
+
+        this.map = game.add.tilemap(this.level.mapName);
         this.map.addTilesetImage('tiles_spritesheet', 'tiles');
 
         // create map layers
@@ -1556,11 +1564,6 @@ var mainState = {
         }
     },
 
-    getCurrentLevel: function()
-    {
-        return window['level' + this.level];
-    },
-
     scheduleAttackersWave: function(attackerClassName, waveNumber, s, duration, gap, startOffset)
     {
 
@@ -1583,6 +1586,10 @@ var mainState = {
 
     positionCamera: function()
     {
+        if (!this.map) {
+            throw 'Map not initiated.';
+        }
+
         var x = (this.map.widthInPixels - game.width) / 2;
         var y = (this.map.heightInPixels - game.height) / 2;
 
@@ -1594,10 +1601,9 @@ var mainState = {
     generateSpawnAttackerPixelCoordinates: function()
     {
         return mainState.translateGridCoordinatesToPixelCoordinates(
-            window['level' + mainState.level].entryXGrid,
-            window['level' + mainState.level].entryYGrid
+            this.level.entryXGrid,
+            this.level.entryYGrid
         );
-        
     },
 
     addItem: function(itemName)
@@ -1729,22 +1735,22 @@ var mainState = {
 
     getEntryXGrid: function()
     {
-        return window['level' + this.level].entryXGrid;
+        return this.level.entryXGrid;
     },
 
     getEntryYGrid: function()
     {
-        return window['level' + this.level].entryYGrid;
+        return this.level.entryYGrid;
     },
 
     getGoalXGrid: function()
     {
-        return window['level' + this.level].goalXGrid;
+        return this.level.goalXGrid;
     },
 
     getGoalYGrid: function()
     {
-        return window['level' + this.level].goalYGrid;
+        return this.level.goalYGrid;
     },
 
     pixelsNearestTileTopLeftCoordinates: function(x, y)
