@@ -104,8 +104,10 @@ var mainState = {
         game.input.onDown.add(this.placeTower, this);
 
 
-        this.gameOverBackground = this.game.add.tileSprite(game.camera.x, game.camera.y, game.width, game.height, 'gameOverBackground');
+        this.gameOverBackground = this.game.add.tileSprite(0, 0, game.camera.width, game.camera.height, 'gameOverBackground');
+        this.gameOverBackground.fixedToCamera = true;
         this.gameOverBackground.alpha = 0;
+
         this.overlays.add(this.gameOverBackground);
 
         this.mode = 'place';
