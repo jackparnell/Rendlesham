@@ -70,9 +70,34 @@ function loadMainFiles()
     game.load.image('tiles', 'assets/tilemaps/tiles/tiles_spritesheet.png');
 
     game.load.bitmapFont('gem', 'assets/fonts/bitmapFonts/gem.png', 'assets/fonts/bitmapFonts/gem.xml');
-
-
+    game.load.bitmapFont('passionOne', 'assets/fonts/bitmapFonts/passionOne.png', 'assets/fonts/bitmapFonts/passionOne.fnt');
 
 }
+
+function getLevelByName(levelName) {
+
+    var item;
+    var level;
+
+    for (var property in levelOrdering.eastAnglia) {
+        if (levelOrdering.eastAnglia.hasOwnProperty(property)) {
+            item = window[levelOrdering.eastAnglia[property]];
+
+            if (item.name && item.name == levelName) {
+                level = item;
+            }
+        }
+    }
+
+    return level;
+
+}
+
+var newUser = {
+    levelsComplete: [],
+    items: {},
+    levelStars: {},
+    levelHighScores: {}
+};
 
 

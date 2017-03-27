@@ -739,6 +739,10 @@ var mainState = {
         if (!this.user.levelStars[this.levelId] || this.user.levelStars[this.levelId] < completionStars) {
             this.user.levelStars[this.levelId] = completionStars;
         }
+
+        if (!this.user.levelStars[this.level.name] || this.user.levelStars[this.level.name] < completionStars) {
+            this.user.levelStars[this.level.name] = completionStars;
+        }
         // End stars
 
         // Begin score
@@ -746,8 +750,8 @@ var mainState = {
             this.user.levelHighScores = {};
         }
 
-        if (!this.user.levelHighScores[this.levelId] || this.user.levelHighScores[this.levelId] < this.score) {
-            this.user.levelHighScores[this.levelId] = this.score;
+        if (!this.user.levelHighScores[this.level.name] || this.user.levelHighScores[this.level.name] < this.score) {
+            this.user.levelHighScores[this.level.name] = this.score;
         }
         // End score
 
@@ -1519,10 +1523,7 @@ var mainState = {
         if (localStorage.getItem(this.name)) {
             this.user = JSON.parse(localStorage.getItem(this.name));
         } else {
-            this.user = {
-                levelsComplete: [],
-                items: {}
-            }
+            this.user = newUser;
             this.save();
         }
 

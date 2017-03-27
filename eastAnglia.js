@@ -48,6 +48,24 @@ Rendlesham.eastAnglia.prototype = {
 
         this.loadUser();
 
+
+        // Begin back link
+        this.backLink = game.add.bitmapText(
+            0,
+            0,
+            bitmapFontName,
+            'Back',
+            20
+        );
+        this.backLink.x = game.camera.width - this.backLink.width - 15;
+        this.backLink.y = 15;
+        this.backLink.fixedToCamera = true;
+
+        this.backLink.inputEnabled = true;
+        this.backLink.input.useHandCursor = true;
+        this.backLink.events.onInputDown.add(this.goToTitleScreen, this);
+        // End back link
+
         this.level = {
             1: {
                 x: game.width * .1,
@@ -178,12 +196,12 @@ Rendlesham.eastAnglia.prototype = {
         if (localStorage.getItem(this.name)) {
             this.user = JSON.parse(localStorage.getItem(this.name));
         } else {
-            this.user = {
-                levelsComplete: []
-            }
+            this.user = newUser;
+            this.save();
         }
 
     },
+
 
     isLevelUnlocked: function(levelNumber)
     {
@@ -267,6 +285,11 @@ Rendlesham.eastAnglia.prototype = {
 
         }
 
+    },
+
+    goToTitleScreen: function()
+    {
+        changeGameState('titleScreen');
     }
 
 };

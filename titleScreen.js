@@ -35,8 +35,38 @@ Rendlesham.titleScreen.prototype = {
         var spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
         spaceKey.onDown.add(this.playTheGame, this);
 
+
+        window.onkeydown = function() {
+            // Press S
+            if (game.input.keyboard.event.keyCode == 83) {
+                changeGameState('achievements');
+            }
+        };
+
         this.showTipText();
 
+        // Begin achievements link
+        this.achievementsLink = game.add.bitmapText(
+            0,
+            0,
+            bitmapFontName,
+            'View Achievements',
+            20
+        );
+        this.achievementsLink.x = game.camera.width - this.achievementsLink.width - 15;
+        this.achievementsLink.y = game.camera.height - this.achievementsLink.height - 15;
+        this.achievementsLink.fixedToCamera = true;
+
+        this.achievementsLink.inputEnabled = true;
+        this.achievementsLink.input.useHandCursor = true;
+        this.achievementsLink.events.onInputDown.add(this.showAchievements, this);
+        // End achievements link
+
+    },
+
+    showAchievements: function()
+    {
+        changeGameState('achievements');
     },
 
     playTheGame: function()
@@ -60,6 +90,5 @@ Rendlesham.titleScreen.prototype = {
         this.tipText.x = (game.width / 2) - (this.tipText.width / 2);
         this.tipText.tint = 0xCCFFCC;
 
-
     }
-}
+};

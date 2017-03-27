@@ -18,6 +18,7 @@ var levelOrdering = {
 };
 
 var fridayStreet = {
+    name: 'fridayStreet',
     mapName: 'fridayStreet',
     title: 'Friday Street',
     waveInfo: {
@@ -127,6 +128,7 @@ var fridayStreet = {
 };
 
 var orfordRoad = {
+    name: 'orfordRoad',
     mapName: 'orfordRoad',
     title: 'Orford Road',
     waveInfo: {
@@ -252,6 +254,7 @@ var orfordRoad = {
 };
 
 var orfordness = {
+    name: 'orfordness',
     mapName: 'orfordness',
     title: 'Orfordness',
     waveInfo: {
@@ -377,6 +380,7 @@ var orfordness = {
 };
 
 var westletonHeath = {
+    name: 'westletonHeath',
     mapName: 'westletonHeath',
     title: 'Westleton Heath',
     waveInfo: {
@@ -501,6 +505,7 @@ var westletonHeath = {
 };
 
 var bartonMills = {
+    name: 'bartonMills',
     mapName: 'bartonMills',
     title: 'Barton Mills',
     waveInfo: {
@@ -638,6 +643,7 @@ var bartonMills = {
 };
 
 var worthamLing = {
+    name: 'worthamLing',
     mapName: 'worthamLing',
     title: 'Wortham Ling',
     waveInfo: {
@@ -777,6 +783,7 @@ var worthamLing = {
 };
 
 var waveneyCrossing = {
+    name: 'waveneyCrossing',
     mapName: 'waveneyCrossing',
     title: 'Waveney Crossing',
     waveInfo: {
@@ -916,6 +923,7 @@ var waveneyCrossing = {
 };
 
 var frozenFen = {
+    name: 'frozenFen',
     mapName: 'frozenFen',
     title: 'Frozen Fen',
     waveInfo: {
@@ -1047,6 +1055,7 @@ var frozenFen = {
 };
 
 var sandringhamWoods = {
+    name: 'sandringhamWoods',
     mapName: 'sandringhamWoods',
     title: 'Sandringham Woods',
     waveInfo: {
@@ -1177,6 +1186,7 @@ var sandringhamWoods = {
 };
 
 var holkhamBeach = {
+    name: 'holkhamBeach',
     mapName: 'holkhamBeach',
     title: 'Holkham Beach',
     waveInfo: {
@@ -1307,6 +1317,7 @@ var holkhamBeach = {
 };
 
 var northCreake = {
+    name: 'northCreake',
     mapName: 'northCreake',
     title: 'North Creake',
     waveInfo: {
