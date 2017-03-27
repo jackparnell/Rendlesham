@@ -99,6 +99,9 @@ var mainState = {
         this.overlays = game.add.group();
         this.finishedItems = game.add.group();
 
+        this.linkBackgrounds = game.add.group();
+        this.texts = game.add.group();
+
         this.initiateLoops();
 
         game.input.onDown.add(this.placeTower, this);
@@ -161,8 +164,9 @@ var mainState = {
 
     },
 
-    gameOver: function() {
-        game.state.start('gameOver');
+    gameOver: function()
+    {
+        game.state.start('gameOver', true, true, this.levelId);
     },
 
     shutdown: function()
@@ -769,22 +773,22 @@ var mainState = {
         this.gameOverBackground.alpha = .5;
 
         this.levelCompleteText = game.add.bitmapText(
-            500,
-            game.height * .18,
+            game.camera.width / 2,
+            game.height * .16,
             bitmapFontName,
-            ' Level ' + this.levelId + ' complete!',
+            'Level ' + this.levelId + ' complete!',
             58
         );
         this.levelCompleteText.x = game.world.centerX - (this.levelCompleteText.width / 2);
+        this.levelCompleteText.fixedToCamera = true;
 
         // Begin stars
         var completionStars = this.level.calculateCompletionStars();
 
-        var x = (game.width * .5) - 180 + game.camera.x;
-        var y = (game.height * .38) + game.camera.y;
+        var x = (game.width * .5) - 180;
+        var y = (game.height * .36);
 
         var starSpriteName;
-
 
         for (i = 1; i <= 3; i++) {
 
@@ -795,6 +799,7 @@ var mainState = {
             }
 
             var star = game.add.sprite(x, y, starSpriteName);
+            star.fixedToCamera = true;
 
             this.finishedItems.add(star);
 
@@ -803,17 +808,43 @@ var mainState = {
         }
         // End stars
 
+        // Begin score text
         this.scoreText = game.add.bitmapText(
-            500,
-            game.height * .71,
+            game.camera.width / 2,
+            game.height * .68,
             bitmapFontName,
             'Score: ' + this.score,
             24
         );
         this.scoreText.tint = 0xCCCCCC;
-        this.scoreText.x = game.world.centerX - (this.scoreText.width / 2);
+        this.scoreText.x = (game.camera.width / 2) - (this.scoreText.width / 2);
+        this.scoreText.fixedToCamera = true;
+        // End score text
 
-        this.nextLevelButton = game.add.button(game.world.centerX - 80, game.height * .82, 'button', this.nextLevel, this);
+        // Begin next level link
+        this.nextLevelLink = game.add.bitmapText(
+            game.camera.width / 2,
+            game.height * .8,
+            bitmapFontName,
+            'Play Next Level',
+            40
+        );
+        this.nextLevelLink.x = (game.camera.width / 2) - (this.nextLevelLink.width / 2);
+        this.nextLevelLink.fixedToCamera = true;
+
+        this.nextLevelLinkButton = game.add.button(
+            game.world.centerX - 80,
+            this.nextLevelLink.y,
+            'forestGreen',
+            this.nextLevel,
+            this
+        );
+        this.linkBackgrounds.add(this.nextLevelLinkButton);
+        this.nextLevelLinkButton.x = (game.camera.width / 2) - (this.nextLevelLinkButton.width / 2);
+        this.nextLevelLinkButton.y = this.nextLevelLink.y - 11;
+        this.nextLevelLinkButton.fixedToCamera = true;
+        // End next level link
+
 
     },
 
@@ -1162,12 +1193,19 @@ var mainState = {
         this.characters.callAll('kill');
         this.finishedItems.callAll('kill');
 
-        if (this.levelCompleteText) {
-            this.levelCompleteText.destroy();
-        }
-        if (this.nextLevelButton) {
-            this.nextLevelButton.destroy();
-        }
+        var objectsToDestroy = [
+            'levelCompleteText',
+            'nextLevelLink',
+            'scoreText',
+            'nextLevelLinkButton'
+        ];
+
+        objectsToDestroy.forEach(function(objectName) {
+            if (mainState[objectName]) {
+                mainState[objectName].destroy();
+            }
+        });
+
         this.gameOverBackground.alpha = 0;
 
         this.clearTimedEvents();

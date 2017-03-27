@@ -5,8 +5,17 @@ Rendlesham.gameOver = function(){
 Rendlesham.gameOver.prototype = {
     preload: function() {
 
-        game.load.image('goToTitleScreen', 'assets/buttons/goToTitleScreen.png');
+        this.backgrounds = game.add.group();
 
+        this.linkBackgrounds = game.add.group();
+        this.texts = game.add.group();
+
+        loadMainFiles();
+
+    },
+    init: function(levelNumber)
+    {
+        this.levelId = levelNumber;
     },
     create: function(){
 
@@ -17,7 +26,7 @@ Rendlesham.gameOver.prototype = {
         game.scale.pageAlignHorizontally = true;
         game.scale.pageAlignVertically = true;
 
-        game.stage.backgroundColor = '#000000';
+        game.stage.backgroundColor = "#112c06";
 
         this.capturedText = game.add.bitmapText(500, 100, bitmapFontName, 'Captured', 80);
         this.capturedText.align = 'center';
@@ -27,7 +36,31 @@ Rendlesham.gameOver.prototype = {
         this.detailsText.align = 'center';
         this.detailsText.x = (game.width / 2) - (this.detailsText.width / 2);
 
-        var goToTitleScreen = game.add.button((game.width/2) - 95, game.height * .75, 'goToTitleScreen', this.goToTitleScreen, this);
+
+        // Begin try again link
+        this.tryAgainLink = game.add.bitmapText(
+            game.camera.width / 2,
+            game.height * .72,
+            bitmapFontName,
+            'Try Again',
+            48
+        );
+        this.tryAgainLink.x = (game.camera.width / 2) - (this.tryAgainLink.width / 2);
+        this.tryAgainLink.fixedToCamera = true;
+
+        this.tryAgainLinkButton = game.add.button(
+            game.world.centerX - 80,
+            this.tryAgainLink.y,
+            'forestGreen',
+            this.tryAgain,
+            this
+        );
+        this.linkBackgrounds.add(this.tryAgainLinkButton);
+        this.tryAgainLinkButton.x = (game.camera.width / 2) - (this.tryAgainLinkButton.width / 2);
+        this.tryAgainLinkButton.y = this.tryAgainLink.y - 9;
+        this.tryAgainLinkButton.fixedToCamera = true;
+        // End try again link
+
 
         // Press SPACE to restart the game.
         var spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
@@ -35,11 +68,8 @@ Rendlesham.gameOver.prototype = {
 
     },
 
-    goToTitleScreen: function(){
-        game.state.start('titleScreen',true,false);
-    },
-
-    playTheGame: function(){
-        game.state.start('main');
+    tryAgain: function()
+    {
+        game.state.start('main', true, true, this.levelId);
     }
 }

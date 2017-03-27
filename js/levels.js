@@ -1,5 +1,5 @@
 var waveNumber;
-var lastLevel = 11;
+var lastLevel = 10;
 
 var levelOrdering = {
     'eastAnglia': {
@@ -12,8 +12,8 @@ var levelOrdering = {
         7: 'waveneyCrossing',
         8: 'frozenFen',
         9: 'sandringhamWoods',
-        10: 'holkhamBeach',
-        11: 'northCreake'
+        10: 'holkhamBeach'
+        // 11: 'northCreake'
     }
 };
 
@@ -415,7 +415,7 @@ var westletonHeath = {
             duration: 23,
             createEvents: function(s) {
 
-                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 10, .5);
+                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 10, .75);
                 mainState.scheduleAttackersWave('Mib', waveNumber, s, 10, 1, 10);
 
             }
@@ -424,7 +424,7 @@ var westletonHeath = {
             duration: 28,
             createEvents: function(s) {
 
-                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 10, .5);
+                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 10, .6);
                 mainState.scheduleAttackersWave('Mib', waveNumber, s, 15, .8, 10);
 
             }

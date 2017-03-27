@@ -278,6 +278,10 @@ Attacker.prototype.die = function()
 };
 Attacker.prototype.createHealthBar = function()
 {
+    if (!this.alive) {
+        return false;
+    }
+
     var barColor;
 
     var barConfig = {
