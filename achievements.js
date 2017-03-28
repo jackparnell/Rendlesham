@@ -12,6 +12,8 @@ Rendlesham.achievements.prototype.preload = function()
     this.backgrounds = game.add.group();
     this.pathways = game.add.group();
     this.name = 'rendlesham';
+    this.linkBackgrounds = game.add.group();
+    this.texts = game.add.group();
 
     loadMainFiles();
 };
@@ -35,24 +37,7 @@ Rendlesham.achievements.prototype.create = function()
     var level;
     var userLevelHighScore;
 
-
-    // Begin back link
-    this.backLink = game.add.bitmapText(
-        0,
-        0,
-        bitmapFontName,
-        'Back',
-        20
-    );
-    this.backLink.x = game.camera.width - this.backLink.width - 15;
-    this.backLink.y = 15;
-    this.backLink.fixedToCamera = true;
-
-    this.backLink.inputEnabled = true;
-    this.backLink.input.useHandCursor = true;
-    this.backLink.events.onInputDown.add(this.goToTitleScreen, this);
-    // End back link
-
+    this.addButtonTextLink('backLink', 'Back', 20, 'smallDark', 15, 15, 'right', 'goToTitleScreen');
 
     var y = 20;
 

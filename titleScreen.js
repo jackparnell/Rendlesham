@@ -40,30 +40,7 @@ Rendlesham.titleScreen.prototype.create = function()
 
     game.stage.backgroundColor = "#112c06";
 
-    // Begin play game link
-    this.playGameLink = game.add.bitmapText(
-        game.camera.width / 2,
-        game.height * .68,
-        bitmapFontName,
-        'Play the Game',
-        46
-    );
-    this.playGameLink.x = (game.camera.width / 2) - (this.playGameLink.width / 2);
-    this.playGameLink.fixedToCamera = true;
-
-    this.playGameLinkButton = game.add.button(
-        game.world.centerX - 80,
-        this.playGameLink.y,
-        'forestGreen',
-        this.playTheGame,
-        this
-    );
-    this.linkBackgrounds.add(this.playGameLinkButton);
-    this.playGameLinkButton.x = (game.camera.width / 2) - (this.playGameLinkButton.width / 2);
-    this.playGameLinkButton.y = this.playGameLink.y - 9;
-    this.playGameLinkButton.fixedToCamera = true;
-    // End play game link
-
+    this.addButtonTextLink('playGameLink', 'Play the Game', 46, 'forestGreen', 0, game.height * .68, 'center', 'playTheGame');
 
     this.titleText = game.add.bitmapText(500, game.height * .12, bitmapFontName, 'Rendlesham Forest', 64);
     this.titleText.x = (game.width / 2) - (this.titleText.width / 2);
@@ -82,24 +59,8 @@ Rendlesham.titleScreen.prototype.create = function()
     this.tipText.x = (game.width / 2) - (this.tipText.width / 2);
     this.tipText.tint = 0xCCFFCC;
 
-    // Begin achievements link
-    this.achievementsLink = game.add.bitmapText(
-        0,
-        0,
-        bitmapFontName,
-        'View Achievements',
-        20
-    );
-    this.texts.add(this.achievementsLink);
-    this.achievementsLink.x = game.camera.width - this.achievementsLink.width - 15;
-    this.achievementsLink.y = game.camera.height - this.achievementsLink.height - 15;
-    this.achievementsLink.fixedToCamera = true;
+    this.addButtonTextLink('achievementsLink', 'View Achievements', 20, 'smallWideDark', 15, game.camera.height - 35, 'right', 'showAchievements');
 
-    this.achievementsLink.inputEnabled = true;
-    this.achievementsLink.input.useHandCursor = true;
-    this.achievementsLink.events.onInputDown.add(this.showAchievements, this);
-
-    // End achievements link
 
 };
 

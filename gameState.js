@@ -59,6 +59,47 @@ Rendlesham.gameState.prototype = {
             stateName = 'titleScreen';
         }
         game.state.start(stateName);
+    },
+
+    addButtonTextLink: function(name, text, fontSize, buttonImage, x, y, horizontal, clickFunctionName)
+    {
+
+        var buttonName = name + 'Button';
+
+        this[name] = game.add.bitmapText(
+            0,
+            0,
+            bitmapFontName,
+            text,
+            fontSize
+        );
+
+        if (horizontal == 'right') {
+            x = game.camera.width - this[name].width - x;
+        } else if (horizontal == 'center') {
+            x = (game.camera.width / 2) - (this[name].width / 2)
+        }
+
+        this[name].x = x;
+        this[name].y = y;
+        this[name].fixedToCamera = true;
+
+        this[buttonName] = game.add.button(
+            this[name].x,
+            this[name].y,
+            buttonImage,
+            this[clickFunctionName],
+            this
+        );
+        this.linkBackgrounds.add(this[buttonName]);
+
+        var xOffset = -(this[buttonName].width - this[name].width) / 2;
+        this[buttonName].x = this[name].x + xOffset;
+
+        var yOffset = -(this[buttonName].height - this[name].height) / 3;
+        this[buttonName].y = this[name].y + yOffset;
+
+        this[buttonName].fixedToCamera = true;
     }
 
 };
