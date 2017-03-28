@@ -101,4 +101,6 @@ var newUser = {
     levelHighScores: {}
 };
 
-
+var extendObj = function(childObj, parentObj) {
+    childObj.prototype = parentObj.prototype;
+};

@@ -1767,53 +1767,54 @@ var mainState = {
             return false;
         }
 
-    },
-
-    wouldObstaclePlacementBlockPathCallbackHandler: function(path)
-    {
-        wouldObstaclePlacementBlockPathResult = path;
-    },
-
-    getEntryXGrid: function()
-    {
-        return this.level.entryXGrid;
-    },
-
-    getEntryYGrid: function()
-    {
-        return this.level.entryYGrid;
-    },
-
-    getGoalXGrid: function()
-    {
-        return this.level.goalXGrid;
-    },
-
-    getGoalYGrid: function()
-    {
-        return this.level.goalYGrid;
-    },
-
-    pixelsNearestTileTopLeftCoordinates: function(x, y)
-    {
-        return [
-            Math.round(x / this.squareWidth) * this.squareWidth,
-            Math.round(y / this.squareWidth) * this.squareWidth
-        ];
-    },
-
-    countObstaclesWithCoinsValue: function()
-    {
-        i = 0;
-
-        this.obstacles.forEachAlive(function(obstacle){
-            if (obstacle.coinsValue >= 1) {
-                i++;
-            }
-        });
-
-        return i;
-
     }
 
+
+};
+
+
+mainState.wouldObstaclePlacementBlockPathCallbackHandler = function(path)
+{
+    wouldObstaclePlacementBlockPathResult = path;
+};
+
+mainState.getEntryXGrid = function()
+{
+    return this.level.entryXGrid;
+};
+
+mainState.getEntryYGrid = function()
+{
+    return this.level.entryYGrid;
+};
+
+mainState.getGoalXGrid = function()
+{
+    return this.level.goalXGrid;
+};
+
+mainState.getGoalYGrid = function()
+{
+    return this.level.goalYGrid;
+};
+
+mainState.pixelsNearestTileTopLeftCoordinates = function(x, y)
+{
+    return [
+        Math.round(x / this.squareWidth) * this.squareWidth,
+        Math.round(y / this.squareWidth) * this.squareWidth
+    ];
+};
+
+mainState.countObstaclesWithCoinsValue = function()
+{
+    var i = 0;
+
+    this.obstacles.forEachAlive(function(obstacle){
+        if (obstacle.coinsValue >= 1) {
+            i++;
+        }
+    });
+
+    return i;
 };
