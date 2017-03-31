@@ -69,6 +69,7 @@ Attacker.prototype.hit = function(attacker, bullet)
 
     mainState.spawnExplosion(bullet.x, bullet.y);
     bullet.kill();
+
 };
 Attacker.prototype.update = function()
 {
@@ -91,7 +92,7 @@ Attacker.prototype.update = function()
 
     // game.physics.arcade.collide(this, mainState.collisionLayer);
 
-    mainState.bullets.forEachAlive(function(bullet) {
+    this.game.bullets.forEachAlive(function(bullet) {
         game.physics.arcade.overlap(this, bullet, this.hit, null, this);
     }, this);
 

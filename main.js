@@ -45,6 +45,8 @@ var mainState = {
 
         this.game = game;
 
+        // this.game.add.plugin(Phaser.Plugin.Debug);
+
         this.loadUser();
 
         this.turn = 0;
@@ -95,7 +97,7 @@ var mainState = {
         this.weapons = game.add.group();
         this.explosions = game.add.group();
         this.crosshairs = game.add.group();
-        this.bullets = game.add.group();
+        this.game.bullets = game.add.group();
         this.overlays = game.add.group();
         this.finishedItems = game.add.group();
 
@@ -181,7 +183,7 @@ var mainState = {
             return;
         }
 
-        game.time.events.loop(9000, this.cleanUp, this);
+        // game.time.events.loop(9000, this.cleanUp, this);
 
         this.loopsInitiated = true;
     },
@@ -705,7 +707,7 @@ var mainState = {
         // game.debug.body(this.test);
 
         /*
-        this.bullets.forEachAlive(function(item){
+        this.game.bullets.forEachAlive(function(item){
             game.debug.body(item);
         });
 
@@ -720,7 +722,9 @@ var mainState = {
         }
         */
 
-        // console.log(this.bullets.countLiving() + ' ' + this.bullets.countDead());
+        // game.debug.text(this.game.bullets.countLiving() + ' / ' + this.game.bullets.countDead(), game.width - 50, 30)
+
+        // game.debug.text(this.weapons.countLiving() + ' / ' + this.weapons.countDead(), game.width - 50, 70)
 
         // game.debug.text(game.time.fps, game.width - 50, 30)
 
@@ -1132,6 +1136,7 @@ var mainState = {
         this.allAttackersDispatched = false;
         this.pendingLevelCompleted = false;
 
+        this.cleanUp();
         this.clearMap();
         this.setupMap();
         this.spawnLevelObstacles();
@@ -1186,7 +1191,7 @@ var mainState = {
             this.towers.callAll('die');
         }
 
-        this.bullets.callAll('kill');
+        this.game.bullets.callAll('kill');
 
         this.crosshairs.callAll('kill');
         this.explosions.callAll('kill');
@@ -1402,7 +1407,7 @@ var mainState = {
         this.towers.forEachDead(function(item){
             aCleanup.push(item);
         }, this);
-        this.bullets.forEachDead(function(item){
+        this.game.bullets.forEachDead(function(item){
             aCleanup.push(item);
         }, this);
         this.explosions.forEachDead(function(item){

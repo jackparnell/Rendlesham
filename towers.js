@@ -11,7 +11,7 @@ function Tower(game, x, y, spriteName) {
     this.checkWorldBounds = true;
     this.outOfBoundsKill = false;
 
-    this.weapon1 = this.game.add.weapon(-1, window[this.constructor.name].bulletSpriteName);
+    this.weapon1 = this.game.add.weapon(3, window[this.constructor.name].bulletSpriteName, 0, this.game.bullets);
     this.weapon1.bulletKillType = Phaser.Weapon.KILL_DISTANCE;
     this.weapon1.bulletSpeed = 400;
     this.weapon1.bulletKillDistance = window[this.constructor.name].defaultKillDistance;
@@ -86,7 +86,6 @@ Tower.prototype.fire = function()
             bullet.frame = (this.grade-1);
             bullet.towerClass = this.constructor.name;
             bullet.grade = this.grade;
-            mainState.bullets.add(bullet);
         }
     }
 };

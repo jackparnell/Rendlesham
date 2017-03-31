@@ -85,7 +85,7 @@ Obstacle.prototype.update = function()
         this.generateGridCoordinates();
     }
 
-    mainState.bullets.forEachAlive(function(bullet) {
+    this.game.bullets.forEachAlive(function(bullet) {
         game.physics.arcade.overlap(this, bullet, this.hit, null, this);
     }, this);
 
