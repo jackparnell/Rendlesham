@@ -323,6 +323,7 @@ Attacker.prototype.createHealthBar = function()
     this.healthBar = this.game.add.sprite(healthBarX, healthBarY, 'healthBar');
     this.game.healthBars.add(this.healthBar);
 
+    this.healthBar.frame = 0;
     this.healthBar.anchor.setTo(0.5, 0.5);
 
     return true;
@@ -355,8 +356,29 @@ Attacker.prototype.updateHealthBar = function()
 
     healthBarFrame = 20 - healthBarFrame;
 
-    if (healthBarFrame != this.healthBar.frame) {
+    if (healthBarFrame != this.healthBar.frame && (!this.healthBarAnimation || !this.healthBarAnimation.isPlaying)) {
+
         this.healthBar.frame = healthBarFrame;
+
+        /*
+        var animationName = this.healthBar.frame + '_to_' + healthBarFrame;
+
+        var frames = Phaser.ArrayUtils.numberArray(this.healthBar.frame, healthBarFrame);
+
+        if (frames.length) {
+            var fps = Math.round(frames.length * 4);
+
+            this.healthBar.animations.add(
+                animationName,
+                frames,
+                fps,
+                false
+            );
+
+            this.healthBarAnimation = this.healthBar.animations.play(animationName);
+        }
+        */
+
     }
 
     var healthBarX = this.x;
