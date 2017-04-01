@@ -135,48 +135,78 @@ Obstacle.prototype.die = function()
     this.kill();
 }
 
+/**
+ * Create a health bar for the sprite, if appropriate.
+ *
+ * @returns {boolean}
+ */
 Obstacle.prototype.createHealthBar = function()
 {
-    var barColor;
+    if (this.game.noHealthBars) {
+        return false;
+    }
 
-    var barConfig = {
-        width: 20,
-        height: 5,
-        animationDuration: 100,
-        bg: {
-            color: '#333333'
-        },
-        bar: {
-            color: '#00FF00'
-        },
-    };
-    this.healthBar = new HealthBar(game, barConfig);
-};
-
-Obstacle.prototype.updateHealthBar = function()
-{
-
-    var healthPercentage = Math.round((this.health / this.maximumHealth) * 100);
+    if (!this.alive) {
+        return false;
+    }
 
     // No health bar if at full health
-    if (healthPercentage >= 100) {
+    if (this.health >= this.maximumHealth) {
         return;
+    }
+
+    var healthBarX = this.x;
+    var healthBarY = this.y - 30;
+
+    this.healthBar = this.game.add.sprite(healthBarX, healthBarY, 'healthBar');
+    this.game.healthBars.add(this.healthBar);
+
+    this.healthBar.anchor.setTo(0.5, 0.5);
+
+    return true;
+
+};
+
+/**
+ * Update's the sprite's health bar, if appropriate.
+ *
+ * @returns {boolean}
+ */
+Obstacle.prototype.updateHealthBar = function()
+{
+    if (this.game.noHealthBars) {
+        return false;
+    }
+
+    // No health bar if at full health
+    if (this.health >= this.maximumHealth) {
+        return false;
     }
 
     if (!this.healthBar) {
         this.createHealthBar();
     }
 
-    this.healthBar.setPercent(healthPercentage);
-    this.healthBar.setPosition(this.x + 2, this.y - 21);
+    var healthPercentage = Math.round((this.health / this.maximumHealth) * 100);
 
-    if (healthPercentage < 60) {
-        this.healthBar.config.bar.color = '#FFFF00;'
-    } else if (healthPercentage < 30) {
-        this.healthBar.config.bar.color = '#FF0000;'
+    var healthBarFrame = Math.floor(healthPercentage*.2);
+
+    healthBarFrame = 20 - healthBarFrame;
+
+    if (healthBarFrame != this.healthBar.frame) {
+        this.healthBar.frame = healthBarFrame;
     }
 
+    var healthBarX = this.x;
+    var healthBarY = this.y - 30;
+
+    this.healthBar.x = healthBarX;
+    this.healthBar.y = healthBarY;
+
+    return true;
+
 };
+
 Obstacle.prototype.targetToggle = function()
 {
     if (this.targeted) {

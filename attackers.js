@@ -227,9 +227,11 @@ Attacker.prototype.followPath = function()
         }
     }
 
+    /*
     var deltaTime = (game.time.elapsedMS * game.time.fps) / 1000;
     this.body.velocity.x *= deltaTime;
     this.body.velocity.y *= deltaTime;
+    */
 
 };
 
@@ -294,59 +296,79 @@ Attacker.prototype.die = function()
 
     this.kill();
 };
+
+/**
+ * Create a health bar for the sprite, if appropriate.
+ *
+ * @returns {boolean}
+ */
 Attacker.prototype.createHealthBar = function()
 {
+    if (this.game.noHealthBars) {
+        return false;
+    }
+
     if (!this.alive) {
         return false;
     }
 
-    var barColor;
+    // No health bar if at full health
+    if (this.health >= this.maximumHealth) {
+        return;
+    }
 
-    var barConfig = {
-        width: 20,
-        height: 5,
-        animationDuration: 100,
-        bg: {
-            color: '#333333'
-        },
-        bar: {
-            color: '#00FF00'
-        },
-    };
-    this.healthBar = new HealthBar(game, barConfig);
+    var healthBarX = this.x;
+    var healthBarY = this.y - 30;
+
+    this.healthBar = this.game.add.sprite(healthBarX, healthBarY, 'healthBar');
+    this.game.healthBars.add(this.healthBar);
+
+    this.healthBar.anchor.setTo(0.5, 0.5);
+
+    return true;
+
 };
+
+/**
+ * Update's the sprite's health bar, if appropriate.
+ *
+ * @returns {boolean}
+ */
 Attacker.prototype.updateHealthBar = function()
 {
-
-    var healthPercentage = Math.round((this.health / this.maximumHealth) * 100);
+    if (this.game.noHealthBars) {
+        return false;
+    }
 
     // No health bar if at full health
-    if (healthPercentage >= 100) {
-        return;
+    if (this.health >= this.maximumHealth) {
+        return false;
     }
 
     if (!this.healthBar) {
         this.createHealthBar();
     }
 
-    this.healthBar.setPercent(healthPercentage);
+    var healthPercentage = Math.round((this.health / this.maximumHealth) * 100);
+
+    var healthBarFrame = Math.floor(healthPercentage*.2);
+
+    healthBarFrame = 20 - healthBarFrame;
+
+    if (healthBarFrame != this.healthBar.frame) {
+        this.healthBar.frame = healthBarFrame;
+    }
 
     var healthBarX = this.x;
     var healthBarY = this.y - 30;
 
-    if (healthBarX != this.healthBar.x || healthBarY != this.healthBar.y) {
-        this.healthBar.setPosition(this.x, this.y - 30);
-    }
+    this.healthBar.x = healthBarX;
+    this.healthBar.y = healthBarY;
 
-    /*
-    if (healthPercentage < 60) {
-        this.healthBar.config.bar.color = '#FFFF00;'
-    } else if (healthPercentage < 30) {
-        this.healthBar.config.bar.color = '#FF0000;'
-    }
-    */
+    return true;
 
 };
+
 Attacker.prototype.targetToggle = function()
 {
     if (this.targeted) {
@@ -439,7 +461,7 @@ Attacker.prototype.reuse = function()
     this.reset(x, y);
 
     if (this.healthBar) {
-        this.healthBar.reuse();
+        this.healthBar.reset();
     }
 
     this.initialise(mainState.waveNumber);

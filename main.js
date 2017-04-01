@@ -26,14 +26,16 @@ var mainState = {
     create: function()
     {
 
+        /*
         game.time.advancedTiming = true;
         game.time.desiredFps = 60;
+        */
 
         game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
 
         if (game.device.desktop == false) {
             game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
-            game.scale.setMinMax(game.width/2, game.height/2, game.width*2, game.height*2);
+            game.scale.setMinMax(game.width * .5, game.height * .5, game.width * 2, game.height * 2);
 
             this.goFullScreen();
         }
@@ -44,6 +46,8 @@ var mainState = {
         game.physics.startSystem(Phaser.Physics.ARCADE);
 
         this.game = game;
+
+        this.game.noHealthBars = false;
 
         // this.game.add.plugin(Phaser.Plugin.Debug);
 
@@ -101,6 +105,7 @@ var mainState = {
         this.game.bullets = game.add.group();
         this.overlays = game.add.group();
         this.finishedItems = game.add.group();
+        this.game.healthBars = game.add.group();
 
         this.linkBackgrounds = game.add.group();
         this.texts = game.add.group();
@@ -644,8 +649,8 @@ var mainState = {
 
         if (coordinateType && coordinateType == 'grid') {
             var coordinates = mainState.translateGridCoordinatesToPixelCoordinates(x, y);
-            x = coordinates[0] + (this.squareWidth / 2);
-            y = coordinates[1] + (this.squareWidth / 2);
+            x = coordinates[0] + this.halfSquareWidth;
+            y = coordinates[1] + this.halfSquareWidth;
         }
 
         var item = new window[className](this.game, x, y);
@@ -870,8 +875,8 @@ var mainState = {
 
         var cost = window[this.towerSelected].cost;
 
-        var x = Math.floor((game.input.x + game.camera.x) / this.squareWidth) * this.squareWidth + (this.squareWidth / 2);
-        var y = Math.floor((game.input.y + game.camera.y) / this.squareWidth) * this.squareWidth + (this.squareWidth / 2);
+        var x = Math.floor((game.input.x + game.camera.x) / this.squareWidth) * this.squareWidth + this.halfSquareWidth;
+        var y = Math.floor((game.input.y + game.camera.y) / this.squareWidth) * this.squareWidth + this.halfSquareWidth;
 
         if (x == 0) {
             x = 1;
@@ -893,7 +898,7 @@ var mainState = {
             action = 'add';
         } else if (this.isTowerUpgradeAppropriateAtPosition(x, y)) {
             action = 'upgrade';
-        } else if (this.doesAttackerExistAtPosition(x - (this.squareWidth / 2), y - (this.squareWidth / 2))) {
+        } else if (this.doesAttackerExistAtPosition(x - this.halfSquareWidth, y - this.halfSquareWidth)) {
             action = 'target';
         } else if (this.doesObstacleExistAtPosition(x, y)) {
             action = 'target';
@@ -924,8 +929,8 @@ var mainState = {
                 break;
             case 'target':
 
-                if (this.doesAttackerExistAtPosition(x - (this.squareWidth / 2), y - (this.squareWidth / 2))) {
-                    var item = this.getAttackerAtPosition(x - (this.squareWidth / 2), y - (this.squareWidth / 2));
+                if (this.doesAttackerExistAtPosition(x - this.halfSquareWidth, y - this.halfSquareWidth)) {
+                    var item = this.getAttackerAtPosition(x - this.halfSquareWidth, y - this.halfSquareWidth);
                 } else if (this.doesObstacleExistAtPosition(x, y)) {
                     var item = this.getObstacleAtPosition(x, y);
                 }
@@ -1195,6 +1200,7 @@ var mainState = {
         }
 
         this.game.bullets.callAll('kill');
+        this.game.healthBars.callAll('kill');
 
         this.crosshairs.callAll('kill');
         this.explosions.callAll('kill');

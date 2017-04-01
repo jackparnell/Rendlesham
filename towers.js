@@ -63,8 +63,6 @@ Tower.prototype.update = function()
         return false;
     }
 
-    console.log(this.weapon1);
-
     // If pendingLevelCompleted, do nothing
     if (mainState.pendingLevelCompleted) {
         return;
