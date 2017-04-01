@@ -77,7 +77,7 @@ Rendlesham.gameState.prototype = {
         if (horizontal == 'right') {
             x = game.camera.width - this[name].width - x;
         } else if (horizontal == 'center') {
-            x = (game.camera.width / 2) - (this[name].width / 2)
+            x = (game.camera.width * .5) - (this[name].width * .5)
         }
 
         this[name].x = x;
@@ -93,7 +93,7 @@ Rendlesham.gameState.prototype = {
         );
         this.linkBackgrounds.add(this[buttonName]);
 
-        var xOffset = -(this[buttonName].width - this[name].width) / 2;
+        var xOffset = -(this[buttonName].width - this[name].width) * .5;
         this[buttonName].x = this[name].x + xOffset;
 
         var yOffset = -(this[buttonName].height - this[name].height) / 3;

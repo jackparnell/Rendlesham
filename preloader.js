@@ -11,7 +11,7 @@ Rendlesham.preloader.prototype = {
     {
         game.load.image('loading', 'assets/loading.png');
 
-        var loadingBar = this.add.sprite(((game.width / 2) - 200), 200, 'loading');
+        var loadingBar = this.add.sprite(((game.width * .5) - 200), 200, 'loading');
         this.load.setPreloadSprite(loadingBar);
 
         game.scale.pageAlignHorizontally = true;

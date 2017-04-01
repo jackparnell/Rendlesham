@@ -200,7 +200,7 @@ Rendlesham.eastAnglia.prototype.writeLevelText = function(levelNumber)
         'Level ' + levelNumber,
         18
     );
-    this['level' + levelNumber + 'Text'].x = x - (this['level' + levelNumber + 'Text'].width / 2);
+    this['level' + levelNumber + 'Text'].x = x - (this['level' + levelNumber + 'Text'].width * .5);
 };
 
 Rendlesham.eastAnglia.prototype.addLevelStars = function(levelNumber)

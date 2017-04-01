@@ -149,7 +149,7 @@ Attacker.prototype.hasReachedGoal = function()
         mainState.level.goalYGrid
     );
 
-    goalX = pixelCoordinates[0] + (mainState.squareWidth / 2);
+    goalX = pixelCoordinates[0] + mainState.halfSquareWidth;
 
     goalX += (32 + ((mainState.lives-1) * 7.5));
 

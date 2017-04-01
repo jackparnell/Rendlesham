@@ -213,7 +213,7 @@ Obstacle.prototype.updateCrosshair = function()
 };
 Obstacle.prototype.createCentralCircle = function(circleDiameter)
 {
-    var offset = Math.round(mainState.squareWidth / 2) - circleDiameter;
+    var offset = Math.round(mainState.squareWidth * .5) - circleDiameter;
 
     this.body.setCircle(circleDiameter, offset, offset);
 

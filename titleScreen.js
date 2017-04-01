@@ -43,10 +43,10 @@ Rendlesham.titleScreen.prototype.create = function()
     this.addButtonTextLink('playGameLink', 'Play the Game', 46, 'forestGreen', 0, game.height * .68, 'center', 'playTheGame');
 
     this.titleText = game.add.bitmapText(500, game.height * .12, bitmapFontName, 'Rendlesham Forest', 64);
-    this.titleText.x = (game.width / 2) - (this.titleText.width / 2);
+    this.titleText.x = (game.width * .5) - (this.titleText.width * .5);
 
     this.captionText = game.add.bitmapText(500, game.height * .36, bitmapFontName, 'An extra-terrestrial tower defense game', 32);
-    this.captionText.x = (game.width / 2) - (this.captionText.width / 2);
+    this.captionText.x = (game.width * .5) - (this.captionText.width * .5);
     this.captionText.tint = 0xFFCCCC;
 
     var tips = [
@@ -56,7 +56,7 @@ Rendlesham.titleScreen.prototype.create = function()
     var tipTextContent = tips[Math.floor(Math.random() * tips.length)];
 
     this.tipText = game.add.bitmapText(500, game.height * .53, bitmapFontName, tipTextContent, 20);
-    this.tipText.x = (game.width / 2) - (this.tipText.width / 2);
+    this.tipText.x = (game.width * .5) - (this.tipText.width * .5);
     this.tipText.tint = 0xCCFFCC;
 
     this.addButtonTextLink('achievementsLink', 'View Achievements', 20, 'smallWideDark', 15, game.camera.height - 35, 'right', 'showAchievements');

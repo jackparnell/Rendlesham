@@ -55,6 +55,7 @@ var mainState = {
         this.score = 0;
         this.towerSelected = 'Gun';
         this.squareWidth = 35;
+        this.halfSquareWidth = this.squareWidth * .5;
 
         if (!this.levelId) {
             this.levelId = 1;
@@ -1711,6 +1712,10 @@ var mainState = {
 
     setAllAttackerPathNeedsRegenerating: function()
     {
+        if (!this.level.canPlaceTowerOnPathway) {
+            return false;
+        }
+
         this.attackers.forEachAlive(function(attacker){
             attacker.pathNeedsRegenerating = true;
         });

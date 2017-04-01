@@ -33,22 +33,22 @@ Rendlesham.gameOver.prototype.create = function()
 
     this.capturedText = game.add.bitmapText(500, 100, bitmapFontName, 'Captured', 80);
     this.capturedText.align = 'center';
-    this.capturedText.x = (game.width / 2) - (this.capturedText.width / 2);
+    this.capturedText.x = (game.width * .5) - (this.capturedText.width * .5);
 
     this.detailsText = game.add.bitmapText(500, 200, bitmapFontName, 'You were captured by the humans', 20);
     this.detailsText.align = 'center';
-    this.detailsText.x = (game.width / 2) - (this.detailsText.width / 2);
+    this.detailsText.x = (game.width * .5) - (this.detailsText.width * .5);
 
 
     // Begin try again link
     this.tryAgainLink = game.add.bitmapText(
-        game.camera.width / 2,
+        game.camera.width * .5,
         game.height * .72,
         bitmapFontName,
         'Try Again',
         48
     );
-    this.tryAgainLink.x = (game.camera.width / 2) - (this.tryAgainLink.width / 2);
+    this.tryAgainLink.x = (game.camera.width * .5) - (this.tryAgainLink.width * .5);
     this.tryAgainLink.fixedToCamera = true;
 
     this.tryAgainLinkButton = game.add.button(
@@ -59,7 +59,7 @@ Rendlesham.gameOver.prototype.create = function()
         this
     );
     this.linkBackgrounds.add(this.tryAgainLinkButton);
-    this.tryAgainLinkButton.x = (game.camera.width / 2) - (this.tryAgainLinkButton.width / 2);
+    this.tryAgainLinkButton.x = (game.camera.width * .5) - (this.tryAgainLinkButton.width * .5);
     this.tryAgainLinkButton.y = this.tryAgainLink.y - 9;
     this.tryAgainLinkButton.fixedToCamera = true;
     // End try again link
