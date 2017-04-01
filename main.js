@@ -118,6 +118,8 @@ var mainState = {
 
         this.mode = 'place';
 
+        this.game.target = {};
+
         this.startLevel();
 
         this.attackersSpawnedCount = 0;
@@ -1594,6 +1596,8 @@ var mainState = {
             }
         });
 
+        this.noTarget();
+
     },
 
     goFullScreen: function()
@@ -1827,4 +1831,14 @@ mainState.countObstaclesWithCoinsValue = function()
     });
 
     return i;
+};
+
+mainState.setTarget = function(sprite)
+{
+    this.game.target = sprite;
+};
+
+mainState.noTarget = function()
+{
+    this.game.target = {};
 };

@@ -44,7 +44,8 @@ Obstacle.prototype.constructor = Obstacle;
 
 Obstacle.prototype.initialise = function()
 {
-
+    this.body.immovable = true;
+    this.body.moves = false;
 };
 
 Obstacle.prototype.firstUpdate = function()
@@ -124,6 +125,9 @@ Obstacle.prototype.die = function()
     if (this.crosshair) {
         this.crosshair.kill();
     }
+    if (this.targeted) {
+        mainState.noTarget();
+    }
 
     mainState.removeGlobalImpassablePoint(this.gridX, this.gridY, 'grid');
 
@@ -185,6 +189,7 @@ Obstacle.prototype.target = function()
 {
     // Un-target all other obstacles and attackers
     mainState.untargetAll();
+    mainState.setTarget(this);
 
     this.targeted = true;
 
@@ -197,6 +202,10 @@ Obstacle.prototype.target = function()
 Obstacle.prototype.untarget = function()
 {
     this.targeted = false;
+
+    if (this.game.target.guid && this.guid == this.game.target.guid) {
+        mainState.noTarget();
+    }
 
     if (this.crosshair) {
         this.crosshair.kill();

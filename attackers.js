@@ -126,8 +126,21 @@ Attacker.prototype.moveToGoal = function()
     this.pathNeedsRegenerating = false;
 
 };
+
+/**
+ * Has the attacker reached its goal?
+ *
+ * @returns {boolean}
+ */
 Attacker.prototype.hasReachedGoal = function()
 {
+
+    // Goal is always to left of the screen. Assume if this.x is more than 100, not reached goal.
+    // Maybe change this if goal location becomes more varied.
+    if (this.x > 100) {
+        return false;
+    }
+
     var goalX;
 
     if (mainState.nathan) {
@@ -275,6 +288,10 @@ Attacker.prototype.die = function()
         this.crosshair.kill();
     }
 
+    if (this.targeted) {
+        mainState.noTarget();
+    }
+
     this.kill();
 };
 Attacker.prototype.createHealthBar = function()
@@ -313,13 +330,21 @@ Attacker.prototype.updateHealthBar = function()
     }
 
     this.healthBar.setPercent(healthPercentage);
-    this.healthBar.setPosition(this.x, this.y - 30);
 
+    var healthBarX = this.x;
+    var healthBarY = this.y - 30;
+
+    if (healthBarX != this.healthBar.x || healthBarY != this.healthBar.y) {
+        this.healthBar.setPosition(this.x, this.y - 30);
+    }
+
+    /*
     if (healthPercentage < 60) {
         this.healthBar.config.bar.color = '#FFFF00;'
     } else if (healthPercentage < 30) {
         this.healthBar.config.bar.color = '#FF0000;'
     }
+    */
 
 };
 Attacker.prototype.targetToggle = function()
@@ -333,6 +358,7 @@ Attacker.prototype.targetToggle = function()
 Attacker.prototype.target = function()
 {
     mainState.untargetAll();
+    mainState.setTarget(this);
 
     this.targeted = true;
 
@@ -341,8 +367,7 @@ Attacker.prototype.target = function()
 
     this.crosshair.anchor.setTo(0.5, 0.75);
 
-
-    this.crosshair.trackSprite(this);
+    // this.crosshair.trackSprite(this);
 
     mainState.crosshairs.add(this.crosshair);
 
@@ -350,6 +375,10 @@ Attacker.prototype.target = function()
 Attacker.prototype.untarget = function()
 {
     this.targeted = false;
+
+    if (this.game.target.guid && this.guid == this.game.target.guid) {
+        mainState.noTarget();
+    }
 
     if (this.crosshair) {
         this.crosshair.kill();

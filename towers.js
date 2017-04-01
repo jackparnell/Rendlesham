@@ -48,7 +48,9 @@ Tower.prototype.initialise = function(x, y)
 
     this.bulletDamageValue = window[this.constructor.name].defaultDamageValue;
 
-    mainState.addGlobalImpassablePoint(this.gridX, this.gridY, 'grid');
+    if (mainState.level.canPlaceTowerOnPathway) {
+        mainState.addGlobalImpassablePoint(this.gridX, this.gridY, 'grid');
+    }
 
     this.body.immovable = true;
     this.body.moves = false;
@@ -61,12 +63,16 @@ Tower.prototype.update = function()
         return false;
     }
 
+    console.log(this.weapon1);
+
     // If pendingLevelCompleted, do nothing
     if (mainState.pendingLevelCompleted) {
         return;
     }
 
-    this.determineTarget();
+    if (this.game.time.now >= this.weapon1._nextFire) {
+        this.determineTarget();
+    }
     this.fire();
 
     if (this.hasTarget()) {
@@ -107,16 +113,16 @@ Tower.prototype.determineTarget = function()
     var mostAdvanced = 1;
     var mostAdvancedDistance = 999999;
 
-    mainState.obstacles.forEachAlive(function(item) {
-        var distanceBetween = game.physics.arcade.distanceBetween(this, item);
-        if (item.targeted  && distanceBetween < this.weapon1.bulletKillDistance) {
-            target = item;
+    if (this.game.target.guid) {
+        var distanceBetween = game.physics.arcade.distanceBetween(this, this.game.target);
+        if (distanceBetween < this.weapon1.bulletKillDistance) {
+            target = this.game.target;
         }
-    }, this);
+    }
 
-    // If an obstacle target already found, no need to iterate through attackers
+    // If target obtained from this.game.target, no need to iterate through attackers
     if (target.guid) {
-        this.target = target;
+        this.setTarget(target);
         return;
     }
 
@@ -143,14 +149,22 @@ Tower.prototype.determineTarget = function()
 
     }, this);
 
-    this.target = target;
+    this.setTarget(target);
 
+};
+Tower.prototype.setTarget = function(target)
+{
+    if (this.target.guid && this.target.guid == target.guid) {
+        return;
+    }
+
+    this.target = target;
 };
 Tower.prototype.hasTarget = function()
 {
     return this.target.hasOwnProperty("body");
 };
-Tower.prototype.angleToTarget = function(otherSprite)
+Tower.prototype.angleToTarget = function()
 {
     var angleToTarget = 0;
 
