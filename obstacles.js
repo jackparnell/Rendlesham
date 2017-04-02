@@ -156,7 +156,7 @@ Obstacle.prototype.createHealthBar = function()
     }
 
     var healthBarX = this.x;
-    var healthBarY = this.y - 30;
+    var healthBarY = this.y - 20;
 
     this.healthBar = this.game.add.sprite(healthBarX, healthBarY, 'healthBar');
     this.game.healthBars.add(this.healthBar);
@@ -198,7 +198,7 @@ Obstacle.prototype.updateHealthBar = function()
     }
 
     var healthBarX = this.x;
-    var healthBarY = this.y - 30;
+    var healthBarY = this.y - 18;
 
     this.healthBar.x = healthBarX;
     this.healthBar.y = healthBarY;
