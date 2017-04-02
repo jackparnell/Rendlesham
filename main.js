@@ -859,7 +859,8 @@ var mainState = {
     {
 
         this.levelId ++;
-        this.startLevel();
+
+        game.state.start('main', true, true, this.levelId);
 
         return true;
     },
