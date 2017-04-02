@@ -687,26 +687,20 @@ var mainState = {
 
     spawnExplosion: function(x, y, tint) {
 
-        var explosion = game.add.sprite(x, y, 'explosion');
+        var explosion;
 
-        this.explosions.add(explosion);
+        explosion = this.explosions.getFirstDead();
 
-        explosion.anchor.setTo(0.5, 0.5);
-
-        explosion.lifespan = 500;
-
-        explosion.animations.add('explode', [0, 1, 2, 3, 4, 5], 12, false);
-        explosion.animations.play('explode');
-
-        game.physics.arcade.enable(explosion);
-        
-        if (tint) {
-            explosion.tint = tint;
+        if (explosion) {
+            explosion.reuse(x, y);
+        } else {
+            explosion = new Explosion(this.game, x, y);
+            this.explosions.add(explosion);
         }
-        
 
-        explosion.checkWorldBounds = true;
-        explosion.outOfBoundsKill = true;
+        if (tint) {
+            explosion.setTint(tint);
+        }
 
     },
 
@@ -732,7 +726,7 @@ var mainState = {
 
         // game.debug.text(this.game.bullets.countLiving() + ' / ' + this.game.bullets.countDead(), game.width - 50, 30)
 
-        // game.debug.text(this.weapons.countLiving() + ' / ' + this.weapons.countDead(), game.width - 50, 70)
+        // game.debug.text(this.explosions.countLiving() + ' / ' + this.explosions.countDead(), game.width - 100, 80)
 
         // game.debug.text(game.time.fps, game.width - 50, 30)
 

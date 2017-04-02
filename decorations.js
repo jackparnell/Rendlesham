@@ -1,71 +1,55 @@
 function Decoration(game, x, y, spriteName) {
 
     $.extend( this, standard );
-    $.extend( this, shadow );
 
     this.guid = guid();
-    this.creationTurn = mainState.turn;
-
-
-    if (!x) {
-        x = game.width;
-    }
-    this.spawnYPositionModifier = getRandomInteger(0, 180);
-
-    if (!y) {
-        y = game.height + 60 + this.spawnYPositionModifier;
-    }
 
     Phaser.Sprite.call(this, game, x, y, spriteName);
+
     game.physics.arcade.enable(this);
 
-    var velocityX = -200;
-    velocityX *= 1 + (this.spawnYPositionModifier/440);
-    var velocityY = velocityX * .45;
-
-    this.body.velocity.x = velocityX;
-    this.body.velocity.y = velocityY;
+    this.anchor.setTo(0.5, 0.5);
 
     this.checkWorldBounds = true;
-    this.outOfBoundsKill = false;
-
-    var scale = this.getScale();
-    scale *= 1 + (this.spawnYPositionModifier/180);
-
-    if (scale != 1) {
-        this.scale.setTo(scale, scale);
-    }
-
-    this.createShadow(scale);
+    this.outOfBoundsKill = true;
 
 }
 Decoration.prototype = Object.create(Phaser.Sprite.prototype);
 Decoration.prototype.constructor = Decoration;
-Decoration.prototype.update = function() {
-
-    if (this.x < -300) {
-        this.die();
-    }
-
-    this.updateShadow();
-
-
-}
-Decoration.prototype.generateScale = function()
-{
-
-}
+Decoration.prototype.initialise = function() {};
+Decoration.prototype.update = function() {};
 Decoration.prototype.die = function()
 {
-    this.destroyShadow();
-    this.destroy();
-}
+    this.kill();
+};
+Decoration.prototype.setTint = function(tint)
+{
+    this.tint = tint;
+};
+Decoration.prototype.unTint = function()
+{
+    this.tint = 0xffffff;
+};
 
 
-function Tree(game, x, y) {
-    Decoration.call(this, game, x, y, 'tree');
-    this.angle = getRandomInteger(-3, 3);
+function Explosion(game, x, y) {
+    Decoration.call(this, game, x, y, 'explosion');
+    this.initialise();
 }
-Tree.prototype = Object.create(Decoration.prototype);
-Tree.prototype.constructor = Tree;
-Tree.defaultScale = 2;
+Explosion.prototype = Object.create(Decoration.prototype);
+Explosion.prototype.constructor = Explosion;
+Explosion.prototype.initialise = function()
+{
+    Decoration.prototype.initialise.call(this);
+    this.unTint();
+    this.angle = getRandomInteger(-45, 45);
+    this.lifespan = 500;
+    this.animations.add('explode', [0, 1, 2, 3, 4, 5], 12, false);
+    this.animations.play('explode');
+};
+Explosion.prototype.reuse = function(x, y)
+{
+    this.reset(x, y);
+    this.initialise();
+};
+

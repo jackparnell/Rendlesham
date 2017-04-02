@@ -38,6 +38,8 @@ Tower.prototype.constructor = Tower;
 Tower.prototype.initialise = function(x, y)
 {
     this.grade = 1;
+    this.calculateSpecs();
+
     this.frame = this.grade - 1;
 
     var gridCoordinates = mainState.translatePixelCoordinatesToGridCoordinates(x, y);
