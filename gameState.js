@@ -100,6 +100,11 @@ Rendlesham.gameState.prototype = {
         this[buttonName].y = this[name].y + yOffset;
 
         this[buttonName].fixedToCamera = true;
+    },
+
+    goToTitleScreen: function()
+    {
+        this.changeGameState('titleScreen');
     }
 
 };

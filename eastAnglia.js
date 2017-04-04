@@ -251,9 +251,3 @@ Rendlesham.eastAnglia.prototype.drawLinesBetweenLevels = function()
 
     }
 };
-
-
-Rendlesham.eastAnglia.prototype.goToTitleScreen = function()
-{
-    this.changeGameState('titleScreen');
-};

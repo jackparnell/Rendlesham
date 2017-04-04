@@ -75,8 +75,3 @@ Rendlesham.achievements.prototype.create = function()
         }
     }
 };
-
-Rendlesham.achievements.prototype.goToTitleScreen = function()
-{
-    this.changeGameState('titleScreen');
-};
