@@ -29,6 +29,7 @@ function loadMainFiles()
     game.load.image('forestGreen', 'assets/buttons/forestGreen.png');
     game.load.image('smallDark', 'assets/buttons/smallDark.png');
     game.load.image('smallWideDark', 'assets/buttons/smallWideDark.png');
+    game.load.image('spanner', 'assets/buttons/spanner.png');
     game.load.image('starCharcoal', 'assets/sprites/decorations/StarCharcoal.png');
     game.load.image('starYellow', 'assets/sprites/decorations/StarYellow.png');
     game.load.image('ufo', 'assets/sprites/decorations/Ufo.png');

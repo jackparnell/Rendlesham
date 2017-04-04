@@ -69,7 +69,7 @@ var mainState = {
         window.onkeydown = function() {
             // Press P
             if (game.input.keyboard.event.keyCode == 80) {
-                mainState.togglePause();
+                mainState.togglePauseScreen();
             }
             // Press S
             if (game.input.keyboard.event.keyCode == 83) {
@@ -271,7 +271,7 @@ var mainState = {
         // End lives
 
         // Begin score
-        this.labelScoreXCoordinate = game.width - 25;
+        this.labelScoreXCoordinate = game.camera.width - 60;
 
         this.labelScoreTitle = game.add.bitmapText(this.labelScoreXCoordinate, this.titlesYCoordinate, bitmapFontName, 'Score', 16);
         this.labelScoreTitle.tint = titleTint;
@@ -496,7 +496,7 @@ var mainState = {
         if (game.paused) {
             this.unpause();
         } else {
-            this.pause();
+            this.pause(true);
         }
     },
 
@@ -511,12 +511,14 @@ var mainState = {
         console.log(this.mode);
     },
 
-    pause: function()
+    pause: function(showText)
     {
         game.paused = true;
 
-        this.pausedText = game.add.text(game.width * 0.5, game.height * 0.5, '-Paused-', this.healthStyle);
-        this.pausedText.anchor.set(0.5, 0.5);
+        if (showText) {
+            this.pausedText = game.add.text(game.width * 0.5, game.height * 0.5, '-Paused-', this.healthStyle);
+            this.pausedText.anchor.set(0.5, 0.5);
+        }
 
     },
 
@@ -524,12 +526,9 @@ var mainState = {
     {
         game.paused = false;
 
-        this.pausedText.destroy();
-    },
-
-    spawnOscar: function() {
-        this.oscar = new Oscar(this.game, this.game.width-5, this.game.height * .41);
-        this.attackers.add(this.oscar);
+        if (this.pausedText) {
+            this.pausedText.destroy();
+        }
     },
 
     spawnAttacker: function(className, x, y)
@@ -867,6 +866,9 @@ var mainState = {
 
     placeTower: function()
     {
+        if (this.pauseScreenOpen) {
+            return false;
+        }
 
         var cost = window[this.towerSelected].cost;
 
@@ -1145,6 +1147,7 @@ var mainState = {
         this.spawnLevelObstacles();
         this.positionCamera();
         this.initiateLabels();
+        this.addUserInterfaceButtons();
 
         this.level.begin();
 
@@ -1228,6 +1231,8 @@ var mainState = {
             this.easyStarSync.removeAllAdditionalPointCosts();
             this.easyStarSync.stopAvoidingAllAdditionalPoints();
         }
+
+        this.destroyUserInterfaceButtons();
 
         this.clearingMap = false;
 
@@ -1346,447 +1351,423 @@ var mainState = {
         if (this.nathan) {
             this.drawForceFields(this.nathan, this.lives);
         }
-    },
-    
-    drawForceFields: function(sprite, number) {
-
-        if (number >= 5) {
-            mainState.graphics.lineStyle(2, 0xBBBBFF, 0.5);
-            mainState.graphics.beginFill(0xCCCCFF, 0.1);
-            mainState.graphics.drawCircle(sprite.x, sprite.y, 80);
-            mainState.graphics.endFill();
-        }
-
-        if (number >= 4) {
-            mainState.graphics.lineStyle(2, 0x9999FF, 0.5);
-            mainState.graphics.beginFill(0xBBBBFF, 0.1);
-            mainState.graphics.drawCircle(sprite.x, sprite.y, 65);
-            mainState.graphics.endFill();
-        }
-
-        if (number >= 3) {
-            mainState.graphics.lineStyle(2, 0x7777FF, 0.5);
-            mainState.graphics.beginFill(0xBBBBFF, 0.1);
-            mainState.graphics.drawCircle(sprite.x, sprite.y, 50);
-            mainState.graphics.endFill();
-        }
-
-        if (number >= 2) {
-            mainState.graphics.lineStyle(2, 0x5555FF, 0.5);
-            mainState.graphics.beginFill(0xBBBBFF, 0.1);
-            mainState.graphics.drawCircle(sprite.x, sprite.y, 35);
-            mainState.graphics.endFill();
-        }
-        
-    },
-
-    coinsSufficientForTowerPlacement: function()
-    {
-
-        if (this.coins < window[this.towerSelected].cost) {
-            return false;
-        }
-
-        return true;
-    },
-
-    coinsSufficientForTowerUpgrade: function()
-    {
-        if (this.coins < window[this.towerSelected].cost) {
-            return false;
-        }
-
-        return true;
-    },
-
-    cleanUp: function()
-    {
-        // Code based on an article at http://davidp.net/phaser-sprite-destroy/
-
-        var aCleanup = [];
-
-        this.attackers.forEachDead(function(item){
-            aCleanup.push(item);
-        }, this);
-        this.towers.forEachDead(function(item){
-            aCleanup.push(item);
-        }, this);
-        this.game.bullets.forEachDead(function(item){
-            aCleanup.push(item);
-        }, this);
-        this.explosions.forEachDead(function(item){
-            aCleanup.push(item);
-        }, this);
-
-        var i = aCleanup.length - 1;
-        while(i > -1)
-        {
-            var getItem = aCleanup[i];
-            getItem.destroy();
-            i--;
-        }
-
-    },
-
-    lastWaveDispatched: function()
-    {
-        this.allAttackersDispatched = true;
-    },
-
-    displayMessage: function(message)
-    {
-        this.labelMessage.setText(message);
-        game.time.events.add(Phaser.Timer.SECOND * 6, this.clearMessage, this).autoDestroy = true;
-    },
-
-    clearMessage: function()
-    {
-        this.labelMessage.setText('');
-    },
-
-    translatePixelCoordinatesToGridCoordinates: function(x, y)
-    {
-        x = Math.floor(x / this.squareWidth);
-        y = Math.floor(y / this.squareWidth);
-
-        return [x, y];
-    },
-
-    translateGridCoordinatesToPixelCoordinates: function(x, y)
-    {
-        x = Math.floor(x * this.squareWidth);
-        y = Math.floor(y * this.squareWidth);
-
-        return [x, y];
-    },
-
-    setupMap: function()
-    {
-        if (!this.level.mapName) {
-            throw 'Level mapName not found';
-        }
-
-        this.map = game.add.tilemap(this.level.mapName);
-        this.map.addTilesetImage('tiles_spritesheet', 'tiles');
-
-        // create map layers
-        this.layers = {};
-        this.map.layers.forEach(function (layer) {
-
-            this.layers[layer.name] = this.map.createLayer(layer.name);
-
-            this.backgrounds.add(this.layers[layer.name]);
-
-            if (layer.properties.collision) { // collision layer
-                var collision_tiles = [];
-                layer.data.forEach(function (data_row) { // find tiles used in the layer
-                    data_row.forEach(function (tile) {
-                        // check if it's a valid tile index and isn't already in the list
-                        if (tile.index > 0 && collision_tiles.indexOf(tile.index) === -1) {
-                            collision_tiles.push(tile.index);
-                        }
-                    }, this);
-                }, this);
-                this.map.setCollision(collision_tiles, true, layer.name);
-            }
-        }, this);
-
-
-        // resize the world to be the size of the current layer
-        this.layers[this.map.layer.name].resizeWorld();
-
-        this.backgroundLayer = this.map.createLayer('background');
-        this.backgrounds.add(this.backgroundLayer);
-
-        if (this.layers.hasOwnProperty('walkable')) {
-            this.walkableLayer = this.map.createLayer('walkable');
-            this.backgrounds.add(this.walkableLayer);
-        }
-
-        this.collisionLayer = this.map.createLayer('collision');
-        this.backgrounds.add(this.collisionLayer);
-
-        game.physics.arcade.enable(this.collisionLayer);
-
-        this.initiateEasyStar();
-    },
-
-    initiateEasyStar: function()
-    {
-
-        var collisionLayer = this.getCollisionLayer();
-
-        // Begin async pathfinding plugin instance
-
-        var tile_dimensions = new Phaser.Point(this.map.tileWidth, this.map.tileHeight);
-        this.pathfinding = this.game.plugins.add(Rendlesham.Pathfinding, collisionLayer.data, [-1], tile_dimensions);
-        this.pathfinding.easy_star.setIterationsPerCalculation(1000);
-
-        // End async pathfinding plugin instance
-
-
-        // Begin sync instance
-        this.easyStarSync = new EasyStar.js();
-
-        var world_grid = collisionLayer.data;
-        var acceptable_tiles = [-1];
-        var tile_dimensions = new Phaser.Point(this.map.tileWidth, this.map.tileHeight);
-
-        this.grid_dimensions = {row: world_grid.length, column: world_grid[0].length};
-
-        grid_indices = [];
-        for (grid_row = 0; grid_row < world_grid.length; grid_row += 1) {
-            grid_indices[grid_row] = [];
-            for (grid_column = 0; grid_column < world_grid[grid_row].length; grid_column += 1) {
-                grid_indices[grid_row][grid_column] = world_grid[grid_row][grid_column].index;
-            }
-        }
-
-        this.easyStarSync.setGrid(grid_indices);
-        this.easyStarSync.setAcceptableTiles(acceptable_tiles);
-        this.easyStarSync.enableSync();
-        // End sync instance
-
-    },
-
-    getCollisionLayer: function()
-    {
-
-        var collisionLayer;
-
-        for (var i in this.map.layers) {
-            if (this.map.layers.hasOwnProperty(i)) {
-                if (this.map.layers[i].name == 'collision') {
-                    collisionLayer = this.map.layers[i];
-                }
-            }
-        }
-
-        return collisionLayer;
-
-    },
-
-    loadUser: function()
-    {
-
-        if (localStorage.getItem(this.name)) {
-            this.user = JSON.parse(localStorage.getItem(this.name));
-        } else {
-            this.user = newUser;
-            this.save();
-        }
-
-    },
-
-    save: function()
-    {
-        localStorage.setItem(this.name, JSON.stringify(this.user));
-
-    },
-
-    untargetAll: function()
-    {
-        this.attackers.forEachAlive(function(item) {
-            if (item.targeted) {
-                item.untarget();
-            }
-        });
-        this.obstacles.forEachAlive(function(item) {
-            if (item.targeted) {
-                item.untarget();
-            }
-        });
-
-        this.noTarget();
-
-    },
-
-    goFullScreen: function()
-    {
-        game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
-        game.scale.startFullScreen(false);
-    },
-
-    toggleFullScreen: function()
-    {
-        if (game.scale.isFullScreen)  {
-            game.scale.stopFullScreen();
-        } else {
-            this.goFullScreen();
-        }
-    },
-
-    scheduleAttackersWave: function(attackerClassName, waveNumber, s, duration, gap, startOffset)
-    {
-
-        if (!startOffset) {
-            startOffset = 0;
-        }
-
-        var start = s + startOffset;
-        var end = start + duration;
-
-        var i;
-
-        for (i = start; i < end; i += gap) {
-
-            this.spawnAttackerDelayed(attackerClassName, i, waveNumber);
-
-        }
-
-    },
-
-    positionCamera: function()
-    {
-        if (!this.map) {
-            throw 'Map not initiated.';
-        }
-
-        var x = (this.map.widthInPixels - game.width) / 2;
-        var y = (this.map.heightInPixels - game.height) / 2;
-
-        game.camera.x = x;
-        game.camera.y = y;
-
-    },
-    
-    generateSpawnAttackerPixelCoordinates: function()
-    {
-        return mainState.translateGridCoordinatesToPixelCoordinates(
-            this.level.entryXGrid,
-            this.level.entryYGrid
-        );
-    },
-
-    addItem: function(itemName)
-    {
-
-        try {
-            if (!this.user.items) {
-                this.user.items = {};
-            }
-
-            if (!this.user.items[itemName]) {
-                this.user.items[itemName] = 1;
-            } else {
-                this.user.items[itemName] ++;
-            }
-
-            this.save();
-        }
-        catch (err) {
-            console.log(err);
-        }
-
-    },
-
-    hasItem: function(itemName)
-    {
-        if (this.user.hasOwnProperty('items') && this.user.items.hasOwnProperty('itemName')  && this.user.items.hasOwnProperty('itemName') >= 1) {
-            return true;
-        }
-
-        return false;
-    },
-
-    addGlobalAdditionalCostTile: function(x, y, coordinateType, cost)
-    {
-
-        if (!this.globalAdditionalCostTiles) {
-            this.globalAdditionalCostTiles = [];
-        }
-
-        if (!cost) {
-            cost = 9999;
-        }
-
-        if (coordinateType && coordinateType == 'pixels') {
-            var gridCoordinates = this.translatePixelCoordinatesToGridCoordinates(x, y);
-            x = gridCoordinates[0];
-            y = gridCoordinates[1];
-        }
-
-        this.globalAdditionalCostTiles.push([
-            x,
-            y,
-            cost
-        ]);
-
-        this.setAllAttackerPathNeedsRegenerating();
-    },
-
-    setAllAttackerPathNeedsRegenerating: function()
-    {
-        if (!this.level.canPlaceTowerOnPathway) {
-            return false;
-        }
-
-        this.attackers.forEachAlive(function(attacker){
-            attacker.pathNeedsRegenerating = true;
-        });
-    },
-
-    addGlobalImpassablePoint: function(x, y, coordinateType)
-    {
-        if (coordinateType && coordinateType == 'pixels') {
-            var gridCoordinates = this.translatePixelCoordinatesToGridCoordinates(x, y);
-            x = gridCoordinates[0];
-            y = gridCoordinates[1];
-        }
-
-        this.pathfinding.easy_star.avoidAdditionalPoint(x, y);
-        this.easyStarSync.avoidAdditionalPoint(x, y);
-
-        this.setAllAttackerPathNeedsRegenerating();
-
-    },
-
-    removeGlobalImpassablePoint: function(x, y)
-    {
-
-        this.pathfinding.easy_star.stopAvoidingAdditionalPoint(x, y);
-        this.easyStarSync.stopAvoidingAdditionalPoint(x, y);
-
-        this.setAllAttackerPathNeedsRegenerating();
-
-
-    },
-
-    wouldObstaclePlacementBlockPath: function(x, y, coordinateType)
-    {
-
-
-        if (coordinateType && coordinateType == 'pixels') {
-            var gridCoordinates = this.translatePixelCoordinatesToGridCoordinates(x, y);
-            x = gridCoordinates[0];
-            y = gridCoordinates[1];
-        }
-
-        this.addGlobalImpassablePoint(x, y, 'grid');
-
-        this.easyStarSync.findPath(
-            this.getEntryXGrid(),
-            this.getEntryYGrid(),
-            this.getGoalXGrid(),
-            this.getGoalYGrid(),
-            this.wouldObstaclePlacementBlockPathCallbackHandler
-        );
-
-        this.easyStarSync.calculate();
-
-        this.removeGlobalImpassablePoint(x, y);
-
-        if (wouldObstaclePlacementBlockPathResult === null) {
-            return true;
-        } else {
-            return false;
-        }
-
     }
 
 
 };
 
+mainState.drawForceFields = function(sprite, number)
+{
+    if (number >= 5) {
+        mainState.graphics.lineStyle(2, 0xBBBBFF, 0.5);
+        mainState.graphics.beginFill(0xCCCCFF, 0.1);
+        mainState.graphics.drawCircle(sprite.x, sprite.y, 80);
+        mainState.graphics.endFill();
+    }
+
+    if (number >= 4) {
+        mainState.graphics.lineStyle(2, 0x9999FF, 0.5);
+        mainState.graphics.beginFill(0xBBBBFF, 0.1);
+        mainState.graphics.drawCircle(sprite.x, sprite.y, 65);
+        mainState.graphics.endFill();
+    }
+
+    if (number >= 3) {
+        mainState.graphics.lineStyle(2, 0x7777FF, 0.5);
+        mainState.graphics.beginFill(0xBBBBFF, 0.1);
+        mainState.graphics.drawCircle(sprite.x, sprite.y, 50);
+        mainState.graphics.endFill();
+    }
+
+    if (number >= 2) {
+        mainState.graphics.lineStyle(2, 0x5555FF, 0.5);
+        mainState.graphics.beginFill(0xBBBBFF, 0.1);
+        mainState.graphics.drawCircle(sprite.x, sprite.y, 35);
+        mainState.graphics.endFill();
+    }
+};
+
+mainState.coinsSufficientForTowerPlacement = function()
+{
+    if (this.coins < window[this.towerSelected].cost) {
+        return false;
+    }
+
+    return true;
+};
+
+mainState.coinsSufficientForTowerUpgrade = function()
+{
+    if (this.coins < window[this.towerSelected].cost) {
+        return false;
+    }
+
+    return true;
+};
+
+
+mainState.cleanUp = function()
+{
+    // Code based on an article at http://davidp.net/phaser-sprite-destroy/
+
+    var aCleanup = [];
+
+    this.attackers.forEachDead(function(item){
+        aCleanup.push(item);
+    }, this);
+    this.towers.forEachDead(function(item){
+        aCleanup.push(item);
+    }, this);
+    this.game.bullets.forEachDead(function(item){
+        aCleanup.push(item);
+    }, this);
+    this.explosions.forEachDead(function(item){
+        aCleanup.push(item);
+    }, this);
+
+    var i = aCleanup.length - 1;
+    while(i > -1)
+    {
+        var getItem = aCleanup[i];
+        getItem.destroy();
+        i--;
+    }
+};
+
+mainState.lastWaveDispatched = function()
+{
+    this.allAttackersDispatched = true;
+};
+
+mainState.displayMessage = function(message)
+{
+    this.labelMessage.setText(message);
+    game.time.events.add(Phaser.Timer.SECOND * 6, this.clearMessage, this).autoDestroy = true;
+};
+
+mainState.clearMessage = function()
+{
+    this.labelMessage.setText('');
+};
+
+mainState.translatePixelCoordinatesToGridCoordinates = function(x, y)
+{
+    x = Math.floor(x / this.squareWidth);
+    y = Math.floor(y / this.squareWidth);
+
+    return [x, y];
+};
+
+mainState.translateGridCoordinatesToPixelCoordinates = function(x, y)
+{
+    x = Math.floor(x * this.squareWidth);
+    y = Math.floor(y * this.squareWidth);
+
+    return [x, y];
+};
+
+mainState.setupMap = function()
+{
+    if (!this.level.mapName) {
+        throw 'Level mapName not found';
+    }
+
+    this.map = game.add.tilemap(this.level.mapName);
+    this.map.addTilesetImage('tiles_spritesheet', 'tiles');
+
+    // create map layers
+    this.layers = {};
+    this.map.layers.forEach(function (layer) {
+
+        this.layers[layer.name] = this.map.createLayer(layer.name);
+
+        this.backgrounds.add(this.layers[layer.name]);
+
+        if (layer.properties.collision) { // collision layer
+            var collision_tiles = [];
+            layer.data.forEach(function (data_row) { // find tiles used in the layer
+                data_row.forEach(function (tile) {
+                    // check if it's a valid tile index and isn't already in the list
+                    if (tile.index > 0 && collision_tiles.indexOf(tile.index) === -1) {
+                        collision_tiles.push(tile.index);
+                    }
+                }, this);
+            }, this);
+            this.map.setCollision(collision_tiles, true, layer.name);
+        }
+    }, this);
+
+
+    // resize the world to be the size of the current layer
+    this.layers[this.map.layer.name].resizeWorld();
+
+    this.backgroundLayer = this.map.createLayer('background');
+    this.backgrounds.add(this.backgroundLayer);
+
+    if (this.layers.hasOwnProperty('walkable')) {
+        this.walkableLayer = this.map.createLayer('walkable');
+        this.backgrounds.add(this.walkableLayer);
+    }
+
+    this.collisionLayer = this.map.createLayer('collision');
+    this.backgrounds.add(this.collisionLayer);
+
+    game.physics.arcade.enable(this.collisionLayer);
+
+    this.initiateEasyStar();
+};
+
+mainState.initiateEasyStar = function()
+{
+    var collisionLayer = this.getCollisionLayer();
+
+    // Begin async pathfinding plugin instance
+
+    var tile_dimensions = new Phaser.Point(this.map.tileWidth, this.map.tileHeight);
+    this.pathfinding = this.game.plugins.add(Rendlesham.Pathfinding, collisionLayer.data, [-1], tile_dimensions);
+    this.pathfinding.easy_star.setIterationsPerCalculation(1000);
+
+    // End async pathfinding plugin instance
+
+
+    // Begin sync instance
+    this.easyStarSync = new EasyStar.js();
+
+    var world_grid = collisionLayer.data;
+    var acceptable_tiles = [-1];
+    var tile_dimensions = new Phaser.Point(this.map.tileWidth, this.map.tileHeight);
+
+    this.grid_dimensions = {row: world_grid.length, column: world_grid[0].length};
+
+    grid_indices = [];
+    for (grid_row = 0; grid_row < world_grid.length; grid_row += 1) {
+        grid_indices[grid_row] = [];
+        for (grid_column = 0; grid_column < world_grid[grid_row].length; grid_column += 1) {
+            grid_indices[grid_row][grid_column] = world_grid[grid_row][grid_column].index;
+        }
+    }
+
+    this.easyStarSync.setGrid(grid_indices);
+    this.easyStarSync.setAcceptableTiles(acceptable_tiles);
+    this.easyStarSync.enableSync();
+    // End sync instance
+};
+
+mainState.getCollisionLayer = function()
+{
+    var collisionLayer;
+
+    for (var i in this.map.layers) {
+        if (this.map.layers.hasOwnProperty(i)) {
+            if (this.map.layers[i].name == 'collision') {
+                collisionLayer = this.map.layers[i];
+            }
+        }
+    }
+
+    return collisionLayer;
+};
+
+mainState.loadUser = function()
+{
+    if (localStorage.getItem(this.name)) {
+        this.user = JSON.parse(localStorage.getItem(this.name));
+    } else {
+        this.user = newUser;
+        this.save();
+    }
+};
+
+mainState.save = function()
+{
+    localStorage.setItem(this.name, JSON.stringify(this.user));
+};
+
+mainState.untargetAll = function()
+{
+    this.attackers.forEachAlive(function(item) {
+        if (item.targeted) {
+            item.untarget();
+        }
+    });
+    this.obstacles.forEachAlive(function(item) {
+        if (item.targeted) {
+            item.untarget();
+        }
+    });
+
+    this.noTarget();
+};
+
+mainState.goFullScreen = function()
+{
+    game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
+    game.scale.startFullScreen(false);
+};
+
+mainState.toggleFullScreen = function()
+{
+    if (game.scale.isFullScreen)  {
+        game.scale.stopFullScreen();
+    } else {
+        this.goFullScreen();
+    }
+};
+
+mainState.scheduleAttackersWave = function(attackerClassName, waveNumber, s, duration, gap, startOffset)
+{
+    if (!startOffset) {
+        startOffset = 0;
+    }
+
+    var start = s + startOffset;
+    var end = start + duration;
+
+    var i;
+
+    for (i = start; i < end; i += gap) {
+
+        this.spawnAttackerDelayed(attackerClassName, i, waveNumber);
+
+    }
+};
+
+mainState.positionCamera = function()
+{
+    if (!this.map) {
+        throw 'Map not initiated.';
+    }
+
+    var x = (this.map.widthInPixels - game.width) / 2;
+    var y = (this.map.heightInPixels - game.height) / 2;
+
+    game.camera.x = x;
+    game.camera.y = y;
+};
+
+mainState.generateSpawnAttackerPixelCoordinates = function()
+{
+    return mainState.translateGridCoordinatesToPixelCoordinates(
+        this.level.entryXGrid,
+        this.level.entryYGrid
+    );
+};
+
+mainState.addItem = function(itemName)
+{
+    try {
+        if (!this.user.items) {
+            this.user.items = {};
+        }
+
+        if (!this.user.items[itemName]) {
+            this.user.items[itemName] = 1;
+        } else {
+            this.user.items[itemName] ++;
+        }
+
+        this.save();
+    }
+    catch (err) {
+        console.log(err);
+    }
+};
+
+mainState.hasItem = function(itemName)
+{
+    if (this.user.hasOwnProperty('items') && this.user.items.hasOwnProperty('itemName')  && this.user.items.hasOwnProperty('itemName') >= 1) {
+        return true;
+    }
+
+    return false;
+};
+
+mainState.addGlobalAdditionalCostTile = function(x, y, coordinateType, cost)
+{
+    if (!this.globalAdditionalCostTiles) {
+        this.globalAdditionalCostTiles = [];
+    }
+
+    if (!cost) {
+        cost = 9999;
+    }
+
+    if (coordinateType && coordinateType == 'pixels') {
+        var gridCoordinates = this.translatePixelCoordinatesToGridCoordinates(x, y);
+        x = gridCoordinates[0];
+        y = gridCoordinates[1];
+    }
+
+    this.globalAdditionalCostTiles.push([
+        x,
+        y,
+        cost
+    ]);
+
+    this.setAllAttackerPathNeedsRegenerating();
+};
+
+mainState.setAllAttackerPathNeedsRegenerating = function()
+{
+    if (!this.level.canPlaceTowerOnPathway) {
+        return false;
+    }
+
+    this.attackers.forEachAlive(function(attacker){
+        attacker.pathNeedsRegenerating = true;
+    });
+};
+
+mainState.addGlobalImpassablePoint = function(x, y, coordinateType)
+{
+    if (coordinateType && coordinateType == 'pixels') {
+        var gridCoordinates = this.translatePixelCoordinatesToGridCoordinates(x, y);
+        x = gridCoordinates[0];
+        y = gridCoordinates[1];
+    }
+
+    this.pathfinding.easy_star.avoidAdditionalPoint(x, y);
+    this.easyStarSync.avoidAdditionalPoint(x, y);
+
+    this.setAllAttackerPathNeedsRegenerating();
+};
+
+mainState.removeGlobalImpassablePoint = function(x, y)
+{
+    this.pathfinding.easy_star.stopAvoidingAdditionalPoint(x, y);
+    this.easyStarSync.stopAvoidingAdditionalPoint(x, y);
+
+    this.setAllAttackerPathNeedsRegenerating();
+};
+
+mainState.wouldObstaclePlacementBlockPath = function(x, y, coordinateType)
+{
+    if (coordinateType && coordinateType == 'pixels') {
+        var gridCoordinates = this.translatePixelCoordinatesToGridCoordinates(x, y);
+        x = gridCoordinates[0];
+        y = gridCoordinates[1];
+    }
+
+    this.addGlobalImpassablePoint(x, y, 'grid');
+
+    this.easyStarSync.findPath(
+        this.getEntryXGrid(),
+        this.getEntryYGrid(),
+        this.getGoalXGrid(),
+        this.getGoalYGrid(),
+        this.wouldObstaclePlacementBlockPathCallbackHandler
+    );
+
+    this.easyStarSync.calculate();
+
+    this.removeGlobalImpassablePoint(x, y);
+
+    if (wouldObstaclePlacementBlockPathResult === null) {
+        return true;
+    } else {
+        return false;
+    }
+};
 
 mainState.wouldObstaclePlacementBlockPathCallbackHandler = function(path)
 {
@@ -1842,4 +1823,81 @@ mainState.setTarget = function(sprite)
 mainState.noTarget = function()
 {
     this.game.target = {};
+};
+
+mainState.addUserInterfaceButtons = function()
+{
+    this.settingsButton = game.add.button(game.camera.width - 40, 5, 'spanner', this.openPauseScreen, this);
+    this.settingsButton.fixedToCamera = true;
+};
+
+mainState.destroyUserInterfaceButtons = function()
+{
+    var buttonsToDestroy = ['settingsButton'];
+
+    buttonsToDestroy.forEach(function(buttonName) {
+        if (mainState[buttonName]) {
+            mainState[buttonName].destroy();
+        }
+    });
+};
+
+mainState.togglePauseScreen = function()
+{
+    if (this.pauseScreenOpen) {
+        this.closePauseScreen();
+    } else {
+        this.openPauseScreen();
+    }
+};
+
+mainState.openPauseScreen = function()
+{
+    this.pause(false);
+
+    this.pauseScreenOpen = true;
+
+    this.gameOverBackground.alpha = .5;
+
+    this.addButtonTextLink('resume', 'Resume', 46, 'forestGreen', 0, game.height * .21, 'center', 'closePauseScreen');
+
+    this.addButtonTextLink('restart', 'Restart Level', 46, 'forestGreen', 0, game.height * .46, 'center', 'restartLevel');
+
+    this.addButtonTextLink('exit', 'Exit', 46, 'forestGreen', 0, game.height * .71, 'center', 'goToTitleScreen');
+
+};
+
+mainState.closePauseScreen = function()
+{
+    var buttonsToDestroy = ['resume', 'restart', 'exit'];
+
+    buttonsToDestroy.forEach(function(name) {
+        if (mainState[name]) {
+            mainState[name].destroy();
+        }
+        if (mainState[name + 'Button']) {
+            mainState[name + 'Button'].destroy();
+        }
+    });
+
+    this.gameOverBackground.alpha = 0;
+
+    this.pauseScreenOpen = false;
+
+    this.unpause();
+};
+
+mainState.restartLevel = function()
+{
+    this.closePauseScreen();
+    game.state.start('main', true, true, this.levelId);
+};
+
+mainState.addButtonTextLink = Rendlesham.gameState.prototype.addButtonTextLink;
+mainState.changeGameState = Rendlesham.gameState.prototype.changeGameState;
+
+mainState.goToTitleScreen = function()
+{
+    this.closePauseScreen();
+    this.changeGameState('titleScreen');
 };
