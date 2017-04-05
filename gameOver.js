@@ -20,6 +20,11 @@ Rendlesham.gameOver.prototype.init = function(levelNumber)
     this.levelId = levelNumber;
 };
 
+Rendlesham.gameOver.prototype.tryAgain = function()
+{
+    game.state.start('main', true, true, this.levelId);
+};
+
 Rendlesham.gameOver.prototype.create = function()
 {
     if (game.device.desktop == false) {
@@ -31,41 +36,17 @@ Rendlesham.gameOver.prototype.create = function()
 
     game.stage.backgroundColor = "#112c06";
 
-    this.capturedText = game.add.bitmapText(500, 100, bitmapFontName, 'Captured', 80);
+    this.capturedText = game.add.bitmapText(500, game.height * .125, bitmapFontName, 'Captured', 80);
     this.capturedText.align = 'center';
     this.capturedText.x = (game.width * .5) - (this.capturedText.width * .5);
 
-    this.detailsText = game.add.bitmapText(500, 200, bitmapFontName, 'You were captured by the humans', 20);
+    this.detailsText = game.add.bitmapText(500, game.height * .35, bitmapFontName, 'You were captured by the humans', 20);
     this.detailsText.align = 'center';
     this.detailsText.x = (game.width * .5) - (this.detailsText.width * .5);
 
 
-    // Begin try again link
-    this.tryAgainLink = game.add.bitmapText(
-        game.camera.width * .5,
-        game.height * .72,
-        bitmapFontName,
-        'Try Again',
-        48
-    );
-    this.tryAgainLink.x = (game.camera.width * .5) - (this.tryAgainLink.width * .5);
-    this.tryAgainLink.fixedToCamera = true;
+    this.addButtonTextLink('retry', 'Try Again', 46, 'forestGreen', 0, game.height * .5, 'center', 'tryAgain');
 
-    this.tryAgainLinkButton = game.add.button(
-        game.world.centerX - 80,
-        this.tryAgainLink.y,
-        'forestGreen',
-        this.tryAgain,
-        this
-    );
-    this.linkBackgrounds.add(this.tryAgainLinkButton);
-    this.tryAgainLinkButton.x = (game.camera.width * .5) - (this.tryAgainLinkButton.width * .5);
-    this.tryAgainLinkButton.y = this.tryAgainLink.y - 9;
-    this.tryAgainLinkButton.fixedToCamera = true;
-    // End try again link
-};
+    this.addButtonTextLink('exit', 'Exit', 46, 'forestGreen', 0, game.height * .725, 'center', 'goToTitleScreen');
 
-Rendlesham.gameOver.prototype.tryAgain = function()
-{
-    game.state.start('main', true, true, this.levelId);
 };

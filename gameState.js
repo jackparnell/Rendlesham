@@ -77,8 +77,10 @@ Rendlesham.gameState.prototype = {
         if (horizontal == 'right') {
             x = game.camera.width - this[name].width - x;
         } else if (horizontal == 'center') {
-            x = (game.camera.width * .5) - (this[name].width * .5)
+            x = (game.camera.width * .5) - (this[name].width * .5) + game.camera.x;
         }
+
+        console.log(this[name].width);
 
         this[name].x = x;
         this[name].y = y;

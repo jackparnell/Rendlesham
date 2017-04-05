@@ -778,13 +778,13 @@ var mainState = {
         this.gameOverBackground.alpha = .5;
 
         this.levelCompleteText = game.add.bitmapText(
-            game.camera.width / 2,
+            game.camera.width * .5,
             game.height * .16,
             bitmapFontName,
             'Level ' + this.levelId + ' complete!',
             58
         );
-        this.levelCompleteText.x = game.world.centerX - (this.levelCompleteText.width / 2);
+        this.levelCompleteText.x = game.world.centerX - (this.levelCompleteText.width * .5);
         this.levelCompleteText.fixedToCamera = true;
 
         // Begin stars
@@ -815,26 +815,26 @@ var mainState = {
 
         // Begin score text
         this.scoreText = game.add.bitmapText(
-            game.camera.width / 2,
+            game.camera.width * .5,
             game.height * .68,
             bitmapFontName,
             'Score: ' + this.score,
             24
         );
         this.scoreText.tint = 0xCCCCCC;
-        this.scoreText.x = (game.camera.width / 2) - (this.scoreText.width / 2);
+        this.scoreText.x = (game.camera.width * .5) - (this.scoreText.width * .5);
         this.scoreText.fixedToCamera = true;
         // End score text
 
         // Begin next level link
         this.nextLevelLink = game.add.bitmapText(
-            game.camera.width / 2,
+            game.camera.width * .5,
             game.height * .8,
             bitmapFontName,
             'Play Next Level',
             40
         );
-        this.nextLevelLink.x = (game.camera.width / 2) - (this.nextLevelLink.width / 2);
+        this.nextLevelLink.x = (game.camera.width * .5) - (this.nextLevelLink.width * .5);
         this.nextLevelLink.fixedToCamera = true;
 
         this.nextLevelLinkButton = game.add.button(
@@ -845,7 +845,7 @@ var mainState = {
             this
         );
         this.linkBackgrounds.add(this.nextLevelLinkButton);
-        this.nextLevelLinkButton.x = (game.camera.width / 2) - (this.nextLevelLinkButton.width / 2);
+        this.nextLevelLinkButton.x = (game.camera.width * .5) - (this.nextLevelLinkButton.width * .5);
         this.nextLevelLinkButton.y = this.nextLevelLink.y - 11;
         this.nextLevelLinkButton.fixedToCamera = true;
         // End next level link
@@ -1638,8 +1638,8 @@ mainState.positionCamera = function()
         throw 'Map not initiated.';
     }
 
-    var x = (this.map.widthInPixels - game.width) / 2;
-    var y = (this.map.heightInPixels - game.height) / 2;
+    var x = (this.map.widthInPixels - game.width) * .5;
+    var y = (this.map.heightInPixels - game.height) * .5;
 
     game.camera.x = x;
     game.camera.y = y;
@@ -1853,6 +1853,10 @@ mainState.togglePauseScreen = function()
 
 mainState.openPauseScreen = function()
 {
+    if (this.pauseScreenOpen) {
+        return false;
+    }
+
     this.pause(false);
 
     this.pauseScreenOpen = true;
@@ -1864,6 +1868,8 @@ mainState.openPauseScreen = function()
     this.addButtonTextLink('restart', 'Restart Level', 46, 'forestGreen', 0, game.height * .46, 'center', 'restartLevel');
 
     this.addButtonTextLink('exit', 'Exit', 46, 'forestGreen', 0, game.height * .71, 'center', 'goToTitleScreen');
+
+    return true;
 
 };
 
