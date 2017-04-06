@@ -80,8 +80,6 @@ Rendlesham.gameState.prototype = {
             x = (game.camera.width * .5) - (this[name].width * .5) + game.camera.x;
         }
 
-        console.log(this[name].width);
-
         this[name].x = x;
         this[name].y = y;
         this[name].fixedToCamera = true;

@@ -1,5 +1,5 @@
 var waveNumber;
-var lastLevel = 10;
+var lastLevel = 11;
 
 var levelOrdering = {
     'eastAnglia': {
@@ -12,8 +12,8 @@ var levelOrdering = {
         7: 'waveneyCrossing',
         8: 'frozenFen',
         9: 'sandringhamWoods',
-        10: 'holkhamBeach'
-        // 11: 'northCreake'
+        10: 'holkhamBeach',
+        11: 'northCreake'
     }
 };
 
@@ -89,8 +89,6 @@ var fridayStreet = {
         }
 
         timerEvents.push(game.time.events.add(Phaser.Timer.SECOND * s, mainState.lastWaveDispatched, mainState));
-
-        mainState.nathan = mainState.spawnCharacter('Nathan', this.goalXGrid, this.goalYGrid, 'grid');
 
 
     },
@@ -217,8 +215,6 @@ var orfordRoad = {
 
         timerEvents.push(game.time.events.add(Phaser.Timer.SECOND * s, mainState.lastWaveDispatched, mainState));
 
-        mainState.nathan = mainState.spawnCharacter('Nathan', this.goalXGrid, this.goalYGrid, 'grid');
-
     },
     completed: function() {
 
@@ -343,8 +339,6 @@ var orfordness = {
 
         timerEvents.push(game.time.events.add(Phaser.Timer.SECOND * s, mainState.lastWaveDispatched, mainState));
 
-        mainState.nathan = mainState.spawnCharacter('Nathan', this.goalXGrid, this.goalYGrid, 'grid');
-
     },
     completed: function() {
 
@@ -468,8 +462,6 @@ var westletonHeath = {
 
         timerEvents.push(game.time.events.add(Phaser.Timer.SECOND * s, mainState.lastWaveDispatched, mainState));
 
-        mainState.nathan = mainState.spawnCharacter('Nathan', this.goalXGrid, this.goalYGrid, 'grid');
-
     },
     completed: function() {
 
@@ -592,8 +584,6 @@ var bartonMills = {
         }
 
         timerEvents.push(game.time.events.add(Phaser.Timer.SECOND * s, mainState.lastWaveDispatched, mainState));
-
-        mainState.nathan = mainState.spawnCharacter('Nathan', this.goalXGrid, this.goalYGrid, 'grid');
 
     },
     completed: function() {
@@ -730,8 +720,6 @@ var worthamLing = {
         }
 
         timerEvents.push(game.time.events.add(Phaser.Timer.SECOND * s, mainState.lastWaveDispatched, mainState));
-
-        mainState.nathan = mainState.spawnCharacter('Nathan', this.goalXGrid, this.goalYGrid, 'grid');
 
     },
     completed: function() {
@@ -871,8 +859,6 @@ var waveneyCrossing = {
 
         timerEvents.push(game.time.events.add(Phaser.Timer.SECOND * s, mainState.lastWaveDispatched, mainState));
 
-        mainState.nathan = mainState.spawnCharacter('Nathan', this.goalXGrid, this.goalYGrid, 'grid');
-
     },
     completed: function() {
 
@@ -1011,8 +997,6 @@ var frozenFen = {
 
         timerEvents.push(game.time.events.add(Phaser.Timer.SECOND * s, mainState.lastWaveDispatched, mainState));
 
-        mainState.nathan = mainState.spawnCharacter('Nathan', this.goalXGrid, this.goalYGrid, 'grid');
-
     },
     completed: function() {
 
@@ -1143,8 +1127,6 @@ var sandringhamWoods = {
 
         timerEvents.push(game.time.events.add(Phaser.Timer.SECOND * s, mainState.lastWaveDispatched, mainState));
 
-        mainState.nathan = mainState.spawnCharacter('Nathan', this.goalXGrid, this.goalYGrid, 'grid');
-
     },
     completed: function() {
 
@@ -1273,8 +1255,6 @@ var holkhamBeach = {
         }
 
         timerEvents.push(game.time.events.add(Phaser.Timer.SECOND * s, mainState.lastWaveDispatched, mainState));
-
-        mainState.nathan = mainState.spawnCharacter('Nathan', this.goalXGrid, this.goalYGrid, 'grid');
 
     },
     completed: function() {
@@ -1405,8 +1385,6 @@ var northCreake = {
 
         timerEvents.push(game.time.events.add(Phaser.Timer.SECOND * s, mainState.lastWaveDispatched, mainState));
 
-        mainState.nathan = mainState.spawnCharacter('Nathan', this.goalXGrid, this.goalYGrid, 'grid');
-
     },
     completed: function() {
 
@@ -1444,5 +1422,6 @@ var northCreake = {
     goalYGrid: 6,
     waveHealthModifier: .35,
     towerPlacementForbiddenRows: [0, 11],
-    canPlaceTowerOnPathway: false
+    canPlaceTowerOnPathway: false,
+    bullyGoalCoordinates: [[17, 6], [18, 10], [1, 4], [4, 8], [11, 8]]
 };

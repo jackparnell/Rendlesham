@@ -250,14 +250,6 @@ Obstacle.prototype.updateCrosshair = function()
     this.crosshair.x = this.x - (mainState.squareWidth/2) - 2 ;
     this.crosshair.y = this.y - (mainState.squareWidth/2) - 2;
 };
-Obstacle.prototype.createCentralCircle = function(circleDiameter)
-{
-    var offset = Math.round(mainState.squareWidth * .5) - circleDiameter;
-
-    this.body.setCircle(circleDiameter, offset, offset);
-
-}
-
 
 // Begin TallBrownMushroom
 function TallBrownMushroom(game, x, y) {

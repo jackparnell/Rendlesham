@@ -12,8 +12,6 @@ var mainState = {
         this.version = '0.1.1';
         this.name = 'rendlesham';
 
-        game.forceSingleUpdate = true;
-
         loadMainFiles();
 
     },
@@ -30,6 +28,8 @@ var mainState = {
         game.time.advancedTiming = true;
         game.time.desiredFps = 60;
         */
+
+        game.forceSingleUpdate = true;
 
         game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
 
@@ -102,10 +102,10 @@ var mainState = {
         this.weapons = game.add.group();
         this.explosions = game.add.group();
         this.crosshairs = game.add.group();
+        this.game.healthBars = game.add.group();
         this.game.bullets = game.add.group();
         this.overlays = game.add.group();
         this.finishedItems = game.add.group();
-        this.game.healthBars = game.add.group();
 
         this.linkBackgrounds = game.add.group();
         this.texts = game.add.group();
@@ -192,6 +192,8 @@ var mainState = {
         }
 
         // game.time.events.loop(9000, this.cleanUp, this);
+
+        game.time.events.loop(5000, this.positionCamera, this);
 
         this.loopsInitiated = true;
     },
@@ -639,7 +641,10 @@ var mainState = {
         this.map.createFromObjects('objects', 106, 'tallRedMushroom', 0, true, false, this.obstacles, TallRedMushroom, true);
         this.map.createFromObjects('objects', 107, 'tallGreyMushroom', 0, true, false, this.obstacles, TallGreyMushroom, true);
 
-        // this.map.createFromObjects('objects', 108, 'nathan', 0, true, false, this.characters, Nathan, true);
+        this.map.createFromObjects('objects', 108, 'nathan', 0, true, false, this.characters, Nathan, true);
+        this.nathan = this.characters.getFirstAlive();
+
+        this.map.createFromObjects('objects', 120, 'bully', 0, true, false, this.characters, Bully, true);
 
     },
 

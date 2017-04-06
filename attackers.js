@@ -1,6 +1,7 @@
 function Attacker(game, x, y, spriteName, waveNumber) {
-    
+
     $.extend( this, standard );
+    $.extend( this, moveable );
     $.extend( this, shadow );
 
     this.guid = guid();
@@ -114,17 +115,7 @@ Attacker.prototype.update = function()
 };
 Attacker.prototype.moveToGoal = function()
 {
-
-    var pixelCoordinates = mainState.translateGridCoordinatesToPixelCoordinates(
-        mainState.level.goalXGrid,
-        mainState.level.goalYGrid
-    );
-
-    var target_position = new Phaser.Point(pixelCoordinates[0], pixelCoordinates[1]);
-    this.move_to(target_position);
-
-    this.pathNeedsRegenerating = false;
-
+    this.moveToCoordinates(mainState.level.goalXGrid, mainState.level.goalYGrid);
 };
 
 /**
@@ -191,79 +182,6 @@ Attacker.prototype.reachedGoal = function()
 
     this.reachedGoalProcessed = true;
 
-};
-Attacker.prototype.followPath = function()
-{
-    // mainState.game.physics.arcade.collide(this, mainState.layers.collision);
-
-    if (this.path.length == 0) {
-
-        this.body.velocity.x = -this.speed;
-        this.body.velocity.y = 0;
-
-    } else {
-
-        this.next_position = this.path[this.path_step];
-
-        if (!this.reached_target_position(this.next_position)) {
-            this.velocity = new Phaser.Point(
-                this.next_position.x - this.position.x,
-                this.next_position.y - this.position.y
-            );
-            this.velocity.normalize();
-            this.body.velocity.x = this.velocity.x * this.speed;
-            this.body.velocity.y = this.velocity.y * this.speed;
-        } else {
-            this.position.x = this.next_position.x;
-            this.position.y = this.next_position.y;
-            if (this.path_step < this.path.length - 1) {
-                this.path_step += 1;
-            } else {
-                this.path = [];
-                this.path_step = -1;
-                this.body.velocity.x = 0;
-                this.body.velocity.y = 0;
-            }
-        }
-    }
-
-    /*
-    var deltaTime = (game.time.elapsedMS * game.time.fps) / 1000;
-    this.body.velocity.x *= deltaTime;
-    this.body.velocity.y *= deltaTime;
-    */
-
-};
-
-Attacker.prototype.reached_target_position = function (target_position) {
-    "use strict";
-    var distance;
-    distance = Phaser.Point.distance(this.position, target_position);
-    return distance < 1;
-};
-
-Attacker.prototype.move_to = function (target_position) {
-    mainState.pathfinding.find_path(this.position, target_position, this.move_through_path, this, this.getAdditionalCostTiles());
-};
-
-Attacker.prototype.getAdditionalCostTiles = function() {
-
-    if (typeof mainState.level.pathAdditionalCostTiles == 'function') {
-        return mainState.level.pathAdditionalCostTiles(this);
-    }
-
-    return [];
-
-};
-
-Attacker.prototype.move_through_path = function (path) {
-    "use strict";
-    if (path !== null) {
-        this.path = path;
-        this.path_step = 0;
-    } else {
-        this.path = [];
-    }
 };
 
 Attacker.prototype.prepareForGameOver = function()
@@ -489,29 +407,7 @@ Attacker.prototype.reuse = function()
     this.initialise(mainState.waveNumber);
 
 };
-/**
- * Determines whether grid coordinates have changed since last turn.
- *
- * @returns {boolean}
- */
-Attacker.prototype.haveGridCoordinatesChanged = function()
-{
-    var gridCoordinatesChanges = false;
 
-    var gridCoordinates = mainState.translatePixelCoordinatesToGridCoordinates(this.x, this.y);
-
-    if (gridCoordinates[0] != this.gridX) {
-        this.gridX = gridCoordinates[0];
-        gridCoordinatesChanges = true;
-    }
-
-    if (gridCoordinates[1] != this.gridY) {
-        this.gridY = gridCoordinates[1];
-        gridCoordinatesChanges = true;
-    }
-
-    return gridCoordinatesChanges;
-};
 
 // Begin Oscar
 function Oscar(game, x, y) {

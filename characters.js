@@ -1,6 +1,7 @@
 function Character(game, x, y, spriteName) {
     
     $.extend( this, standard );
+    $.extend( this, moveable );
     $.extend( this, shadow );
 
     this.guid = guid();
@@ -14,10 +15,14 @@ function Character(game, x, y, spriteName) {
     
     game.physics.arcade.enable(this);
 
-    this.anchor.setTo(0.5, 0.5);
+    this.roundedCoordinates = mainState.pixelsNearestTileTopLeftCoordinates(x, y);
+    x = this.roundedCoordinates[0];
+    y = this.roundedCoordinates[1];
 
-    this.x = x;
-    this.y = y;
+    this.x = x + (mainState.squareWidth/2);
+    this.y = y + (mainState.squareWidth/2);
+
+    this.anchor.setTo(0.5, 0.5);
 
     this.checkWorldBounds = true;
     this.collideWorldBounds = false;
@@ -29,6 +34,10 @@ function Character(game, x, y, spriteName) {
     }
     
 }
+Character.prototype.initialise = function()
+{
+
+};
 Character.prototype = Object.create(Phaser.Sprite.prototype);
 Character.prototype.constructor = Character;
 
@@ -41,3 +50,70 @@ Nathan.prototype.constructor = Nathan;
 Nathan.defaultScale = 1;
 Nathan.spriteName = 'nathan';
 // End Nathan
+
+// Begin Bully
+function Bully(game, x, y) {
+    Character.call(this, game, x, y, 'bully');
+    this.createCentralCircle(16);
+}
+Bully.prototype = Object.create(Character.prototype);
+Bully.prototype.constructor = Bully;
+Bully.defaultScale = 1;
+Bully.defaultSpeed = 50;
+Bully.spriteName = 'bully';
+Bully.spriteSheetGid = 120;
+Bully.prototype.initialise = function()
+{
+    this.creationTurn = mainState.turn;
+
+    this.speed = (window[this.constructor.name].defaultSpeed || 75);
+    this.path = [];
+    this.path_step = -1;
+
+    this.tint = 0xffffff;
+    this.alpha = 1;
+
+    this.initialised = true;
+
+    this.generateNewGoal();
+};
+Bully.prototype.update = function() {
+    Character.prototype.update.call(this);
+
+    if (!this.alive) {
+        return;
+    }
+
+    if (!this.initialised) {
+        this.initialise();
+    }
+
+    if (this.hasReachedGoal()) {
+        this.generateNewGoal();
+    }
+
+    if (this.haveGridCoordinatesChanged()) {
+        if (this.pathNeedsRegenerating) {
+            this.moveToCoordinates(this.goalX, this.goalY);
+        }
+    }
+
+    this.followPath();
+
+};
+Bully.prototype.generateNewGoal = function()
+{
+    var goal = mainState.level.bullyGoalCoordinates[Math.floor(Math.random() * mainState.level.bullyGoalCoordinates.length)];
+    this.goalX = goal[0];
+    this.goalY = goal[1];
+    this.moveToCoordinates(this.goalX, this.goalY);
+};
+Bully.prototype.hasReachedGoal = function()
+{
+    if (this.gridX == this.goalX && this.gridY == this.goalY) {
+        return true;
+    }
+
+    return false;
+};
+// End Bully

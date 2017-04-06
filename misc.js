@@ -25,7 +25,6 @@ function loadMainFiles()
     game.load.image('eastAnglia', 'assets/backgrounds/eastAnglia.png');
     game.load.image('gameOverBackground', 'assets/backgrounds/gameOverBackground.png');
 
-    game.load.image('button', 'assets/buttons/startGame.png');
     game.load.image('forestGreen', 'assets/buttons/forestGreen.png');
     game.load.image('smallDark', 'assets/buttons/smallDark.png');
     game.load.image('smallWideDark', 'assets/buttons/smallWideDark.png');
@@ -47,6 +46,7 @@ function loadMainFiles()
     game.load.spritesheet('roger', 'assets/sprites/attackers/Roger.png', 32, 32, 1);
 
     game.load.spritesheet('nathan', 'assets/sprites/characters/Nathan.png', 35, 35, 1);
+    game.load.spritesheet('bully', 'assets/sprites/characters/Bully.png', 35, 35, 1);
 
     game.load.spritesheet('gun', 'assets/sprites/towers/Gun.png', 64, 64, 3);
     game.load.spritesheet('freezer', 'assets/sprites/towers/Freezer.png', 64, 64, 3);
@@ -61,9 +61,6 @@ function loadMainFiles()
     game.load.spritesheet('tallBrownMushroom', 'assets/sprites/obstacles/tallBrownMushroom.png', 35, 35, 1);
     game.load.spritesheet('tallGreyMushroom', 'assets/sprites/obstacles/tallGreyMushroom.png', 35, 35, 1);
     game.load.spritesheet('tallRedMushroom', 'assets/sprites/obstacles/tallRedMushroom.png', 35, 35, 1);
-
-    game.load.audio('woosh', 'assets/sound/Woosh-Mark_DiAngelo-4778593.wav');
-    game.load.audio('whack', 'assets/sound/punch_or_whack_-Vladimir-403040765.wav');
 
     for (var property in levelOrdering.eastAnglia) {
         if (levelOrdering.eastAnglia.hasOwnProperty(property)) {
