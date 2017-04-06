@@ -171,6 +171,7 @@ var mainState = {
 
         this.attackers.callAll('prepareForGameOver');
         this.towers.callAll('prepareForGameOver');
+        this.characters.callAll('prepareForGameOver');
 
     },
 

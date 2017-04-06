@@ -1341,7 +1341,7 @@ var northCreake = {
             duration: 28,
             createEvents: function(s) {
 
-                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 10, .5);
+                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 10, .65);
                 mainState.scheduleAttackersWave('Aquila', waveNumber, s, 15, .8, 10);
 
             }
@@ -1350,7 +1350,7 @@ var northCreake = {
             duration: 32,
             createEvents: function(s) {
 
-                mainState.scheduleAttackersWave('Mib', waveNumber, s, 30, .75);
+                mainState.scheduleAttackersWave('Mib', waveNumber, s, 30, .8);
 
             }
         }
@@ -1414,7 +1414,7 @@ var northCreake = {
         return mainState.globalAdditionalCostTiles;
 
     },
-    startingCoins: 300,
+    startingCoins: 350,
     startingLives: 5,
     entryXGrid: 21,
     entryYGrid: 6,

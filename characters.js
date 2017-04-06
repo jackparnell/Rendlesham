@@ -38,6 +38,10 @@ Character.prototype.initialise = function()
 {
 
 };
+Character.prototype.prepareForGameOver = function()
+{
+    this.body.enable = false;
+};
 Character.prototype = Object.create(Phaser.Sprite.prototype);
 Character.prototype.constructor = Character;
 
