@@ -870,6 +870,10 @@ var mainState = {
             return false;
         }
 
+        if (this.pauseButton.input.pointerOver()) {
+            return;
+        }
+
         var cost = window[this.towerSelected].cost;
 
         var x = Math.floor((game.input.x + game.camera.x) / this.squareWidth) * this.squareWidth + this.halfSquareWidth;
@@ -1259,6 +1263,13 @@ var mainState = {
 
         if (this.pendingLevelCompleted) {
             return;
+        }
+
+        if (this.pauseButton.input.pointerOver()) {
+            this.pauseButton.alpha = .8;
+            return;
+        } else {
+            this.pauseButton.alpha = .5;
         }
 
         this.graphics = game.add.graphics(0, 0);
@@ -1827,13 +1838,15 @@ mainState.noTarget = function()
 
 mainState.addUserInterfaceButtons = function()
 {
-    this.settingsButton = game.add.button(game.camera.width - 40, 5, 'spanner', this.openPauseScreen, this);
-    this.settingsButton.fixedToCamera = true;
+    this.pauseButton = game.add.button(game.camera.width - 42, 7, 'pauseDark', this.openPauseScreen, this);
+    this.pauseButton.fixedToCamera = true;
+    this.pauseButton.inputEnabled = true;
+    this.pauseButton.alpha = .5;
 };
 
 mainState.destroyUserInterfaceButtons = function()
 {
-    var buttonsToDestroy = ['settingsButton'];
+    var buttonsToDestroy = ['pauseButton'];
 
     buttonsToDestroy.forEach(function(buttonName) {
         if (mainState[buttonName]) {
@@ -1855,6 +1868,10 @@ mainState.openPauseScreen = function()
 {
     if (this.pauseScreenOpen) {
         return false;
+    }
+
+    if (this.graphics) {
+        this.graphics.destroy();
     }
 
     this.pause(false);
