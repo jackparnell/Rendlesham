@@ -49,6 +49,10 @@ Nathan.prototype = Object.create(Character.prototype);
 Nathan.prototype.constructor = Nathan;
 Nathan.defaultScale = 1;
 Nathan.spriteName = 'nathan';
+Nathan.prototype.drawForceFields = function()
+{
+    mainState.drawForceFields(this, mainState.lives);
+};
 // End Nathan
 
 // Begin Bully

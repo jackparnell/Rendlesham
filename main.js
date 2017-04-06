@@ -365,6 +365,10 @@ var mainState = {
         this.updateLives();
         this.notification('lives', displayAmount, notificationSpawnX, notificationSpawnY);
 
+        if (this.nathan) {
+            this.nathan.drawForceFields();
+        }
+
     },
 
     changeScore: function(amount, notificationSpawnX, notificationSpawnY)
@@ -643,6 +647,7 @@ var mainState = {
 
         this.map.createFromObjects('objects', 108, 'nathan', 0, true, false, this.characters, Nathan, true);
         this.nathan = this.characters.getFirstAlive();
+        this.nathan.drawForceFields();
 
         this.map.createFromObjects('objects', 120, 'bully', 0, true, false, this.characters, Bully, true);
 
@@ -1364,9 +1369,6 @@ var mainState = {
 
         }
 
-        if (this.nathan) {
-            this.drawForceFields(this.nathan, this.lives);
-        }
     }
 
 
@@ -1374,32 +1376,38 @@ var mainState = {
 
 mainState.drawForceFields = function(sprite, number)
 {
+    if (this.forceFieldGraphics) {
+        this.forceFieldGraphics.destroy();
+    }
+
+    this.forceFieldGraphics = game.add.graphics(0, 0);
+
     if (number >= 5) {
-        mainState.graphics.lineStyle(2, 0xBBBBFF, 0.5);
-        mainState.graphics.beginFill(0xCCCCFF, 0.1);
-        mainState.graphics.drawCircle(sprite.x, sprite.y, 80);
-        mainState.graphics.endFill();
+        this.forceFieldGraphics.lineStyle(2, 0xBBBBFF, 0.5);
+        this.forceFieldGraphics.beginFill(0xCCCCFF, 0.1);
+        this.forceFieldGraphics.drawCircle(sprite.x, sprite.y, 80);
+        this.forceFieldGraphics.endFill();
     }
 
     if (number >= 4) {
-        mainState.graphics.lineStyle(2, 0x9999FF, 0.5);
-        mainState.graphics.beginFill(0xBBBBFF, 0.1);
-        mainState.graphics.drawCircle(sprite.x, sprite.y, 65);
-        mainState.graphics.endFill();
+        this.forceFieldGraphics.lineStyle(2, 0x9999FF, 0.5);
+        this.forceFieldGraphics.beginFill(0xBBBBFF, 0.1);
+        this.forceFieldGraphics.drawCircle(sprite.x, sprite.y, 65);
+        this.forceFieldGraphics.endFill();
     }
 
     if (number >= 3) {
-        mainState.graphics.lineStyle(2, 0x7777FF, 0.5);
-        mainState.graphics.beginFill(0xBBBBFF, 0.1);
-        mainState.graphics.drawCircle(sprite.x, sprite.y, 50);
-        mainState.graphics.endFill();
+        this.forceFieldGraphics.lineStyle(2, 0x7777FF, 0.5);
+        this.forceFieldGraphics.beginFill(0xBBBBFF, 0.1);
+        this.forceFieldGraphics.drawCircle(sprite.x, sprite.y, 50);
+        this.forceFieldGraphics.endFill();
     }
 
     if (number >= 2) {
-        mainState.graphics.lineStyle(2, 0x5555FF, 0.5);
-        mainState.graphics.beginFill(0xBBBBFF, 0.1);
-        mainState.graphics.drawCircle(sprite.x, sprite.y, 35);
-        mainState.graphics.endFill();
+        this.forceFieldGraphics.lineStyle(2, 0x5555FF, 0.5);
+        this.forceFieldGraphics.beginFill(0xBBBBFF, 0.1);
+        this.forceFieldGraphics.drawCircle(sprite.x, sprite.y, 35);
+        this.forceFieldGraphics.endFill();
     }
 };
 
