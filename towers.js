@@ -217,7 +217,10 @@ Tower.prototype.sell = function()
     mainState.changeCoins(this.getSellValue(), this.x, this.y);
     this.die();
 };
-
+Tower.prototype.sellable = function()
+{
+    return true;
+};
 Tower.prototype.upgrade = function()
 {
     if (!this.upgradable()) {
@@ -229,6 +232,13 @@ Tower.prototype.upgrade = function()
     this.frame = (this.grade - 1);
 
     return true;
+};
+Tower.prototype.upgradeAtCost = function()
+{
+    this.upgrade();
+    var cost = this.getCost();
+    mainState.changeCoins(-cost, this.x, this.y);
+
 };
 Tower.prototype.reuse = function(x, y)
 {

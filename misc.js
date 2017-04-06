@@ -28,10 +28,14 @@ function loadMainFiles()
     game.load.image('forestGreen', 'assets/buttons/forestGreen.png');
     game.load.image('smallDark', 'assets/buttons/smallDark.png');
     game.load.image('smallWideDark', 'assets/buttons/smallWideDark.png');
-    game.load.image('pauseDark', 'assets/buttons/pause-dark.png');
     game.load.image('starCharcoal', 'assets/sprites/decorations/StarCharcoal.png');
     game.load.image('starYellow', 'assets/sprites/decorations/StarYellow.png');
     game.load.image('ufo', 'assets/sprites/decorations/Ufo.png');
+
+    game.load.image('pauseDark', 'assets/buttons/pause-dark.png');
+    game.load.image('upDark', 'assets/buttons/up-dark.png');
+    game.load.image('closeDark', 'assets/buttons/close-dark.png');
+
 
     game.load.spritesheet('explosion', 'assets/sprites/decorations/Explosion.png', 32, 32, 6);
     game.load.spritesheet('crosshair', 'assets/sprites/decorations/Crosshair.png', 42, 42, 1);

@@ -886,6 +886,19 @@ var mainState = {
             return;
         }
 
+        if (this.towerInfoOpen) {
+
+            if (this.upgradeTowerButton.input.pointerOver()) {
+                return;
+            }
+            if (this.sellTowerButton.input.pointerOver()) {
+                return;
+            }
+
+            this.closeTowerInfo();
+            return;
+        }
+
         var cost = window[this.towerSelected].cost;
 
         var x = Math.floor((game.input.x + game.camera.x) / this.squareWidth) * this.squareWidth + this.halfSquareWidth;
@@ -901,16 +914,10 @@ var mainState = {
 
         var action = '';
 
-        if (this.mode == 'sell') {
-            if (this.isTowerSaleAppropriateAtPosition(x, y)) {
-                action = 'sell';
-            } else {
-                return false;
-            }
-        } else if (this.isTowerPlacementAppropriateAtPosition(x, y)) {
+        if (this.isTowerPlacementAppropriateAtPosition(x, y)) {
             action = 'add';
-        } else if (this.isTowerUpgradeAppropriateAtPosition(x, y)) {
-            action = 'upgrade';
+        } else if (this.doesTowerExistAtPosition(x, y)) {
+            action = 'towerInfo';
         } else if (this.doesAttackerExistAtPosition(x - this.halfSquareWidth, y - this.halfSquareWidth)) {
             action = 'target';
         } else if (this.doesObstacleExistAtPosition(x, y)) {
@@ -929,15 +936,10 @@ var mainState = {
                     this.changeCoins(-cost, x, y);
                 }
                 break;
-            case 'upgrade':
-                if (!this.coinsSufficientForTowerUpgrade()) {
-                    return false;
-                }
+            case 'towerInfo':
 
                 var tower = this.getTowerAtPosition(x, y);
-                if (tower.upgrade()) {
-                    this.changeCoins(-cost, x, y);
-                }
+                this.openTowerInfo(tower);
 
                 break;
             case 'target':
@@ -949,12 +951,6 @@ var mainState = {
                 }
 
                 item.targetToggle();
-
-                break;
-            case 'sell':
-
-                var tower = this.getTowerAtPosition(x, y);
-                tower.sell();
 
                 break;
         }
@@ -1277,12 +1273,38 @@ var mainState = {
             return;
         }
 
+        var buttonsForEffect = ['pauseButton', 'upgradeTowerButton', 'sellTowerButton'];
+
+
+        var cancelIndicators = false;
+
+        buttonsForEffect.forEach(function(name) {
+            if (mainState[name]) {
+                if (mainState[name].input.pointerOver()) {
+                    mainState[name].alpha = .8;
+                    cancelIndicators = true;
+                } else {
+                    mainState[name].alpha = .5;
+                }
+            }
+        });
+
+        if (cancelIndicators) {
+            return;
+        }
+
+
         if (this.pauseButton.input.pointerOver()) {
             this.pauseButton.alpha = .8;
             return;
         } else {
             this.pauseButton.alpha = .5;
         }
+
+        if (this.towerInfoOpen) {
+            return;
+        }
+
 
         this.graphics = game.add.graphics(0, 0);
 
@@ -1951,4 +1973,100 @@ mainState.getBully = function()
     }, this);
 
     return bully;
+};
+
+mainState.openTowerInfo = function(tower)
+{
+
+    if (this.towerInfoOpen) {
+        this.closeTowerInfo();
+    }
+
+    this.towerInfoOpen = true;
+    this.currentTower = tower;
+
+    var buttonsToDestroy = ['upgradeTowerButton', 'sellTowerButton'];
+
+    buttonsToDestroy.forEach(function(buttonName) {
+        if (mainState[buttonName]) {
+            mainState[buttonName].destroy();
+        }
+    });
+
+    if (tower.upgradable()) {
+        this.upgradeTowerButton = game.add.button(tower.x - 35, tower.y, 'upDark', this.upgradeCurrentTower, this);
+        this.upgradeTowerButton.inputEnabled = true;
+        this.upgradeTowerButton.alpha = .5;
+        this.upgradeTowerButton.anchor.set(0.5, 0.5);
+
+    }
+
+    if (tower.sellable()) {
+        this.sellTowerButton = game.add.button(tower.x + 35, tower.y, 'closeDark', this.sellCurrentTower, this);
+        this.sellTowerButton.inputEnabled = true;
+        this.sellTowerButton.alpha = .5;
+        this.sellTowerButton.anchor.set(0.5, 0.5);
+    }
+
+
+    if (tower.weapon1) {
+
+        this.towerInfoOpenRangeGraphics = game.add.graphics(0, 0);
+
+        this.towerInfoOpenRangeGraphics.lineStyle(2, 0x88FF88, 0.5);
+        this.towerInfoOpenRangeGraphics.beginFill(0x88FF88, 0.2);
+        this.towerInfoOpenRangeGraphics.drawCircle(tower.x, tower.y, tower.calculateBulletKillDistance(tower.grade)*2);
+        this.towerInfoOpenRangeGraphics.endFill();
+
+        if (tower.upgradable()) {
+            this.towerInfoOpenRangeGraphics.lineStyle(2, 0x33FFFF, 0.5);
+            this.towerInfoOpenRangeGraphics.drawCircle(tower.x, tower.y, tower.calculateBulletKillDistance(tower.grade+1)*2);
+            this.towerInfoOpenRangeGraphics.endFill();
+        }
+
+    }
+
+};
+
+mainState.closeTowerInfo = function()
+{
+
+    this.currentTower = {};
+
+    var buttonsToDestroy = ['upgradeTowerButton', 'sellTowerButton'];
+
+    buttonsToDestroy.forEach(function(buttonName) {
+        if (mainState[buttonName]) {
+            mainState[buttonName].destroy();
+        }
+    });
+
+    if (this.towerInfoOpenRangeGraphics) {
+        this.towerInfoOpenRangeGraphics.destroy();
+    }
+
+    this.towerInfoOpen = false;
+
+};
+
+mainState.sellCurrentTower = function()
+{
+    this.currentTower.sell();
+    this.closeTowerInfo();
+};
+
+mainState.upgradeCurrentTower = function()
+{
+    if (this.coinsSufficientForTowerUpgrade()) {
+        this.currentTower.upgradeAtCost();
+    }
+
+    this.refreshTowerInfo();
+};
+
+mainState.refreshTowerInfo = function()
+{
+    var tower = this.currentTower;
+    this.closeTowerInfo();
+    this.openTowerInfo(tower);
 };
