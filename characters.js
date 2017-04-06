@@ -97,6 +97,10 @@ Bully.prototype.update = function() {
     }
 
     if (this.haveGridCoordinatesChanged()) {
+
+        mainState.addGlobalImpassablePoint(this.gridX, this.gridY);
+        mainState.removeGlobalImpassablePoint(this.oldGridX, this.oldGridY);
+
         if (this.pathNeedsRegenerating) {
             this.moveToCoordinates(this.goalX, this.goalY);
         }

@@ -50,8 +50,11 @@ var moveable = {
 
         if (!this.path || this.path.length == 0) {
 
-            // this.body.velocity.x = -this.speed;
-            this.body.velocity.x = 0;
+            if (this.x > game.camera.width) {
+                this.body.velocity.x = -this.speed;
+            } else {
+                this.body.velocity.x = 0;
+            }
             this.body.velocity.y = 0;
 
         } else {
@@ -95,6 +98,8 @@ var moveable = {
             gridY
         );
 
+        // console.log(this.constructor.name + ' move to ' + gridX + '/' + gridY)
+
         var target_position = new Phaser.Point(pixelCoordinates[0], pixelCoordinates[1]);
         this.move_to(target_position);
 
@@ -121,12 +126,10 @@ var moveable = {
 
         var gridCoordinates = mainState.translatePixelCoordinatesToGridCoordinates(this.x, this.y);
 
-        if (gridCoordinates[0] != this.gridX) {
+        if (gridCoordinates[0] != this.gridX || gridCoordinates[1] != this.gridY) {
+            this.oldGridX = this.gridX;
+            this.oldGridY = this.gridY;
             this.gridX = gridCoordinates[0];
-            gridCoordinatesChanges = true;
-        }
-
-        if (gridCoordinates[1] != this.gridY) {
             this.gridY = gridCoordinates[1];
             gridCoordinatesChanges = true;
         }

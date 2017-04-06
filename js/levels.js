@@ -1414,7 +1414,7 @@ var northCreake = {
         return mainState.globalAdditionalCostTiles;
 
     },
-    startingCoins: 200,
+    startingCoins: 300,
     startingLives: 5,
     entryXGrid: 21,
     entryYGrid: 6,

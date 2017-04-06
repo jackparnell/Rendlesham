@@ -99,6 +99,7 @@ Attacker.prototype.update = function()
 
     this.updateHealthBar();
     this.updateCrosshair();
+    this.handleNoPath();
 
     if (this.health <= 0) {
         this.health = 0;
@@ -112,6 +113,12 @@ Attacker.prototype.update = function()
     }
 
 
+};
+Attacker.prototype.handleNoPath = function()
+{
+    if (!this.path || this.path.length == 0) {
+        this.moveToGoal();
+    }
 };
 Attacker.prototype.moveToGoal = function()
 {

@@ -650,6 +650,7 @@ var mainState = {
         this.nathan.drawForceFields();
 
         this.map.createFromObjects('objects', 120, 'bully', 0, true, false, this.characters, Bully, true);
+        this.bully = this.getBully();
 
     },
 
@@ -1733,7 +1734,7 @@ mainState.addGlobalAdditionalCostTile = function(x, y, coordinateType, cost)
 
 mainState.setAllAttackerPathNeedsRegenerating = function()
 {
-    if (!this.level.canPlaceTowerOnPathway) {
+    if (!this.level.canPlaceTowerOnPathway && !this.bully) {
         return false;
     }
 
@@ -1936,4 +1937,17 @@ mainState.goToTitleScreen = function()
 {
     this.closePauseScreen();
     this.changeGameState('titleScreen');
+};
+
+mainState.getBully = function()
+{
+    var bully;
+
+    this.characters.forEachAlive(function(character) {
+        if (character.constructor.name == 'Bully') {
+            bully = character;
+        }
+    }, this);
+
+    return bully;
 };
