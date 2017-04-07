@@ -35,6 +35,8 @@ function loadMainFiles()
     game.load.image('pauseDark', 'assets/buttons/pause-dark.png');
     game.load.image('upDark', 'assets/buttons/up-dark.png');
     game.load.image('closeDark', 'assets/buttons/close-dark.png');
+    game.load.image('binDark', 'assets/buttons/bin-dark.png');
+    game.load.image('maxDark', 'assets/buttons/max-dark.png');
 
 
     game.load.spritesheet('explosion', 'assets/sprites/decorations/Explosion.png', 32, 32, 6);
@@ -58,7 +60,9 @@ function loadMainFiles()
     game.load.spritesheet('freezer', 'assets/sprites/towers/Freezer.png', 64, 64, 3);
 
     game.load.spritesheet('bigBush', 'assets/sprites/obstacles/bigBush.png', 35, 35, 1);
+    game.load.spritesheet('bigBushAutumn', 'assets/sprites/obstacles/bigBushAutumn.png', 35, 35, 1);
     game.load.spritesheet('bulrush', 'assets/sprites/obstacles/Bulrush.png', 35, 35, 1);
+    game.load.spritesheet('crate', 'assets/sprites/obstacles/Crate.png', 35, 35, 1);
     game.load.spritesheet('smallBush', 'assets/sprites/obstacles/smallBush.png', 35, 35, 1);
     game.load.spritesheet('rock', 'assets/sprites/obstacles/rock.png', 35, 35, 1);
     game.load.spritesheet('snowman', 'assets/sprites/obstacles/Snowman.png', 35, 35, 1);

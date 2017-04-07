@@ -148,12 +148,24 @@ var mainState = {
 
             this.turn += 1;
 
-            // TODO
-            /*
-            if (this.impassableLayer) {
-                this.game.physics.arcade.overlap(this.bullets, this.impassableLayer, this.bulletHitImpassable, null, this);
+            if (this.impassableTiles && this.impassableTiles.length) {
+
+                this.towers.forEach(function(tower) {
+                    if (tower.weapon1) {
+                        tower.weapon1.bullets.forEach(function (bullet) {
+                            var gridCoordinates = mainState.translatePixelCoordinatesToGridCoordinates(bullet.x, bullet.y);
+
+                            var gridPositionString = gridCoordinates[0] + '_' + gridCoordinates[1];
+
+                            if (mainState.impassableTiles.indexOf(gridPositionString) !== -1) {
+                                bullet.kill();
+                            }
+                        });
+                    }
+
+                }, this);
+
             }
-            */
 
             // this.performanceModifier = game.time.elapsed / 16.66;
 
@@ -652,10 +664,13 @@ var mainState = {
 
         this.map.createFromObjects('objects', 51, 'rock', 0, true, false, this.obstacles, Rock, true);
         this.map.createFromObjects('objects', 63, 'bigBush', 0, true, false, this.obstacles, BigBush, true);
+        this.map.createFromObjects('objects', 5, 'bigBushAutumn', 0, true, false, this.obstacles, BigBushAutumn, true);
         this.map.createFromObjects('objects', 64, 'smallBush', 0, true, false, this.obstacles, SmallBush, true);
         this.map.createFromObjects('objects', 76, 'snowman', 0, true, false, this.obstacles, Snowman, true);
         this.map.createFromObjects('objects', 78, 'bulrush', 0, true, false, this.obstacles, Bulrush, true);
         this.map.createFromObjects('objects', 94, 'snowyPine', 0, true, false, this.obstacles, SnowyPine, true);
+        this.map.createFromObjects('objects', 130, 'create', 0, true, false, this.obstacles, Crate, true);
+
 
         this.map.createFromObjects('objects', 105, 'tallBrownMushroom', 0, true, false, this.obstacles, TallBrownMushroom, true);
         this.map.createFromObjects('objects', 106, 'tallRedMushroom', 0, true, false, this.obstacles, TallRedMushroom, true);
@@ -1381,11 +1396,10 @@ var mainState = {
 
             if (this.coinsSufficientForTowerUpgrade()) {
                 borderColor = upgradeColor;
-                indicatorMessage = 'Upgrade ' + this.towerSelected + ' tower for £' + window[this.towerSelected].cost + '.';
             } else {
                 borderColor = notEnoughCoinsColor;
-                indicatorMessage = 'Need £' + window[this.towerSelected].cost + ' to upgrade ' + this.towerSelected + ' tower.';
             }
+            indicatorMessage = 'Click tower for options.';
 
         } else if (this.mode == 'place' && this.doesAttackerExistAtPosition(x, y)) {
             borderColor = 0xFF8800;
@@ -1596,19 +1610,36 @@ mainState.setupMap = function()
 
     game.physics.arcade.enable(this.collisionLayer);
 
+    var impassableTiles = [];
+
     if (this.layers.hasOwnProperty('impassable')) {
         this.impassableLayer = this.map.createLayer('impassable');
         this.backgrounds.add(this.impassableLayer);
-        game.physics.arcade.enable(this.impassableLayer);
-        this.impassableLayer.enableBody = true;
+
+        this.impassableLayer.layer.data.forEach(function (data_row) {
+            data_row.forEach(function (tile) {
+                if (tile.index > 0 && impassableTiles.indexOf(tile.index) === -1) {
+                    impassableTiles.push(tile.x + '_' + tile.y);
+                }
+            }, this);
+        }, this);
+
     }
 
     if (this.layers.hasOwnProperty('impassable2')) {
         this.impassable2Layer = this.map.createLayer('impassable2');
         this.backgrounds.add(this.impassable2Layer);
-        game.physics.arcade.enable(this.impassable2Layer);
-        this.impassable2Layer.enableBody = true;
+
+        this.impassable2Layer.layer.data.forEach(function (data_row) {
+            data_row.forEach(function (tile) {
+                if (tile.index > 0 && impassableTiles.indexOf(tile.index) === -1) {
+                    impassableTiles.push(tile.x + '_' + tile.y);
+                }
+            }, this);
+        }, this);
     }
+
+    this.impassableTiles = impassableTiles;
 
     this.initiateEasyStar();
 };
@@ -2023,6 +2054,11 @@ mainState.getBully = function()
     return bully;
 };
 
+mainState.notPossible = function()
+{
+
+};
+
 mainState.openTowerInfo = function(tower)
 {
 
@@ -2046,11 +2082,15 @@ mainState.openTowerInfo = function(tower)
         this.upgradeTowerButton.inputEnabled = true;
         this.upgradeTowerButton.alpha = .5;
         this.upgradeTowerButton.anchor.set(0.5, 0.5);
-
+    } else {
+        this.upgradeTowerButton = game.add.button(tower.x - 35, tower.y, 'maxDark', this.notPossible, this);
+        this.upgradeTowerButton.inputEnabled = false;
+        this.upgradeTowerButton.alpha = .5;
+        this.upgradeTowerButton.anchor.set(0.5, 0.5);
     }
 
     if (tower.sellable()) {
-        this.sellTowerButton = game.add.button(tower.x + 35, tower.y, 'closeDark', this.sellCurrentTower, this);
+        this.sellTowerButton = game.add.button(tower.x + 35, tower.y, 'binDark', this.sellCurrentTower, this);
         this.sellTowerButton.inputEnabled = true;
         this.sellTowerButton.alpha = .5;
         this.sellTowerButton.anchor.set(0.5, 0.5);

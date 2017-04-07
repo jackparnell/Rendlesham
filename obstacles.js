@@ -1,7 +1,6 @@
 function Obstacle(game, x, y, spriteName) {
     
     $.extend( this, standard );
-    $.extend( this, shadow );
 
     this.guid = guid();
     this.creationTurn = mainState.turn;
@@ -12,7 +11,7 @@ function Obstacle(game, x, y, spriteName) {
     this.invulnerable = false;
 
     Phaser.Sprite.call(this, game, x, y, spriteName);
-    
+
     game.physics.arcade.enable(this);
 
     this.roundedCoordinates = mainState.pixelsNearestTileTopLeftCoordinates(x, y);
@@ -317,6 +316,21 @@ BigBush.scoreValue = 20;
 BigBush.spriteSheetGid = 63;
 // End BigBush
 
+// Begin BigBushAutumn
+function BigBushAutumn(game, x, y) {
+    Obstacle.call(this, game, x, y, 'bigBushAutumn');
+    this.createCentralCircle(16);
+
+}
+BigBushAutumn.prototype = Object.create(Obstacle.prototype);
+BigBushAutumn.prototype.constructor = BigBushAutumn;
+BigBushAutumn.defaultScale = 1;
+BigBushAutumn.defaultHealth = 10000;
+BigBushAutumn.coinsValue = 0;
+BigBushAutumn.scoreValue = 20;
+BigBushAutumn.spriteSheetGid = 5;
+// End BigBushAutumn
+
 // Begin SmallBush
 function SmallBush(game, x, y) {
     Obstacle.call(this, game, x, y, 'smallBush');
@@ -358,6 +372,21 @@ Rock.coinsValue = 0;
 Rock.scoreValue = 50;
 Rock.spriteSheetGid = 51;
 // End Rock
+
+// Begin Crate
+function Crate(game, x, y) {
+    Obstacle.call(this, game, x, y, 'crate');
+    this.createCentralCircle(18);
+}
+Crate.prototype = Object.create(Obstacle.prototype);
+Crate.prototype.constructor = Crate;
+Crate.defaultScale = 1;
+Crate.defaultHealth = 15000;
+Crate.coinsValue = 0;
+Crate.scoreValue = 50;
+Crate.spriteSheetGid = 51;
+// End Crate
+
 
 // Begin Bulrush
 function Bulrush(game, x, y) {
