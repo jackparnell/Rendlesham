@@ -98,6 +98,10 @@ Rendlesham.eastAnglia.prototype.create = function()
         11: {
             x: game.width * .15,
             y: game.height * 1
+        },
+        12: {
+            x: game.width * .275,
+            y: game.height * 1.15
         }
     };
 
@@ -164,6 +168,10 @@ Rendlesham.eastAnglia.prototype.clickLevel10 = function()
 Rendlesham.eastAnglia.prototype.clickLevel11 = function()
 {
     this.clickLevel(11);
+};
+Rendlesham.eastAnglia.prototype.clickLevel12 = function()
+{
+    this.clickLevel(12);
 };
 
 Rendlesham.eastAnglia.prototype.clickLevel = function(levelNumber)

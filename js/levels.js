@@ -1,5 +1,5 @@
 var waveNumber;
-var lastLevel = 11;
+var lastLevel = 12;
 
 var levelOrdering = {
     'eastAnglia': {
@@ -13,7 +13,8 @@ var levelOrdering = {
         8: 'frozenFen',
         9: 'sandringhamWoods',
         10: 'holkhamBeach',
-        11: 'northCreake'
+        11: 'northCreake',
+        12: 'westRudhamChurchyard'
     }
 };
 
@@ -1424,4 +1425,139 @@ var northCreake = {
     towerPlacementForbiddenRows: [0, 11],
     canPlaceTowerOnPathway: false,
     bullyGoalCoordinates: [[17, 6], [18, 10], [1, 4], [4, 8], [11, 8]]
+};
+
+var westRudhamChurchyard = {
+    name: 'westRudhamChurchyard',
+    mapName: 'westRudhamChurchyard',
+    title: 'West Rudham Churchyard',
+    waveInfo: {
+        wave1: {
+            duration: 25,
+            createEvents: function(s) {
+
+                mainState.scheduleAttackersWave('Dibley', waveNumber, s, 20, 1.75);
+
+            }
+        },
+        wave2: {
+            duration: 23,
+            createEvents: function(s) {
+
+                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 10, 1);
+                mainState.scheduleAttackersWave('Oscar', waveNumber, s, 5, 1, 10);
+                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 5, 1, 15);
+
+            }
+        },
+        wave3: {
+            duration: 18,
+            createEvents: function(s) {
+
+                mainState.scheduleAttackersWave('Dibley', waveNumber, s, 15, 2);
+                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 15, 2, 1);
+
+            }
+        },
+        wave4: {
+            duration: 23,
+            createEvents: function(s) {
+
+                mainState.scheduleAttackersWave('Oscar', waveNumber, s, 10, .75);
+                mainState.scheduleAttackersWave('Mib', waveNumber, s, 10, 1, 10);
+
+            }
+        },
+        wave5: {
+            duration: 28,
+            createEvents: function(s) {
+
+                mainState.scheduleAttackersWave('Dibley', waveNumber, s, 10, .65);
+                mainState.scheduleAttackersWave('Dibley', waveNumber, s, 15, .8, 10);
+
+            }
+        },
+        wave6: {
+            duration: 32,
+            createEvents: function(s) {
+
+                mainState.scheduleAttackersWave('Mib', waveNumber, s, 30, .8);
+
+            }
+        }
+
+    },
+    begin: function() {
+
+        var s = 0;
+        waveNumber = 0;
+        var totalWaves = Object.keys(this.waveInfo).length;
+
+        for (var wave in this.waveInfo) {
+            if (this.waveInfo.hasOwnProperty(wave)) {
+
+                waveNumber ++;
+
+                timerEvents.push(
+                    game.time.events.add(
+                        Phaser.Timer.SECOND * s,
+                        mainState.startWave,
+                        mainState,
+                        waveNumber
+                    ).autoDestroy = true
+                );
+
+                this.waveInfo[wave].createEvents(s);
+
+                s += this.waveInfo[wave].duration;
+
+            }
+        }
+
+        timerEvents.push(game.time.events.add(Phaser.Timer.SECOND * s, mainState.lastWaveDispatched, mainState));
+
+        this.nightTime = game.add.tileSprite(0, 0, game.camera.width, game.camera.height, 'gameOverBackground');
+        this.nightTime.fixedToCamera = true;
+        this.nightTime.alpha = .5;
+
+        game.overlays.add(this.nightTime);
+
+    },
+    completed: function() {
+
+        if (!mainState.allAttackersDispatched) {
+            return false;
+        }
+        if (mainState.attackers.countLiving() >= 1) {
+            return false;
+        }
+        return true;
+    },
+    calculateCompletionStars: function() {
+        var stars = 1;
+        if (mainState.lives == this.startingLives) {
+            stars ++;
+        }
+        if (mainState.countObstaclesWithCoinsValue() <= mainState.startingObstaclesWithCoinsValue * .4) {
+            stars ++;
+        }
+        return stars;
+    },
+    update: function() {
+
+    },
+    pathAdditionalCostTiles: function(attacker) {
+
+        return mainState.globalAdditionalCostTiles;
+
+    },
+    startingCoins: 250,
+    startingLives: 5,
+    entryXGrid: 10,
+    entryYGrid: 11,
+    goalXGrid: 12,
+    goalYGrid: 1,
+    waveHealthModifier: .35,
+    towerPlacementForbiddenRows: [0, 11],
+    canPlaceTowerOnPathway: false
 };

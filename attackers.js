@@ -132,10 +132,11 @@ Attacker.prototype.moveToGoal = function()
  */
 Attacker.prototype.hasReachedGoal = function()
 {
+    if (mainState.level.goalX <= 1 && this.x > 100) {
+        return false;
+    }
 
-    // Goal is always to left of the screen. Assume if this.x is more than 100, not reached goal.
-    // Maybe change this if goal location becomes more varied.
-    if (this.x > 100) {
+    if (mainState.level.goalY <= 1 && this.y > 100) {
         return false;
     }
 
@@ -239,7 +240,7 @@ Attacker.prototype.createHealthBar = function()
 
     // No health bar if at full health
     if (this.health >= this.maximumHealth) {
-        return;
+        return false;
     }
 
     var healthBarX = this.x;
@@ -443,6 +444,20 @@ Roger.defaultSpeed = 100;
 Roger.coinsValue = 5;
 Roger.scoreValue = 5;
 // End Roger
+
+// Begin Dibley
+function Dibley(game, x, y) {
+    Attacker.call(this, game, x, y, 'dibley');
+    this.body.setSize(20, 30, 6, 1);
+}
+Dibley.prototype = Object.create(Attacker.prototype);
+Dibley.prototype.constructor = Dibley;
+Dibley.defaultScale = 1;
+Dibley.defaultHealth = 5000;
+Dibley.defaultSpeed = 50;
+Dibley.coinsValue = 10;
+Dibley.scoreValue = 10;
+// End Dibley
 
 // Begin Aquila
 function Aquila(game, x, y) {

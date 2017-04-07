@@ -129,3 +129,26 @@ Bully.prototype.hasReachedGoal = function()
     return false;
 };
 // End Bully
+
+// Begin Ghost
+function Ghost(game, x, y) {
+    Character.call(this, game, x, y, 'ghost');
+}
+Ghost.prototype.initialise = function()
+{
+    this.creationTurn = mainState.turn;
+    this.initialised = true;
+    this.alpha = .6;
+};
+Ghost.prototype.update = function() {
+    Character.prototype.update.call(this);
+    if (!this.initialised) {
+        this.initialise();
+    }
+};
+Ghost.prototype = Object.create(Character.prototype);
+Ghost.prototype.constructor = Nathan;
+Ghost.defaultScale = 1;
+Ghost.spriteName = 'ghost';
+Ghost.spriteSheetGid = 72;
+// End Ghost

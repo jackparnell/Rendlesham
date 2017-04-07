@@ -45,12 +45,14 @@ function loadMainFiles()
     game.load.spritesheet('iceLance', 'assets/sprites/weapons/IceLance.png', 32, 32, 1);
 
     game.load.spritesheet('aquila', 'assets/sprites/attackers/Aquila.png', 32, 32, 1);
+    game.load.spritesheet('dibley', 'assets/sprites/attackers/Dibley.png', 32, 32, 1);
     game.load.spritesheet('mib', 'assets/sprites/attackers/Mib.png', 32, 32, 1);
     game.load.spritesheet('oscar', 'assets/sprites/attackers/Oscar.png', 32, 32, 1);
     game.load.spritesheet('roger', 'assets/sprites/attackers/Roger.png', 32, 32, 1);
 
     game.load.spritesheet('nathan', 'assets/sprites/characters/Nathan.png', 35, 35, 1);
     game.load.spritesheet('bully', 'assets/sprites/characters/Bully.png', 35, 35, 1);
+    game.load.spritesheet('ghost', 'assets/sprites/characters/Ghost.png', 35, 35, 1);
 
     game.load.spritesheet('gun', 'assets/sprites/towers/Gun.png', 64, 64, 3);
     game.load.spritesheet('freezer', 'assets/sprites/towers/Freezer.png', 64, 64, 3);

@@ -104,7 +104,7 @@ var mainState = {
         this.crosshairs = game.add.group();
         this.game.healthBars = game.add.group();
         this.game.bullets = game.add.group();
-        this.overlays = game.add.group();
+        this.game.overlays = game.add.group();
         this.finishedItems = game.add.group();
 
         this.linkBackgrounds = game.add.group();
@@ -119,7 +119,7 @@ var mainState = {
         this.gameOverBackground.fixedToCamera = true;
         this.gameOverBackground.alpha = 0;
 
-        this.overlays.add(this.gameOverBackground);
+        this.game.overlays.add(this.gameOverBackground);
 
         this.mode = 'place';
 
@@ -652,6 +652,8 @@ var mainState = {
 
         this.map.createFromObjects('objects', 120, 'bully', 0, true, false, this.characters, Bully, true);
         this.bully = this.getBully();
+
+        this.map.createFromObjects('objects', 72, 'ghost', 0, true, false, this.characters, Ghost, true);
 
     },
 
