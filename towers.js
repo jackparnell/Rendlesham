@@ -92,6 +92,7 @@ Tower.prototype.fire = function()
             bullet.frame = (this.grade-1);
             bullet.towerClass = this.constructor.name;
             bullet.grade = this.grade;
+            bullet.enableBody = true;
         }
     }
 };

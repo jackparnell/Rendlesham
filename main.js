@@ -131,6 +131,14 @@ var mainState = {
 
     },
 
+    bulletHitImpassable: function(bullet, impassable)
+    {
+        console.log(bullet);
+        console.log(impassable);
+
+        bullet.kill();
+    },
+
     update: function() {
 
         try {
@@ -139,6 +147,13 @@ var mainState = {
             // console.log(1 / game.time.elapsedMS);
 
             this.turn += 1;
+
+            // TODO
+            /*
+            if (this.impassableLayer) {
+                this.game.physics.arcade.overlap(this.bullets, this.impassableLayer, this.bulletHitImpassable, null, this);
+            }
+            */
 
             // this.performanceModifier = game.time.elapsed / 16.66;
 
@@ -979,6 +994,10 @@ var mainState = {
              return false;
         }
 
+        if (this.isPositionOnLayer(x, y, 'impassable')) {
+            return false;
+        }
+
         if (this.level.towerPlacementForbiddenRows) {
             var gridCoordinates = this.translatePixelCoordinatesToGridCoordinates(x, y);
             var gridY = gridCoordinates[1];
@@ -1125,17 +1144,30 @@ var mainState = {
 
     isPositionOnPathway: function(x, y)
     {
+        if (this.isPositionOnLayer(x, y, 'collision')) {
+            return false;
+        } else {
+            return true;
+        }
+    },
+
+    isPositionOnLayer: function(x, y, layerName)
+    {
+
+        if (!this.layers[layerName]) {
+            return false;
+        }
 
         var gridCoordinates = this.translatePixelCoordinatesToGridCoordinates(x, y);
         var gridX = gridCoordinates[0];
         var gridY = gridCoordinates[1];
 
-        var index = this.layers.collision.layer.data[gridY][gridX].index;
+        var index = this.layers[layerName].layer.data[gridY][gridX].index;
 
         if (index >= 1) {
-            return false;
-        } else {
             return true;
+        } else {
+            return false;
         }
     },
 
@@ -1523,7 +1555,7 @@ mainState.setupMap = function()
     }
 
     this.map = game.add.tilemap(this.level.mapName);
-    this.map.addTilesetImage('tiles_spritesheet', 'tiles');
+    this.map.addTilesetImage('tiles_spritesheet', 'tiles', this.squareWidth, this.squareWidth, 0, 1);
 
     // create map layers
     this.layers = {};
@@ -1563,6 +1595,20 @@ mainState.setupMap = function()
     this.backgrounds.add(this.collisionLayer);
 
     game.physics.arcade.enable(this.collisionLayer);
+
+    if (this.layers.hasOwnProperty('impassable')) {
+        this.impassableLayer = this.map.createLayer('impassable');
+        this.backgrounds.add(this.impassableLayer);
+        game.physics.arcade.enable(this.impassableLayer);
+        this.impassableLayer.enableBody = true;
+    }
+
+    if (this.layers.hasOwnProperty('impassable2')) {
+        this.impassable2Layer = this.map.createLayer('impassable2');
+        this.backgrounds.add(this.impassable2Layer);
+        game.physics.arcade.enable(this.impassable2Layer);
+        this.impassable2Layer.enableBody = true;
+    }
 
     this.initiateEasyStar();
 };
