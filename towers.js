@@ -237,10 +237,14 @@ Tower.prototype.upgrade = function()
 Tower.prototype.upgradeAtCost = function()
 {
     this.upgrade();
-    var cost = this.getCost();
+    var cost = this.getUpgradeCost();
     mainState.changeCoins(-cost, this.x, this.y);
-
 };
+Tower.prototype.getUpgradeCost = function()
+{
+    return this.getCost();
+};
+
 Tower.prototype.reuse = function(x, y)
 {
 

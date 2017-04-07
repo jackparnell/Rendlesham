@@ -71,10 +71,6 @@ var mainState = {
             if (game.input.keyboard.event.keyCode == 80) {
                 mainState.togglePauseScreen();
             }
-            // Press S
-            if (game.input.keyboard.event.keyCode == 83) {
-                mainState.toggleSellMode();
-            }
             // Press 1
             if (game.input.keyboard.event.keyCode == 49) {
                 mainState.towerSelected = 'Gun';
@@ -532,17 +528,6 @@ var mainState = {
         } else {
             this.pause(true);
         }
-    },
-
-    toggleSellMode: function()
-    {
-        if (this.mode != 'sell') {
-            this.mode = 'sell';
-        } else {
-            this.mode = 'place';
-        }
-
-        console.log(this.mode);
     },
 
     pause: function(showText)
@@ -2077,25 +2062,36 @@ mainState.openTowerInfo = function(tower)
         }
     });
 
-    if (tower.upgradable()) {
-        this.upgradeTowerButton = game.add.button(tower.x - 35, tower.y, 'upDark', this.upgradeCurrentTower, this);
-        this.upgradeTowerButton.inputEnabled = true;
-        this.upgradeTowerButton.alpha = .5;
-        this.upgradeTowerButton.anchor.set(0.5, 0.5);
-    } else {
-        this.upgradeTowerButton = game.add.button(tower.x - 35, tower.y, 'maxDark', this.notPossible, this);
-        this.upgradeTowerButton.inputEnabled = false;
-        this.upgradeTowerButton.alpha = .5;
-        this.upgradeTowerButton.anchor.set(0.5, 0.5);
-    }
 
     if (tower.sellable()) {
-        this.sellTowerButton = game.add.button(tower.x + 35, tower.y, 'binDark', this.sellCurrentTower, this);
+        this.sellTowerButton = game.add.button(tower.x - 35, tower.y, 'poundDark', this.sellCurrentTower, this);
         this.sellTowerButton.inputEnabled = true;
         this.sellTowerButton.alpha = .5;
         this.sellTowerButton.anchor.set(0.5, 0.5);
+
+        this.sellTowerText = game.add.bitmapText(this.sellTowerButton.x, this.sellTowerButton.y + 20, bitmapFontName, '£' + this.currentTower.getSellValue(), 14);
+        this.sellTowerText.x = this.sellTowerButton.x - (this.sellTowerText.width * .5);
     }
 
+    if (tower.upgradable()) {
+        this.upgradeTowerButton = game.add.button(tower.x + 35, tower.y, 'upDark', this.upgradeCurrentTower, this);
+        this.upgradeTowerButton.inputEnabled = true;
+        this.upgradeTowerButton.alpha = .5;
+        this.upgradeTowerButton.anchor.set(0.5, 0.5);
+
+        this.labelIndicatorMessage.setText('Upgrade or sell tower.');
+
+        this.upgradeTowerText = game.add.bitmapText(this.upgradeTowerButton.x, this.upgradeTowerButton.y + 20, bitmapFontName, '£' + this.currentTower.getUpgradeCost(), 14);
+        this.upgradeTowerText.x = this.upgradeTowerButton.x - (this.upgradeTowerText.width * .5);
+
+    } else {
+        this.upgradeTowerButton = game.add.button(tower.x + 35, tower.y, 'maxDark', this.notPossible, this);
+        this.upgradeTowerButton.inputEnabled = false;
+        this.upgradeTowerButton.alpha = .5;
+        this.upgradeTowerButton.anchor.set(0.5, 0.5);
+
+        this.labelIndicatorMessage.setText('Tower is at maximum grade.');
+    }
 
     if (tower.weapon1) {
 
@@ -2126,6 +2122,14 @@ mainState.closeTowerInfo = function()
     buttonsToDestroy.forEach(function(buttonName) {
         if (mainState[buttonName]) {
             mainState[buttonName].destroy();
+        }
+    });
+
+    var textToDestroy = ['upgradeTowerText', 'sellTowerText'];
+
+    textToDestroy.forEach(function(textName) {
+        if (mainState[textName]) {
+            mainState[textName].destroy();
         }
     });
 

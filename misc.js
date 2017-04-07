@@ -37,6 +37,7 @@ function loadMainFiles()
     game.load.image('closeDark', 'assets/buttons/close-dark.png');
     game.load.image('binDark', 'assets/buttons/bin-dark.png');
     game.load.image('maxDark', 'assets/buttons/max-dark.png');
+    game.load.image('poundDark', 'assets/buttons/pound-dark.png');
 
 
     game.load.spritesheet('explosion', 'assets/sprites/decorations/Explosion.png', 32, 32, 6);
