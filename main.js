@@ -336,6 +336,7 @@ var mainState = {
 
         this.updateCoins();
         this.notification('coins', displayAmount, notificationSpawnX, notificationSpawnY);
+        this.refreshTowerInfoIfOpen();
 
     },
 
@@ -1307,8 +1308,11 @@ var mainState = {
             return;
         }
 
-        var buttonsForEffect = ['pauseButton', 'upgradeTowerButton', 'sellTowerButton'];
+        var buttonsForEffect = ['pauseButton', 'sellTowerButton'];
 
+        if (this.coinsSufficientForTowerUpgrade()) {
+            buttonsForEffect.push('upgradeTowerButton');
+        }
 
         var cancelIndicators = false;
 
@@ -2075,7 +2079,14 @@ mainState.openTowerInfo = function(tower)
 
     if (tower.upgradable()) {
         this.upgradeTowerButton = game.add.button(tower.x + 35, tower.y, 'upDark', this.upgradeCurrentTower, this);
-        this.upgradeTowerButton.inputEnabled = true;
+
+        if (this.coinsSufficientForTowerUpgrade()) {
+            this.upgradeTowerButton.inputEnabled = true;
+        } else {
+            this.upgradeTowerButton.inputEnabled = false;
+            this.upgradeTowerButton.tint = 0x880000;
+        }
+
         this.upgradeTowerButton.alpha = .5;
         this.upgradeTowerButton.anchor.set(0.5, 0.5);
 
@@ -2083,6 +2094,7 @@ mainState.openTowerInfo = function(tower)
 
         this.upgradeTowerText = game.add.bitmapText(this.upgradeTowerButton.x, this.upgradeTowerButton.y + 20, bitmapFontName, '£' + this.currentTower.getUpgradeCost(), 14);
         this.upgradeTowerText.x = this.upgradeTowerButton.x - (this.upgradeTowerText.width * .5);
+
 
     } else {
         this.upgradeTowerButton = game.add.button(tower.x + 35, tower.y, 'maxDark', this.notPossible, this);
@@ -2137,6 +2149,8 @@ mainState.closeTowerInfo = function()
         this.towerInfoOpenRangeGraphics.destroy();
     }
 
+    this.labelIndicatorMessage.setText('');
+
     this.towerInfoOpen = false;
 
 };
@@ -2161,4 +2175,11 @@ mainState.refreshTowerInfo = function()
     var tower = this.currentTower;
     this.closeTowerInfo();
     this.openTowerInfo(tower);
+};
+
+mainState.refreshTowerInfoIfOpen = function()
+{
+    if (this.towerInfoOpen) {
+        this.refreshTowerInfo();
+    }
 };
