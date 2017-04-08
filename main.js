@@ -129,9 +129,6 @@ var mainState = {
 
     bulletHitImpassable: function(bullet, impassable)
     {
-        console.log(bullet);
-        console.log(impassable);
-
         bullet.kill();
     },
 
@@ -917,6 +914,20 @@ var mainState = {
             return;
         }
 
+        if (this.towerPlacementViewOpen) {
+
+            if (this.GunTowerButton && this.GunTowerButton.input.pointerOver()) {
+                return;
+            }
+            if (this.FreezerTowerButton && this.FreezerTowerButton.input.pointerOver()) {
+                return;
+            }
+
+            this.closeTowerPlacementView();
+            return;
+
+        };
+
         var cost = window[this.towerSelected].cost;
 
         var x = Math.floor((game.input.x + game.camera.x) / this.squareWidth) * this.squareWidth + this.halfSquareWidth;
@@ -946,6 +957,7 @@ var mainState = {
 
         switch (action) {
             case 'add':
+                /*
                 if (!this.coinsSufficientForTowerPlacement()) {
                     return false;
                 }
@@ -953,6 +965,9 @@ var mainState = {
                 if (this.spawnTower(this.towerSelected, x, y)) {
                     this.changeCoins(-cost, x, y);
                 }
+                */
+
+                this.openTowerPlacementView(x, y, 'pixels');
                 break;
             case 'towerInfo':
 
@@ -1340,6 +1355,9 @@ var mainState = {
         }
 
         if (this.towerInfoOpen) {
+            return;
+        }
+        if (this.towerPlacementViewOpen) {
             return;
         }
 
@@ -2182,4 +2200,163 @@ mainState.refreshTowerInfoIfOpen = function()
     if (this.towerInfoOpen) {
         this.refreshTowerInfo();
     }
+};
+
+mainState.openTowerPlacementView = function(x, y, coordinateType)
+{
+
+    if (this.towerPlacementViewOpen) {
+        this.closeTowerPlacementView();
+    }
+
+    this.towerPlacementViewOpen = true;
+
+    if (coordinateType && coordinateType == 'grid') {
+        var gridX = x;
+        var gridY = y;
+        var coordinates = mainState.translateGridCoordinatesToPixelCoordinates(x, y);
+        x = coordinates[0];
+        y = coordinates[1];
+    } else {
+        var coordinates = mainState.translatePixelCoordinatesToGridCoordinates(x, y);
+        var gridX = coordinates[0];
+        var gridY = coordinates[1];
+    }
+
+    this.currentGridPosition = {
+        x: x,
+        y: y,
+        gridX: gridX,
+        gridY: gridY
+    };
+
+    this.towerPlacementViewGraphics = game.add.graphics(0, 0);
+
+    this.towerPlacementViewGraphics.lineStyle(2, 0x0000FF, 1);
+    this.towerPlacementViewGraphics.drawRect(x - this.squareWidth*.5, y - this.squareWidth*.5, this.squareWidth, this.squareWidth);
+
+    var buttonsToDestroy = [];
+
+    buttonsToDestroy.forEach(function(buttonName) {
+        if (mainState[buttonName]) {
+            mainState[buttonName].destroy();
+        }
+    });
+
+
+    var towerClassNames = ['Gun', 'Freezer'];
+
+    var xOffset = -((towerClassNames.length / this.squareWidth) / 2);
+
+    towerClassNames.forEach(function(towerClassName) {
+
+        var buttonName = towerClassName + 'TowerButton';
+        var textInfoName = towerClassName + 'TowerButtonInfo';
+
+        var functionName = 'place' + towerClassName + 'TowerAtCost';
+
+        mainState[buttonName] = game.add.button(
+            mainState.currentGridPosition.x  + xOffset,
+            mainState.currentGridPosition.y,
+            towerClassName + 'SpriteSheet',
+            mainState[functionName],
+            mainState
+        );
+
+        mainState[buttonName].inputEnabled = true;
+        mainState[buttonName].alpha = .5;
+        mainState[buttonName].anchor.set(0.5, 0.5);
+
+        var cost = window[towerClassName].cost;
+
+        mainState[textInfoName] = game.add.bitmapText(
+            mainState[buttonName].x,
+            mainState[buttonName].y + 20,
+            bitmapFontName,
+            '£' + cost,
+            14
+        );
+
+        mainState[textInfoName].x = mainState[textInfoName].x - (mainState[textInfoName].width * .5);
+
+        xOffset += mainState.squareWidth;
+
+    });
+
+    this.labelIndicatorMessage.setText('Select tower to place here.');
+
+
+};
+
+mainState.closeTowerPlacementView = function()
+{
+
+    this.currentGridPosition = {};
+
+    var buttonsToDestroy = [];
+
+    var towerClassNames = ['Gun', 'Freezer'];
+
+    towerClassNames.forEach(function(towerClassName) {
+        buttonsToDestroy.push(towerClassName + 'TowerButton');
+    });
+
+    buttonsToDestroy.forEach(function(buttonName) {
+        if (mainState[buttonName]) {
+            mainState[buttonName].destroy();
+        }
+    });
+
+    var textToDestroy = [];
+
+    towerClassNames.forEach(function(towerClassName) {
+        textToDestroy.push(towerClassName + 'TowerButtonInfo');
+    });
+
+    textToDestroy.forEach(function(textName) {
+        if (mainState[textName]) {
+            mainState[textName].destroy();
+        }
+    });
+
+    if (this.towerPlacementViewGraphics) {
+        this.towerPlacementViewGraphics.destroy();
+    }
+
+    this.labelIndicatorMessage.setText('');
+
+    this.towerPlacementViewOpen = false;
+
+};
+
+mainState.placeGunTowerAtCost = function()
+{
+    this.placeTowerAtCost('Gun');
+};
+
+mainState.placeFreezerTowerAtCost = function()
+{
+    this.placeTowerAtCost('Freezer');
+};
+
+mainState.placeTowerAtCost = function(className)
+{
+
+    this.towerSelected = className;
+
+    var cost = window[this.towerSelected].cost;
+
+    if (!this.coinsSufficientForTowerPlacement()) {
+        return false;
+    }
+
+    var x = this.currentGridPosition.x;
+    var y = this.currentGridPosition.y;
+
+    if (this.spawnTower(this.towerSelected, x, y)) {
+        this.changeCoins(-cost, x, y);
+    }
+
+    this.closeTowerPlacementView();
+
 };
