@@ -334,6 +334,7 @@ var mainState = {
         this.updateCoins();
         this.notification('coins', displayAmount, notificationSpawnX, notificationSpawnY);
         this.refreshTowerInfoIfOpen();
+        this.refreshTowerPlacementViewIfOpen();
 
     },
 
@@ -1388,12 +1389,14 @@ var mainState = {
 
         } else if (this.mode == 'place' && this.isTowerPlacementAppropriateAtPosition(x, y)) {
 
-            if (this.coinsSufficientForTowerPlacement()) {
+            var cheapestTowerCost = this.getCheapestTowerCost();
+
+            if (this.coins >= this.getCheapestTowerCost()) {
                 borderColor = 0x00FF00;
-                indicatorMessage = 'Place ' + this.towerSelected + ' tower for £' + window[this.towerSelected].cost + '.';
+                indicatorMessage = 'Place tower here from £' + cheapestTowerCost;
             } else {
                 borderColor = notEnoughCoinsColor;
-                indicatorMessage = 'Need £' + window[this.towerSelected].cost + ' for a ' + this.towerSelected + ' tower.';
+                indicatorMessage = 'Need £' + cheapestTowerCost + ' for a tower.';
             }
 
             // this.placementGhost = game.add.sprite(x, y, window[this.towerSelected].spriteName);
@@ -2279,6 +2282,11 @@ mainState.openTowerPlacementView = function(x, y, coordinateType)
 
         mainState[textInfoName].x = mainState[textInfoName].x - (mainState[textInfoName].width * .5);
 
+        if (mainState.coins < cost) {
+            mainState[textInfoName].tint = 0xFF0000;
+            mainState[buttonName].inputEnabled = false;
+        }
+
         xOffset += mainState.squareWidth;
 
     });
@@ -2329,6 +2337,28 @@ mainState.closeTowerPlacementView = function()
 
 };
 
+mainState.refreshTowerPlacementView = function()
+{
+    if (!this.currentGridPosition || !this.currentGridPosition.x || !this.currentGridPosition.y) {
+        return false;
+    }
+
+    var x = this.currentGridPosition.x;
+    var y = this.currentGridPosition.y;
+
+    this.closeTowerPlacementView();
+    this.openTowerPlacementView(x, y, 'pixels');
+
+    return true;
+};
+
+mainState.refreshTowerPlacementViewIfOpen = function()
+{
+    if (this.towerPlacementViewOpen) {
+        this.refreshTowerPlacementView();
+    }
+};
+
 mainState.placeGunTowerAtCost = function()
 {
     this.placeTowerAtCost('Gun');
@@ -2358,5 +2388,20 @@ mainState.placeTowerAtCost = function(className)
     }
 
     this.closeTowerPlacementView();
+
+};
+
+mainState.getCheapestTowerCost = function()
+{
+    var towerClassNames = ['Gun', 'Freezer'];
+    var cheapestTowerCost = 9999;
+
+    towerClassNames.forEach(function(towerClassName) {
+        if (window[towerClassName].cost < cheapestTowerCost) {
+            cheapestTowerCost = window[towerClassName].cost;
+        }
+    });
+
+    return cheapestTowerCost;
 
 };
