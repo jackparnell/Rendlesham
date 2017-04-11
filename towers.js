@@ -13,7 +13,7 @@ function Tower(game, x, y, spriteName) {
 
     this.weapon1 = this.game.add.weapon(3, window[this.constructor.name].bulletSpriteName, 0, this.game.bullets);
     this.weapon1.bulletKillType = Phaser.Weapon.KILL_DISTANCE;
-    this.weapon1.bulletSpeed = 400;
+    this.weapon1.bulletSpeed = window[this.constructor.name].defaultBulletSpeed || 400;
     this.weapon1.bulletKillDistance = window[this.constructor.name].defaultKillDistance;
     this.weapon1.fireRate = window[this.constructor.name].defaultFireRate;
     this.weapon1.angle = this.angleToTarget;
@@ -254,8 +254,7 @@ Tower.prototype.reuse = function(x, y)
 };
 
 function Gun(game, x, y) {
-    Tower.call(this, game, x, y, 'gun');
-
+    Tower.call(this, game, x, y, Gun.spriteName);
     this.body.setSize(14, 19, 4, 7);
 
 }
@@ -274,10 +273,8 @@ Gun.spriteName = 'gun';
 Gun.bulletSpriteName = 'bullet';
 
 function Freezer(game, x, y) {
-    Tower.call(this, game, x, y, 'freezer');
-
+    Tower.call(this, game, x, y, Freezer.spriteName);
     this.body.setSize(14, 19, 4, 7);
-
 }
 Freezer.prototype = Object.create(Tower.prototype);
 Freezer.prototype.constructor = Freezer;
@@ -292,3 +289,22 @@ Freezer.cost = 100;
 Freezer.maximumGrade = 3;
 Freezer.spriteName = 'freezer';
 Freezer.bulletSpriteName = 'iceLance';
+
+function Laser(game, x, y) {
+    Tower.call(this, game, x, y, Laser.spriteName);
+    this.body.setSize(14, 19, 4, 7);
+}
+Laser.prototype = Object.create(Tower.prototype);
+Laser.prototype.constructor = Laser;
+Laser.prototype.update = function() {
+    Tower.prototype.update.call(this);
+};
+Laser.defaultScale = .5;
+Laser.defaultDamageValue = 150;
+Laser.defaultFireRate = 500;
+Laser.defaultKillDistance = 150;
+Laser.cost = 100;
+Laser.maximumGrade = 3;
+Laser.spriteName = 'laser';
+Laser.bulletSpriteName = 'redLaser';
+Laser.defaultBulletSpeed = 800;

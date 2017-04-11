@@ -38,6 +38,7 @@ function loadMainFiles()
     game.load.image('binDark', 'assets/buttons/bin-dark.png');
     game.load.image('maxDark', 'assets/buttons/max-dark.png');
     game.load.image('poundDark', 'assets/buttons/pound-dark.png');
+    game.load.image('blankDark', 'assets/buttons/blank-dark.png');
 
 
     game.load.spritesheet('explosion', 'assets/sprites/decorations/Explosion.png', 32, 32, 6);
@@ -46,6 +47,7 @@ function loadMainFiles()
 
     game.load.spritesheet('bullet', 'assets/sprites/weapons/Bullet.png', 64, 64, 3);
     game.load.spritesheet('iceLance', 'assets/sprites/weapons/IceLance.png', 32, 32, 1);
+    game.load.spritesheet('redLaser', 'assets/sprites/weapons/RedLaser.png', 32, 32, 1);
 
     game.load.spritesheet('aquila', 'assets/sprites/attackers/Aquila.png', 32, 32, 1);
     game.load.spritesheet('dibley', 'assets/sprites/attackers/Dibley.png', 32, 32, 1);
@@ -59,9 +61,11 @@ function loadMainFiles()
 
     game.load.spritesheet('gun', 'assets/sprites/towers/Gun.png', 64, 64, 3);
     game.load.spritesheet('freezer', 'assets/sprites/towers/Freezer.png', 64, 64, 3);
+    game.load.spritesheet('laser', 'assets/sprites/towers/Laser.png', 64, 64, 3);
 
     game.load.spritesheet('GunSpriteSheet', 'assets/sprites/towers/Gun.png', 64, 64, 3);
     game.load.spritesheet('FreezerSpriteSheet', 'assets/sprites/towers/Freezer.png', 64, 64, 3);
+    game.load.spritesheet('LaserSpriteSheet', 'assets/sprites/towers/Laser.png', 64, 64, 3);
 
     game.load.spritesheet('bigBush', 'assets/sprites/obstacles/bigBush.png', 35, 35, 1);
     game.load.spritesheet('bigBushAutumn', 'assets/sprites/obstacles/bigBushAutumn.png', 35, 35, 1);

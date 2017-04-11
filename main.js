@@ -923,7 +923,9 @@ var mainState = {
             if (this.FreezerTowerButton && this.FreezerTowerButton.input.pointerOver()) {
                 return;
             }
-
+            if (this.LaserTowerButton && this.LaserTowerButton.input.pointerOver()) {
+                return;
+            }
             this.closeTowerPlacementView();
             return;
 
@@ -2235,7 +2237,7 @@ mainState.openTowerPlacementView = function(x, y, coordinateType)
 
     this.towerPlacementViewGraphics = game.add.graphics(0, 0);
 
-    this.towerPlacementViewGraphics.lineStyle(2, 0x0000FF, 1);
+    this.towerPlacementViewGraphics.lineStyle(2, 0x00FF00, 1);
     this.towerPlacementViewGraphics.drawRect(x - this.squareWidth*.5, y - this.squareWidth*.5, this.squareWidth, this.squareWidth);
 
     var buttonsToDestroy = [];
@@ -2246,35 +2248,52 @@ mainState.openTowerPlacementView = function(x, y, coordinateType)
         }
     });
 
+    var towerClassNames = this.getTowerClassNames();
 
-    var towerClassNames = ['Gun', 'Freezer'];
-
-    var xOffset = -((towerClassNames.length / this.squareWidth) / 2);
+    var buttonGap = 4;
+    var xOffset = -(towerClassNames.length-1) * (this.halfSquareWidth + (buttonGap * .5));
+    var yOffset = -this.halfSquareWidth;
 
     towerClassNames.forEach(function(towerClassName) {
 
+        var backdropButtonName = towerClassName + 'TowerButtonBackdrop';
         var buttonName = towerClassName + 'TowerButton';
         var textInfoName = towerClassName + 'TowerButtonInfo';
 
         var functionName = 'place' + towerClassName + 'TowerAtCost';
 
+        // Backdrop button start
+        mainState[backdropButtonName] = game.add.button(
+            mainState.currentGridPosition.x + xOffset,
+            mainState.currentGridPosition.y + yOffset,
+            'blankDark',
+            mainState[functionName],
+            mainState
+        );
+        mainState[backdropButtonName].inputEnabled = true;
+        mainState[backdropButtonName].alpha = .6;
+        mainState[backdropButtonName].anchor.set(0.5, 0.5);
+        // Backdrop button end
+
+        // Sprite-based button start
         mainState[buttonName] = game.add.button(
-            mainState.currentGridPosition.x  + xOffset,
-            mainState.currentGridPosition.y,
+            mainState.currentGridPosition.x + xOffset,
+            mainState.currentGridPosition.y + yOffset,
             towerClassName + 'SpriteSheet',
             mainState[functionName],
             mainState
         );
-
         mainState[buttonName].inputEnabled = true;
-        mainState[buttonName].alpha = .5;
-        mainState[buttonName].anchor.set(0.5, 0.5);
+        mainState[buttonName].alpha = .6;
+        mainState[buttonName].anchor.set(.5, .5);
+        mainState[buttonName].scale.setTo(.5, .5);
+        // Sprite-based button end
 
         var cost = window[towerClassName].cost;
 
         mainState[textInfoName] = game.add.bitmapText(
             mainState[buttonName].x,
-            mainState[buttonName].y + 20,
+            mainState[buttonName].y  + yOffset + 20,
             bitmapFontName,
             '£' + cost,
             14
@@ -2287,7 +2306,7 @@ mainState.openTowerPlacementView = function(x, y, coordinateType)
             mainState[buttonName].inputEnabled = false;
         }
 
-        xOffset += mainState.squareWidth;
+        xOffset += mainState.squareWidth + buttonGap;
 
     });
 
@@ -2303,9 +2322,10 @@ mainState.closeTowerPlacementView = function()
 
     var buttonsToDestroy = [];
 
-    var towerClassNames = ['Gun', 'Freezer'];
+    var towerClassNames = this.getTowerClassNames();
 
     towerClassNames.forEach(function(towerClassName) {
+        buttonsToDestroy.push(towerClassName + 'TowerButtonBackdrop');
         buttonsToDestroy.push(towerClassName + 'TowerButton');
     });
 
@@ -2369,6 +2389,11 @@ mainState.placeFreezerTowerAtCost = function()
     this.placeTowerAtCost('Freezer');
 };
 
+mainState.placeLaserTowerAtCost = function()
+{
+    this.placeTowerAtCost('Laser');
+};
+
 mainState.placeTowerAtCost = function(className)
 {
 
@@ -2393,7 +2418,7 @@ mainState.placeTowerAtCost = function(className)
 
 mainState.getCheapestTowerCost = function()
 {
-    var towerClassNames = ['Gun', 'Freezer'];
+    var towerClassNames = this.getTowerClassNames();
     var cheapestTowerCost = 9999;
 
     towerClassNames.forEach(function(towerClassName) {
@@ -2404,4 +2429,9 @@ mainState.getCheapestTowerCost = function()
 
     return cheapestTowerCost;
 
+};
+
+mainState.getTowerClassNames = function()
+{
+    return ['Gun', 'Freezer', 'Laser'];
 };
