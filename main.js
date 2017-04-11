@@ -2433,5 +2433,9 @@ mainState.getCheapestTowerCost = function()
 
 mainState.getTowerClassNames = function()
 {
+    if (this.level.towersAvailable) {
+        return this.level.towersAvailable;
+    }
+
     return ['Gun', 'Freezer', 'Laser'];
 };

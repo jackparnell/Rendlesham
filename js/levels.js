@@ -124,7 +124,8 @@ var fridayStreet = {
     goalXGrid: 1,
     goalYGrid: 5,
     waveHealthModifier: .2,
-    towerPlacementForbiddenRows: [0, 11]
+    towerPlacementForbiddenRows: [0, 11],
+    towersAvailable: ['Gun']
 };
 
 var orfordRoad = {
@@ -248,7 +249,8 @@ var orfordRoad = {
     goalXGrid: 1,
     goalYGrid: 5,
     waveHealthModifier: .25,
-    towerPlacementForbiddenRows: [0, 11]
+    towerPlacementForbiddenRows: [0, 11],
+    towersAvailable: ['Gun', 'Freezer']
 };
 
 var orfordness = {
