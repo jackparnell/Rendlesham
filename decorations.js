@@ -30,8 +30,12 @@ Decoration.prototype.unTint = function()
 {
     this.tint = 0xffffff;
 };
+Decoration.prototype.setAngle = function(angle)
+{
+    this.angle = angle;
+};
 
-
+// Begin Explosion
 function Explosion(game, x, y) {
     Decoration.call(this, game, x, y, 'explosion');
     this.initialise();
@@ -46,10 +50,34 @@ Explosion.prototype.initialise = function()
     this.lifespan = 500;
     this.animations.add('explode', [0, 1, 2, 3, 4, 5], 12, false);
     this.animations.play('explode');
+    this.alpha = .6;
 };
 Explosion.prototype.reuse = function(x, y)
 {
     this.reset(x, y);
     this.initialise();
 };
+// End Explosion
 
+// Begin Zap
+function Zap(game, x, y) {
+    Decoration.call(this, game, x, y, 'Zap');
+    this.initialise();
+}
+Zap.prototype = Object.create(Decoration.prototype);
+Zap.prototype.constructor = Zap;
+Zap.prototype.initialise = function()
+{
+    Decoration.prototype.initialise.call(this);
+    this.unTint();
+    this.lifespan = 250;
+    this.animations.add('explode', [0, 1, 2], 12, false);
+    this.animations.play('explode');
+    this.alpha = .6;
+};
+Zap.prototype.reuse = function(x, y)
+{
+    this.reset(x, y);
+    this.initialise();
+};
+// End Zap

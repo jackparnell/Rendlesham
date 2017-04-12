@@ -97,6 +97,7 @@ var mainState = {
         this.attackers = game.add.group();
         this.weapons = game.add.group();
         this.explosions = game.add.group();
+        this.ZapGroup = game.add.group();
         this.crosshairs = game.add.group();
         this.game.healthBars = game.add.group();
         this.game.bullets = game.add.group();
@@ -161,6 +162,22 @@ var mainState = {
             }
 
             // this.performanceModifier = game.time.elapsed / 16.66;
+
+            // Begin bullet heat-seeking
+            this.towers.forEach(function(tower) {
+                if (tower.weapon1) {
+                    tower.weapon1.bullets.forEach(function (bullet) {
+                        if (bullet.target && bullet.target.alive) {
+                            var midPoint = mainState.getMidPointBetweenSprites(bullet, bullet.target);
+                            var moveX = Math.cos(this.game.math.degToRad(midPoint.angle)) * bullet.speed;
+                            var moveY = Math.sin(this.game.math.degToRad(midPoint.angle)) * bullet.speed;
+                            bullet.body.velocity.set(moveX, moveY);
+                        }
+                    });
+                }
+
+            }, this);
+            // End bullet heat-seeking
 
             if (this.lives < 1) {
                 this.noLivesLeft();
@@ -712,21 +729,50 @@ var mainState = {
 
     },
 
-    spawnExplosion: function(x, y, tint) {
+    spawnExplosion: function(x, y, tint, angle) {
 
-        var explosion;
+        var obj;
+        var group = this.explosions;
 
-        explosion = this.explosions.getFirstDead();
+        obj = group.getFirstDead();
 
-        if (explosion) {
-            explosion.reuse(x, y);
+        if (obj) {
+            obj.reuse(x, y);
         } else {
-            explosion = new Explosion(this.game, x, y);
-            this.explosions.add(explosion);
+            obj = new Explosion(this.game, x, y);
+            group.add(obj);
         }
 
         if (tint) {
-            explosion.setTint(tint);
+            obj.setTint(tint);
+        }
+
+        if (angle) {
+            obj.setAngle(angle);
+        }
+
+    },
+
+    spawnZap: function(x, y, tint, angle) {
+
+        var obj;
+        var group = this.ZapGroup;
+
+        obj = group.getFirstDead();
+
+        if (obj) {
+            obj.reuse(x, y);
+        } else {
+            obj = new Zap(this.game, x, y);
+            group.add(obj);
+        }
+
+        if (tint) {
+            obj.setTint(tint);
+        }
+
+        if (angle) {
+            obj.setAngle(angle);
         }
 
     },
@@ -2438,4 +2484,13 @@ mainState.getTowerClassNames = function()
     }
 
     return ['Gun', 'Freezer', 'Laser'];
+};
+
+mainState.getMidPointBetweenSprites = function(spriteA, spriteB)
+{
+    return {
+        x: Math.round((spriteA.x + spriteB.x) / 2),
+        y: Math.round((spriteA.y + spriteB.y) / 2),
+        angle: Math.atan2(spriteB.y - spriteA.y, spriteB.x - spriteA.x ) * (180/Math.PI)
+    }
 };

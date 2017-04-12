@@ -93,6 +93,8 @@ Tower.prototype.fire = function()
             bullet.towerClass = this.constructor.name;
             bullet.grade = this.grade;
             bullet.enableBody = true;
+            bullet.target = this.target;
+            bullet.speed = this.weapon1.bulletSpeed;
         }
     }
 };
@@ -271,6 +273,7 @@ Gun.cost = 50;
 Gun.maximumGrade = 3;
 Gun.spriteName = 'gun';
 Gun.bulletSpriteName = 'bullet';
+Gun.bulletHitDecorationClassName = 'Explosion';
 
 function Freezer(game, x, y) {
     Tower.call(this, game, x, y, Freezer.spriteName);
@@ -289,6 +292,8 @@ Freezer.cost = 100;
 Freezer.maximumGrade = 3;
 Freezer.spriteName = 'freezer';
 Freezer.bulletSpriteName = 'iceLance';
+Freezer.bulletHitDecorationClassName = 'Zap';
+Freezer.bulletHitDecorationTint = 0x0000FF;
 
 function Laser(game, x, y) {
     Tower.call(this, game, x, y, Laser.spriteName);
@@ -308,3 +313,5 @@ Laser.maximumGrade = 3;
 Laser.spriteName = 'laser';
 Laser.bulletSpriteName = 'redLaser';
 Laser.defaultBulletSpeed = 800;
+Laser.bulletHitDecorationClassName = 'Zap';
+Laser.bulletHitDecorationTint = 0xFF0000;

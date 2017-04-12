@@ -60,7 +60,13 @@ Obstacle.prototype.hit = function(attacker, bullet)
     if (!this.invulnerable) {
         attacker.health -= bullet.damageValue;
     }
-    mainState.spawnExplosion(bullet.x, bullet.y);
+
+    var decorationClassName = window[bullet.towerClass].bulletHitDecorationClassName || 'Explosion';
+    var decorationTint = window[bullet.towerClass].bulletHitDecorationTint || '0xFFFFFF';
+    var spawnFunctionName = 'spawn' + decorationClassName;
+    var midPoint = mainState.getMidPointBetweenSprites(attacker, bullet);
+    mainState[spawnFunctionName](midPoint.x, midPoint.y, decorationTint, midPoint.angle);
+
     bullet.kill();
 };
 Obstacle.prototype.generateGridCoordinates = function()
