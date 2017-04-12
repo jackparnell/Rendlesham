@@ -34,6 +34,10 @@ Decoration.prototype.setAngle = function(angle)
 {
     this.angle = angle;
 };
+Decoration.prototype.prepareForGameOver = function()
+{
+    this.kill();
+};
 
 // Begin Explosion
 function Explosion(game, x, y) {

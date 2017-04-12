@@ -51,6 +51,8 @@ Attacker.prototype.initialise = function(waveNumber)
     this.tint = 0xffffff;
     this.alpha = 1;
 
+    this.tilesTraversed = 0;
+
     if (this.fadeOutTween) {
         game.tweens.remove(this.fadeOutTween);
     }

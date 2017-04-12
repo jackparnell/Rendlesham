@@ -81,6 +81,8 @@ Bully.prototype.initialise = function()
     this.tint = 0xffffff;
     this.alpha = 1;
 
+    this.tilesTraversed = 0;
+
     this.initialised = true;
 
     this.generateNewGoal();

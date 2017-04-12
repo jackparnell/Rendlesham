@@ -132,6 +132,7 @@ var moveable = {
             this.gridX = gridCoordinates[0];
             this.gridY = gridCoordinates[1];
             gridCoordinatesChanges = true;
+            this.tilesTraversed ++;
         }
 
         return gridCoordinatesChanges;

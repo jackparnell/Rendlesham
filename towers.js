@@ -137,7 +137,10 @@ Tower.prototype.determineTarget = function()
         }
 
         var distanceBetween = game.physics.arcade.distanceBetween(this, item);
-        var advanced = mainState.turn - item.creationTurn;
+
+        var advanced = (item.tilesTraversed * 1000) + mainState.turn - item.creationTurn;
+        // TODO at some point, work out distance to Nathan via path
+
         if (
             !target.targeted // If target is targeted, we've found the target.
             &&

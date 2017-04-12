@@ -209,6 +209,7 @@ var mainState = {
         this.attackers.callAll('prepareForGameOver');
         this.towers.callAll('prepareForGameOver');
         this.characters.callAll('prepareForGameOver');
+        this.ZapGroup.callAll('prepareForGameOver');
 
     },
 
@@ -1313,6 +1314,7 @@ var mainState = {
 
         this.crosshairs.callAll('kill');
         this.explosions.callAll('kill');
+        this.ZapGroup.callAll('kill');
         this.characters.callAll('kill');
         this.finishedItems.callAll('kill');
 
@@ -1426,7 +1428,7 @@ var mainState = {
         if (this.lives < 1) {
 
             borderColor = 0x000000;
-            indicatorMessage = 'Game Over';
+            indicatorMessage = 'Nathan has been captured.';
 
         } else if (this.mode == 'sell' && this.isTowerSaleAppropriateAtPosition(x, y)) {
 
