@@ -2302,6 +2302,13 @@ mainState.openTowerPlacementView = function(x, y, coordinateType)
     var xOffset = -(towerClassNames.length-1) * (this.halfSquareWidth + (buttonGap * .5));
     var yOffset = -this.halfSquareWidth;
 
+    if (this.currentGridPosition.x + xOffset < game.camera.x) {
+        xOffset = -this.currentGridPosition.x + game.camera.x + this.halfSquareWidth;
+    }
+    if (this.currentGridPosition.x + (this.halfSquareWidth * towerClassNames.length) > (game.camera.x + game.camera.width + 5)) {
+        xOffset = -(this.squareWidth+buttonGap) * (towerClassNames.length-1);
+    }
+
     towerClassNames.forEach(function(towerClassName) {
 
         var backdropButtonName = towerClassName + 'TowerButtonBackdrop';
