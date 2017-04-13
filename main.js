@@ -192,6 +192,10 @@ var mainState = {
                 this.levelCompleted();
             }
 
+            if (this.towerPlacementViewOpen) {
+                this.updateTowerPlacementView();
+            }
+
             // console.log(game.time.fps);
 
         }
@@ -344,6 +348,9 @@ var mainState = {
         if (isNaN(amount)) {
             return false;
         }
+
+        var previousCoins = this.coins;
+
         this.coins += amount;
 
         if (amount >= 1) {
@@ -354,8 +361,15 @@ var mainState = {
 
         this.updateCoins();
         this.notification('coins', displayAmount, notificationSpawnX, notificationSpawnY);
-        this.refreshTowerInfoIfOpen();
-        this.refreshTowerPlacementViewIfOpen();
+
+        if (
+            previousCoins < 50 && this.coins >= 50
+            ||
+            previousCoins < 100 && this.coins >= 100
+        ) {
+            this.refreshTowerInfoIfOpen();
+            this.refreshTowerPlacementViewIfOpen();
+        }
 
     },
 
@@ -2311,7 +2325,7 @@ mainState.openTowerPlacementView = function(x, y, coordinateType)
             mainState
         );
         mainState[backdropButtonName].inputEnabled = true;
-        mainState[backdropButtonName].alpha = .6;
+        mainState[backdropButtonName].alpha = .5;
         mainState[backdropButtonName].anchor.set(0.5, 0.5);
         // Backdrop button end
 
@@ -2344,6 +2358,7 @@ mainState.openTowerPlacementView = function(x, y, coordinateType)
         if (mainState.coins < cost) {
             mainState[textInfoName].tint = 0xFF0000;
             mainState[buttonName].inputEnabled = false;
+            mainState[backdropButtonName].inputEnabled = false;
         }
 
         xOffset += mainState.squareWidth + buttonGap;
@@ -2417,6 +2432,23 @@ mainState.refreshTowerPlacementViewIfOpen = function()
     if (this.towerPlacementViewOpen) {
         this.refreshTowerPlacementView();
     }
+};
+
+mainState.updateTowerPlacementView = function()
+{
+    this.getTowerClassNames().forEach(function(towerClassName) {
+        var buttonName = towerClassName + 'TowerButton';
+        var backdropButtonName = towerClassName + 'TowerButtonBackdrop';
+        if (
+            mainState[buttonName] && mainState[buttonName].input.pointerOver()
+            ||
+            mainState[backdropButtonName] && mainState[backdropButtonName].input.pointerOver()
+        ) {
+            mainState[backdropButtonName].alpha = .8;
+        } else {
+            mainState[backdropButtonName].alpha = .5;
+        }
+    });
 };
 
 mainState.placeGunTowerAtCost = function()
