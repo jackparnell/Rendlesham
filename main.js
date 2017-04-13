@@ -164,19 +164,21 @@ var mainState = {
             // this.performanceModifier = game.time.elapsed / 16.66;
 
             // Begin bullet heat-seeking
-            this.towers.forEach(function(tower) {
-                if (tower.weapon1) {
-                    tower.weapon1.bullets.forEach(function (bullet) {
-                        if (bullet.target && bullet.target.alive) {
-                            var midPoint = mainState.getMidPointBetweenSprites(bullet, bullet.target);
-                            var moveX = Math.cos(this.game.math.degToRad(midPoint.angle)) * bullet.speed;
-                            var moveY = Math.sin(this.game.math.degToRad(midPoint.angle)) * bullet.speed;
-                            bullet.body.velocity.set(moveX, moveY);
-                        }
-                    });
-                }
+            if (!this.preparingForGameOver) {
+                this.towers.forEach(function(tower) {
+                    if (tower.weapon1) {
+                        tower.weapon1.bullets.forEach(function (bullet) {
+                            if (bullet.target && bullet.target.alive) {
+                                var midPoint = mainState.getMidPointBetweenSprites(bullet, bullet.target);
+                                var moveX = Math.cos(this.game.math.degToRad(midPoint.angle)) * bullet.speed;
+                                var moveY = Math.sin(this.game.math.degToRad(midPoint.angle)) * bullet.speed;
+                                bullet.body.velocity.set(moveX, moveY);
+                            }
+                        });
+                    }
 
-            }, this);
+                }, this);
+            }
             // End bullet heat-seeking
 
             if (this.lives < 1) {
@@ -205,6 +207,7 @@ var mainState = {
         game.add.tween(this.gameOverBackground, this.game).to( { alpha: 1 }, Phaser.Timer.SECOND * 4, Phaser.Easing.Linear.None, true);
         game.time.events.add(Phaser.Timer.SECOND * 5, this.gameOver, this);
 
+        this.preparingForGameOver = true;
 
         this.attackers.callAll('prepareForGameOver');
         this.towers.callAll('prepareForGameOver');

@@ -67,6 +67,7 @@ Obstacle.prototype.hit = function(attacker, bullet)
     var midPoint = mainState.getMidPointBetweenSprites(attacker, bullet);
     mainState[spawnFunctionName](midPoint.x, midPoint.y, decorationTint, midPoint.angle);
 
+    delete bullet.target;
     bullet.kill();
 };
 Obstacle.prototype.generateGridCoordinates = function()
