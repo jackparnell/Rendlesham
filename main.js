@@ -857,19 +857,19 @@ var mainState = {
 
         this.levelCompleteText = game.add.bitmapText(
             game.camera.width * .5,
-            game.height * .16,
+            game.height * .14,
             bitmapFontName,
             'Level ' + this.levelId + ' complete!',
             58
         );
-        this.levelCompleteText.x = game.world.centerX - (this.levelCompleteText.width * .5);
+        this.levelCompleteText.x = (game.camera.width * .5) - (this.levelCompleteText.width * .5);
         this.levelCompleteText.fixedToCamera = true;
 
         // Begin stars
         var completionStars = this.level.calculateCompletionStars();
 
-        var x = (game.width * .5) - 180;
-        var y = (game.height * .36);
+        var x = (game.camera.width * .5) - 180;
+        var y = (game.height * .33);
 
         var starSpriteName;
 
@@ -894,7 +894,7 @@ var mainState = {
         // Begin score text
         this.scoreText = game.add.bitmapText(
             game.camera.width * .5,
-            game.height * .68,
+            game.height * .62,
             bitmapFontName,
             'Score: ' + this.score,
             24
@@ -904,29 +904,11 @@ var mainState = {
         this.scoreText.fixedToCamera = true;
         // End score text
 
-        // Begin next level link
-        this.nextLevelLink = game.add.bitmapText(
-            game.camera.width * .5,
-            game.height * .8,
-            bitmapFontName,
-            'Play Next Level',
-            40
-        );
-        this.nextLevelLink.x = (game.camera.width * .5) - (this.nextLevelLink.width * .5);
-        this.nextLevelLink.fixedToCamera = true;
 
-        this.nextLevelLinkButton = game.add.button(
-            game.world.centerX - 80,
-            this.nextLevelLink.y,
-            'forestGreen',
-            this.nextLevel,
-            this
-        );
-        this.linkBackgrounds.add(this.nextLevelLinkButton);
-        this.nextLevelLinkButton.x = (game.camera.width * .5) - (this.nextLevelLinkButton.width * .5);
-        this.nextLevelLinkButton.y = this.nextLevelLink.y - 11;
-        this.nextLevelLinkButton.fixedToCamera = true;
-        // End next level link
+        this.addButtonTextLink('nextLevelLink', 'Play Next Level', 40, 'forestGreen', 0, game.height * .71, 'center', 'nextLevel');
+
+        this.addButtonTextLink('exitToTitle', 'Exit to Title', 20, 'smallWideDark', 10, game.camera.height - 40, 'left', 'goToTitleScreen');
+        this.addButtonTextLink('replayLevel', 'Replay Level', 20, 'smallWideDark', 10, game.camera.height - 40, 'right', 'restartLevel');
 
 
     },

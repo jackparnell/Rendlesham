@@ -536,7 +536,7 @@ var bartonMills = {
             duration: 23,
             createEvents: function(s) {
 
-                mainState.scheduleAttackersWave('Roger', waveNumber, s, 10, .5);
+                mainState.scheduleAttackersWave('Roger', waveNumber, s, 10, .6);
                 mainState.scheduleAttackersWave('Mib', waveNumber, s, 10, 1, 10);
 
             }
@@ -546,7 +546,7 @@ var bartonMills = {
             createEvents: function(s) {
 
                 mainState.scheduleAttackersWave('Aquila', waveNumber, s, 10, .8);
-                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 15, .5, 10);
+                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 15, .6, 10);
 
             }
         },

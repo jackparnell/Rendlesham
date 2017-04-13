@@ -37,7 +37,7 @@ Rendlesham.achievements.prototype.create = function()
     var level;
     var userLevelHighScore;
 
-    this.addButtonTextLink('backLink', 'Back', 20, 'smallDark', 15, 15, 'right', 'goToTitleScreen');
+    this.addButtonTextLink('backLink', 'Back', 20, 'smallDark', 10, 10, 'right', 'goToTitleScreen');
 
     var y = 20;
 

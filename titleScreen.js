@@ -59,7 +59,9 @@ Rendlesham.titleScreen.prototype.create = function()
     this.tipText.x = (game.width * .5) - (this.tipText.width * .5);
     this.tipText.tint = 0xCCFFCC;
 
-    this.addButtonTextLink('achievementsLink', 'View Achievements', 20, 'smallWideDark', 15, game.camera.height - 35, 'right', 'showAchievements');
+    this.addButtonTextLink('achievementsLink', 'View Achievements', 20, 'smallWideDark', 10, game.camera.height - 40, 'right', 'showAchievements');
+
+    // this.addButtonTextLink('creditsLink', 'Credits', 20, 'smallWideDark', 10, game.camera.height - 40, 'left', 'showCredits');
 
 
 };
