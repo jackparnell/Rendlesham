@@ -918,10 +918,10 @@ var frozenFen = {
     title: 'Frozen Fen',
     waveInfo: {
         wave1: {
-            duration: 25,
+            duration: 27,
             createEvents: function(s) {
 
-                mainState.scheduleAttackersWave('Oscar', waveNumber, s, 20, 1.75);
+                mainState.scheduleAttackersWave('Oscar', waveNumber, s, 20, 1.75, 2);
 
             }
         },
@@ -1048,10 +1048,10 @@ var sandringhamWoods = {
     title: 'Sandringham Woods',
     waveInfo: {
         wave1: {
-            duration: 25,
+            duration: 27,
             createEvents: function(s) {
 
-                mainState.scheduleAttackersWave('Oscar', waveNumber, s, 20, 1.75);
+                mainState.scheduleAttackersWave('Oscar', waveNumber, s, 20, 1.75, 2);
 
             }
         },
@@ -1177,10 +1177,10 @@ var holkhamBeach = {
     title: 'Holkham Beach',
     waveInfo: {
         wave1: {
-            duration: 25,
+            duration: 27,
             createEvents: function(s) {
 
-                mainState.scheduleAttackersWave('Roger', waveNumber, s, 20, 1.75);
+                mainState.scheduleAttackersWave('Roger', waveNumber, s, 20, 1.75, 2);
 
             }
         },
@@ -1306,10 +1306,11 @@ var northCreake = {
     title: 'North Creake',
     waveInfo: {
         wave1: {
-            duration: 25,
+            duration: 27,
             createEvents: function(s) {
 
-                mainState.scheduleAttackersWave('Roger', waveNumber, s, 20, 1.75);
+                mainState.scheduleAttackersWave('Oscar', waveNumber, s, 10, 1.75, 2);
+                mainState.scheduleAttackersWave('Roger', waveNumber, s, 10, 1.75, 12);
 
             }
         },
@@ -1436,10 +1437,10 @@ var westRudhamChurchyard = {
     title: 'West Rudham Churchyard',
     waveInfo: {
         wave1: {
-            duration: 25,
+            duration: 26,
             createEvents: function(s) {
 
-                mainState.scheduleAttackersWave('Dibley', waveNumber, s, 20, 1.75);
+                mainState.scheduleAttackersWave('Dibley', waveNumber, s, 20, 1.75, 1);
 
             }
         },
@@ -1571,10 +1572,10 @@ var kingsLynn = {
     title: 'King\'s Lynn Quayside',
     waveInfo: {
         wave1: {
-            duration: 25,
+            duration: 26,
             createEvents: function(s) {
 
-                mainState.scheduleAttackersWave('Dibley', waveNumber, s, 20, 1.75);
+                mainState.scheduleAttackersWave('Dibley', waveNumber, s, 20, 1.75, 1);
 
             }
         },
