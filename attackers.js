@@ -2,7 +2,6 @@ function Attacker(game, x, y, spriteName, waveNumber) {
 
     $.extend( this, standard );
     $.extend( this, moveable );
-    $.extend( this, shadow );
 
     this.guid = guid();
 

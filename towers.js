@@ -1,7 +1,6 @@
 function Tower(game, x, y, spriteName) {
 
     $.extend( this, standard );
-    $.extend( this, shadow );
 
     this.guid = guid();
 

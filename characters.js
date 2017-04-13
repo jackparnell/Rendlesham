@@ -2,7 +2,6 @@ function Character(game, x, y, spriteName) {
     
     $.extend( this, standard );
     $.extend( this, moveable );
-    $.extend( this, shadow );
 
     this.guid = guid();
     this.creationTurn = mainState.turn;
