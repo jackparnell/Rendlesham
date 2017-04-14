@@ -383,10 +383,10 @@ var westletonHeath = {
     title: 'Westleton Heath',
     waveInfo: {
         wave1: {
-            duration: 25,
+            duration: 27,
             createEvents: function(s) {
 
-                mainState.scheduleAttackersWave('Roger', waveNumber, s, 20, 1.75);
+                mainState.scheduleAttackersWave('Roger', waveNumber, s, 20, 1.75, 2);
 
             }
         },
@@ -413,7 +413,7 @@ var westletonHeath = {
             duration: 23,
             createEvents: function(s) {
 
-                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 10, .75);
+                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 10, .8);
                 mainState.scheduleAttackersWave('Mib', waveNumber, s, 10, 1, 10);
 
             }
@@ -422,8 +422,8 @@ var westletonHeath = {
             duration: 28,
             createEvents: function(s) {
 
-                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 10, .6);
-                mainState.scheduleAttackersWave('Mib', waveNumber, s, 15, .8, 10);
+                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 10, .8);
+                mainState.scheduleAttackersWave('Mib', waveNumber, s, 15, .9, 10);
 
             }
         },
@@ -431,7 +431,7 @@ var westletonHeath = {
             duration: 32,
             createEvents: function(s) {
 
-                mainState.scheduleAttackersWave('Mib', waveNumber, s, 30, .75);
+                mainState.scheduleAttackersWave('Mib', waveNumber, s, 30, .85);
 
             }
         }
@@ -496,7 +496,7 @@ var westletonHeath = {
     entryYGrid: 5,
     goalXGrid: 1,
     goalYGrid: 5,
-    waveHealthModifier: .35,
+    waveHealthModifier: .37,
     towerPlacementForbiddenRows: [0, 11]
 };
 
