@@ -867,11 +867,13 @@ var mainState = {
     levelCompletedScreen: function()
     {
 
+        this.destroyUserInterfaceButtons();
+
         this.gameOverBackground.alpha = .5;
 
         this.levelCompleteText = game.add.bitmapText(
             game.camera.width * .5,
-            game.height * .14,
+            game.height * .13,
             bitmapFontName,
             'Level ' + this.levelId + ' complete!',
             58
@@ -883,7 +885,7 @@ var mainState = {
         var completionStars = this.level.calculateCompletionStars();
 
         var x = (game.camera.width * .5) - 180;
-        var y = (game.height * .33);
+        var y = (game.height * .32);
 
         var starSpriteName;
 
@@ -908,7 +910,7 @@ var mainState = {
         // Begin score text
         this.scoreText = game.add.bitmapText(
             game.camera.width * .5,
-            game.height * .62,
+            game.height * .61,
             bitmapFontName,
             'Score: ' + this.score,
             24
@@ -919,10 +921,10 @@ var mainState = {
         // End score text
 
 
-        this.addButtonTextLink('nextLevelLink', 'Play Next Level', 40, 'forestGreen', 0, game.height * .71, 'center', 'nextLevel');
+        this.addButtonTextLink('nextLevelLink', 'Play Next Level', 40, 'forestGreen', 0, game.height * .7, 'center', 'nextLevel');
 
-        this.addButtonTextLink('exitToTitle', 'Exit to Title', 20, 'smallWideDark', 10, game.camera.height - 40, 'left', 'goToTitleScreen');
-        this.addButtonTextLink('replayLevel', 'Replay Level', 20, 'smallWideDark', 10, game.camera.height - 40, 'right', 'restartLevel');
+        this.addButtonTextLink('exitToTitle', 'Exit to Title', 20, 'smallWideDark', 10, game.camera.height - 42, 'left', 'goToTitleScreen');
+        this.addButtonTextLink('replayLevel', 'Replay Level', 20, 'smallWideDark', 10, game.camera.height - 42, 'right', 'restartLevel');
 
 
     },
