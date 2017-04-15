@@ -168,7 +168,7 @@ var mainState = {
                 this.towers.forEach(function(tower) {
                     if (tower.weapon1) {
                         tower.weapon1.bullets.forEach(function (bullet) {
-                            if (bullet.target && bullet.target.alive) {
+                            if (bullet.target && bullet.target.alive && bullet.target.body && bullet.target.body.moves) {
                                 var midPoint = mainState.getMidPointBetweenSprites(bullet, bullet.target);
                                 var moveX = Math.cos(this.game.math.degToRad(midPoint.angle)) * bullet.speed;
                                 var moveY = Math.sin(this.game.math.degToRad(midPoint.angle)) * bullet.speed;
