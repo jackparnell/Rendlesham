@@ -868,6 +868,8 @@ var mainState = {
     {
 
         this.destroyUserInterfaceButtons();
+        this.closeTowerInfo();
+        this.closeTowerPlacementView();
 
         this.gameOverBackground.alpha = .5;
 
