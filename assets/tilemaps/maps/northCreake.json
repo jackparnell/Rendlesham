@@ -1125,6 +1125,30 @@
                  "width":35,
                  "x":105,
                  "y":351
+                }, 
+                {
+                 "gid":107,
+                 "height":35,
+                 "id":187,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":35,
+                 "x":315,
+                 "y":280
+                }, 
+                {
+                 "gid":64,
+                 "height":35,
+                 "id":188,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":35,
+                 "x":350,
+                 "y":315
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -1133,7 +1157,7 @@
          "x":0,
          "y":0
         }],
- "nextobjectid":187,
+ "nextobjectid":189,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tileheight":35,
@@ -1143,7 +1167,7 @@
          "firstgid":1,
          "image":"..\/tiles\/tiles_spritesheet.png",
          "imageheight":468,
-         "imagewidth":457,
+         "imagewidth":432,
          "margin":0,
          "name":"tiles_spritesheet",
          "spacing":1,

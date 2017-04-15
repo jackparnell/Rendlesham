@@ -1306,11 +1306,11 @@ var northCreake = {
     title: 'North Creake',
     waveInfo: {
         wave1: {
-            duration: 27,
+            duration: 27.5,
             createEvents: function(s) {
 
-                mainState.scheduleAttackersWave('Oscar', waveNumber, s, 10, 1.75, 2);
-                mainState.scheduleAttackersWave('Roger', waveNumber, s, 10, 1.75, 12);
+                mainState.scheduleAttackersWave('Oscar', waveNumber, s, 10, 1.75, 2.5);
+                mainState.scheduleAttackersWave('Roger', waveNumber, s, 10, 1.75, 12.5);
 
             }
         },
@@ -1337,7 +1337,7 @@ var northCreake = {
             duration: 23,
             createEvents: function(s) {
 
-                mainState.scheduleAttackersWave('Roger', waveNumber, s, 10, .75);
+                mainState.scheduleAttackersWave('Roger', waveNumber, s, 10, .8);
                 mainState.scheduleAttackersWave('Mib', waveNumber, s, 10, 1, 10);
 
             }
@@ -1346,8 +1346,7 @@ var northCreake = {
             duration: 28,
             createEvents: function(s) {
 
-                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 10, .65);
-                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 15, .8, 10);
+                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 25, .85);
 
             }
         },
@@ -1355,7 +1354,7 @@ var northCreake = {
             duration: 32,
             createEvents: function(s) {
 
-                mainState.scheduleAttackersWave('Mib', waveNumber, s, 30, .8);
+                mainState.scheduleAttackersWave('Mib', waveNumber, s, 30, 1);
 
             }
         }
@@ -1425,7 +1424,7 @@ var northCreake = {
     entryYGrid: 6,
     goalXGrid: 1,
     goalYGrid: 6,
-    waveHealthModifier: .35,
+    waveHealthModifier: .37,
     towerPlacementForbiddenRows: [0, 11],
     canPlaceTowerOnPathway: false,
     bullyGoalCoordinates: [[17, 6], [18, 10], [1, 4], [4, 8], [11, 8]]
