@@ -45,12 +45,12 @@ Rendlesham.titleScreen.prototype.create = function()
     this.titleText = game.add.bitmapText(500, game.height * .12, bitmapFontName, 'Rendlesham Forest', 64);
     this.titleText.x = (game.width * .5) - (this.titleText.width * .5);
 
-    this.captionText = game.add.bitmapText(500, game.height * .36, bitmapFontName, 'An extra-terrestrial tower defense game', 32);
+    this.captionText = game.add.bitmapText(500, game.height * .36, bitmapFontName, 'An extra-terrestrial tower defence game', 32);
     this.captionText.x = (game.width * .5) - (this.captionText.width * .5);
     this.captionText.tint = 0xFFCCCC;
 
     var tips = [
-        "Stop the humans from collecting evidence of your existence."
+        "Save Nathan the alien from being captured by the humans."
     ];
 
     var tipTextContent = tips[Math.floor(Math.random() * tips.length)];
