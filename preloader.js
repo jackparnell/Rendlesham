@@ -9,13 +9,15 @@ Rendlesham.preloader.prototype = $.extend(true, {}, Rendlesham.gameState.prototy
 Rendlesham.preloader.prototype = {
     preload: function()
     {
-        game.load.image('loading', 'assets/loading.png');
 
-        var loadingBar = this.add.sprite(((game.width * .5) - 200), 200, 'loading');
+        this.game.stage.backgroundColor = '#112c06';
+
+        var loadingBar = this.add.sprite(((this.game.width * .5) - 200), 200, 'loadingBar');
+        loadingBar.x = (this.game.width * .5) - (loadingBar.width) * .5;
         this.load.setPreloadSprite(loadingBar);
 
-        game.scale.pageAlignHorizontally = true;
-        game.scale.pageAlignVertically = true;
+        this.game.scale.pageAlignHorizontally = true;
+        this.game.scale.pageAlignVertically = true;
 
         var style = {
             font: "bold 32px Arial",
@@ -24,7 +26,7 @@ Rendlesham.preloader.prototype = {
             boundsAlignV: "middle"
         };
 
-        var text = game.add.text(0, 0, 'Loading Rendlesham Forest', style);
+        var text = this.game.add.text(0, 0, 'Loading Rendlesham Forest', style);
         text.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
         text.setTextBounds(0, 100, game.width, 100);
 

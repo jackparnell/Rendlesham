@@ -1,4 +1,4 @@
-game.state.add('boot', Rendlesham.preloader);
+game.state.add('boot', Rendlesham.boot);
 game.state.add('preloader', Rendlesham.preloader);
 game.state.add('titleScreen', Rendlesham.titleScreen);
 game.state.add('eastAnglia', Rendlesham.eastAnglia);
