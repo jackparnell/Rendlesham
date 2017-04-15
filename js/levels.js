@@ -1619,7 +1619,7 @@ var kingsLynn = {
             duration: 32,
             createEvents: function(s) {
 
-                mainState.scheduleAttackersWave('Mib', waveNumber, s, 30, .8);
+                mainState.scheduleAttackersWave('Mib', waveNumber, s, 30, .75);
 
             }
         }
@@ -1689,7 +1689,7 @@ var kingsLynn = {
     entryYGrid: 6,
     goalXGrid: 1,
     goalYGrid: 6,
-    waveHealthModifier: .35,
+    waveHealthModifier: .37,
     towerPlacementForbiddenRows: [0, 11],
     canPlaceTowerOnPathway: true
 };
