@@ -307,7 +307,7 @@ Laser.prototype.update = function() {
     Tower.prototype.update.call(this);
 };
 Laser.defaultScale = .5;
-Laser.defaultDamageValue = 150;
+Laser.defaultDamageValue = 175;
 Laser.defaultFireRate = 500;
 Laser.defaultKillDistance = 150;
 Laser.cost = 100;
