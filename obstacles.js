@@ -111,7 +111,7 @@ Obstacle.prototype.update = function()
     }
 
 
-}
+};
 
 Obstacle.prototype.prepareForGameOver = function()
 {
@@ -139,7 +139,7 @@ Obstacle.prototype.die = function()
 
 
     this.kill();
-}
+};
 
 /**
  * Create a health bar for the sprite, if appropriate.
@@ -220,7 +220,8 @@ Obstacle.prototype.targetToggle = function()
     } else {
         this.target();
     }
-}
+};
+
 Obstacle.prototype.target = function()
 {
     // Un-target all other obstacles and attackers
@@ -235,6 +236,7 @@ Obstacle.prototype.target = function()
     mainState.crosshairs.add(this.crosshair);
 
 };
+
 Obstacle.prototype.untarget = function()
 {
     this.targeted = false;
@@ -247,6 +249,7 @@ Obstacle.prototype.untarget = function()
         this.crosshair.kill();
     }
 };
+
 Obstacle.prototype.updateCrosshair = function()
 {
     if (!this.crosshair) {

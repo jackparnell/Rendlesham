@@ -15,14 +15,12 @@ function Tower(game, x, y, spriteName) {
     this.weapon1.bulletSpeed = window[this.constructor.name].defaultBulletSpeed || 400;
     this.weapon1.bulletKillDistance = window[this.constructor.name].defaultKillDistance;
     this.weapon1.fireRate = window[this.constructor.name].defaultFireRate;
-    this.weapon1.angle = this.angleToTarget;
+    this.weapon1.angle = this.angleToTarget();
     this.weapon1.setBulletBodyOffset(15, 15, 25, 25);
 
     // mainState.weapons.add(this.weapon1);
 
     this.anchor.setTo(0.5, 0.5);
-
-    this.weapon1.trackSprite(this);
 
     var scale = this.getScale();
     if (scale != 1) {
@@ -56,6 +54,7 @@ Tower.prototype.initialise = function(x, y)
     this.body.immovable = true;
     this.body.moves = false;
 
+    this.weapon1.trackSprite(this);
 
 };
 Tower.prototype.update = function()
@@ -81,7 +80,15 @@ Tower.prototype.update = function()
 Tower.prototype.fire = function()
 {
     if (this.hasTarget()) {
+
         this.weapon1.fireAngle = this.angleToTarget() - 90;
+
+        var angleRadians = Number(this.angleToTarget() * (Math.PI / 180) );
+        var offsetDistance = 15;
+        var offsetX = Math.round(offsetDistance * Math.sin(angleRadians));
+        var offsetY = -Math.round(offsetDistance * Math.cos(angleRadians));
+        this.weapon1.trackSprite(this, offsetX, offsetY, false);
+
         var bullet = this.weapon1.fire();
 
         if (bullet) {
@@ -167,7 +174,11 @@ Tower.prototype.setTarget = function(target)
 };
 Tower.prototype.hasTarget = function()
 {
-    return this.target.hasOwnProperty("body");
+    if (this.target && this.target.hasOwnProperty("body")) {
+        return true;
+    } else {
+        return false;
+    }
 };
 Tower.prototype.angleToTarget = function()
 {
