@@ -441,3 +441,25 @@ Snowman.prototype.die = function() {
 
 };
 // End Snowman
+
+// Begin Pumpkin
+function Pumpkin(game, x, y) {
+    Obstacle.call(this, game, x, y, 'pumpkin');
+    this.createCentralCircle(16);
+}
+Pumpkin.prototype = Object.create(Obstacle.prototype);
+Pumpkin.prototype.constructor = Pumpkin;
+Pumpkin.defaultScale = 1;
+Pumpkin.defaultHealth = 10000;
+Pumpkin.coinsValue = 50;
+Pumpkin.scoreValue = 50;
+Pumpkin.spriteSheetGid = 60;
+Pumpkin.prototype.die = function() {
+    Obstacle.prototype.die.call(this);
+
+    if (!mainState.hasItem('pumpkin')) {
+        mainState.addItem('pumpkin');
+    }
+
+};
+// End Pumpkin

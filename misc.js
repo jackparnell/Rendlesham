@@ -80,6 +80,7 @@ function loadMainFiles()
     game.load.spritesheet('tallBrownMushroom', 'assets/sprites/obstacles/tallBrownMushroom.png', 35, 35, 1);
     game.load.spritesheet('tallGreyMushroom', 'assets/sprites/obstacles/tallGreyMushroom.png', 35, 35, 1);
     game.load.spritesheet('tallRedMushroom', 'assets/sprites/obstacles/tallRedMushroom.png', 35, 35, 1);
+    game.load.spritesheet('pumpkin', 'assets/sprites/obstacles/pumpkin.png', 35, 35, 1);
 
     for (var property in levelOrdering.eastAnglia) {
         if (levelOrdering.eastAnglia.hasOwnProperty(property)) {

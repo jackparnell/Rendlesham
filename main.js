@@ -690,7 +690,7 @@ var mainState = {
         this.map.createFromObjects('objects', 94, 'snowyPine', 0, true, false, this.obstacles, SnowyPine, true);
         this.map.createFromObjects('objects', 130, 'create', 0, true, false, this.obstacles, Crate, true);
 
-
+        this.map.createFromObjects('objects', 60, 'pumpkin', 0, true, false, this.obstacles, Pumpkin, true);
         this.map.createFromObjects('objects', 105, 'tallBrownMushroom', 0, true, false, this.obstacles, TallBrownMushroom, true);
         this.map.createFromObjects('objects', 106, 'tallRedMushroom', 0, true, false, this.obstacles, TallRedMushroom, true);
         this.map.createFromObjects('objects', 107, 'tallGreyMushroom', 0, true, false, this.obstacles, TallGreyMushroom, true);
