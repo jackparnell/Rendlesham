@@ -18,8 +18,8 @@ function Obstacle(game, x, y, spriteName) {
     x = this.roundedCoordinates[0];
     y = this.roundedCoordinates[1];
 
-    this.x = x + (mainState.squareWidth/2);
-    this.y = y + (mainState.squareWidth/2);
+    this.x = x + mainState.halfSquareWidth;
+    this.y = y + mainState.halfSquareWidth;
 
     this.anchor.setTo(0.5, 0.5);
 
@@ -256,8 +256,8 @@ Obstacle.prototype.updateCrosshair = function()
         return false;
     }
 
-    this.crosshair.x = this.x - (mainState.squareWidth/2) - 2 ;
-    this.crosshair.y = this.y - (mainState.squareWidth/2) - 2;
+    this.crosshair.x = this.x - mainState.halfSquareWidth - 2 ;
+    this.crosshair.y = this.y - mainState.halfSquareWidth - 2;
 };
 
 // Begin TallBrownMushroom
