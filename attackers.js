@@ -428,6 +428,8 @@ Attacker.prototype.reuse = function()
 function Oscar(game, x, y) {
     Attacker.call(this, game, x, y, 'oscar');
     this.body.setSize(20, 30, 6, 1);
+    this.animations.add('walkLeft', [3, 4], 6, false, true);
+    this.animations.add('walkRight', [1, 2], 6, false, true);
 }
 Oscar.prototype = Object.create(Attacker.prototype);
 Oscar.prototype.constructor = Oscar;
@@ -436,6 +438,23 @@ Oscar.defaultHealth = 1000;
 Oscar.defaultSpeed = 75;
 Oscar.coinsValue = 5;
 Oscar.scoreValue = 5;
+Oscar.prototype.update = function() {
+    Attacker.prototype.update.call(this);
+
+    if (!this.alive) {
+        return;
+    }
+    if (this.body.velocity.x <= -15) {
+        this.animations.play('walkLeft');
+    } else if (this.body.velocity.x >= 15) {
+        this.animations.play('walkRight');
+    } else {
+        this.animations.stop();
+        this.frame = 0;
+    }
+
+
+};
 // End Oscar
 
 // Begin Roger

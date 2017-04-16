@@ -53,7 +53,7 @@ function loadMainFiles()
     game.load.spritesheet('aquila', 'assets/sprites/attackers/Aquila.png', 32, 32, 1);
     game.load.spritesheet('dibley', 'assets/sprites/attackers/Dibley.png', 32, 32, 1);
     game.load.spritesheet('mib', 'assets/sprites/attackers/Mib.png', 32, 32, 1);
-    game.load.spritesheet('oscar', 'assets/sprites/attackers/Oscar.png', 32, 32, 1);
+    game.load.spritesheet('oscar', 'assets/sprites/attackers/Oscar.png', 32, 32, 5);
     game.load.spritesheet('roger', 'assets/sprites/attackers/Roger.png', 32, 32, 1);
 
     game.load.spritesheet('nathan', 'assets/sprites/characters/Nathan.png', 35, 35, 1);
