@@ -2048,6 +2048,8 @@ mainState.openPauseScreen = function()
     if (this.graphics) {
         this.graphics.destroy();
     }
+    this.closeTowerInfo();
+    this.closeTowerPlacementView();
 
     this.pause(false);
 
