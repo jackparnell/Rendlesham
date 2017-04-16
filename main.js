@@ -587,21 +587,9 @@ var mainState = {
     spawnAttacker: function(className, x, y)
     {
         if (!x || !y) {
-            var coordinates = mainState.translateGridCoordinatesToPixelCoordinates(
-                this.level.entryXGrid,
-                this.level.entryYGrid
-            );
+            var coordinates = this.generateSpawnAttackerPixelCoordinates();
             x = coordinates[0];
             y = coordinates[1];
-
-            if (this.level.entryXGrid >= 20) {
-                x += this.squareWidth - 1;
-                y += this.halfSquareWidth;
-            }
-            if (this.level.entryYGrid >= 10) {
-                x += this.halfSquareWidth;
-                y += this.squareWidth - 1;
-            }
         }
 
         this.attackersSpawnedCount ++;
@@ -1830,10 +1818,25 @@ mainState.positionCamera = function()
 
 mainState.generateSpawnAttackerPixelCoordinates = function()
 {
-    return mainState.translateGridCoordinatesToPixelCoordinates(
+
+    var coordinates = mainState.translateGridCoordinatesToPixelCoordinates(
         this.level.entryXGrid,
         this.level.entryYGrid
     );
+    var x = coordinates[0];
+    var y = coordinates[1];
+
+    if (this.level.entryXGrid >= 20) {
+        x += this.squareWidth - 1;
+        y += this.halfSquareWidth;
+    }
+    if (this.level.entryYGrid >= 10) {
+        x += this.halfSquareWidth;
+        y += this.squareWidth - 1;
+    }
+
+    return [x, y];
+
 };
 
 mainState.addItem = function(itemName)
