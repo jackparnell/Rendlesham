@@ -586,29 +586,25 @@ var mainState = {
 
     spawnAttacker: function(className, x, y)
     {
-        if (!x) {
+        if (!x || !y) {
+            var coordinates = mainState.translateGridCoordinatesToPixelCoordinates(
+                this.level.entryXGrid,
+                this.level.entryYGrid
+            );
+            x = coordinates[0];
+            y = coordinates[1];
 
-            if (this.level.entryYGrid) {
-                var gridX = this.level.entryXGrid;
-                x = (gridX * this.squareWidth) + (this.squareWidth-1);
-            } else {
-                x = this.game.width - 5;
+            if (this.level.entryXGrid >= 20) {
+                x += this.squareWidth - 1;
+                y += this.halfSquareWidth;
             }
-
-        }
-        if (!y) {
-
-            if (this.level.entryYGrid) {
-                var gridY = this.level.entryYGrid;
-                y = (gridY * this.squareWidth) + (this.squareWidth/2);
-            } else {
-                y = this.game.height * .41;
+            if (this.level.entryYGrid >= 10) {
+                x += this.halfSquareWidth;
+                y += this.squareWidth - 1;
             }
-            
         }
 
         this.attackersSpawnedCount ++;
-
 
         var reusable = {};
 
@@ -621,10 +617,7 @@ var mainState = {
             }
         }, this);
 
-
         if (typeof reusable.reuse == 'function') {
-            // console.log(typeof reusable.reuse);
-            // console.log(reusable);
             reusable.reuse();
         } else {
             var item = new window[className](this.game, x, y);
