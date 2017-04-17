@@ -1572,10 +1572,10 @@ var kingsLynn = {
     title: 'King\'s Lynn Quayside',
     waveInfo: {
         wave1: {
-            duration: 26,
+            duration: 27,
             createEvents: function(s) {
 
-                mainState.scheduleAttackersWave('Dibley', waveNumber, s, 20, 1.75, 1);
+                mainState.scheduleAttackersWave('Dibley', waveNumber, s, 20, 1.75, 2);
 
             }
         },
@@ -1602,7 +1602,7 @@ var kingsLynn = {
             duration: 23,
             createEvents: function(s) {
 
-                mainState.scheduleAttackersWave('Oscar', waveNumber, s, 10, .75);
+                mainState.scheduleAttackersWave('Oscar', waveNumber, s, 10, .8);
                 mainState.scheduleAttackersWave('Mib', waveNumber, s, 10, 1, 10);
 
             }
@@ -1612,7 +1612,7 @@ var kingsLynn = {
             createEvents: function(s) {
 
                 mainState.scheduleAttackersWave('Dibley', waveNumber, s, 10, 1);
-                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 15, .75, 10);
+                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 15, .8, 10);
 
             }
         },
@@ -1620,7 +1620,7 @@ var kingsLynn = {
             duration: 32,
             createEvents: function(s) {
 
-                mainState.scheduleAttackersWave('Mib', waveNumber, s, 30, .75);
+                mainState.scheduleAttackersWave('Mib', waveNumber, s, 30, .8);
 
             }
         }
@@ -1690,7 +1690,7 @@ var kingsLynn = {
     entryYGrid: 6,
     goalXGrid: 1,
     goalYGrid: 6,
-    waveHealthModifier: .37,
+    waveHealthModifier: .38,
     towerPlacementForbiddenRows: [0, 11],
     canPlaceTowerOnPathway: true
 };
