@@ -536,6 +536,11 @@ Aquila.scoreValue = 10;
 function Mib(game, x, y) {
     Attacker.call(this, game, x, y, 'mib');
     this.body.setSize(20, 30, 6, 1);
+
+    this.animations.add('walkDown', [1, 2], 6, false, true);
+    this.animations.add('walkRight', [3, 4], 6, false, true);
+    this.animations.add('walkLeft', [5, 6], 6, false, true);
+    this.animations.add('walkUp', [7, 8], 6, false, true);
 }
 Mib.prototype = Object.create(Attacker.prototype);
 Mib.prototype.constructor = Mib;
@@ -544,4 +549,25 @@ Mib.defaultHealth = 4000;
 Mib.defaultSpeed = 75;
 Mib.coinsValue = 15;
 Mib.scoreValue = 15;
+Mib.prototype.update = function() {
+    Attacker.prototype.update.call(this);
+
+    if (!this.alive) {
+        return;
+    }
+
+    if (this.body.velocity.y >= 15) {
+        this.animations.play('walkDown');
+    } else if (this.body.velocity.x <= -15) {
+        this.animations.play('walkLeft');
+    } else if (this.body.velocity.x >= 15) {
+        this.animations.play('walkRight');
+    } else if (this.body.velocity.y <= -15) {
+        this.animations.play('walkUp');
+    } else {
+        this.animations.stop();
+        this.frame = 0;
+    }
+
+};
 // End Mib
