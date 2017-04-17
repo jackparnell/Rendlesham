@@ -1236,6 +1236,7 @@ var mainState = {
 
         this.allAttackersDispatched = false;
         this.pendingLevelCompleted = false;
+        this.towerClassesUsed = [];
 
         this.cleanUp();
         this.clearMap();
@@ -2484,6 +2485,7 @@ mainState.placeTowerAtCost = function(className)
 
     if (this.spawnTower(this.towerSelected, x, y)) {
         this.changeCoins(-cost, x, y);
+        this.addTowerClassUsed(className, x, y);
     }
 
     this.closeTowerPlacementView();
@@ -2522,3 +2524,13 @@ mainState.getMidPointBetweenSprites = function(spriteA, spriteB)
         angle: Math.atan2(spriteB.y - spriteA.y, spriteB.x - spriteA.x ) * (180/Math.PI)
     }
 };
+
+mainState.addTowerClassUsed = function(towerClassName, notificationX, notificationY)
+{
+    if (this.towerClassesUsed.indexOf(towerClassName) === -1){
+        this.towerClassesUsed.push(towerClassName);
+        var additionalTowerClassScoreBonus = 50 * this.towerClassesUsed.length;
+        this.changeScore(additionalTowerClassScoreBonus, notificationX, notificationY);
+    }
+};
+
