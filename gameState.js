@@ -49,6 +49,12 @@ Rendlesham.gameState.prototype = {
         if (!this.user.levelHighScores) {
             this.user.levelHighScores = {};
         }
+        if (!this.user.zones) {
+            this.user.zones = {};
+        }
+        if (!this.user.zones.eastAnglia) {
+            this.user.zones.eastAnglia = {};
+        }
 
         this.save();
     },

@@ -29,6 +29,8 @@ Rendlesham.eastAnglia.prototype.init = function()
         verticalWheel: true
     });
 
+    this.zoneName = 'eastAnglia';
+
 };
 
 Rendlesham.eastAnglia.prototype.create = function()
@@ -45,10 +47,10 @@ Rendlesham.eastAnglia.prototype.create = function()
 
     game.canvas.oncontextmenu = function (e) { e.preventDefault(); }
 
-    this.eastAngliaMap = this.game.add.tileSprite(0, 0, 1400, 700, 'eastAnglia');
-    this.backgrounds.add(this.eastAngliaMap);
+    this.zoneMap = this.game.add.tileSprite(0, 0, 1400, 700, this.zoneName);
+    this.backgrounds.add(this.zoneMap);
 
-    this.game.world.setBounds(0, 0, this.eastAngliaMap.width, this.eastAngliaMap.height);
+    this.game.world.setBounds(0, 0, this.zoneMap.width, this.zoneMap.height);
 
     this.loadUser();
 
@@ -128,10 +130,33 @@ Rendlesham.eastAnglia.prototype.create = function()
 
     }
 
+    if (this.user.zones && this.user.zones[this.zoneName]) {
+        this.game.camera.x = this.user.zones[this.zoneName].cameraX || 0;
+        this.game.camera.y = this.user.zones[this.zoneName].cameraY || 0;
+    } else {
+        if (!this.user.zones) {
+            this.user.zones = {};
+        }
+        if (!this.user.zones[this.zoneName]) {
+            this.user.zones[this.zoneName] = {};
+        }
+    }
+
     this.game.kineticScrolling.start();
 
 };
 
+Rendlesham.eastAnglia.prototype.update = function()
+{
+
+};
+
+Rendlesham.eastAnglia.prototype.shutdown = function()
+{
+    this.user.zones[this.zoneName].cameraX = game.camera.x;
+    this.user.zones[this.zoneName].cameraY = game.camera.y;
+    this.save();
+};
 
 Rendlesham.eastAnglia.prototype.clickLevel1 = function()
 {
