@@ -2141,17 +2141,20 @@ mainState.openTowerInfo = function(tower)
 
 
     if (tower.sellable()) {
-        this.sellTowerButton = game.add.button(tower.x - 35, tower.y, 'poundDark', this.sellCurrentTower, this);
+        this.sellTowerButton = game.add.button(tower.x , tower.y, 'poundDark', this.sellCurrentTower, this);
         this.sellTowerButton.inputEnabled = true;
         this.sellTowerButton.alpha = .5;
         this.sellTowerButton.anchor.set(0.5, 0.5);
+        this.sellTowerButton.scale.setTo(1.5, 1.5);
+        this.sellTowerButton.x = tower.x - this.squareWidth - 4;
 
-        this.sellTowerText = game.add.bitmapText(this.sellTowerButton.x, this.sellTowerButton.y + 20, bitmapFontName, '£' + this.currentTower.getSellValue(), 14);
+        this.sellTowerText = game.add.bitmapText(this.sellTowerButton.x, this.sellTowerButton.y, bitmapFontName, '£' + this.currentTower.getSellValue(), 16);
         this.sellTowerText.x = this.sellTowerButton.x - (this.sellTowerText.width * .5);
+        this.sellTowerText.y = this.sellTowerButton.y + (this.sellTowerButton.height * .5);
     }
 
     if (tower.upgradable()) {
-        this.upgradeTowerButton = game.add.button(tower.x + 35, tower.y, 'upDark', this.upgradeCurrentTower, this);
+        this.upgradeTowerButton = game.add.button(tower.x, tower.y, 'upDark', this.upgradeCurrentTower, this);
 
         if (this.coinsSufficientForTowerUpgrade()) {
             this.upgradeTowerButton.inputEnabled = true;
@@ -2162,20 +2165,25 @@ mainState.openTowerInfo = function(tower)
 
         this.upgradeTowerButton.alpha = .5;
         this.upgradeTowerButton.anchor.set(0.5, 0.5);
+        this.upgradeTowerButton.scale.setTo(1.5, 1.5);
 
         this.labelIndicatorMessage.setText('Upgrade or sell tower.');
 
-        this.upgradeTowerText = game.add.bitmapText(this.upgradeTowerButton.x, this.upgradeTowerButton.y + 20, bitmapFontName, '£' + this.currentTower.getUpgradeCost(), 14);
-        this.upgradeTowerText.x = this.upgradeTowerButton.x - (this.upgradeTowerText.width * .5);
-
+        this.upgradeTowerText = game.add.bitmapText(this.upgradeTowerButton.x, this.upgradeTowerButton.y, bitmapFontName, '£' + this.currentTower.getUpgradeCost(), 16);
 
     } else {
-        this.upgradeTowerButton = game.add.button(tower.x + 35, tower.y, 'maxDark', this.notPossible, this);
+        this.upgradeTowerButton = game.add.button(tower.x, tower.y, 'maxDark', this.notPossible, this);
         this.upgradeTowerButton.inputEnabled = false;
         this.upgradeTowerButton.alpha = .5;
         this.upgradeTowerButton.anchor.set(0.5, 0.5);
+        this.upgradeTowerButton.scale.setTo(1.5, 1.5);
 
         this.labelIndicatorMessage.setText('Tower is at maximum grade.');
+    }
+    this.upgradeTowerButton.x = tower.x + this.squareWidth + 4;
+    if (this.upgradeTowerText) {
+        this.upgradeTowerText.x = this.upgradeTowerButton.x - (this.upgradeTowerText.width * .5);
+        this.upgradeTowerText.y = this.upgradeTowerButton.y + (this.upgradeTowerButton.height * .5);
     }
 
     if (tower.weapon1) {
@@ -2300,15 +2308,17 @@ mainState.openTowerPlacementView = function(x, y, coordinateType)
 
     var towerClassNames = this.getTowerClassNames();
 
-    var buttonGap = 4;
-    var xOffset = -(towerClassNames.length-1) * (this.halfSquareWidth + (buttonGap * .5));
-    var yOffset = -this.halfSquareWidth;
+    var backdropButtonWidth = this.squareWidth * 1.5;
+    var halfBackdropButtonWidth = backdropButtonWidth * .5;
+    var buttonGap = 2;
+    var xOffset = -(towerClassNames.length-1) * (halfBackdropButtonWidth + (buttonGap * .5));
+    var yOffset = -halfBackdropButtonWidth;
 
     if (this.currentGridPosition.x + xOffset < game.camera.x) {
-        xOffset = -this.currentGridPosition.x + game.camera.x + this.halfSquareWidth;
+        xOffset = -this.currentGridPosition.x + game.camera.x + halfBackdropButtonWidth;
     }
-    if (this.currentGridPosition.x + (this.halfSquareWidth * towerClassNames.length) > (game.camera.x + game.camera.width + 5)) {
-        xOffset = -(this.squareWidth+buttonGap) * (towerClassNames.length-1);
+    if (this.currentGridPosition.x + (halfBackdropButtonWidth * towerClassNames.length) > (game.camera.x + game.camera.width + 5)) {
+        xOffset = -(backdropButtonWidth+buttonGap) * (towerClassNames.length-1);
     }
 
     towerClassNames.forEach(function(towerClassName) {
@@ -2330,6 +2340,7 @@ mainState.openTowerPlacementView = function(x, y, coordinateType)
         mainState[backdropButtonName].inputEnabled = true;
         mainState[backdropButtonName].alpha = .5;
         mainState[backdropButtonName].anchor.set(0.5, 0.5);
+        mainState[backdropButtonName].scale.setTo(1.5, 1.5);
         // Backdrop button end
 
         // Sprite-based button start
@@ -2343,17 +2354,17 @@ mainState.openTowerPlacementView = function(x, y, coordinateType)
         mainState[buttonName].inputEnabled = true;
         mainState[buttonName].alpha = .6;
         mainState[buttonName].anchor.set(.5, .5);
-        mainState[buttonName].scale.setTo(.5, .5);
+        mainState[buttonName].scale.setTo(.75, .75);
         // Sprite-based button end
 
         var cost = window[towerClassName].cost;
 
         mainState[textInfoName] = game.add.bitmapText(
             mainState[buttonName].x,
-            mainState[buttonName].y  + yOffset + 20,
+            mainState[buttonName].y  + yOffset + (mainState[buttonName].height * .7),
             bitmapFontName,
             '£' + cost,
-            14
+            16
         );
 
         mainState[textInfoName].x = mainState[textInfoName].x - (mainState[textInfoName].width * .5);
@@ -2364,7 +2375,7 @@ mainState.openTowerPlacementView = function(x, y, coordinateType)
             mainState[backdropButtonName].inputEnabled = false;
         }
 
-        xOffset += mainState.squareWidth + buttonGap;
+        xOffset += backdropButtonWidth + buttonGap;
 
     });
 
