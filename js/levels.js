@@ -384,59 +384,101 @@ var westletonHeath = {
     title: 'Westleton Heath',
     waveInfo: {
         wave1: {
-            duration: 27,
-            createEvents: function(s) {
-
-                mainState.scheduleAttackersWave('Roger', waveNumber, s, 20, 1.75, 2);
-
-            }
+            duration: 25,
+            attacks: [
+                {
+                    className: 'Roger',
+                    duration: 20,
+                    gap: 1.75,
+                    delay: 2
+                }
+            ]
         },
         wave2: {
             duration: 23,
-            createEvents: function(s) {
-
-                mainState.scheduleAttackersWave('Oscar', waveNumber, s, 10, 1);
-                mainState.scheduleAttackersWave('Mib', waveNumber, s, 5, 1, 10);
-                mainState.scheduleAttackersWave('Oscar', waveNumber, s, 5, 1, 15);
-
-            }
+            attacks: [
+                {
+                    className: 'Oscar',
+                    duration: 10,
+                    gap: 1,
+                    delay: 0
+                },
+                {
+                    className: 'Mib',
+                    duration: 5,
+                    gap: 1,
+                    delay: 10
+                },
+                {
+                    className: 'Oscar',
+                    duration: 5,
+                    gap: 1,
+                    delay: 15
+                }
+            ]
         },
         wave3: {
             duration: 18,
-            createEvents: function(s) {
-
-                mainState.scheduleAttackersWave('Mib', waveNumber, s, 15, 2);
-                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 15, 2, 1);
-
-            }
+            attacks: [
+                {
+                    className: 'Mib',
+                    duration: 15,
+                    gap: 2,
+                    delay: 0
+                },
+                {
+                    className: 'Aquila',
+                    duration: 15,
+                    gap: 2,
+                    delay: 1
+                }
+            ]
         },
         wave4: {
             duration: 23,
-            createEvents: function(s) {
-
-                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 10, .8);
-                mainState.scheduleAttackersWave('Mib', waveNumber, s, 10, 1, 10);
-
-            }
+            attacks: [
+                {
+                    className: 'Aquila',
+                    duration: 10,
+                    gap: .9,
+                    delay: 0
+                },
+                {
+                    className: 'Mib',
+                    duration: 10,
+                    gap: 1.1,
+                    delay: 10
+                }
+            ]
         },
         wave5: {
             duration: 28,
-            createEvents: function(s) {
-
-                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 10, .8);
-                mainState.scheduleAttackersWave('Mib', waveNumber, s, 15, .9, 10);
-
-            }
+            attacks: [
+                {
+                    className: 'Aquila',
+                    duration: 10,
+                    gap: .9,
+                    delay: 0
+                },
+                {
+                    className: 'Mib',
+                    duration: 15,
+                    gap: 1,
+                    delay: 10
+                }
+            ]
         },
         wave6: {
             duration: 32,
-            createEvents: function(s) {
-
-                mainState.scheduleAttackersWave('Mib', waveNumber, s, 30, .85);
-
-            }
+            attacks: [
+                {
+                    className: 'Mib',
+                    duration: 30,
+                    gap: .95,
+                    delay: 0
+                }
+            ]
         }
-
     },
     begin: function() {
 
@@ -458,7 +500,24 @@ var westletonHeath = {
                     ).autoDestroy = true
                 );
 
-                this.waveInfo[wave].createEvents(s);
+                if (typeof this.waveInfo[wave].createEvents === 'function') {
+                    this.waveInfo[wave].createEvents(s);
+                }
+
+                if (this.waveInfo[wave].attacks) {
+
+                    this.waveInfo[wave].attacks.forEach(function(attack) {
+                        mainState.scheduleAttackersWave(
+                            attack.className,
+                            waveNumber,
+                            s,
+                            attack.duration,
+                            attack.gap,
+                            attack.delay
+                        );
+                    });
+
+                }
 
                 s += this.waveInfo[wave].duration;
 
@@ -497,7 +556,7 @@ var westletonHeath = {
     entryYGrid: 5,
     goalXGrid: 1,
     goalYGrid: 5,
-    waveHealthModifier: .37,
+    waveHealthModifier: .38,
     towerPlacementForbiddenRows: [0, 11]
 };
 
@@ -1438,58 +1497,100 @@ var westRudhamChurchyard = {
     waveInfo: {
         wave1: {
             duration: 26,
-            createEvents: function(s) {
-
-                mainState.scheduleAttackersWave('Dibley', waveNumber, s, 20, 1.75, 1);
-
-            }
+            attacks: [
+                {
+                    className: 'Dibley',
+                    duration: 20,
+                    gap: 1.75,
+                    delay: 1
+                }
+            ]
         },
         wave2: {
             duration: 23,
-            createEvents: function(s) {
-
-                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 10, 1);
-                mainState.scheduleAttackersWave('Oscar', waveNumber, s, 5, 1, 10);
-                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 5, 1, 15);
-
-            }
+            attacks: [
+                {
+                    className: 'Aquila',
+                    duration: 10,
+                    gap: 1,
+                    delay: 0
+                },
+                {
+                    className: 'Oscar',
+                    duration: 5,
+                    gap: 1,
+                    delay: 10
+                },
+                {
+                    className: 'Aquila',
+                    duration: 5,
+                    gap: 1,
+                    delay: 15
+                }
+            ]
         },
         wave3: {
             duration: 18,
-            createEvents: function(s) {
-
-                mainState.scheduleAttackersWave('Dibley', waveNumber, s, 15, 2);
-                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 15, 2, 1);
-
-            }
+            attacks: [
+                {
+                    className: 'Dibley',
+                    duration: 15,
+                    gap: 2,
+                    delay: 0
+                },
+                {
+                    className: 'Aquila',
+                    duration: 15,
+                    gap: 2,
+                    delay: 1
+                }
+            ]
         },
         wave4: {
             duration: 23,
-            createEvents: function(s) {
-
-                mainState.scheduleAttackersWave('Oscar', waveNumber, s, 10, .75);
-                mainState.scheduleAttackersWave('Mib', waveNumber, s, 10, 1, 10);
-
-            }
+            attacks: [
+                {
+                    className: 'Oscar',
+                    duration: 10,
+                    gap: .75,
+                    delay: 0
+                },
+                {
+                    className: 'Mib',
+                    duration: 10,
+                    gap: 1,
+                    delay: 10
+                }
+            ]
         },
         wave5: {
             duration: 28,
-            createEvents: function(s) {
-
-                mainState.scheduleAttackersWave('Dibley', waveNumber, s, 10, 1);
-                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 15, .75, 10);
-
-            }
+            attacks: [
+                {
+                    className: 'Dibley',
+                    duration: 10,
+                    gap: 1,
+                    delay: 0
+                },
+                {
+                    className: 'Aquila',
+                    duration: 15,
+                    gap: .75,
+                    delay: 10
+                }
+            ]
         },
         wave6: {
             duration: 32,
-            createEvents: function(s) {
-
-                mainState.scheduleAttackersWave('Mib', waveNumber, s, 30, .8);
-
-            }
+            attacks: [
+                {
+                    className: 'Mib',
+                    duration: 30,
+                    gap: .8,
+                    delay: 0
+                }
+            ]
         }
-
     },
     begin: function() {
 
@@ -1511,7 +1612,24 @@ var westRudhamChurchyard = {
                     ).autoDestroy = true
                 );
 
-                this.waveInfo[wave].createEvents(s);
+                if (typeof this.waveInfo[wave].createEvents === 'function') {
+                    this.waveInfo[wave].createEvents(s);
+                }
+
+                if (this.waveInfo[wave].attacks) {
+
+                    this.waveInfo[wave].attacks.forEach(function(attack) {
+                        mainState.scheduleAttackersWave(
+                            attack.className,
+                            waveNumber,
+                            s,
+                            attack.duration,
+                            attack.gap,
+                            attack.delay
+                        );
+                    });
+
+                }
 
                 s += this.waveInfo[wave].duration;
 
@@ -1573,56 +1691,99 @@ var kingsLynn = {
     waveInfo: {
         wave1: {
             duration: 27,
-            createEvents: function(s) {
-
-                mainState.scheduleAttackersWave('Dibley', waveNumber, s, 20, 1.75, 2);
-
-            }
+            attacks: [
+                {
+                    className: 'Dibley',
+                    duration: 20,
+                    gap: 1.75,
+                    delay: 2
+                }
+            ]
         },
         wave2: {
             duration: 23,
-            createEvents: function(s) {
-
-                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 10, 1);
-                mainState.scheduleAttackersWave('Oscar', waveNumber, s, 5, 1, 10);
-                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 5, 1, 15);
-
-            }
+            attacks: [
+                {
+                    className: 'Aquila',
+                    duration: 10,
+                    gap: 1,
+                    delay: 0
+                },
+                {
+                    className: 'Oscar',
+                    duration: 5,
+                    gap: 1,
+                    delay: 10
+                },
+                {
+                    className: 'Aquila',
+                    duration: 5,
+                    gap: 1,
+                    delay: 15
+                }
+            ]
         },
         wave3: {
             duration: 18,
-            createEvents: function(s) {
-
-                mainState.scheduleAttackersWave('Dibley', waveNumber, s, 15, 2);
-                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 15, 2, 1);
-
-            }
+            attacks: [
+                {
+                    className: 'Dibley',
+                    duration: 15,
+                    gap: 2,
+                    delay: 0
+                },
+                {
+                    className: 'Aquila',
+                    duration: 15,
+                    gap: 2,
+                    delay: 1
+                }
+            ]
         },
         wave4: {
             duration: 23,
-            createEvents: function(s) {
-
-                mainState.scheduleAttackersWave('Oscar', waveNumber, s, 10, .8);
-                mainState.scheduleAttackersWave('Mib', waveNumber, s, 10, 1, 10);
-
-            }
+            attacks: [
+                {
+                    className: 'Oscar',
+                    duration: 10,
+                    gap: .8,
+                    delay: 0
+                },
+                {
+                    className: 'Mib',
+                    duration: 10,
+                    gap: 1,
+                    delay: 10
+                }
+            ]
         },
         wave5: {
             duration: 28,
-            createEvents: function(s) {
-
-                mainState.scheduleAttackersWave('Dibley', waveNumber, s, 10, 1);
-                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 15, .8, 10);
-
-            }
+            attacks: [
+                {
+                    className: 'Dibley',
+                    duration: 10,
+                    gap: 1,
+                    delay: 0
+                },
+                {
+                    className: 'Aquila',
+                    duration: 15,
+                    gap: .8,
+                    delay: 10
+                }
+            ]
         },
         wave6: {
             duration: 32,
-            createEvents: function(s) {
-
-                mainState.scheduleAttackersWave('Mib', waveNumber, s, 30, .8);
-
-            }
+            attacks: [
+                {
+                    className: 'Mib',
+                    duration: 30,
+                    gap: .85,
+                    delay: 0
+                }
+            ]
         }
 
     },
@@ -1646,7 +1807,24 @@ var kingsLynn = {
                     ).autoDestroy = true
                 );
 
-                this.waveInfo[wave].createEvents(s);
+                if (typeof this.waveInfo[wave].createEvents === 'function') {
+                    this.waveInfo[wave].createEvents(s);
+                }
+
+                if (this.waveInfo[wave].attacks) {
+
+                    this.waveInfo[wave].attacks.forEach(function(attack) {
+                        mainState.scheduleAttackersWave(
+                            attack.className,
+                            waveNumber,
+                            s,
+                            attack.duration,
+                            attack.gap,
+                            attack.delay
+                        );
+                    });
+
+                }
 
                 s += this.waveInfo[wave].duration;
 
