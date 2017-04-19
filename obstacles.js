@@ -463,3 +463,25 @@ Pumpkin.prototype.die = function() {
 
 };
 // End Pumpkin
+
+// Begin PinkCrystal
+function PinkCrystal(game, x, y) {
+    Obstacle.call(this, game, x, y, 'PinkCrystal');
+    this.createCentralCircle(8);
+}
+PinkCrystal.prototype = Object.create(Obstacle.prototype);
+PinkCrystal.prototype.constructor = PinkCrystal;
+PinkCrystal.defaultScale = 1;
+PinkCrystal.defaultHealth = 30000;
+PinkCrystal.coinsValue = 200;
+PinkCrystal.scoreValue = 200;
+PinkCrystal.spriteSheetGid = 118;
+PinkCrystal.prototype.die = function() {
+    Obstacle.prototype.die.call(this);
+
+    if (!mainState.hasItem('pinkCrystal')) {
+        mainState.addItem('pinkCrystal');
+    }
+
+};
+// End PinkCrystal

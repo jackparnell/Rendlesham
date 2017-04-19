@@ -1,5 +1,5 @@
 var waveNumber;
-var lastLevel = 14;
+var lastLevel = 15;
 
 var levelOrdering = {
     'eastAnglia': {
@@ -16,7 +16,8 @@ var levelOrdering = {
         11: 'northCreake',
         12: 'westRudhamChurchyard',
         13: 'kingsLynn',
-        14: 'pumpkinPatch'
+        14: 'pumpkinPatch',
+        15: 'shouldhamWarren'
     }
 };
 
@@ -1960,6 +1961,145 @@ var pumpkinPatch = {
     goalXGrid: 12,
     goalYGrid: 1,
     waveHealthModifier: .44,
+    towerPlacementForbiddenRows: [0, 11],
+    canPlaceTowerOnPathway: false
+};
+
+var shouldhamWarren = {
+    name: 'shouldhamWarren',
+    mapName: 'shouldhamWarren',
+    title: 'Shouldham Warren',
+    waveInfo: {
+        wave1: {
+            duration: 26,
+            attacks: [
+                {
+                    className: 'Aquila',
+                    duration: 20,
+                    gap: 1.25,
+                    delay: 1
+                }
+            ]
+        },
+        wave2: {
+            duration: 23,
+            attacks: [
+                {
+                    className: 'Aquila',
+                    duration: 10,
+                    gap: 1,
+                    delay: 0
+                },
+                {
+                    className: 'Roger',
+                    duration: 5,
+                    gap: 1,
+                    delay: 10
+                },
+                {
+                    className: 'Aquila',
+                    duration: 5,
+                    gap: 1,
+                    delay: 15
+                }
+            ]
+        },
+        wave3: {
+            duration: 18,
+            attacks: [
+                {
+                    className: 'Dibley',
+                    duration: 14,
+                    gap: 2,
+                    delay: 0
+                },
+                {
+                    className: 'Mib',
+                    duration: 14,
+                    gap: 2,
+                    delay: 1
+                }
+            ]
+        },
+        wave4: {
+            duration: 23,
+            attacks: [
+                {
+                    className: 'Aquila',
+                    duration: 10,
+                    gap: 1,
+                    delay: 0
+                },
+                {
+                    className: 'Mib',
+                    duration: 10,
+                    gap: 1.25,
+                    delay: 10
+                }
+            ]
+        },
+        wave5: {
+            duration: 28,
+            attacks: [
+                {
+                    className: 'Roger',
+                    duration: 10,
+                    gap: 1.2,
+                    delay: 0
+                },
+                {
+                    className: 'Aquila',
+                    duration: 15,
+                    gap: .9,
+                    delay: 10
+                }
+            ]
+        },
+        wave6: {
+            duration: 32,
+            attacks: [
+                {
+                    className: 'Mib',
+                    duration: 30,
+                    gap: .8,
+                    delay: 0
+                }
+            ]
+        }
+
+    },
+    completed: function() {
+
+        if (!mainState.allAttackersDispatched) {
+            return false;
+        }
+        if (mainState.attackers.countLiving() >= 1) {
+            return false;
+        }
+        return true;
+    },
+    calculateCompletionStars: function() {
+        var stars = 1;
+        if (mainState.lives == this.startingLives) {
+            stars ++;
+        }
+        if (mainState.countObstaclesWithCoinsValue() <= mainState.startingObstaclesWithCoinsValue * .4) {
+            stars ++;
+        }
+        return stars;
+    },
+    pathAdditionalCostTiles: function(attacker) {
+
+        return mainState.globalAdditionalCostTiles;
+
+    },
+    startingCoins: 200,
+    startingLives: 5,
+    entryXGrid: 21,
+    entryYGrid: 5,
+    goalXGrid: 3,
+    goalYGrid: 6,
+    waveHealthModifier: .4,
     towerPlacementForbiddenRows: [0, 11],
     canPlaceTowerOnPathway: false
 };
