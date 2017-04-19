@@ -109,7 +109,7 @@ var mainState = {
 
         this.initiateLoops();
 
-        game.input.onDown.add(this.placeTower, this);
+        game.input.onDown.add(this.userInput, this);
 
 
         this.gameOverBackground = this.game.add.tileSprite(0, 0, game.camera.width, game.camera.height, 'gameOverBackground');
@@ -923,107 +923,105 @@ var mainState = {
         return true;
     },
 
-    placeTower: function()
+    userInput: function()
     {
         if (this.pauseScreenOpen) {
             return false;
         }
 
-        if (this.pauseButton.input.pointerOver()) {
-            return;
-        }
+        try {
 
-        if (this.towerInfoOpen) {
 
-            if (this.upgradeTowerButton.input.pointerOver()) {
-                return;
-            }
-            if (this.sellTowerButton.input.pointerOver()) {
+            if (this.pauseButton.input.pointerOver()) {
                 return;
             }
 
-            this.closeTowerInfo();
-            return;
-        }
+            if (this.towerInfoOpen) {
 
-        if (this.towerPlacementViewOpen) {
-
-            if (this.GunTowerButton && this.GunTowerButton.input.pointerOver()) {
-                return;
-            }
-            if (this.FreezerTowerButton && this.FreezerTowerButton.input.pointerOver()) {
-                return;
-            }
-            if (this.LaserTowerButton && this.LaserTowerButton.input.pointerOver()) {
-                return;
-            }
-            this.closeTowerPlacementView();
-            return;
-
-        };
-
-        var cost = window[this.towerSelected].cost;
-
-        var x = Math.floor((game.input.x + game.camera.x) / this.squareWidth) * this.squareWidth + this.halfSquareWidth;
-        var y = Math.floor((game.input.y + game.camera.y) / this.squareWidth) * this.squareWidth + this.halfSquareWidth;
-
-        if (x == 0) {
-            x = 1;
-        }
-        if (y == 0) {
-            y = 1;
-        }
-
-
-        var action = '';
-
-        if (this.isTowerPlacementAppropriateAtPosition(x, y)) {
-            action = 'add';
-        } else if (this.doesTowerExistAtPosition(x, y)) {
-            action = 'towerInfo';
-        } else if (this.doesAttackerExistAtPosition(x - this.halfSquareWidth, y - this.halfSquareWidth)) {
-            action = 'target';
-        } else if (this.doesObstacleExistAtPosition(x, y)) {
-            action = 'target';
-        } else {
-            return false;
-        }
-
-        switch (action) {
-            case 'add':
-                /*
-                if (!this.coinsSufficientForTowerPlacement()) {
-                    return false;
+                if (this.upgradeTowerButton.input.pointerOver()) {
+                    return;
+                }
+                if (this.sellTowerButton.input.pointerOver()) {
+                    return;
                 }
 
-                if (this.spawnTower(this.towerSelected, x, y)) {
-                    this.changeCoins(-cost, x, y);
+                this.closeTowerInfo();
+                return;
+            }
+
+            if (this.towerPlacementViewOpen) {
+
+                if (this.GunTowerButton && this.GunTowerButton.input.pointerOver()) {
+                    return;
                 }
-                */
-
-                this.openTowerPlacementView(x, y, 'pixels');
-                break;
-            case 'towerInfo':
-
-                var tower = this.getTowerAtPosition(x, y);
-                this.openTowerInfo(tower);
-
-                break;
-            case 'target':
-
-                if (this.doesAttackerExistAtPosition(x - this.halfSquareWidth, y - this.halfSquareWidth)) {
-                    var item = this.getAttackerAtPosition(x - this.halfSquareWidth, y - this.halfSquareWidth);
-                } else if (this.doesObstacleExistAtPosition(x, y)) {
-                    var item = this.getObstacleAtPosition(x, y);
+                if (this.FreezerTowerButton && this.FreezerTowerButton.input.pointerOver()) {
+                    return;
                 }
+                if (this.LaserTowerButton && this.LaserTowerButton.input.pointerOver()) {
+                    return;
+                }
+                this.closeTowerPlacementView();
+                return;
 
-                item.targetToggle();
+            }
+            ;
 
-                break;
+            var cost = window[this.towerSelected].cost;
+
+            var x = Math.floor((game.input.x + game.camera.x) / this.squareWidth) * this.squareWidth + this.halfSquareWidth;
+            var y = Math.floor((game.input.y + game.camera.y) / this.squareWidth) * this.squareWidth + this.halfSquareWidth;
+
+            if (x == 0) {
+                x = 1;
+            }
+            if (y == 0) {
+                y = 1;
+            }
+
+
+            var action = '';
+
+            if (this.isTowerPlacementAppropriateAtPosition(x, y)) {
+                action = 'add';
+            } else if (this.doesTowerExistAtPosition(x, y)) {
+                action = 'towerInfo';
+            } else if (this.doesAttackerExistAtPosition(x - this.halfSquareWidth, y - this.halfSquareWidth)) {
+                action = 'target';
+            } else if (this.doesObstacleExistAtPosition(x, y)) {
+                action = 'target';
+            } else {
+                return false;
+            }
+
+            switch (action) {
+                case 'add':
+                    this.openTowerPlacementView(x, y, 'pixels');
+                    break;
+                case 'towerInfo':
+
+                    var tower = this.getTowerAtPosition(x, y);
+                    this.openTowerInfo(tower);
+
+                    break;
+                case 'target':
+
+                    if (this.doesAttackerExistAtPosition(x - this.halfSquareWidth, y - this.halfSquareWidth)) {
+                        var item = this.getAttackerAtPosition(x - this.halfSquareWidth, y - this.halfSquareWidth);
+                    } else if (this.doesObstacleExistAtPosition(x, y)) {
+                        var item = this.getObstacleAtPosition(x, y);
+                    }
+
+                    item.targetToggle();
+
+                    break;
+            }
+
+            return true;
         }
-
-
-        return true;
+        catch (err) {
+            console.log('Exception resulting from userInput.');
+            console.log(err);
+        }
     },
 
     isTowerPlacementAppropriateAtPosition: function(x, y)
@@ -2203,6 +2201,8 @@ mainState.openTowerInfo = function(tower)
         this.sellTowerText.y = this.sellTowerButton.y + (this.sellTowerButton.height * .5);
     }
 
+    var upgradeTowerTextString = '';
+
     if (tower.upgradable()) {
         this.upgradeTowerButton = game.add.button(tower.x, tower.y, 'upDark', this.upgradeCurrentTower, this);
 
@@ -2219,7 +2219,7 @@ mainState.openTowerInfo = function(tower)
 
         this.labelIndicatorMessage.setText('Upgrade or sell tower.');
 
-        this.upgradeTowerText = game.add.bitmapText(this.upgradeTowerButton.x, this.upgradeTowerButton.y, bitmapFontName, '£' + this.currentTower.getUpgradeCost(), 16);
+        upgradeTowerTextString = '£' + this.currentTower.getUpgradeCost();
 
     } else {
         this.upgradeTowerButton = game.add.button(tower.x, tower.y, 'maxDark', this.notPossible, this);
@@ -2231,6 +2231,8 @@ mainState.openTowerInfo = function(tower)
         this.labelIndicatorMessage.setText('Tower is at maximum grade.');
     }
     this.upgradeTowerButton.x = tower.x + this.squareWidth + 4;
+    this.upgradeTowerText = game.add.bitmapText(this.upgradeTowerButton.x, this.upgradeTowerButton.y, bitmapFontName, upgradeTowerTextString, 16);
+
     if (this.upgradeTowerText) {
         this.upgradeTowerText.x = this.upgradeTowerButton.x - (this.upgradeTowerText.width * .5);
         this.upgradeTowerText.y = this.upgradeTowerButton.y + (this.upgradeTowerButton.height * .5);
