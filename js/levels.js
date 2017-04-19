@@ -27,72 +27,76 @@ var fridayStreet = {
     waveInfo: {
         wave1: {
             duration: 25,
-            createEvents: function(s) {
-                mainState.scheduleAttackersWave('Oscar', waveNumber, s, 20, 2.5);
-            }
+            attacks: [
+                {
+                    className: 'Oscar',
+                    duration: 20,
+                    gap: 2.5,
+                    delay: .5
+                }
+            ]
         },
         wave2: {
             duration: 15,
-            createEvents: function(s) {
-                mainState.scheduleAttackersWave('Oscar', waveNumber, s, 10, 1.5);
-            }
+            attacks: [
+                {
+                    className: 'Oscar',
+                    duration: 10,
+                    gap: 1.5,
+                    delay: 0
+                }
+            ]
         },
         wave3: {
             duration: 20,
-            createEvents: function(s) {
-                mainState.scheduleAttackersWave('Oscar', waveNumber, s, 15, 2);
-                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 15, 2, 1);
-            }
+            attacks: [
+                {
+                    className: 'Oscar',
+                    duration: 15,
+                    gap: 2,
+                    delay: 0
+                },
+                {
+                    className: 'Aquila',
+                    duration: 15,
+                    gap: 2,
+                    delay: 1
+                }
+            ]
         },
         wave4: {
             duration: 15,
-            createEvents: function(s) {
-                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 10, 1.25);
-            }
+            attacks: [
+                {
+                    className: 'Aquila',
+                    duration: 10,
+                    gap: 1.25,
+                    delay: 0
+                }
+            ]
         },
         wave5: {
             duration: 15,
-            createEvents: function(s) {
-                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 10, 1);
-            }
+            attacks: [
+                {
+                    className: 'Aquila',
+                    duration: 10,
+                    gap: 1,
+                    delay: 0
+                }
+            ]
         },
         wave6: {
             duration: 12,
-            createEvents: function(s) {
-                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 10, .75);
-            }
+            attacks: [
+                {
+                    className: 'Aquila',
+                    duration: 10,
+                    gap: .75,
+                    delay: 0
+                }
+            ]
         }
-
-    },
-    begin: function() {
-
-        var s = 0;
-        waveNumber = 0;
-        var totalWaves = Object.keys(this.waveInfo).length;
-
-        for (var wave in this.waveInfo) {
-            if (this.waveInfo.hasOwnProperty(wave)) {
-
-                waveNumber ++;
-
-                timerEvents.push(
-                    game.time.events.add(
-                        Phaser.Timer.SECOND * s,
-                        mainState.startWave,
-                        mainState,
-                        waveNumber
-                    ).autoDestroy = true
-                );
-
-                this.waveInfo[wave].createEvents(s);
-
-                s += this.waveInfo[wave].duration;
-
-            }
-        }
-
-        timerEvents.push(game.time.events.add(Phaser.Timer.SECOND * s, mainState.lastWaveDispatched, mainState));
-
 
     },
     completed: function() {
@@ -114,9 +118,6 @@ var fridayStreet = {
             stars ++;
         }
         return stars;
-    },
-    update: function() {
-
     },
     startingCoins: 100,
     startingLives: 5,
@@ -135,90 +136,107 @@ var orfordRoad = {
     title: 'Orford Road',
     waveInfo: {
         wave1: {
-            duration: 27,
-            createEvents: function(s) {
-
-                mainState.scheduleAttackersWave('Oscar', waveNumber, s, 20, 1.75);
-                mainState.scheduleAttackersWave('Mib', waveNumber, s, 3, 1.75, 20);
-
-            }
+            duration: 28,
+            attacks: [
+                {
+                    className: 'Oscar',
+                    duration: 20,
+                    gap: 1.75,
+                    delay: 1
+                },
+                {
+                    className: 'Mib',
+                    duration: 3,
+                    gap: 1.75,
+                    delay: 21
+                }
+            ]
         },
         wave2: {
             duration: 17,
-            createEvents: function(s) {
-
-                mainState.scheduleAttackersWave('Oscar', waveNumber, s, 10, 1.25);
-                mainState.scheduleAttackersWave('Mib', waveNumber, s, 4, 1.75, 10);
-
-            }
+            attacks: [
+                {
+                    className: 'Oscar',
+                    duration: 10,
+                    gap: 1.25,
+                    delay: 0
+                },
+                {
+                    className: 'Mib',
+                    duration: 4,
+                    gap: 1.75,
+                    delay: 10
+                }
+            ]
         },
         wave3: {
-            duration: 18,
-            createEvents: function(s) {
-
-                mainState.scheduleAttackersWave('Oscar', waveNumber, s, 15, 2);
-                mainState.scheduleAttackersWave('Mib', waveNumber, s, 15, 2, 1);
-
-            }
+            duration: 19,
+            attacks: [
+                {
+                    className: 'Oscar',
+                    duration: 15,
+                    gap: 2,
+                    delay: 0
+                },
+                {
+                    className: 'Mib',
+                    duration: 15,
+                    gap: 2,
+                    delay: 1
+                }
+            ]
         },
         wave4: {
             duration: 23,
-            createEvents: function(s) {
-
-                mainState.scheduleAttackersWave('Oscar', waveNumber, s, 10, .8);
-                mainState.scheduleAttackersWave('Mib', waveNumber, s, 10, 1.5, 10);
-
-            }
+            attacks: [
+                {
+                    className: 'Oscar',
+                    duration: 10,
+                    gap: .8,
+                    delay: 0
+                },
+                {
+                    className: 'Mib',
+                    duration: 10,
+                    gap: 1.5,
+                    delay: 10
+                }
+            ]
         },
         wave5: {
             duration: 18,
-            createEvents: function(s) {
-
-                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 10, .8);
-                mainState.scheduleAttackersWave('Mib', waveNumber, s, 5, 1.25, 10);
-
-            }
+            attacks: [
+                {
+                    className: 'Aquila',
+                    duration: 10,
+                    gap: .8,
+                    delay: 0
+                },
+                {
+                    className: 'Mib',
+                    duration: 5,
+                    gap: 1.25,
+                    delay: 10
+                }
+            ]
         },
         wave6: {
             duration: 17,
-            createEvents: function(s) {
-
-                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 5, .6);
-                mainState.scheduleAttackersWave('Mib', waveNumber, s, 10, .8, 5);
-
-            }
+            attacks: [
+                {
+                    className: 'Aquila',
+                    duration: 5,
+                    gap: .6,
+                    delay: 0
+                },
+                {
+                    className: 'Mib',
+                    duration: 10,
+                    gap: .8,
+                    delay: 5
+                }
+            ]
         }
-
-    },
-    begin: function() {
-
-        var s = 0;
-        waveNumber = 0;
-        var totalWaves = Object.keys(this.waveInfo).length;
-
-        for (var wave in this.waveInfo) {
-            if (this.waveInfo.hasOwnProperty(wave)) {
-
-                waveNumber ++;
-
-                timerEvents.push(
-                    game.time.events.add(
-                        Phaser.Timer.SECOND * s,
-                        mainState.startWave,
-                        mainState,
-                        waveNumber
-                    ).autoDestroy = true
-                );
-
-                this.waveInfo[wave].createEvents(s);
-
-                s += this.waveInfo[wave].duration;
-
-            }
-        }
-
-        timerEvents.push(game.time.events.add(Phaser.Timer.SECOND * s, mainState.lastWaveDispatched, mainState));
-
     },
     completed: function() {
 
@@ -239,9 +257,6 @@ var orfordRoad = {
             stars ++;
         }
         return stars;
-    },
-    update: function() {
-
     },
     startingCoins: 150,
     startingLives: 5,
@@ -261,88 +276,106 @@ var orfordness = {
     waveInfo: {
         wave1: {
             duration: 30,
-            createEvents: function(s) {
-
-                mainState.scheduleAttackersWave('Oscar', waveNumber, s, 20, 1.75);
-                mainState.scheduleAttackersWave('Mib', waveNumber, s, 5, 1.75, 20);
-
-            }
+            attacks: [
+                {
+                    className: 'Oscar',
+                    duration: 20,
+                    gap: 1.75,
+                    delay: 1
+                },
+                {
+                    className: 'Mib',
+                    duration: 5,
+                    gap: 1.75,
+                    delay: 21
+                }
+            ]
         },
         wave2: {
             duration: 20,
-            createEvents: function(s) {
-
-                mainState.scheduleAttackersWave('Oscar', waveNumber, s, 10, 1.25);
-                mainState.scheduleAttackersWave('Mib', waveNumber, s, 4, 1.25, 10);
-
-            }
+            attacks: [
+                {
+                    className: 'Oscar',
+                    duration: 10,
+                    gap: 1.25,
+                    delay: 0
+                },
+                {
+                    className: 'Mib',
+                    duration: 6,
+                    gap: 1.25,
+                    delay: 10
+                }
+            ]
         },
         wave3: {
             duration: 20,
-            createEvents: function(s) {
-
-                mainState.scheduleAttackersWave('Oscar', waveNumber, s, 15, 2);
-                mainState.scheduleAttackersWave('Mib', waveNumber, s, 15, 2, 1);
-
-            }
+            attacks: [
+                {
+                    className: 'Oscar',
+                    duration: 15,
+                    gap: 2,
+                    delay: 0
+                },
+                {
+                    className: 'Mib',
+                    duration: 15,
+                    gap: 2,
+                    delay: 1
+                }
+            ]
         },
         wave4: {
             duration: 25,
-            createEvents: function(s) {
-
-                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 10, .75);
-                mainState.scheduleAttackersWave('Mib', waveNumber, s, 10, 1.5, 10);
-
-            }
+            attacks: [
+                {
+                    className: 'Aquila',
+                    duration: 10,
+                    gap: .75,
+                    delay: 0
+                },
+                {
+                    className: 'Mib',
+                    duration: 10,
+                    gap: 1.5,
+                    delay: 10
+                }
+            ]
         },
         wave5: {
             duration: 20,
-            createEvents: function(s) {
-
-                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 10, .75);
-                mainState.scheduleAttackersWave('Mib', waveNumber, s, 5, 1.25, 10);
-
-            }
+            attacks: [
+                {
+                    className: 'Aquila',
+                    duration: 10,
+                    gap: .75,
+                    delay: 0
+                },
+                {
+                    className: 'Mib',
+                    duration: 5,
+                    gap: 1.25,
+                    delay: 10
+                }
+            ]
         },
         wave6: {
             duration: 15,
-            createEvents: function(s) {
-
-                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 5, .5);
-                mainState.scheduleAttackersWave('Mib', waveNumber, s, 10, .75, 5);
-
-            }
+            attacks: [
+                {
+                    className: 'Aquila',
+                    duration: 5,
+                    gap: .55,
+                    delay: 0
+                },
+                {
+                    className: 'Mib',
+                    duration: 10,
+                    gap: .8,
+                    delay: 5
+                }
+            ]
         }
-
-    },
-    begin: function() {
-
-        var s = 0;
-        waveNumber = 0;
-        var totalWaves = Object.keys(this.waveInfo).length;
-
-        for (var wave in this.waveInfo) {
-            if (this.waveInfo.hasOwnProperty(wave)) {
-
-                waveNumber ++;
-
-                timerEvents.push(
-                    game.time.events.add(
-                        Phaser.Timer.SECOND * s,
-                        mainState.startWave,
-                        mainState,
-                        waveNumber
-                    ).autoDestroy = true
-                );
-
-                this.waveInfo[wave].createEvents(s);
-
-                s += this.waveInfo[wave].duration;
-
-            }
-        }
-
-        timerEvents.push(game.time.events.add(Phaser.Timer.SECOND * s, mainState.lastWaveDispatched, mainState));
 
     },
     completed: function() {
@@ -365,9 +398,6 @@ var orfordness = {
         }
         return stars;
     },
-    update: function() {
-
-    },
     startingCoins: 150,
     startingLives: 5,
     entryXGrid: 21,
@@ -384,13 +414,13 @@ var westletonHeath = {
     title: 'Westleton Heath',
     waveInfo: {
         wave1: {
-            duration: 25,
+            duration: 25.5,
             attacks: [
                 {
                     className: 'Roger',
                     duration: 20,
                     gap: 1.75,
-                    delay: 2
+                    delay: 2.5
                 }
             ]
         },
@@ -480,53 +510,6 @@ var westletonHeath = {
             ]
         }
     },
-    begin: function() {
-
-        var s = 0;
-        waveNumber = 0;
-        var totalWaves = Object.keys(this.waveInfo).length;
-
-        for (var wave in this.waveInfo) {
-            if (this.waveInfo.hasOwnProperty(wave)) {
-
-                waveNumber ++;
-
-                timerEvents.push(
-                    game.time.events.add(
-                        Phaser.Timer.SECOND * s,
-                        mainState.startWave,
-                        mainState,
-                        waveNumber
-                    ).autoDestroy = true
-                );
-
-                if (typeof this.waveInfo[wave].createEvents === 'function') {
-                    this.waveInfo[wave].createEvents(s);
-                }
-
-                if (this.waveInfo[wave].attacks) {
-
-                    this.waveInfo[wave].attacks.forEach(function(attack) {
-                        mainState.scheduleAttackersWave(
-                            attack.className,
-                            waveNumber,
-                            s,
-                            attack.duration,
-                            attack.gap,
-                            attack.delay
-                        );
-                    });
-
-                }
-
-                s += this.waveInfo[wave].duration;
-
-            }
-        }
-
-        timerEvents.push(game.time.events.add(Phaser.Timer.SECOND * s, mainState.lastWaveDispatched, mainState));
-
-    },
     completed: function() {
 
         if (!mainState.allAttackersDispatched) {
@@ -546,9 +529,6 @@ var westletonHeath = {
             stars ++;
         }
         return stars;
-    },
-    update: function() {
-
     },
     startingCoins: 150,
     startingLives: 5,
@@ -566,89 +546,101 @@ var bartonMills = {
     title: 'Barton Mills',
     waveInfo: {
         wave1: {
-            duration: 25,
-            createEvents: function(s) {
-
-                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 20, 1.75);
-
-            }
+            duration: 26,
+            attacks: [
+                {
+                    className: 'Aquila',
+                    duration: 20,
+                    gap: 1.75,
+                    delay: 1
+                }
+            ]
         },
         wave2: {
             duration: 23,
-            createEvents: function(s) {
-
-                mainState.scheduleAttackersWave('Oscar', waveNumber, s, 10, 1);
-                mainState.scheduleAttackersWave('Mib', waveNumber, s, 5, 1, 10);
-                mainState.scheduleAttackersWave('Oscar', waveNumber, s, 5, 1, 15);
-
-            }
+            attacks: [
+                {
+                    className: 'Oscar',
+                    duration: 10,
+                    gap: 1,
+                    delay: 0
+                },
+                {
+                    className: 'Mib',
+                    duration: 5,
+                    gap: 1,
+                    delay: 10
+                },
+                {
+                    className: 'Oscar',
+                    duration: 5,
+                    gap: 1,
+                    delay: 15
+                }
+            ]
         },
         wave3: {
-            duration: 18,
-            createEvents: function(s) {
-
-                mainState.scheduleAttackersWave('Mib', waveNumber, s, 15, 2);
-                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 15, 2, 1);
-
-            }
+            duration: 19,
+            attacks: [
+                {
+                    className: 'Mib',
+                    duration: 15,
+                    gap: 2,
+                    delay: 0
+                },
+                {
+                    className: 'Aquila',
+                    duration: 15,
+                    gap: 2,
+                    delay: 1
+                }
+            ]
         },
         wave4: {
             duration: 23,
-            createEvents: function(s) {
-
-                mainState.scheduleAttackersWave('Roger', waveNumber, s, 10, .6);
-                mainState.scheduleAttackersWave('Mib', waveNumber, s, 10, 1, 10);
-
-            }
+            attacks: [
+                {
+                    className: 'Roger',
+                    duration: 10,
+                    gap: .6,
+                    delay: 0
+                },
+                {
+                    className: 'Mib',
+                    duration: 10,
+                    gap: 1,
+                    delay: 10
+                }
+            ]
         },
         wave5: {
             duration: 28,
-            createEvents: function(s) {
-
-                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 10, .8);
-                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 15, .6, 10);
-
-            }
+            attacks: [
+                {
+                    className: 'Aquila',
+                    duration: 10,
+                    gap: .8,
+                    delay: 0
+                },
+                {
+                    className: 'Aquila',
+                    duration: 10,
+                    gap: .6,
+                    delay: 10
+                }
+            ]
         },
         wave6: {
             duration: 32,
-            createEvents: function(s) {
-
-                mainState.scheduleAttackersWave('Mib', waveNumber, s, 30, .75);
-
-            }
+            attacks: [
+                {
+                    className: 'Mib',
+                    duration: 30,
+                    gap: .75,
+                    delay: 0
+                }
+            ]
         }
-
-    },
-    begin: function() {
-
-        var s = 0;
-        waveNumber = 0;
-        var totalWaves = Object.keys(this.waveInfo).length;
-
-        for (var wave in this.waveInfo) {
-            if (this.waveInfo.hasOwnProperty(wave)) {
-
-                waveNumber ++;
-
-                timerEvents.push(
-                    game.time.events.add(
-                        Phaser.Timer.SECOND * s,
-                        mainState.startWave,
-                        mainState,
-                        waveNumber
-                    ).autoDestroy = true
-                );
-
-                this.waveInfo[wave].createEvents(s);
-
-                s += this.waveInfo[wave].duration;
-
-            }
-        }
-
-        timerEvents.push(game.time.events.add(Phaser.Timer.SECOND * s, mainState.lastWaveDispatched, mainState));
-
     },
     completed: function() {
 
@@ -669,9 +661,6 @@ var bartonMills = {
             stars ++;
         }
         return stars;
-    },
-    update: function() {
-
     },
     pathAdditionalCostTiles: function(attacker) {
 
@@ -756,36 +745,6 @@ var worthamLing = {
         }
 
     },
-    begin: function() {
-
-        var s = 0;
-        waveNumber = 0;
-        var totalWaves = Object.keys(this.waveInfo).length;
-
-        for (var wave in this.waveInfo) {
-            if (this.waveInfo.hasOwnProperty(wave)) {
-
-                waveNumber ++;
-
-                timerEvents.push(
-                    game.time.events.add(
-                        Phaser.Timer.SECOND * s,
-                        mainState.startWave,
-                        mainState,
-                        waveNumber
-                    ).autoDestroy = true
-                );
-
-                this.waveInfo[wave].createEvents(s);
-
-                s += this.waveInfo[wave].duration;
-
-            }
-        }
-
-        timerEvents.push(game.time.events.add(Phaser.Timer.SECOND * s, mainState.lastWaveDispatched, mainState));
-
-    },
     completed: function() {
 
         if (!mainState.allAttackersDispatched) {
@@ -805,9 +764,6 @@ var worthamLing = {
             stars ++;
         }
         return stars;
-    },
-    update: function() {
-
     },
     pathAdditionalCostTiles: function(attacker) {
 
@@ -894,36 +850,6 @@ var waveneyCrossing = {
         }
 
     },
-    begin: function() {
-
-        var s = 0;
-        waveNumber = 0;
-        var totalWaves = Object.keys(this.waveInfo).length;
-
-        for (var wave in this.waveInfo) {
-            if (this.waveInfo.hasOwnProperty(wave)) {
-
-                waveNumber ++;
-
-                timerEvents.push(
-                    game.time.events.add(
-                        Phaser.Timer.SECOND * s,
-                        mainState.startWave,
-                        mainState,
-                        waveNumber
-                    ).autoDestroy = true
-                );
-
-                this.waveInfo[wave].createEvents(s);
-
-                s += this.waveInfo[wave].duration;
-
-            }
-        }
-
-        timerEvents.push(game.time.events.add(Phaser.Timer.SECOND * s, mainState.lastWaveDispatched, mainState));
-
-    },
     completed: function() {
 
         if (!mainState.allAttackersDispatched) {
@@ -943,9 +869,6 @@ var waveneyCrossing = {
             stars ++;
         }
         return stars;
-    },
-    update: function() {
-
     },
     pathAdditionalCostTiles: function(attacker) {
 
@@ -1032,36 +955,6 @@ var frozenFen = {
         }
 
     },
-    begin: function() {
-
-        var s = 0;
-        waveNumber = 0;
-        var totalWaves = Object.keys(this.waveInfo).length;
-
-        for (var wave in this.waveInfo) {
-            if (this.waveInfo.hasOwnProperty(wave)) {
-
-                waveNumber ++;
-
-                timerEvents.push(
-                    game.time.events.add(
-                        Phaser.Timer.SECOND * s,
-                        mainState.startWave,
-                        mainState,
-                        waveNumber
-                    ).autoDestroy = true
-                );
-
-                this.waveInfo[wave].createEvents(s);
-
-                s += this.waveInfo[wave].duration;
-
-            }
-        }
-
-        timerEvents.push(game.time.events.add(Phaser.Timer.SECOND * s, mainState.lastWaveDispatched, mainState));
-
-    },
     completed: function() {
 
         if (!mainState.allAttackersDispatched) {
@@ -1081,9 +974,6 @@ var frozenFen = {
             stars ++;
         }
         return stars;
-    },
-    update: function() {
-
     },
     pathAdditionalCostTiles: function(attacker) {
 
@@ -1162,36 +1052,6 @@ var sandringhamWoods = {
         }
 
     },
-    begin: function() {
-
-        var s = 0;
-        waveNumber = 0;
-        var totalWaves = Object.keys(this.waveInfo).length;
-
-        for (var wave in this.waveInfo) {
-            if (this.waveInfo.hasOwnProperty(wave)) {
-
-                waveNumber ++;
-
-                timerEvents.push(
-                    game.time.events.add(
-                        Phaser.Timer.SECOND * s,
-                        mainState.startWave,
-                        mainState,
-                        waveNumber
-                    ).autoDestroy = true
-                );
-
-                this.waveInfo[wave].createEvents(s);
-
-                s += this.waveInfo[wave].duration;
-
-            }
-        }
-
-        timerEvents.push(game.time.events.add(Phaser.Timer.SECOND * s, mainState.lastWaveDispatched, mainState));
-
-    },
     completed: function() {
 
         if (!mainState.allAttackersDispatched) {
@@ -1211,9 +1071,6 @@ var sandringhamWoods = {
             stars ++;
         }
         return stars;
-    },
-    update: function() {
-
     },
     pathAdditionalCostTiles: function(attacker) {
 
@@ -1291,36 +1148,6 @@ var holkhamBeach = {
         }
 
     },
-    begin: function() {
-
-        var s = 0;
-        waveNumber = 0;
-        var totalWaves = Object.keys(this.waveInfo).length;
-
-        for (var wave in this.waveInfo) {
-            if (this.waveInfo.hasOwnProperty(wave)) {
-
-                waveNumber ++;
-
-                timerEvents.push(
-                    game.time.events.add(
-                        Phaser.Timer.SECOND * s,
-                        mainState.startWave,
-                        mainState,
-                        waveNumber
-                    ).autoDestroy = true
-                );
-
-                this.waveInfo[wave].createEvents(s);
-
-                s += this.waveInfo[wave].duration;
-
-            }
-        }
-
-        timerEvents.push(game.time.events.add(Phaser.Timer.SECOND * s, mainState.lastWaveDispatched, mainState));
-
-    },
     completed: function() {
 
         if (!mainState.allAttackersDispatched) {
@@ -1340,9 +1167,6 @@ var holkhamBeach = {
             stars ++;
         }
         return stars;
-    },
-    update: function() {
-
     },
     pathAdditionalCostTiles: function(attacker) {
 
@@ -1420,36 +1244,6 @@ var northCreake = {
         }
 
     },
-    begin: function() {
-
-        var s = 0;
-        waveNumber = 0;
-        var totalWaves = Object.keys(this.waveInfo).length;
-
-        for (var wave in this.waveInfo) {
-            if (this.waveInfo.hasOwnProperty(wave)) {
-
-                waveNumber ++;
-
-                timerEvents.push(
-                    game.time.events.add(
-                        Phaser.Timer.SECOND * s,
-                        mainState.startWave,
-                        mainState,
-                        waveNumber
-                    ).autoDestroy = true
-                );
-
-                this.waveInfo[wave].createEvents(s);
-
-                s += this.waveInfo[wave].duration;
-
-            }
-        }
-
-        timerEvents.push(game.time.events.add(Phaser.Timer.SECOND * s, mainState.lastWaveDispatched, mainState));
-
-    },
     completed: function() {
 
         if (!mainState.allAttackersDispatched) {
@@ -1469,9 +1263,6 @@ var northCreake = {
             stars ++;
         }
         return stars;
-    },
-    update: function() {
-
     },
     pathAdditionalCostTiles: function(attacker) {
 
@@ -1594,50 +1385,6 @@ var westRudhamChurchyard = {
     },
     begin: function() {
 
-        var s = 0;
-        waveNumber = 0;
-        var totalWaves = Object.keys(this.waveInfo).length;
-
-        for (var wave in this.waveInfo) {
-            if (this.waveInfo.hasOwnProperty(wave)) {
-
-                waveNumber ++;
-
-                timerEvents.push(
-                    game.time.events.add(
-                        Phaser.Timer.SECOND * s,
-                        mainState.startWave,
-                        mainState,
-                        waveNumber
-                    ).autoDestroy = true
-                );
-
-                if (typeof this.waveInfo[wave].createEvents === 'function') {
-                    this.waveInfo[wave].createEvents(s);
-                }
-
-                if (this.waveInfo[wave].attacks) {
-
-                    this.waveInfo[wave].attacks.forEach(function(attack) {
-                        mainState.scheduleAttackersWave(
-                            attack.className,
-                            waveNumber,
-                            s,
-                            attack.duration,
-                            attack.gap,
-                            attack.delay
-                        );
-                    });
-
-                }
-
-                s += this.waveInfo[wave].duration;
-
-            }
-        }
-
-        timerEvents.push(game.time.events.add(Phaser.Timer.SECOND * s, mainState.lastWaveDispatched, mainState));
-
         this.nightTime = game.add.tileSprite(0, 0, game.camera.width, game.camera.height, 'gameOverBackground');
         this.nightTime.fixedToCamera = true;
         this.nightTime.alpha = .5;
@@ -1664,9 +1411,6 @@ var westRudhamChurchyard = {
             stars ++;
         }
         return stars;
-    },
-    update: function() {
-
     },
     pathAdditionalCostTiles: function(attacker) {
 
@@ -1787,53 +1531,6 @@ var kingsLynn = {
         }
 
     },
-    begin: function() {
-
-        var s = 0;
-        waveNumber = 0;
-        var totalWaves = Object.keys(this.waveInfo).length;
-
-        for (var wave in this.waveInfo) {
-            if (this.waveInfo.hasOwnProperty(wave)) {
-
-                waveNumber ++;
-
-                timerEvents.push(
-                    game.time.events.add(
-                        Phaser.Timer.SECOND * s,
-                        mainState.startWave,
-                        mainState,
-                        waveNumber
-                    ).autoDestroy = true
-                );
-
-                if (typeof this.waveInfo[wave].createEvents === 'function') {
-                    this.waveInfo[wave].createEvents(s);
-                }
-
-                if (this.waveInfo[wave].attacks) {
-
-                    this.waveInfo[wave].attacks.forEach(function(attack) {
-                        mainState.scheduleAttackersWave(
-                            attack.className,
-                            waveNumber,
-                            s,
-                            attack.duration,
-                            attack.gap,
-                            attack.delay
-                        );
-                    });
-
-                }
-
-                s += this.waveInfo[wave].duration;
-
-            }
-        }
-
-        timerEvents.push(game.time.events.add(Phaser.Timer.SECOND * s, mainState.lastWaveDispatched, mainState));
-
-    },
     completed: function() {
 
         if (!mainState.allAttackersDispatched) {
@@ -1853,9 +1550,6 @@ var kingsLynn = {
             stars ++;
         }
         return stars;
-    },
-    update: function() {
-
     },
     pathAdditionalCostTiles: function(attacker) {
 
@@ -1976,53 +1670,6 @@ var pumpkinPatch = {
         }
 
     },
-    begin: function() {
-
-        var s = 0;
-        waveNumber = 0;
-        var totalWaves = Object.keys(this.waveInfo).length;
-
-        for (var wave in this.waveInfo) {
-            if (this.waveInfo.hasOwnProperty(wave)) {
-
-                waveNumber ++;
-
-                timerEvents.push(
-                    game.time.events.add(
-                        Phaser.Timer.SECOND * s,
-                        mainState.startWave,
-                        mainState,
-                        waveNumber
-                    ).autoDestroy = true
-                );
-
-                if (typeof this.waveInfo[wave].createEvents === 'function') {
-                    this.waveInfo[wave].createEvents(s);
-                }
-
-                if (this.waveInfo[wave].attacks) {
-
-                    this.waveInfo[wave].attacks.forEach(function(attack) {
-                        mainState.scheduleAttackersWave(
-                            attack.className,
-                            waveNumber,
-                            s,
-                            attack.duration,
-                            attack.gap,
-                            attack.delay
-                        );
-                    });
-
-                }
-
-                s += this.waveInfo[wave].duration;
-
-            }
-        }
-
-        timerEvents.push(game.time.events.add(Phaser.Timer.SECOND * s, mainState.lastWaveDispatched, mainState));
-
-    },
     completed: function() {
 
         if (!mainState.allAttackersDispatched) {
@@ -2042,9 +1689,6 @@ var pumpkinPatch = {
             stars ++;
         }
         return stars;
-    },
-    update: function() {
-
     },
     pathAdditionalCostTiles: function(attacker) {
 

@@ -1246,7 +1246,57 @@ var mainState = {
         this.initiateLabels();
         this.addUserInterfaceButtons();
 
-        this.level.begin();
+
+        // Begin level wave scheduling
+        var s = 0;
+        waveNumber = 0;
+        var totalWaves = Object.keys(this.level.waveInfo).length;
+
+        for (var wave in this.level.waveInfo) {
+            if (this.level.waveInfo.hasOwnProperty(wave)) {
+
+                waveNumber ++;
+
+                timerEvents.push(
+                    game.time.events.add(
+                        Phaser.Timer.SECOND * s,
+                        mainState.startWave,
+                        mainState,
+                        waveNumber
+                    ).autoDestroy = true
+                );
+
+                if (typeof this.level.waveInfo[wave].createEvents === 'function') {
+                    this.level.waveInfo[wave].createEvents(s);
+                }
+
+                if (this.level.waveInfo[wave].attacks) {
+
+                    this.level.waveInfo[wave].attacks.forEach(function(attack) {
+                        mainState.scheduleAttackersWave(
+                            attack.className,
+                            waveNumber,
+                            s,
+                            attack.duration,
+                            attack.gap,
+                            attack.delay
+                        );
+                    });
+
+                }
+
+                s += this.level.waveInfo[wave].duration;
+
+            }
+        }
+
+        timerEvents.push(game.time.events.add(Phaser.Timer.SECOND * s, this.lastWaveDispatched, this));
+        // End level wave scheduling
+
+
+        if (typeof this.level.begin === 'function') {
+            this.level.begin();
+        }
 
         // Set coins to the startingCoins value from the level
         this.coins = this.level.startingCoins;
