@@ -691,57 +691,100 @@ var worthamLing = {
     title: 'Wortham Ling',
     waveInfo: {
         wave1: {
-            duration: 25,
-            createEvents: function(s) {
-
-                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 20, 1.75);
-
-            }
+            duration: 26,
+            attacks: [
+                {
+                    className: 'Aquila',
+                    duration: 20,
+                    gap: 1.75,
+                    delay: 1
+                }
+            ]
         },
         wave2: {
             duration: 23,
-            createEvents: function(s) {
-
-                mainState.scheduleAttackersWave('Roger', waveNumber, s, 10, 1);
-                mainState.scheduleAttackersWave('Mib', waveNumber, s, 5, 1, 10);
-                mainState.scheduleAttackersWave('Roger', waveNumber, s, 5, 1, 15);
-
-            }
+            attacks: [
+                {
+                    className: 'Roger',
+                    duration: 10,
+                    gap: 1,
+                    delay: 0
+                },
+                {
+                    className: 'Mib',
+                    duration: 5,
+                    gap: 1,
+                    delay: 10
+                },
+                {
+                    className: 'Roger',
+                    duration: 5,
+                    gap: 1,
+                    delay: 15
+                }
+            ]
         },
         wave3: {
-            duration: 18,
-            createEvents: function(s) {
-
-                mainState.scheduleAttackersWave('Mib', waveNumber, s, 15, 2);
-                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 15, 2, 1);
-
-            }
+            duration: 19,
+            attacks: [
+                {
+                    className: 'Mib',
+                    duration: 15,
+                    gap: 2,
+                    delay: 0
+                },
+                {
+                    className: 'Aquila',
+                    duration: 15,
+                    gap: 2,
+                    delay: 1
+                }
+            ]
         },
         wave4: {
-            duration: 23,
-            createEvents: function(s) {
-
-                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 10, .5);
-                mainState.scheduleAttackersWave('Mib', waveNumber, s, 10, 1, 10);
-
-            }
+            duration: 24,
+            attacks: [
+                {
+                    className: 'Aquila',
+                    duration: 10,
+                    gap: .5,
+                    delay: 0
+                },
+                {
+                    className: 'Mib',
+                    duration: 10,
+                    gap: 1,
+                    delay: 10
+                }
+            ]
         },
         wave5: {
-            duration: 28,
-            createEvents: function(s) {
-
-                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 10, .5);
-                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 15, .8, 10);
-
-            }
+            duration: 29,
+            attacks: [
+                {
+                    className: 'Aquila',
+                    duration: 10,
+                    gap: .5,
+                    delay: 0
+                },
+                {
+                    className: 'Aquila',
+                    duration: 15,
+                    gap: .8,
+                    delay: 10
+                }
+            ]
         },
         wave6: {
             duration: 32,
-            createEvents: function(s) {
-
-                mainState.scheduleAttackersWave('Mib', waveNumber, s, 30, .75);
-
-            }
+            attacks: [
+                {
+                    className: 'Mib',
+                    duration: 30,
+                    gap: .75,
+                    delay: 0
+                }
+            ]
         }
 
     },
@@ -796,57 +839,100 @@ var waveneyCrossing = {
     title: 'Waveney Crossing',
     waveInfo: {
         wave1: {
-            duration: 25,
-            createEvents: function(s) {
-
-                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 20, 1.75);
-
-            }
+            duration: 26,
+            attacks: [
+                {
+                    className: 'Aquila',
+                    duration: 20,
+                    gap: 1.75,
+                    delay: 1
+                }
+            ]
         },
         wave2: {
             duration: 23,
-            createEvents: function(s) {
-
-                mainState.scheduleAttackersWave('Oscar', waveNumber, s, 10, 1);
-                mainState.scheduleAttackersWave('Mib', waveNumber, s, 5, 1, 10);
-                mainState.scheduleAttackersWave('Oscar', waveNumber, s, 5, 1, 15);
-
-            }
+            attacks: [
+                {
+                    className: 'Oscar',
+                    duration: 10,
+                    gap: 1,
+                    delay: 0
+                },
+                {
+                    className: 'Mib',
+                    duration: 5,
+                    gap: 1,
+                    delay: 10
+                },
+                {
+                    className: 'Oscar',
+                    duration: 5,
+                    gap: 1,
+                    delay: 15
+                }
+            ]
         },
         wave3: {
-            duration: 18,
-            createEvents: function(s) {
-
-                mainState.scheduleAttackersWave('Mib', waveNumber, s, 15, 2);
-                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 15, 2, 1);
-
-            }
+            duration: 19,
+            attacks: [
+                {
+                    className: 'Mib',
+                    duration: 15,
+                    gap: 2,
+                    delay: 0
+                },
+                {
+                    className: 'Aquila',
+                    duration: 15,
+                    gap: 2,
+                    delay: 1
+                }
+            ]
         },
         wave4: {
-            duration: 23,
-            createEvents: function(s) {
-
-                mainState.scheduleAttackersWave('Roger', waveNumber, s, 10, .5);
-                mainState.scheduleAttackersWave('Mib', waveNumber, s, 10, 1, 10);
-
-            }
+            duration: 24,
+            attacks: [
+                {
+                    className: 'Roger',
+                    duration: 10,
+                    gap: .5,
+                    delay: 0
+                },
+                {
+                    className: 'Mib',
+                    duration: 10,
+                    gap: 1,
+                    delay: 10
+                }
+            ]
         },
         wave5: {
-            duration: 28,
-            createEvents: function(s) {
-
-                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 10, .5);
-                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 15, .8, 10);
-
-            }
+            duration: 29,
+            attacks: [
+                {
+                    className: 'Aquila',
+                    duration: 10,
+                    gap: .8,
+                    delay: 0
+                },
+                {
+                    className: 'Aquila',
+                    duration: 15,
+                    gap: .6,
+                    delay: 10
+                }
+            ]
         },
         wave6: {
-            duration: 32,
-            createEvents: function(s) {
-
-                mainState.scheduleAttackersWave('Mib', waveNumber, s, 30, .8);
-
-            }
+            duration: 33,
+            attacks: [
+                {
+                    className: 'Mib',
+                    duration: 30,
+                    gap: .8,
+                    delay: 0
+                }
+            ]
         }
 
     },
@@ -902,56 +988,99 @@ var frozenFen = {
     waveInfo: {
         wave1: {
             duration: 27,
-            createEvents: function(s) {
-
-                mainState.scheduleAttackersWave('Oscar', waveNumber, s, 20, 1.75, 2);
-
-            }
+            attacks: [
+                {
+                    className: 'Oscar',
+                    duration: 20,
+                    gap: 1.75,
+                    delay: 2.5
+                }
+            ]
         },
         wave2: {
             duration: 23,
-            createEvents: function(s) {
-
-                mainState.scheduleAttackersWave('Roger', waveNumber, s, 10, 1);
-                mainState.scheduleAttackersWave('Mib', waveNumber, s, 5, 1, 10);
-                mainState.scheduleAttackersWave('Roger', waveNumber, s, 5, 1, 15);
-
-            }
+            attacks: [
+                {
+                    className: 'Roger',
+                    duration: 10,
+                    gap: 1,
+                    delay: 0
+                },
+                {
+                    className: 'Mib',
+                    duration: 5,
+                    gap: 1,
+                    delay: 10
+                },
+                {
+                    className: 'Roger',
+                    duration: 5,
+                    gap: 1,
+                    delay: 15
+                }
+            ]
         },
         wave3: {
-            duration: 18,
-            createEvents: function(s) {
-
-                mainState.scheduleAttackersWave('Mib', waveNumber, s, 15, 2);
-                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 15, 2, 1);
-
-            }
+            duration: 19,
+            attacks: [
+                {
+                    className: 'Mib',
+                    duration: 15,
+                    gap: 2,
+                    delay: 0
+                },
+                {
+                    className: 'Aquila',
+                    duration: 15,
+                    gap: 2,
+                    delay: 1
+                }
+            ]
         },
         wave4: {
-            duration: 23,
-            createEvents: function(s) {
-
-                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 10, .5);
-                mainState.scheduleAttackersWave('Mib', waveNumber, s, 10, 1, 10);
-
-            }
+            duration: 24,
+            attacks: [
+                {
+                    className: 'Aquila',
+                    duration: 10,
+                    gap: .5,
+                    delay: 0
+                },
+                {
+                    className: 'Mib',
+                    duration: 10,
+                    gap: 1,
+                    delay: 10
+                }
+            ]
         },
         wave5: {
-            duration: 28,
-            createEvents: function(s) {
-
-                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 10, .5);
-                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 15, .8, 10);
-
-            }
+            duration: 29,
+            attacks: [
+                {
+                    className: 'Aquila',
+                    duration: 10,
+                    gap: .8,
+                    delay: 0
+                },
+                {
+                    className: 'Aquila',
+                    duration: 15,
+                    gap: .6,
+                    delay: 10
+                }
+            ]
         },
         wave6: {
             duration: 32,
-            createEvents: function(s) {
-
-                mainState.scheduleAttackersWave('Mib', waveNumber, s, 30, .75);
-
-            }
+            attacks: [
+                {
+                    className: 'Mib',
+                    duration: 30,
+                    gap: .75,
+                    delay: 0
+                }
+            ]
         }
 
     },
@@ -986,7 +1115,7 @@ var frozenFen = {
     entryYGrid: 5,
     goalXGrid: 1,
     goalYGrid: 5,
-    waveHealthModifier: .25,
+    waveHealthModifier: .28,
     towerPlacementForbiddenRows: [0, 11],
     canPlaceTowerOnPathway: true,
     theme: 'snow'
@@ -999,56 +1128,99 @@ var sandringhamWoods = {
     waveInfo: {
         wave1: {
             duration: 27,
-            createEvents: function(s) {
-
-                mainState.scheduleAttackersWave('Oscar', waveNumber, s, 20, 1.75, 2);
-
-            }
+            attacks: [
+                {
+                    className: 'Oscar',
+                    duration: 20,
+                    gap: 1.75,
+                    delay: 2
+                }
+            ]
         },
         wave2: {
-            duration: 23,
-            createEvents: function(s) {
-
-                mainState.scheduleAttackersWave('Oscar', waveNumber, s, 10, 1);
-                mainState.scheduleAttackersWave('Mib', waveNumber, s, 5, 1, 10);
-                mainState.scheduleAttackersWave('Oscar', waveNumber, s, 5, 1, 15);
-
-            }
+            duration: 24,
+            attacks: [
+                {
+                    className: 'Oscar',
+                    duration: 10,
+                    gap: 1,
+                    delay: 0
+                },
+                {
+                    className: 'Mib',
+                    duration: 5,
+                    gap: 1,
+                    delay: 10
+                },
+                {
+                    className: 'Oscar',
+                    duration: 5,
+                    gap: 1,
+                    delay: 15
+                }
+            ]
         },
         wave3: {
-            duration: 18,
-            createEvents: function(s) {
-
-                mainState.scheduleAttackersWave('Mib', waveNumber, s, 15, 2);
-                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 15, 2, 1);
-
-            }
+            duration: 19,
+            attacks: [
+                {
+                    className: 'Mib',
+                    duration: 15,
+                    gap: 2,
+                    delay: 0
+                },
+                {
+                    className: 'Aquila',
+                    duration: 15,
+                    gap: 2,
+                    delay: 1
+                }
+            ]
         },
         wave4: {
-            duration: 23,
-            createEvents: function(s) {
-
-                mainState.scheduleAttackersWave('Roger', waveNumber, s, 10, .75);
-                mainState.scheduleAttackersWave('Mib', waveNumber, s, 10, 1, 10);
-
-            }
+            duration: 24,
+            attacks: [
+                {
+                    className: 'Roger',
+                    duration: 10,
+                    gap: .75,
+                    delay: 0
+                },
+                {
+                    className: 'Mib',
+                    duration: 10,
+                    gap: 1,
+                    delay: 10
+                }
+            ]
         },
         wave5: {
             duration: 28,
-            createEvents: function(s) {
-
-                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 10, .5);
-                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 15, .8, 10);
-
-            }
+            attacks: [
+                {
+                    className: 'Aquila',
+                    duration: 10,
+                    gap: .8,
+                    delay: 0
+                },
+                {
+                    className: 'Aquila',
+                    duration: 15,
+                    gap: .6,
+                    delay: 10
+                }
+            ]
         },
         wave6: {
-            duration: 32,
-            createEvents: function(s) {
-
-                mainState.scheduleAttackersWave('Mib', waveNumber, s, 30, .75);
-
-            }
+            duration: 33,
+            attacks: [
+                {
+                    className: 'Mib',
+                    duration: 30,
+                    gap: .75,
+                    delay: 0
+                }
+            ]
         }
 
     },
@@ -1083,7 +1255,7 @@ var sandringhamWoods = {
     entryYGrid: 5,
     goalXGrid: 1,
     goalYGrid: 5,
-    waveHealthModifier: .275,
+    waveHealthModifier: .29,
     towerPlacementForbiddenRows: [0, 11],
     canPlaceTowerOnPathway: true
 };
@@ -1095,56 +1267,99 @@ var holkhamBeach = {
     waveInfo: {
         wave1: {
             duration: 27,
-            createEvents: function(s) {
-
-                mainState.scheduleAttackersWave('Roger', waveNumber, s, 20, 1.75, 2);
-
-            }
+            attacks: [
+                {
+                    className: 'Roger',
+                    duration: 20,
+                    gap: 1.75,
+                    delay: 2.5
+                }
+            ]
         },
         wave2: {
-            duration: 23,
-            createEvents: function(s) {
-
-                mainState.scheduleAttackersWave('Roger', waveNumber, s, 10, 1);
-                mainState.scheduleAttackersWave('Mib', waveNumber, s, 5, 1, 10);
-                mainState.scheduleAttackersWave('Roger', waveNumber, s, 5, 1, 15);
-
-            }
+            duration: 24,
+            attacks: [
+                {
+                    className: 'Roger',
+                    duration: 10,
+                    gap: 1,
+                    delay: 0
+                },
+                {
+                    className: 'Mib',
+                    duration: 5,
+                    gap: 1,
+                    delay: 10
+                },
+                {
+                    className: 'Roger',
+                    duration: 5,
+                    gap: 1,
+                    delay: 15
+                }
+            ]
         },
         wave3: {
-            duration: 18,
-            createEvents: function(s) {
-
-                mainState.scheduleAttackersWave('Mib', waveNumber, s, 15, 2);
-                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 15, 2, 1);
-
-            }
+            duration: 19,
+            attacks: [
+                {
+                    className: 'Mib',
+                    duration: 15,
+                    gap: 2,
+                    delay: 0
+                },
+                {
+                    className: 'Aquila',
+                    duration: 15,
+                    gap: 2,
+                    delay: 1
+                }
+            ]
         },
         wave4: {
-            duration: 23,
-            createEvents: function(s) {
-
-                mainState.scheduleAttackersWave('Roger', waveNumber, s, 10, .75);
-                mainState.scheduleAttackersWave('Mib', waveNumber, s, 10, 1, 10);
-
-            }
+            duration: 24,
+            attacks: [
+                {
+                    className: 'Roger',
+                    duration: 10,
+                    gap: .75,
+                    delay: 0
+                },
+                {
+                    className: 'Mib',
+                    duration: 10,
+                    gap: 1,
+                    delay: 10
+                }
+            ]
         },
         wave5: {
-            duration: 28,
-            createEvents: function(s) {
-
-                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 10, .5);
-                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 15, .8, 10);
-
-            }
+            duration: 29,
+            attacks: [
+                {
+                    className: 'Aquila',
+                    duration: 10,
+                    gap: .8,
+                    delay: 0
+                },
+                {
+                    className: 'Aquila',
+                    duration: 15,
+                    gap: .6,
+                    delay: 10
+                }
+            ]
         },
         wave6: {
-            duration: 32,
-            createEvents: function(s) {
-
-                mainState.scheduleAttackersWave('Mib', waveNumber, s, 30, .75);
-
-            }
+            duration: 33,
+            attacks: [
+                {
+                    className: 'Mib',
+                    duration: 30,
+                    gap: .75,
+                    delay: 0
+                }
+            ]
         }
 
     },
@@ -1190,57 +1405,100 @@ var northCreake = {
     title: 'North Creake',
     waveInfo: {
         wave1: {
-            duration: 27.5,
-            createEvents: function(s) {
-
-                mainState.scheduleAttackersWave('Oscar', waveNumber, s, 10, 1.75, 2.5);
-                mainState.scheduleAttackersWave('Roger', waveNumber, s, 10, 1.75, 12.5);
-
-            }
+            duration: 27,
+            attacks: [
+                {
+                    className: 'Oscar',
+                    duration: 10,
+                    gap: 1.75,
+                    delay: 2.5
+                },
+                {
+                    className: 'Roger',
+                    duration: 10,
+                    gap: 1.75,
+                    delay: 12.5
+                }
+            ]
         },
         wave2: {
-            duration: 23,
-            createEvents: function(s) {
-
-                mainState.scheduleAttackersWave('Roger', waveNumber, s, 10, 1);
-                mainState.scheduleAttackersWave('Mib', waveNumber, s, 5, 1, 10);
-                mainState.scheduleAttackersWave('Roger', waveNumber, s, 5, 1, 15);
-
-            }
+            duration: 23.5,
+            attacks: [
+                {
+                    className: 'Roger',
+                    duration: 10,
+                    gap: 1,
+                    delay: 0
+                },
+                {
+                    className: 'Mib',
+                    duration: 5,
+                    gap: 1,
+                    delay: 10
+                },
+                {
+                    className: 'Roger',
+                    duration: 5,
+                    gap: 1,
+                    delay: 15
+                }
+            ]
         },
         wave3: {
-            duration: 18,
-            createEvents: function(s) {
-
-                mainState.scheduleAttackersWave('Mib', waveNumber, s, 15, 2);
-                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 15, 2, 1);
-
-            }
+            duration: 19,
+            attacks: [
+                {
+                    className: 'Mib',
+                    duration: 15,
+                    gap: 2,
+                    delay: 0
+                },
+                {
+                    className: 'Aquila',
+                    duration: 15,
+                    gap: 2,
+                    delay: 1
+                }
+            ]
         },
         wave4: {
-            duration: 23,
-            createEvents: function(s) {
-
-                mainState.scheduleAttackersWave('Roger', waveNumber, s, 10, .8);
-                mainState.scheduleAttackersWave('Mib', waveNumber, s, 10, 1, 10);
-
-            }
+            duration: 23.5,
+            attacks: [
+                {
+                    className: 'Roger',
+                    duration: 10,
+                    gap: .8,
+                    delay: 0
+                },
+                {
+                    className: 'Mib',
+                    duration: 10,
+                    gap: 1,
+                    delay: 10
+                }
+            ]
         },
         wave5: {
-            duration: 28,
-            createEvents: function(s) {
-
-                mainState.scheduleAttackersWave('Aquila', waveNumber, s, 25, .85);
-
-            }
+            duration: 28.5,
+            attacks: [
+                {
+                    className: 'Aquila',
+                    duration: 25,
+                    gap: .85,
+                    delay: 0
+                }
+            ]
         },
         wave6: {
-            duration: 32,
-            createEvents: function(s) {
-
-                mainState.scheduleAttackersWave('Mib', waveNumber, s, 30, 1);
-
-            }
+            duration: 33,
+            attacks: [
+                {
+                    className: 'Mib',
+                    duration: 30,
+                    gap: 1,
+                    delay: 0
+                }
+            ]
         }
 
     },
