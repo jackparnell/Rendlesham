@@ -848,6 +848,7 @@ var mainState = {
 
     levelCompletedScreen: function()
     {
+        this.levelCompletedScreenOpen = true;
 
         this.destroyUserInterfaceButtons();
         this.closeTowerInfo();
@@ -926,7 +927,7 @@ var mainState = {
 
     userInput: function()
     {
-        if (this.pauseScreenOpen) {
+        if (this.pauseScreenOpen || this.levelCompletedScreenOpen) {
             return false;
         }
 
