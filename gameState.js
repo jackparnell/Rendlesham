@@ -39,16 +39,23 @@ Rendlesham.gameState.prototype = {
             this.user.levelsComplete = [];
         }
 
-        // Objects
-        if (!this.user.items) {
-            this.user.items = {};
+        var records = ['items', 'levelCompletions', 'levelStars', 'levelHighScores'];
+        var modes = ['classic', 'epic', 'endless'];
+
+        for (var i = 0; i < records.length; ++i)
+        {
+            if (!this.user[records[i]]) {
+                this.user[records[i]] = {};
+            }
+
+            for (var j = 0; j < modes.length; ++j)
+            {
+                if (!this.user[records[i]][modes[j]]) {
+                    this.user[records[i]][modes[j]] = {};
+                }
+            }
         }
-        if (!this.user.levelStars) {
-            this.user.levelStars = {};
-        }
-        if (!this.user.levelHighScores) {
-            this.user.levelHighScores = {};
-        }
+
         if (!this.user.zones) {
             this.user.zones = {};
         }

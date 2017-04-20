@@ -16,9 +16,15 @@ var mainState = {
 
     },
 
-    init: function(levelNumber)
+    init: function(levelNumber, mode)
     {
         this.levelId = levelNumber;
+
+        if (!mode) {
+            mode = 'classic';
+        }
+
+        this.mode = mode;
     },
 
     create: function()
@@ -52,6 +58,7 @@ var mainState = {
         // this.game.add.plugin(Phaser.Plugin.Debug);
 
         this.loadUser();
+        this.checkUser();
 
         this.turn = 0;
         this.coins = 0;
@@ -117,8 +124,6 @@ var mainState = {
         this.gameOverBackground.alpha = 0;
 
         this.game.overlays.add(this.gameOverBackground);
-
-        this.mode = 'place';
 
         this.game.target = {};
 
@@ -815,6 +820,14 @@ var mainState = {
         this.user.levelsComplete[this.levelId] = true;
         this.user.levelsComplete[this.level.name] = true;
 
+        if (!this.user.levelCompletions) {
+            this.user.levelCompletions = {};
+        }
+        if (!this.user.levelCompletions[this.mode]) {
+            this.user.levelCompletions[this.mode] = {};
+        }
+        this.user.levelCompletions[this.mode][this.level.name] = true;
+
         // Begin stars
         if (!this.user.levelStars) {
             this.user.levelStars = {};
@@ -822,12 +835,16 @@ var mainState = {
 
         var completionStars = this.level.calculateCompletionStars();
 
-        if (!this.user.levelStars[this.levelId] || this.user.levelStars[this.levelId] < completionStars) {
-            this.user.levelStars[this.levelId] = completionStars;
-        }
-
         if (!this.user.levelStars[this.level.name] || this.user.levelStars[this.level.name] < completionStars) {
             this.user.levelStars[this.level.name] = completionStars;
+        }
+
+        if (!this.user.levelStars[this.mode]) {
+            this.user.levelStars[this.mode] = {};
+        }
+
+        if (!this.user.levelStars[this.mode][this.level.name] || this.user.levelStars[this.mode][this.level.name] < completionStars) {
+            this.user.levelStars[this.mode][this.level.name] = completionStars;
         }
         // End stars
 
@@ -838,6 +855,14 @@ var mainState = {
 
         if (!this.user.levelHighScores[this.level.name] || this.user.levelHighScores[this.level.name] < this.score) {
             this.user.levelHighScores[this.level.name] = this.score;
+        }
+
+        if (!this.user.levelHighScores[this.mode]) {
+            this.user.levelHighScores[this.mode] = {};
+        }
+
+        if (!this.user.levelHighScores[this.mode][this.level.name] || this.user.levelHighScores[this.mode][this.level.name] < this.score) {
+            this.user.levelHighScores[this.mode][this.level.name] = this.score;
         }
         // End score
 
@@ -1466,14 +1491,7 @@ var mainState = {
             borderColor = 0x000000;
             indicatorMessage = 'Nathan has been captured.';
 
-        } else if (this.mode == 'sell' && this.isTowerSaleAppropriateAtPosition(x, y)) {
-
-            var tower = this.getTowerAtPosition(x, y);
-
-            borderColor = sellColor;
-            indicatorMessage = 'Sell ' + this.towerSelected + ' tower for £' + tower.getSellValue() + '.';
-
-        } else if (this.mode == 'place' && this.isTowerPlacementAppropriateAtPosition(x, y)) {
+        } else if (this.isTowerPlacementAppropriateAtPosition(x, y)) {
 
             var cheapestTowerCost = this.getCheapestTowerCost();
 
@@ -1488,7 +1506,7 @@ var mainState = {
             // this.placementGhost = game.add.sprite(x, y, window[this.towerSelected].spriteName);
 
 
-        } else if (this.mode == 'place' && this.isTowerUpgradeAppropriateAtPosition(x, y)) {
+        } else if (this.isTowerUpgradeAppropriateAtPosition(x, y)) {
 
             if (this.coinsSufficientToUpgradeCurrentTower()) {
                 borderColor = upgradeColor;
@@ -1497,11 +1515,11 @@ var mainState = {
             }
             indicatorMessage = 'Click tower for options.';
 
-        } else if (this.mode == 'place' && this.doesAttackerExistAtPosition(x, y)) {
+        } else if (this.doesAttackerExistAtPosition(x, y)) {
             borderColor = 0xFF8800;
             indicatorMessage = 'Target this attacker.';
 
-        } else if (this.mode == 'place' && this.doesObstacleExistAtPosition(x, y)) {
+        } else if (this.doesObstacleExistAtPosition(x, y)) {
             borderColor = 0xFF8800;
             indicatorMessage = 'Target this obstacle.';
 
@@ -1517,7 +1535,7 @@ var mainState = {
         this.graphics.lineStyle(2, borderColor, 1);
         this.graphics.drawRect(x, y, this.squareWidth, this.squareWidth);
 
-        if (this.mode == 'place' && this.doesTowerExistAtPosition(x, y)) {
+        if (this.doesTowerExistAtPosition(x, y)) {
             var tower = this.getTowerAtPosition(x, y);
 
 
@@ -1590,7 +1608,7 @@ mainState.coinsSufficientForTowerPlacement = function()
 
 mainState.coinsSufficientToUpgradeCurrentTower = function()
 {
-    if (!this.currentTower) {
+    if (!this.currentTower  || typeof this.currentTower.getUpgradeCost != 'function') {
         return false;
     }
 
@@ -1795,20 +1813,9 @@ mainState.getCollisionLayer = function()
     return collisionLayer;
 };
 
-mainState.loadUser = function()
-{
-    if (localStorage.getItem(this.name)) {
-        this.user = JSON.parse(localStorage.getItem(this.name));
-    } else {
-        this.user = newUser;
-        this.save();
-    }
-};
-
-mainState.save = function()
-{
-    localStorage.setItem(this.name, JSON.stringify(this.user));
-};
+mainState.loadUser = Rendlesham.gameState.prototype.loadUser;
+mainState.checkUser = Rendlesham.gameState.prototype.checkUser;
+mainState.save = Rendlesham.gameState.prototype.save;
 
 mainState.untargetAll = function()
 {

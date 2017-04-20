@@ -53,6 +53,9 @@ Rendlesham.eastAnglia.prototype.create = function()
     this.game.world.setBounds(0, 0, this.zoneMap.width, this.zoneMap.height);
 
     this.loadUser();
+    this.checkUser();
+
+    console.log(this.user);
 
     this.addButtonTextLink('backLink', 'Back', 20, 'smallDark', 10, 10, 'right', 'goToTitleScreen');
 

@@ -201,7 +201,9 @@ Attacker.prototype.reachedGoal = function()
 
 Attacker.prototype.prepareForGameOver = function()
 {
-    this.animations.paused = true;
+    if (this.animations) {
+        this.animations.paused = true;
+    }
     this.body.enable = false;
     this.invulnerable = true;
 };
