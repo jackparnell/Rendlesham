@@ -1412,7 +1412,7 @@ var mainState = {
 
         var buttonsForEffect = ['pauseButton', 'sellTowerButton'];
 
-        if (this.coinsSufficientForTowerUpgrade()) {
+        if (this.coinsSufficientToUpgradeCurrentTower()) {
             buttonsForEffect.push('upgradeTowerButton');
         }
 
@@ -1490,7 +1490,7 @@ var mainState = {
 
         } else if (this.mode == 'place' && this.isTowerUpgradeAppropriateAtPosition(x, y)) {
 
-            if (this.coinsSufficientForTowerUpgrade()) {
+            if (this.coinsSufficientToUpgradeCurrentTower()) {
                 borderColor = upgradeColor;
             } else {
                 borderColor = notEnoughCoinsColor;
@@ -1588,9 +1588,13 @@ mainState.coinsSufficientForTowerPlacement = function()
     return true;
 };
 
-mainState.coinsSufficientForTowerUpgrade = function()
+mainState.coinsSufficientToUpgradeCurrentTower = function()
 {
-    if (this.coins < window[this.towerSelected].cost) {
+    if (!this.currentTower) {
+        return false;
+    }
+
+    if (this.coins < this.currentTower.getUpgradeCost()) {
         return false;
     }
 
@@ -2209,7 +2213,7 @@ mainState.openTowerInfo = function(tower)
     if (tower.upgradable()) {
         this.upgradeTowerButton = game.add.button(tower.x, tower.y, 'upDark', this.upgradeCurrentTower, this);
 
-        if (this.coinsSufficientForTowerUpgrade()) {
+        if (this.coinsSufficientToUpgradeCurrentTower()) {
             this.upgradeTowerButton.inputEnabled = true;
         } else {
             this.upgradeTowerButton.inputEnabled = false;
@@ -2299,7 +2303,7 @@ mainState.sellCurrentTower = function()
 
 mainState.upgradeCurrentTower = function()
 {
-    if (this.coinsSufficientForTowerUpgrade()) {
+    if (this.coinsSufficientToUpgradeCurrentTower()) {
         this.currentTower.upgradeAtCost();
     }
 
