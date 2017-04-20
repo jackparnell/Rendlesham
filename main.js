@@ -813,6 +813,7 @@ var mainState = {
         this.labelIndicatorMessage.setText('');
 
         this.user.levelsComplete[this.levelId] = true;
+        this.user.levelsComplete[this.level.name] = true;
 
         // Begin stars
         if (!this.user.levelStars) {

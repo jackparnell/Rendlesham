@@ -56,7 +56,7 @@ Rendlesham.eastAnglia.prototype.create = function()
 
     this.addButtonTextLink('backLink', 'Back', 20, 'smallDark', 10, 10, 'right', 'goToTitleScreen');
 
-    this.level = {
+    this.levels = {
         1: {
             x: game.width * .1,
             y: game.height * .1
@@ -119,11 +119,13 @@ Rendlesham.eastAnglia.prototype.create = function()
         }
     };
 
+    this.lastLevel = Object.keys(this.levels).length;
+
     this.drawLinesBetweenLevels();
 
-    for (var i = 1; i <= lastLevel; i++) {
+    for (var i = 1; i <= this.lastLevel; i++) {
 
-        this['level' + i + 'Button'] = game.add.button(this.level[i].x, this.level[i].y, 'ufo', this['clickLevel' + i], this);
+        this['level' + i + 'Button'] = game.add.button(this.levels[i].x, this.levels[i].y, 'ufo', this['clickLevel' + i], this);
         if (!this.isLevelUnlocked(i)) {
             this['level' + i + 'Button'].tint = 0x333333;
             this['level' + i + 'Button'].input.useHandCursor = false;
@@ -238,7 +240,9 @@ Rendlesham.eastAnglia.prototype.isLevelUnlocked = function(levelNumber)
         return true;
     }
 
-    if (this.user.levelsComplete[levelNumber-1]) {
+    var levelName = levelOrdering[this.zoneName][levelNumber];
+
+    if (this.user.levelsComplete[levelName] || this.user.levelsComplete[levelNumber-1]) {
         return true;
     }
 
@@ -247,8 +251,8 @@ Rendlesham.eastAnglia.prototype.isLevelUnlocked = function(levelNumber)
 
 Rendlesham.eastAnglia.prototype.writeLevelText = function(levelNumber)
 {
-    var x = this.level[levelNumber].x + 16;
-    var y = this.level[levelNumber].y - 19;
+    var x = this.levels[levelNumber].x + 16;
+    var y = this.levels[levelNumber].y - 19;
 
     this['level' + levelNumber + 'Text'] = game.add.bitmapText(
         x,
@@ -266,10 +270,12 @@ Rendlesham.eastAnglia.prototype.addLevelStars = function(levelNumber)
         return;
     }
 
-    var stars = this.user.levelStars[levelNumber] || 0;
+    var levelName = levelOrdering[this.zoneName][levelNumber];
 
-    var x = this.level[levelNumber].x - 13;
-    var y = this.level[levelNumber].y + 35;
+    var stars = this.user.levelStars[levelName] || 0;
+
+    var x = this.levels[levelNumber].x - 13;
+    var y = this.levels[levelNumber].y + 35;
 
     var spriteName;
 
@@ -294,16 +300,16 @@ Rendlesham.eastAnglia.prototype.drawLinesBetweenLevels = function()
 
     graphics.lineStyle(3, 0x886666, 1);
 
-    for (var i = 1; i < lastLevel; i++) {
+    for (var i = 1; i < this.lastLevel; i++) {
 
         graphics.moveTo(
-            Math.round(this.level[i].x + 16),
-            Math.round(this.level[i].y + 16)
+            Math.round(this.levels[i].x + 16),
+            Math.round(this.levels[i].y + 16)
         );
 
         graphics.lineTo(
-            Math.round(this.level[String(i+1)].x + 16),
-            Math.round(this.level[String(i+1)].y + 16)
+            Math.round(this.levels[String(i+1)].x + 16),
+            Math.round(this.levels[String(i+1)].y + 16)
         );
 
     }

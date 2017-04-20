@@ -1,6 +1,3 @@
-var waveNumber;
-var lastLevel = 15;
-
 var levelOrdering = {
     'eastAnglia': {
         1: 'fridayStreet',
