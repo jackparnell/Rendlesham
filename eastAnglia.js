@@ -55,8 +55,6 @@ Rendlesham.eastAnglia.prototype.create = function()
     this.loadUser();
     this.checkUser();
 
-    console.log(this.user);
-
     this.addButtonTextLink('backLink', 'Back', 20, 'smallDark', 10, 10, 'right', 'goToTitleScreen');
 
     this.levels = {
