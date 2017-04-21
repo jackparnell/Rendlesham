@@ -1256,8 +1256,6 @@ var mainState = {
     startLevel: function()
     {
 
-        $('p').css('opacity', '0.01');
-
         this.fetchLevelInfo();
 
         this.allAttackersDispatched = false;
@@ -1276,7 +1274,28 @@ var mainState = {
         // Begin level wave scheduling
         var s = 0;
         waveNumber = 0;
-        var totalWaves = Object.keys(this.level.waveInfo).length;
+
+        this.mode = 'epic';
+
+        this.initialWavesCount = Object.keys(this.level.waveInfo).length;
+
+        switch (this.mode) {
+            case 'endless':
+                this.totalWaves = 99;
+                break;
+            case 'epic':
+                this.totalWaves = this.initialWavesCount * 2;
+                break;
+            case 'classic':
+            default:
+                this.totalWaves = this.initialWavesCount;
+        }
+
+        var i = this.initialWavesCount + 1;
+        while (i <= this.totalWaves) {
+            this.generateWave(i);
+            i++;
+        }
 
         for (var wave in this.level.waveInfo) {
             if (this.level.waveInfo.hasOwnProperty(wave)) {
@@ -1850,6 +1869,7 @@ mainState.toggleFullScreen = function()
 
 mainState.scheduleAttackersWave = function(attackerClassName, waveNumber, s, duration, gap, startOffset)
 {
+
     if (!startOffset) {
         startOffset = 0;
     }
@@ -2609,5 +2629,57 @@ mainState.addTowerClassUsed = function(towerClassName, notificationX, notificati
         var additionalTowerClassScoreBonus = 50 * this.towerClassesUsed.length;
         this.changeScore(additionalTowerClassScoreBonus, notificationX, notificationY);
     }
+};
+
+/**
+ * Generate wave information for a supplied waveNumber.
+ *
+ * @param waveNumber
+ * @returns {boolean}
+ */
+mainState.generateWave = function(waveNumber)
+{
+    if (waveNumber <= this.initialWavesCount) {
+        return false;
+    }
+
+    var sourceWaveNumber = (waveNumber % this.initialWavesCount) || this.initialWavesCount;
+
+    var difficultyMultiplier = Math.floor(waveNumber / this.initialWavesCount) + 1;
+
+    var sourceWave = this.level.waveInfo['wave' + sourceWaveNumber];
+
+    var generatedWave = {
+        duration: sourceWave.duration * difficultyMultiplier,
+        attacks: []
+    };
+
+    if (sourceWave.attacks) {
+
+        sourceWave.attacks.forEach(function(attack) {
+
+            var delay = attack.delay;
+
+            if (attack.delay >= 3) {
+                delay *= difficultyMultiplier;
+            }
+
+            var generatedAttack = {
+                className: attack.className,
+                duration: attack.duration * difficultyMultiplier,
+                gap: attack.gap,
+                delay: delay
+            };
+
+            generatedWave.attacks.push(generatedAttack);
+
+        });
+
+    }
+
+    this.level.waveInfo['wave' + waveNumber] = generatedWave;
+
+    return true;
+
 };
 
