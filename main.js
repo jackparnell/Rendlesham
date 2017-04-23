@@ -65,28 +65,12 @@ var mainState = {
         this.lives = 999;
         this.score = 0;
         this.towerSelected = 'Gun';
-        this.squareWidth = 35;
-        this.halfSquareWidth = this.squareWidth * .5;
-
-        if (!this.levelId) {
-            this.levelId = 1;
-        }
-
 
         window.onkeydown = function() {
             // Press P
             if (game.input.keyboard.event.keyCode == 80) {
                 mainState.togglePauseScreen();
             }
-            // Press 1
-            if (game.input.keyboard.event.keyCode == 49) {
-                mainState.towerSelected = 'Gun';
-            }
-            // Press 2
-            if (game.input.keyboard.event.keyCode == 50) {
-                mainState.towerSelected = 'Freezer';
-            }
-
         };
 
         this.backgrounds = game.add.group();
@@ -992,9 +976,6 @@ var mainState = {
                 return;
 
             }
-            ;
-
-            var cost = window[this.towerSelected].cost;
 
             var x = Math.floor((game.input.x + game.camera.x) / this.squareWidth) * this.squareWidth + this.halfSquareWidth;
             var y = Math.floor((game.input.y + game.camera.y) / this.squareWidth) * this.squareWidth + this.halfSquareWidth;
@@ -1706,6 +1687,10 @@ mainState.setupMap = function()
     }
 
     this.map = game.add.tilemap(this.level.mapName);
+
+    this.squareWidth = this.map.tileWidth || 35;
+    this.halfSquareWidth = this.squareWidth * .5;
+
     this.map.addTilesetImage('tiles_spritesheet', 'tiles', this.squareWidth, this.squareWidth, 0, 1);
 
     // create map layers
