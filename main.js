@@ -1260,7 +1260,7 @@ var mainState = {
 
         // Begin level wave scheduling
         var s = 0;
-        waveNumber = 0;
+        var waveNumber = 0;
 
         this.mode = 'classic';
 
@@ -1285,52 +1285,9 @@ var mainState = {
         }
 
         for (var wave in this.level.waveInfo) {
-            if (this.level.waveInfo.hasOwnProperty(wave)) {
-
-                waveNumber ++;
-
-                timerEvents.push(
-                    game.time.events.add(
-                        Phaser.Timer.SECOND * s,
-                        mainState.startWave,
-                        mainState,
-                        waveNumber
-                    ).autoDestroy = true
-                );
-
-                if (typeof this.level.waveInfo[wave].createEvents === 'function') {
-                    this.level.waveInfo[wave].createEvents(s);
-                }
-
-                var lastAttackerOfWaveSeconds = 0;
-
-                if (this.level.waveInfo[wave].attacks) {
-
-                    this.level.waveInfo[wave].attacks.forEach(function(attack) {
-                        mainState.scheduleAttackersWave(
-                            attack.className,
-                            waveNumber,
-                            s,
-                            attack.duration,
-                            attack.gap,
-                            attack.delay
-                        );
-
-                        var lastAttackerSeconds = attack.duration + attack.delay;
-
-                        if (lastAttackerSeconds > lastAttackerOfWaveSeconds) {
-                            lastAttackerOfWaveSeconds = lastAttackerSeconds;
-                        }
-
-                    });
-
-                }
-
-                timerEvents.push(game.time.events.add(Phaser.Timer.SECOND * (s+lastAttackerOfWaveSeconds), this.lastWaveAttackerDispatched, this));
-
-                s += this.level.waveInfo[wave].duration;
-
-            }
+            waveNumber ++;
+            this.scheduleWaveEvents(this.level.waveInfo[wave], waveNumber, s);
+            s += this.level.waveInfo[wave].duration;
         }
 
         timerEvents.push(game.time.events.add(Phaser.Timer.SECOND * s, this.lastWaveDispatched, this));
@@ -1352,6 +1309,49 @@ var mainState = {
         this.updateScore();
 
         this.startingObstaclesWithCoinsValue = this.countObstaclesWithCoinsValue();
+
+    },
+
+    scheduleWaveEvents: function(wave, waveNumber, s)
+    {
+        timerEvents.push(
+            game.time.events.add(
+                Phaser.Timer.SECOND * s,
+                mainState.startWave,
+                mainState,
+                waveNumber
+            ).autoDestroy = true
+        );
+
+        if (typeof wave.createEvents === 'function') {
+            wave.createEvents(s);
+        }
+
+        var lastAttackerOfWaveSeconds = 0;
+
+        if (wave.attacks) {
+
+            wave.attacks.forEach(function(attack) {
+                mainState.scheduleAttackersWave(
+                    attack.className,
+                    waveNumber,
+                    s,
+                    attack.duration,
+                    attack.gap,
+                    attack.delay
+                );
+
+                var lastAttackerSeconds = attack.duration + attack.delay;
+
+                if (lastAttackerSeconds > lastAttackerOfWaveSeconds) {
+                    lastAttackerOfWaveSeconds = lastAttackerSeconds;
+                }
+
+            });
+
+        }
+
+        timerEvents.push(game.time.events.add(Phaser.Timer.SECOND * (s+lastAttackerOfWaveSeconds), this.lastWaveAttackerDispatched, this));
 
     },
 
