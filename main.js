@@ -177,6 +177,10 @@ var mainState = {
             this.updateNotifications();
             this.drawIndicators();
 
+            for (var i = 1; i <= this.waveNumber; i++) {
+                this.checkIfWaveHasBeenBeaten(i);
+            }
+
             if (!this.pendingLevelCompleted && this.level.completed()) {
                 this.levelCompleted();
             }
@@ -1242,6 +1246,8 @@ var mainState = {
         this.allAttackersDispatched = false;
         this.pendingLevelCompleted = false;
         this.towerClassesUsed = [];
+        this.wavesBeaten = [];
+        this.allAttackersDispatchedForWaves = [];
 
         this.cleanUp();
         this.clearMap();
@@ -1256,7 +1262,7 @@ var mainState = {
         var s = 0;
         waveNumber = 0;
 
-        this.mode = 'epic';
+        this.mode = 'classic';
 
         this.initialWavesCount = Object.keys(this.level.waveInfo).length;
 
@@ -1296,6 +1302,8 @@ var mainState = {
                     this.level.waveInfo[wave].createEvents(s);
                 }
 
+                var lastAttackerOfWaveSeconds = 0;
+
                 if (this.level.waveInfo[wave].attacks) {
 
                     this.level.waveInfo[wave].attacks.forEach(function(attack) {
@@ -1307,9 +1315,18 @@ var mainState = {
                             attack.gap,
                             attack.delay
                         );
+
+                        var lastAttackerSeconds = attack.duration + attack.delay;
+
+                        if (lastAttackerSeconds > lastAttackerOfWaveSeconds) {
+                            lastAttackerOfWaveSeconds = lastAttackerSeconds;
+                        }
+
                     });
 
                 }
+
+                timerEvents.push(game.time.events.add(Phaser.Timer.SECOND * (s+lastAttackerOfWaveSeconds), this.lastWaveAttackerDispatched, this));
 
                 s += this.level.waveInfo[wave].duration;
 
@@ -1318,7 +1335,6 @@ var mainState = {
 
         timerEvents.push(game.time.events.add(Phaser.Timer.SECOND * s, this.lastWaveDispatched, this));
         // End level wave scheduling
-
 
         if (typeof this.level.begin === 'function') {
             this.level.begin();
@@ -1647,6 +1663,46 @@ mainState.cleanUp = function()
         i--;
     }
 };
+
+mainState.lastWaveAttackerDispatched = function(waveNumber)
+{
+    if (!waveNumber) {
+        waveNumber = this.waveNumber;
+    }
+    this.allAttackersDispatchedForWaves.push(waveNumber);
+};
+
+/**
+ * Have all attackers in a wave been defeated?
+ *
+ * @returns {boolean}
+ */
+mainState.checkIfWaveHasBeenBeaten = function(waveNumber)
+{
+    if (this.wavesBeaten.indexOf(waveNumber) !== -1) {
+        return true;
+    }
+
+    if (this.allAttackersDispatchedForWaves.indexOf(waveNumber) == -1) {
+        return false;
+    }
+
+    var anyLivingAttackersInWave = false;
+    this.attackers.forEachAlive(function(attacker) {
+        if (attacker.waveNumber == waveNumber) {
+            anyLivingAttackersInWave = true;
+        }
+    });
+
+    if (anyLivingAttackersInWave) {
+        return false;
+    }
+
+    this.wavesBeaten.push(waveNumber);
+
+    return true;
+};
+
 
 mainState.lastWaveDispatched = function()
 {
