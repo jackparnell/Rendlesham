@@ -125,7 +125,8 @@ var fridayStreet = {
     goalYGrid: 5,
     waveHealthModifier: .2,
     towerPlacementForbiddenRows: [0, 11],
-    towersAvailable: ['Gun']
+    towersAvailable: ['Gun'],
+    distinctWaves: true
 };
 
 var orfordRoad = {
@@ -264,7 +265,8 @@ var orfordRoad = {
     goalYGrid: 5,
     waveHealthModifier: .25,
     towerPlacementForbiddenRows: [0, 11],
-    towersAvailable: ['Gun', 'Freezer']
+    towersAvailable: ['Gun', 'Freezer'],
+    distinctWaves: true
 };
 
 var orfordness = {
@@ -336,12 +338,12 @@ var orfordness = {
                     className: 'Mib',
                     duration: 10,
                     gap: 1.5,
-                    delay: 10
+                    delay: 11
                 }
             ]
         },
         wave5: {
-            duration: 20,
+            duration: 22,
             attacks: [
                 {
                     className: 'Aquila',
@@ -351,9 +353,9 @@ var orfordness = {
                 },
                 {
                     className: 'Mib',
-                    duration: 5,
+                    duration: 8,
                     gap: 1.25,
-                    delay: 10
+                    delay: 11
                 }
             ]
         },
@@ -403,7 +405,8 @@ var orfordness = {
     goalXGrid: 1,
     goalYGrid: 5,
     waveHealthModifier: .33,
-    towerPlacementForbiddenRows: [0, 10, 11]
+    towerPlacementForbiddenRows: [0, 10, 11],
+    distinctWaves: true
 };
 
 var westletonHeath = {
@@ -1116,7 +1119,8 @@ var frozenFen = {
     waveHealthModifier: .28,
     towerPlacementForbiddenRows: [0, 11],
     canPlaceTowerOnPathway: true,
-    theme: 'snow'
+    theme: 'snow',
+    distinctWaves: true
 };
 
 var sandringhamWoods = {
