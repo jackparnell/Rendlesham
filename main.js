@@ -655,29 +655,41 @@ var mainState = {
             }
         }
 
-        this.map.createFromObjects('objects', 51, 'rock', 0, true, false, this.obstacles, Rock, true);
-        this.map.createFromObjects('objects', 63, 'bigBush', 0, true, false, this.obstacles, BigBush, true);
-        this.map.createFromObjects('objects', 5, 'bigBushAutumn', 0, true, false, this.obstacles, BigBushAutumn, true);
-        this.map.createFromObjects('objects', 64, 'smallBush', 0, true, false, this.obstacles, SmallBush, true);
-        this.map.createFromObjects('objects', 76, 'snowman', 0, true, false, this.obstacles, Snowman, true);
-        this.map.createFromObjects('objects', 78, 'bulrush', 0, true, false, this.obstacles, Bulrush, true);
-        this.map.createFromObjects('objects', 94, 'snowyPine', 0, true, false, this.obstacles, SnowyPine, true);
-        this.map.createFromObjects('objects', 130, 'create', 0, true, false, this.obstacles, Crate, true);
+        switch (this.level.tileSetName) {
+            case 'roguelikeSheet_transparent':
 
-        this.map.createFromObjects('objects', 60, 'pumpkin', 0, true, false, this.obstacles, Pumpkin, true);
-        this.map.createFromObjects('objects', 105, 'tallBrownMushroom', 0, true, false, this.obstacles, TallBrownMushroom, true);
-        this.map.createFromObjects('objects', 106, 'tallRedMushroom', 0, true, false, this.obstacles, TallRedMushroom, true);
-        this.map.createFromObjects('objects', 107, 'tallGreyMushroom', 0, true, false, this.obstacles, TallGreyMushroom, true);
-        this.map.createFromObjects('objects', 118, 'pinkCrystal', 0, true, false, this.obstacles, PinkCrystal, true);
+                break;
+            default:
+                this.map.createFromObjects('objects', 51, 'rock', 0, true, false, this.obstacles, Rock, true);
+                this.map.createFromObjects('objects', 63, 'bigBush', 0, true, false, this.obstacles, BigBush, true);
+                this.map.createFromObjects('objects', 5, 'bigBushAutumn', 0, true, false, this.obstacles, BigBushAutumn, true);
+                this.map.createFromObjects('objects', 64, 'smallBush', 0, true, false, this.obstacles, SmallBush, true);
+                this.map.createFromObjects('objects', 76, 'snowman', 0, true, false, this.obstacles, Snowman, true);
+                this.map.createFromObjects('objects', 78, 'bulrush', 0, true, false, this.obstacles, Bulrush, true);
+                this.map.createFromObjects('objects', 94, 'snowyPine', 0, true, false, this.obstacles, SnowyPine, true);
+                this.map.createFromObjects('objects', 130, 'create', 0, true, false, this.obstacles, Crate, true);
 
-        this.map.createFromObjects('objects', 108, 'nathan', 0, true, false, this.characters, Nathan, true);
-        this.nathan = this.characters.getFirstAlive();
-        this.nathan.drawForceFields();
+                this.map.createFromObjects('objects', 60, 'pumpkin', 0, true, false, this.obstacles, Pumpkin, true);
+                this.map.createFromObjects('objects', 105, 'tallBrownMushroom', 0, true, false, this.obstacles, TallBrownMushroom, true);
+                this.map.createFromObjects('objects', 106, 'tallRedMushroom', 0, true, false, this.obstacles, TallRedMushroom, true);
+                this.map.createFromObjects('objects', 107, 'tallGreyMushroom', 0, true, false, this.obstacles, TallGreyMushroom, true);
+                this.map.createFromObjects('objects', 118, 'pinkCrystal', 0, true, false, this.obstacles, PinkCrystal, true);
 
-        this.map.createFromObjects('objects', 120, 'bully', 0, true, false, this.characters, Bully, true);
-        this.bully = this.getBully();
+                this.map.createFromObjects('objects', 108, 'nathan', 0, true, false, this.characters, Nathan, true);
 
-        this.map.createFromObjects('objects', 72, 'ghost', 0, true, false, this.characters, Ghost, true);
+                this.nathan = this.characters.getFirstAlive();
+
+                if (this.nathan) {
+                    this.nathan.drawForceFields();
+                }
+
+                this.map.createFromObjects('objects', 120, 'bully', 0, true, false, this.characters, Bully, true);
+                this.bully = this.getBully();
+
+                this.map.createFromObjects('objects', 72, 'ghost', 0, true, false, this.characters, Ghost, true);
+
+        }
+
 
     },
 
@@ -1222,6 +1234,10 @@ var mainState = {
         var gridCoordinates = this.translatePixelCoordinatesToGridCoordinates(x, y);
         var gridX = gridCoordinates[0];
         var gridY = gridCoordinates[1];
+
+        if (!this.layers[layerName].layer.data[gridY] || !this.layers[layerName].layer.data[gridY][gridX]) {
+            return false;
+        }
 
         var index = this.layers[layerName].layer.data[gridY][gridX].index;
 
@@ -1814,7 +1830,11 @@ mainState.setupMap = function()
     this.squareWidth = this.map.tileWidth || 35;
     this.halfSquareWidth = this.squareWidth * .5;
 
-    this.map.addTilesetImage('tiles_spritesheet', 'tiles', this.squareWidth, this.squareWidth, 0, 1);
+    if (!this.level.tileSetImageName) {
+        this.level.tileSetImageName = 'tiles';
+    }
+
+    this.map.addTilesetImage(this.map.tilesets[0].name, this.level.tileSetImageName, this.squareWidth, this.squareWidth, 0, 1);
 
     // create map layers
     this.layers = {};

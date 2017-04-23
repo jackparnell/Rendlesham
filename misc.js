@@ -91,6 +91,7 @@ function loadMainFiles()
     }
 
     game.load.image('tiles', 'assets/tilemaps/tiles/tiles_spritesheet.png');
+    game.load.image('roguelikeSheet_transparent', 'assets/tilemaps/tiles/roguelikeSheet_transparent.png');
 
     game.load.bitmapFont('gem', 'assets/fonts/bitmapFonts/gem.png', 'assets/fonts/bitmapFonts/gem.xml');
     game.load.bitmapFont('passionOne', 'assets/fonts/bitmapFonts/passionOne.png', 'assets/fonts/bitmapFonts/passionOne.fnt');

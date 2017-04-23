@@ -14,7 +14,8 @@ var levelOrdering = {
         12: 'westRudhamChurchyard',
         13: 'kingsLynn',
         14: 'pumpkinPatch',
-        15: 'shouldhamWarren'
+        15: 'shouldhamWarren',
+        16: 'helhoughton'
     }
 };
 
@@ -2103,4 +2104,145 @@ var shouldhamWarren = {
     waveHealthModifier: .4,
     towerPlacementForbiddenRows: [0, 11],
     canPlaceTowerOnPathway: false
+};
+
+var helhoughton = {
+    name: 'helhoughton',
+    mapName: 'helhoughton',
+    title: 'Helhoughton',
+    waveInfo: {
+        wave1: {
+            duration: 27,
+            attacks: [
+                {
+                    className: 'Oscar',
+                    duration: 20,
+                    gap: 1.75,
+                    delay: 2.5
+                }
+            ]
+        },
+        wave2: {
+            duration: 23,
+            attacks: [
+                {
+                    className: 'Roger',
+                    duration: 10,
+                    gap: 1,
+                    delay: 0
+                },
+                {
+                    className: 'Mib',
+                    duration: 5,
+                    gap: 1,
+                    delay: 10
+                },
+                {
+                    className: 'Roger',
+                    duration: 5,
+                    gap: 1,
+                    delay: 15
+                }
+            ]
+        },
+        wave3: {
+            duration: 19,
+            attacks: [
+                {
+                    className: 'Mib',
+                    duration: 15,
+                    gap: 2,
+                    delay: 0
+                },
+                {
+                    className: 'Aquila',
+                    duration: 15,
+                    gap: 2,
+                    delay: 1
+                }
+            ]
+        },
+        wave4: {
+            duration: 24,
+            attacks: [
+                {
+                    className: 'Aquila',
+                    duration: 10,
+                    gap: .5,
+                    delay: 0
+                },
+                {
+                    className: 'Mib',
+                    duration: 10,
+                    gap: 1,
+                    delay: 10
+                }
+            ]
+        },
+        wave5: {
+            duration: 29,
+            attacks: [
+                {
+                    className: 'Aquila',
+                    duration: 10,
+                    gap: .8,
+                    delay: 0
+                },
+                {
+                    className: 'Aquila',
+                    duration: 15,
+                    gap: .6,
+                    delay: 10
+                }
+            ]
+        },
+        wave6: {
+            duration: 32,
+            attacks: [
+                {
+                    className: 'Mib',
+                    duration: 30,
+                    gap: .75,
+                    delay: 0
+                }
+            ]
+        }
+
+    },
+    completed: function() {
+
+        if (!mainState.allAttackersDispatched) {
+            return false;
+        }
+        if (mainState.attackers.countLiving() >= 1) {
+            return false;
+        }
+        return true;
+    },
+    calculateCompletionStars: function() {
+        var stars = 1;
+        if (mainState.lives == this.startingLives) {
+            stars ++;
+        }
+        if (mainState.countObstaclesWithCoinsValue() <= mainState.startingObstaclesWithCoinsValue * .4) {
+            stars ++;
+        }
+        return stars;
+    },
+    pathAdditionalCostTiles: function(attacker) {
+
+        return mainState.globalAdditionalCostTiles;
+
+    },
+    startingCoins: 400,
+    startingLives: 5,
+    entryXGrid: 0,
+    entryYGrid: 10,
+    goalXGrid: 39,
+    goalYGrid: 10,
+    waveHealthModifier: .28,
+    towerPlacementForbiddenRows: [0, 1, 20, 21],
+    canPlaceTowerOnPathway: true,
+    distinctWaves: true,
+    tileSetImageName: 'roguelikeSheet_transparent'
 };

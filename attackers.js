@@ -147,8 +147,6 @@ Attacker.prototype.hasReachedGoal = function()
         return false;
     }
 
-    var goalX;
-
     if (mainState.nathan) {
 
         var distanceToGoal = game.physics.arcade.distanceBetween(this, mainState.nathan);
@@ -163,16 +161,7 @@ Attacker.prototype.hasReachedGoal = function()
 
     }
 
-    var pixelCoordinates = mainState.translateGridCoordinatesToPixelCoordinates(
-        mainState.level.goalXGrid,
-        mainState.level.goalYGrid
-    );
-
-    goalX = pixelCoordinates[0] + mainState.halfSquareWidth;
-
-    goalX += (32 + ((mainState.lives-1) * 7.5));
-
-    if (this.x <= goalX) {
+    if (this.gridX == mainState.level.goalXGrid && this.gridY == mainState.level.goalYGrid) {
         return true;
     }
 
