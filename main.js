@@ -1055,6 +1055,10 @@ var mainState = {
             return false;
         }
 
+        if (!this.isPositionOnGrid(x, y)) {
+            return false;
+        }
+
         if (this.doesTowerExistAtPosition(x, y)) {
             return false;
         }
@@ -1071,11 +1075,17 @@ var mainState = {
             return false;
         }
 
-        if (this.level.towerPlacementForbiddenRows) {
-            var gridCoordinates = this.translatePixelCoordinatesToGridCoordinates(x, y);
-            var gridY = gridCoordinates[1];
+        var gridCoordinates = this.translatePixelCoordinatesToGridCoordinates(x, y);
+        var gridX = gridCoordinates[0];
+        var gridY = gridCoordinates[1];
 
+        if (this.level.towerPlacementForbiddenRows) {
             if (this.level.towerPlacementForbiddenRows.indexOf(gridY) != -1) {
+                return false;
+            }
+        }
+        if (this.level.towerPlacementForbiddenColumns) {
+            if (this.level.towerPlacementForbiddenColumns.indexOf(gridX) != -1) {
                 return false;
             }
         }
@@ -1121,6 +1131,22 @@ var mainState = {
 
         return true;
 
+    },
+
+    isPositionOnGrid: function(x, y)
+    {
+        var gridCoordinates = this.translatePixelCoordinatesToGridCoordinates(x, y);
+        var gridX = gridCoordinates[0];
+        var gridY = gridCoordinates[1];
+
+        if (gridX > (this.map.width-1)) {
+            return false;
+        }
+        if (gridY > (this.map.height-1)) {
+            return false;
+        }
+
+        return true;
     },
 
     doesTowerExistAtPosition: function(x, y)

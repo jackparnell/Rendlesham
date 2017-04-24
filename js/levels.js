@@ -2242,6 +2242,7 @@ var helhoughton = {
     goalYGrid: 10,
     waveHealthModifier: .28,
     towerPlacementForbiddenRows: [0, 1, 20, 21],
+    towerPlacementForbiddenColumns: [0, 1, 38, 39],
     canPlaceTowerOnPathway: true,
     distinctWaves: true,
     tileSetImageName: 'roguelikeSheet_transparent'
