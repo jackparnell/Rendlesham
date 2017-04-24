@@ -111,6 +111,8 @@ var mainState = {
 
         this.game.target = {};
 
+        this.setupSounds();
+
         this.startLevel();
 
         this.attackersSpawnedCount = 0;
@@ -415,6 +417,12 @@ var mainState = {
 
         this.updateLives();
         this.notification('lives', displayAmount, notificationSpawnX, notificationSpawnY);
+
+        if (this.lives == 0) {
+            this.sounds.nes13.play();
+        } else if (amount <= -1) {
+            this.sounds.nes15.play();
+        }
 
         if (this.nathan) {
             this.nathan.drawForceFields();
@@ -730,6 +738,8 @@ var mainState = {
             this.towers.add(item);
         }
 
+        this.sounds.metalLatch.play();
+
         return true;
 
     },
@@ -1021,11 +1031,14 @@ var mainState = {
             switch (action) {
                 case 'add':
                     this.openTowerPlacementView(x, y, 'pixels');
+                    this.sounds.bookOpen.play();
+
                     break;
                 case 'towerInfo':
 
                     var tower = this.getTowerAtPosition(x, y);
                     this.openTowerInfo(tower);
+                    this.sounds.bookOpen.play();
 
                     break;
                 case 'target':
@@ -2479,6 +2492,7 @@ mainState.closeTowerInfo = function()
 mainState.sellCurrentTower = function()
 {
     this.currentTower.sell();
+    this.sounds.handleCoins.play();
     this.closeTowerInfo();
 };
 
@@ -2486,6 +2500,8 @@ mainState.upgradeCurrentTower = function()
 {
     if (this.coinsSufficientToUpgradeCurrentTower()) {
         this.currentTower.upgradeAtCost();
+
+        this.sounds.metalClick.play();
     }
 
     this.refreshTowerInfo();
@@ -2837,3 +2853,43 @@ mainState.generateWave = function(waveNumber)
 
 };
 
+mainState.setupSounds = function()
+{
+    if (!this.sounds) {
+        this.sounds = {};
+    }
+
+    this.sounds.bookOpen =  game.add.audio('bookOpen');
+    this.sounds.bookOpen.allowMultiple = true;
+
+    this.sounds.footstep02 =  game.add.audio('footstep02');
+    this.sounds.footstep02.allowMultiple = true;
+    this.sounds.footstep02.volume = .8;
+
+    this.sounds.handleCoins =  game.add.audio('handleCoins');
+    this.sounds.handleCoins.allowMultiple = true;
+
+    this.sounds.metalClick =  game.add.audio('metalClick');
+    this.sounds.metalClick.allowMultiple = true;
+
+    this.sounds.metalLatch =  game.add.audio('metalLatch');
+    this.sounds.metalLatch.allowMultiple = true;
+    this.sounds.metalLatch.volume = .8;
+
+    this.sounds.nes08 =  game.add.audio('nes08');
+    this.sounds.nes08.allowMultiple = true;
+    this.sounds.nes08.volume = .3;
+
+    this.sounds.nes09 =  game.add.audio('nes09');
+    this.sounds.nes09.allowMultiple = true;
+    this.sounds.nes09.volume = .3;
+
+    this.sounds.nes13 =  game.add.audio('nes13');
+    this.sounds.nes13.allowMultiple = true;
+    this.sounds.nes13.volume = .3;
+
+    this.sounds.nes15 =  game.add.audio('nes15');
+    this.sounds.nes15.allowMultiple = true;
+    this.sounds.nes15.volume = .3;
+
+};

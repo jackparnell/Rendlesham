@@ -205,6 +205,7 @@ Attacker.prototype.die = function()
     if (this.health <= 0) {
         mainState.changeCoins(this.coinsValue, this.x, this.y);
         mainState.changeScore(this.scoreValue, this.x, this.y);
+        mainState.sounds.nes09.play();
     } else if (mainState.lives >= 1) {
         mainState.changeLives(-1, this.x, this.y);
     }

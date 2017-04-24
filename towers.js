@@ -91,6 +91,9 @@ Tower.prototype.fire = function()
         var bullet = this.weapon1.fire();
 
         if (bullet) {
+
+            mainState.sounds.footstep02.play();
+
             bullet.angle = this.angleToTarget();
             bullet.damageValue = this.bulletDamageValue;
             bullet.scale.setTo(0.75, 0.75);

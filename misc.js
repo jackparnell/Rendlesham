@@ -96,6 +96,16 @@ function loadMainFiles()
     game.load.bitmapFont('gem', 'assets/fonts/bitmapFonts/gem.png', 'assets/fonts/bitmapFonts/gem.xml');
     game.load.bitmapFont('passionOne', 'assets/fonts/bitmapFonts/passionOne.png', 'assets/fonts/bitmapFonts/passionOne.fnt');
 
+    game.load.audio('bookOpen', 'assets/audio/bookOpen.ogg');
+    game.load.audio('footstep02', 'assets/audio/footstep02.ogg');
+    game.load.audio('handleCoins', 'assets/audio/handleCoins.ogg');
+    game.load.audio('metalClick', 'assets/audio/metalClick.ogg');
+    game.load.audio('metalLatch', 'assets/audio/metalLatch.ogg');
+    game.load.audio('nes08', 'assets/audio/nes08.ogg');
+    game.load.audio('nes09', 'assets/audio/nes09.ogg');
+    game.load.audio('nes13', 'assets/audio/nes13.ogg');
+    game.load.audio('nes15', 'assets/audio/nes15.ogg');
+
 }
 
 function getLevelByName(levelName) {

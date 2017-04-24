@@ -124,6 +124,7 @@ Obstacle.prototype.die = function()
     if (this.health <= 0) {
         mainState.changeCoins(this.coinsValue, this.x, this.y);
         mainState.changeScore(this.scoreValue, this.x, this.y);
+        mainState.sounds.nes08.play();
     }
     if (this.healthBar) {
         this.healthBar.kill();
