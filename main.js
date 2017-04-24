@@ -2356,7 +2356,7 @@ mainState.openTowerInfo = function(tower)
         this.sellTowerButton.alpha = .5;
         this.sellTowerButton.anchor.set(0.5, 0.5);
         this.sellTowerButton.scale.setTo(1.5, 1.5);
-        this.sellTowerButton.x = tower.x - this.squareWidth - 4;
+        this.sellTowerButton.x = tower.x - 39;
 
         this.sellTowerText = game.add.bitmapText(this.sellTowerButton.x, this.sellTowerButton.y, bitmapFontName, '£' + this.currentTower.getSellValue(), 16);
         this.sellTowerText.x = this.sellTowerButton.x - (this.sellTowerText.width * .5);
@@ -2392,7 +2392,7 @@ mainState.openTowerInfo = function(tower)
 
         this.labelIndicatorMessage.setText('Tower is at maximum grade.');
     }
-    this.upgradeTowerButton.x = tower.x + this.squareWidth + 4;
+    this.upgradeTowerButton.x = tower.x + 39;
     this.upgradeTowerText = game.add.bitmapText(this.upgradeTowerButton.x, this.upgradeTowerButton.y, bitmapFontName, upgradeTowerTextString, 16);
 
     if (this.upgradeTowerText) {
@@ -2522,7 +2522,7 @@ mainState.openTowerPlacementView = function(x, y, coordinateType)
 
     var towerClassNames = this.getTowerClassNames();
 
-    var backdropButtonWidth = this.squareWidth * 1.5;
+    var backdropButtonWidth = 52;
     var halfBackdropButtonWidth = backdropButtonWidth * .5;
     var buttonGap = 2;
     var xOffset = -(towerClassNames.length-1) * (halfBackdropButtonWidth + (buttonGap * .5));

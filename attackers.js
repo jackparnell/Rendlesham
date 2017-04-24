@@ -41,7 +41,7 @@ Attacker.prototype.initialise = function(waveNumber)
     this.invulnerable = false;
     this.incrementalId = mainState.attackersSpawnedCount;
 
-    this.speed = (window[this.constructor.name].defaultSpeed || 75);
+    this.speed = this.calculateSpeed();
     this.path = [];
     this.path_step = -1;
 
@@ -370,8 +370,8 @@ Attacker.prototype.calculateHealthModifier = function()
 };
 Attacker.prototype.freeze = function(bulletGrade)
 {
-    // Change speed to half default speed
-    this.speed = window[this.constructor.name].defaultSpeed * .4;
+    // Change speed to 40% normal value
+    this.speed = this.calculateSpeed() * .4;
 
     // Tint blue
     this.tint = 0x8888ff;
@@ -389,7 +389,7 @@ Attacker.prototype.freeze = function(bulletGrade)
 Attacker.prototype.unfreeze = function()
 {
     // Change speed to default
-    this.speed = window[this.constructor.name].defaultSpeed;
+    this.speed = this.calculateSpeed();
 
     // Remove tint
     this.tint = 0xffffff;
@@ -414,7 +414,21 @@ Attacker.prototype.reuse = function()
     this.initialise(mainState.waveNumber);
 
 };
+Attacker.prototype.calculateSpeed = function()
+{
 
+    // Default speed is 75
+    var speed = 75;
+    // pace is tiles per second
+    if (window[this.constructor.name].pace) {
+        speed = mainState.map.tileWidth * window[this.constructor.name].pace;
+    } else if (window[this.constructor.name].defaultSpeed) {
+        speed = window[this.constructor.name].defaultSpeed;
+    }
+
+    return speed;
+
+};
 
 // Begin Oscar
 function Oscar(game, x, y) {
@@ -429,7 +443,7 @@ Oscar.prototype = Object.create(Attacker.prototype);
 Oscar.prototype.constructor = Oscar;
 Oscar.defaultScale = 1;
 Oscar.defaultHealth = 1000;
-Oscar.defaultSpeed = 75;
+Oscar.pace = 2.15;
 Oscar.coinsValue = 5;
 Oscar.scoreValue = 5;
 Oscar.prototype.update = function() {
@@ -469,7 +483,7 @@ Roger.prototype = Object.create(Attacker.prototype);
 Roger.prototype.constructor = Roger;
 Roger.defaultScale = 1;
 Roger.defaultHealth = 1000;
-Roger.defaultSpeed = 100;
+Roger.pace = 2.9;
 Roger.coinsValue = 5;
 Roger.scoreValue = 5;
 Roger.prototype.update = function() {
@@ -504,7 +518,7 @@ Dibley.prototype = Object.create(Attacker.prototype);
 Dibley.prototype.constructor = Dibley;
 Dibley.defaultScale = 1;
 Dibley.defaultHealth = 5000;
-Dibley.defaultSpeed = 50;
+Dibley.pace = 1.5;
 Dibley.coinsValue = 10;
 Dibley.scoreValue = 10;
 // End Dibley
@@ -518,7 +532,7 @@ Aquila.prototype = Object.create(Attacker.prototype);
 Aquila.prototype.constructor = Aquila;
 Aquila.defaultScale = 1;
 Aquila.defaultHealth = 2000;
-Aquila.defaultSpeed = 75;
+Aquila.pace = 2.15;
 Aquila.coinsValue = 10;
 Aquila.scoreValue = 10;
 // End Aquila
@@ -537,7 +551,7 @@ Mib.prototype = Object.create(Attacker.prototype);
 Mib.prototype.constructor = Mib;
 Mib.defaultScale = 1;
 Mib.defaultHealth = 4000;
-Mib.defaultSpeed = 75;
+Mib.pace = 2.15;
 Mib.coinsValue = 15;
 Mib.scoreValue = 15;
 Mib.prototype.update = function() {

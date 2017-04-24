@@ -10,22 +10,17 @@ function Tower(game, x, y, spriteName) {
     this.checkWorldBounds = true;
     this.outOfBoundsKill = false;
 
+    var bulletKillDistance = this.calculateBulletKillDistance(1);
+
     this.weapon1 = this.game.add.weapon(3, window[this.constructor.name].bulletSpriteName, 0, this.game.bullets);
     this.weapon1.bulletKillType = Phaser.Weapon.KILL_DISTANCE;
-    this.weapon1.bulletSpeed = window[this.constructor.name].defaultBulletSpeed || 400;
-    this.weapon1.bulletKillDistance = window[this.constructor.name].defaultKillDistance;
+    this.weapon1.bulletSpeed = this.calculateBulletSpeed();
+    this.weapon1.bulletKillDistance = bulletKillDistance;
     this.weapon1.fireRate = window[this.constructor.name].defaultFireRate;
     this.weapon1.angle = this.angleToTarget();
     this.weapon1.setBulletBodyOffset(15, 15, 25, 25);
 
-    // mainState.weapons.add(this.weapon1);
-
     this.anchor.setTo(0.5, 0.5);
-
-    var scale = this.getScale();
-    if (scale != 1) {
-        this.scale.setTo(scale, scale);
-    }
 
     this.initialise(x, y);
 
@@ -38,6 +33,10 @@ Tower.prototype.initialise = function(x, y)
     this.calculateSpecs();
 
     this.frame = this.grade - 1;
+
+    if (this.width != mainState.map.tileWidth) {
+        this.scaleToTile();
+    }
 
     var gridCoordinates = mainState.translatePixelCoordinatesToGridCoordinates(x, y);
     this.gridX = gridCoordinates[0];
@@ -206,11 +205,21 @@ Tower.prototype.calculateSpecs = function()
     this.bulletDamageValue = window[this.constructor.name].defaultDamageValue * this.grade;
     this.weapon1.fireRate = window[this.constructor.name].defaultFireRate * 1.1 - (this.grade / 8);
     this.weapon1.bulletKillDistance = this.calculateBulletKillDistance(this.grade);
-
 };
 Tower.prototype.calculateBulletKillDistance = function(grade)
 {
-    return window[this.constructor.name].defaultKillDistance * (1 + ((grade - 1) * .3));
+    // Default kill distance is 100
+    var bulletKillDistance = 100;
+    if (window[this.constructor.name].range) {
+        // Range is kill distance in tiles
+        bulletKillDistance = window[this.constructor.name].range * mainState.map.tileWidth;
+    } else if (window[this.constructor.name].range) {
+        bulletKillDistance = window[this.constructor.name].defaultKillDistance;
+    }
+
+    bulletKillDistance *= (1 + ((grade - 1) * .3));
+
+    return bulletKillDistance;
 };
 Tower.prototype.upgradable = function()
 {
@@ -259,7 +268,6 @@ Tower.prototype.getUpgradeCost = function()
 {
     return this.getCost();
 };
-
 Tower.prototype.reuse = function(x, y)
 {
 
@@ -267,6 +275,25 @@ Tower.prototype.reuse = function(x, y)
     this.initialise(x, y);
 
 };
+Tower.prototype.scaleToTile = function()
+{
+    var scale = 1 / (this.width / mainState.map.tileWidth);
+    this.scale.setTo(scale, scale);
+};
+Tower.prototype.calculateBulletSpeed = function()
+{
+    // Default speed is 400
+    var bulletSpeed = 400;
+    // pace is tiles per second
+    if (window[this.constructor.name].bulletPace) {
+        bulletSpeed = mainState.map.tileWidth * window[this.constructor.name].bulletPace;
+    } else if (window[this.constructor.name].defaultBulletSpeed) {
+        bulletSpeed = window[this.constructor.name].defaultBulletSpeed;
+    }
+
+    return bulletSpeed;
+};
+
 
 function Gun(game, x, y) {
     Tower.call(this, game, x, y, Gun.spriteName);
@@ -281,11 +308,12 @@ Gun.prototype.update = function() {
 Gun.defaultScale = .5;
 Gun.defaultDamageValue = 500;
 Gun.defaultFireRate = 1000;
-Gun.defaultKillDistance = 100;
+Gun.range = 2.8;
 Gun.cost = 50;
 Gun.maximumGrade = 3;
 Gun.spriteName = 'gun';
 Gun.bulletSpriteName = 'bullet';
+Gun.bulletPace = 12;
 Gun.bulletHitDecorationClassName = 'Explosion';
 
 function Freezer(game, x, y) {
@@ -300,11 +328,12 @@ Freezer.prototype.update = function() {
 Freezer.defaultScale = .5;
 Freezer.defaultDamageValue = 200;
 Freezer.defaultFireRate = 1500;
-Freezer.defaultKillDistance = 100;
+Freezer.range = 2.8;
 Freezer.cost = 100;
 Freezer.maximumGrade = 3;
 Freezer.spriteName = 'freezer';
 Freezer.bulletSpriteName = 'iceLance';
+Freezer.bulletPace = 12;
 Freezer.bulletHitDecorationClassName = 'Zap';
 Freezer.bulletHitDecorationTint = 0x0000FF;
 
@@ -320,11 +349,11 @@ Laser.prototype.update = function() {
 Laser.defaultScale = .5;
 Laser.defaultDamageValue = 175;
 Laser.defaultFireRate = 500;
-Laser.defaultKillDistance = 150;
+Laser.range = 4.2;
 Laser.cost = 100;
 Laser.maximumGrade = 3;
 Laser.spriteName = 'laser';
 Laser.bulletSpriteName = 'redLaser';
-Laser.defaultBulletSpeed = 800;
+Laser.bulletPace = 23;
 Laser.bulletHitDecorationClassName = 'Zap';
 Laser.bulletHitDecorationTint = 0xFF0000;
