@@ -160,6 +160,8 @@ Tower.prototype.determineTarget = function()
             distanceBetween < this.weapon1.bulletKillDistance  // Within range
             &&
             (advanced > mostAdvanced || item.targeted)
+            &&
+            item.projectedHealth > 0
         ) {
             mostAdvanced = advanced;
             mostAdvancedDistance = distanceBetween;

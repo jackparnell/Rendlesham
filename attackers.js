@@ -118,6 +118,9 @@ Attacker.prototype.update = function()
         this.health = 0;
         this.die();
     }
+
+    this.calculateProjectedHealth();
+
     if (isNaN(this.health)) {
         throw {
             'code': 10001,
@@ -435,6 +438,23 @@ Attacker.prototype.calculateSpeed = function()
 
     return speed;
 
+};
+Attacker.prototype.calculateProjectedHealth = function()
+{
+    if (!mainState.level.calculateAttackerProjectedHealth) {
+        this.projectedHealth = this.health;
+        return;
+    }
+
+    var projectedHealth = this.health;
+
+    var bullets = mainState.getBulletsAlive();
+
+    for (var i = 0; i < bullets.length; i++) {
+        projectedHealth -= bullets[i].damageValue;
+    }
+
+    this.projectedHealth = projectedHealth;
 };
 
 // Begin Oscar

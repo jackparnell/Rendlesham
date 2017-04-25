@@ -2866,3 +2866,19 @@ mainState.playSound = function(soundName)
 {
     this.sounds[soundName].play();
 };
+
+mainState.getBulletsAlive = function()
+{
+    var bullets = [];
+
+    this.towers.forEach(function(tower) {
+        if (tower.weapon1) {
+            tower.weapon1.bullets.forEachAlive(function (bullet) {
+                bullets.push(bullet);
+            });
+        }
+
+    }, this);
+
+    return bullets;
+};
