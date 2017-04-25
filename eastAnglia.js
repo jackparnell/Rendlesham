@@ -130,7 +130,17 @@ Rendlesham.eastAnglia.prototype.create = function()
 
     for (var i = 1; i <= this.lastLevel; i++) {
 
-        this['level' + i + 'Button'] = game.add.button(this.levels[i].x, this.levels[i].y, 'ufo', this['clickLevel' + i], this);
+        this['level' + i + 'Button'] = game.add.button(
+            this.levels[i].x,
+            this.levels[i].y,
+            'ufo',
+            this.clickLevelButton,
+            this
+        );
+
+        this['level' + i + 'Button'].levelNumber = i;
+        this['level' + i + 'Button'].levelName = levelOrdering[this.zoneName][i];
+
         if (!this.isLevelUnlocked(i)) {
             this['level' + i + 'Button'].tint = 0x333333;
             this['level' + i + 'Button'].input.useHandCursor = false;
@@ -169,73 +179,10 @@ Rendlesham.eastAnglia.prototype.shutdown = function()
     this.save();
 };
 
-Rendlesham.eastAnglia.prototype.clickLevel1 = function()
+Rendlesham.eastAnglia.prototype.clickLevelButton = function(levelButton)
 {
-    this.clickLevel(1);
-};
-Rendlesham.eastAnglia.prototype.clickLevel2 = function()
-{
-    this.clickLevel(2);
-};
-Rendlesham.eastAnglia.prototype.clickLevel3 = function()
-{
-    this.clickLevel(3);
-};
-Rendlesham.eastAnglia.prototype.clickLevel4 = function()
-{
-    this.clickLevel(4);
-};
-Rendlesham.eastAnglia.prototype.clickLevel5 = function()
-{
-    this.clickLevel(5);
-};
-Rendlesham.eastAnglia.prototype.clickLevel6 = function()
-{
-    this.clickLevel(6);
-};
-Rendlesham.eastAnglia.prototype.clickLevel7 = function()
-{
-    this.clickLevel(7);
-};
-Rendlesham.eastAnglia.prototype.clickLevel8 = function()
-{
-    this.clickLevel(8);
-};
-Rendlesham.eastAnglia.prototype.clickLevel9 = function()
-{
-    this.clickLevel(9);
-};
-Rendlesham.eastAnglia.prototype.clickLevel10 = function()
-{
-    this.clickLevel(10);
-};
-Rendlesham.eastAnglia.prototype.clickLevel11 = function()
-{
-    this.clickLevel(11);
-};
-Rendlesham.eastAnglia.prototype.clickLevel12 = function()
-{
-    this.clickLevel(12);
-};
-Rendlesham.eastAnglia.prototype.clickLevel13 = function()
-{
-    this.clickLevel(13);
-};
-Rendlesham.eastAnglia.prototype.clickLevel14 = function()
-{
-    this.clickLevel(14);
-};
-Rendlesham.eastAnglia.prototype.clickLevel15 = function()
-{
-    this.clickLevel(15);
-};
-Rendlesham.eastAnglia.prototype.clickLevel16 = function()
-{
-    this.clickLevel(16);
-};
+    var levelNumber = levelButton.levelNumber;
 
-Rendlesham.eastAnglia.prototype.clickLevel = function(levelNumber)
-{
     if (!this.isLevelUnlocked(levelNumber)) {
         return false;
     }
