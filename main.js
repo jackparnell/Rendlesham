@@ -276,17 +276,13 @@ var mainState = {
 
         this.destroyLabels();
 
+        var titleTint = 0xDDDDDD;
+        var valueTint = 0xFFFFFF;
         switch(this.level.theme) {
             case 'snow':
-                var titleTint = 0x666666;
-                var valueTint = 0x333333;
+                titleTint = 0x666666;
+                valueTint = 0x333333;
                 break;
-            default:
-                var titleTint = 0xDDDDDD;
-                var valueTint = 0xFFFFFF;
-
-                break;
-
         }
 
         this.titlesYCoordinate = game.camera.y + 5;
@@ -419,9 +415,9 @@ var mainState = {
         this.notification('lives', displayAmount, notificationSpawnX, notificationSpawnY);
 
         if (this.lives == 0) {
-            this.sounds.nes13.play();
+            this.playSound('nes13');
         } else if (amount <= -1) {
-            this.sounds.nes15.play();
+            this.playSound('nes15');
         }
 
         if (this.nathan) {
@@ -544,15 +540,6 @@ var mainState = {
                 }
             }
 
-        }
-    },
-
-    removeNotification: function(containerArrayName, guid)
-    {
-        var index = this[containerArrayName].indexOf(guid);
-
-        if (index > -1) {
-            this[containerArrayName].splice(index, 1);
         }
     },
 
@@ -738,7 +725,7 @@ var mainState = {
             this.towers.add(item);
         }
 
-        this.sounds.metalLatch.play();
+        this.playSound('metalLatch');
 
         return true;
 
@@ -1031,15 +1018,12 @@ var mainState = {
             switch (action) {
                 case 'add':
                     this.openTowerPlacementView(x, y, 'pixels');
-                    this.sounds.bookOpen.play();
-
+                    this.playSound('bookOpen');
                     break;
                 case 'towerInfo':
-
                     var tower = this.getTowerAtPosition(x, y);
                     this.openTowerInfo(tower);
-                    this.sounds.bookOpen.play();
-
+                    this.playSound('bookOpen');
                     break;
                 case 'target':
 
@@ -1116,7 +1100,7 @@ var mainState = {
     isTowerUpgradeAppropriateAtPosition: function(x, y)
     {
         var tower = this.getTowerAtPosition(x, y);
-        if (tower.guid && tower.upgradable()) {
+        if (tower && tower.upgradable()) {
             return true;
         }
 
@@ -1126,7 +1110,7 @@ var mainState = {
     isTowerSaleAppropriateAtPosition: function(x, y)
     {
         var tower = this.getTowerAtPosition(x, y);
-        if (tower.guid && tower.getSellValue()) {
+        if (tower && tower.getSellValue()) {
             return true;
         }
 
@@ -1162,23 +1146,22 @@ var mainState = {
         return true;
     },
 
+    /**
+     * Checks whether a tower exists at supplied x and y coordinates.
+     *
+     * @param x
+     * @param y
+     * @returns {boolean}
+     */
     doesTowerExistAtPosition: function(x, y)
     {
-
-        var tower = this.getTowerAtPosition(x, y);
-
-        if (tower.guid) {
-            return true;
-        } else {
-            return false;
-        }
-
+        return !!this.getTowerAtPosition(x, y);
     },
 
     getTowerAtPosition: function(x, y)
     {
 
-        var towerAtPosition = {};
+        var towerAtPosition;
 
         var gridCoordinates = this.translatePixelCoordinatesToGridCoordinates(x, y);
         var gridX = gridCoordinates[0];
@@ -1190,27 +1173,25 @@ var mainState = {
             }
         });
 
-
         return towerAtPosition;
     },
 
+    /**
+     * Checks whether an obstacle exists at supplied x and y coordinates.
+     *
+     * @param x
+     * @param y
+     * @returns {boolean}
+     */
     doesObstacleExistAtPosition: function(x, y)
     {
-
-        var obstacle = this.getObstacleAtPosition(x, y);
-
-        if (obstacle.guid) {
-            return true;
-        } else {
-            return false;
-        }
-
+        return !!this.getObstacleAtPosition(x, y);
     },
 
     getObstacleAtPosition: function(x, y)
     {
 
-        var obstacleAtPosition = {};
+        var obstacleAtPosition;
 
         var gridCoordinates = this.translatePixelCoordinatesToGridCoordinates(x, y);
         var gridX = gridCoordinates[0];
@@ -1222,28 +1203,26 @@ var mainState = {
             }
         });
 
-
         return obstacleAtPosition;
     },
 
+    /**
+     * Checks whether an attacker exists at supplied x and y coordinates.
+     *
+     * @param x
+     * @param y
+     * @returns {boolean}
+     */
     doesAttackerExistAtPosition: function(x, y)
     {
-
-        var attacker = this.getAttackerAtPosition(x, y);
-
-        if (attacker.guid) {
-            return true;
-        } else {
-            return false;
-        }
-
+        return !!this.getAttackerAtPosition(x, y);
     },
 
     getAttackerAtPosition: function (x, y)
     {
         var placementRectangle = new Phaser.Rectangle(x-8, y-8, 16, 16);
 
-        var attackerAtPosition = {};
+        var attackerAtPosition;
 
         this.attackers.forEachAlive(function(attacker){
             if (Phaser.Rectangle.intersects(attacker.getBounds(), placementRectangle)) {
@@ -1289,7 +1268,7 @@ var mainState = {
 
     fetchLevelInfo: function()
     {
-        this.level = window[levelOrdering.eastAnglia[this.levelId]]
+        this.level = window[levelOrdering.eastAnglia[this.levelId]];
         return this.level;
     },
 
@@ -1558,7 +1537,6 @@ var mainState = {
             return;
         }
 
-
         if (this.pauseButton.input.pointerOver()) {
             this.pauseButton.alpha = .8;
             return;
@@ -1573,7 +1551,6 @@ var mainState = {
             return;
         }
 
-
         this.graphics = game.add.graphics(0, 0);
 
         var x = Math.floor((game.input.x + game.camera.x) / this.squareWidth) * this.squareWidth;
@@ -1582,7 +1559,6 @@ var mainState = {
         var inappropriateColor = 0xFF8888;
         var notEnoughCoinsColor = 0xFFFF88;
         var upgradeColor = 0x33FFFF;
-        var sellColor = 0xBB33BB;
         var borderColor;
         var indicatorMessage = '';
 
@@ -1602,9 +1578,6 @@ var mainState = {
                 borderColor = notEnoughCoinsColor;
                 indicatorMessage = 'Need £' + cheapestTowerCost + ' for a tower.';
             }
-
-            // this.placementGhost = game.add.sprite(x, y, window[this.towerSelected].spriteName);
-
 
         } else if (this.isTowerUpgradeAppropriateAtPosition(x, y)) {
 
@@ -1821,8 +1794,6 @@ mainState.waveBeaten = function(waveNumber)
         );
 
     }
-
-    return;
 
 };
 
@@ -2047,9 +2018,7 @@ mainState.scheduleAttackersWave = function(attackerClassName, waveNumber, s, dur
     var i;
 
     for (i = start; i < end; i += gap) {
-
         this.spawnAttackerDelayed(attackerClassName, i, waveNumber);
-
     }
 };
 
@@ -2492,7 +2461,7 @@ mainState.closeTowerInfo = function()
 mainState.sellCurrentTower = function()
 {
     this.currentTower.sell();
-    this.sounds.handleCoins.play();
+    this.playSound('handleCoins');
     this.closeTowerInfo();
 };
 
@@ -2500,10 +2469,8 @@ mainState.upgradeCurrentTower = function()
 {
     if (this.coinsSufficientToUpgradeCurrentTower()) {
         this.currentTower.upgradeAtCost();
-
-        this.sounds.metalClick.play();
+        this.playSound('metalClick');
     }
-
     this.refreshTowerInfo();
 };
 
@@ -2530,16 +2497,17 @@ mainState.openTowerPlacementView = function(x, y, coordinateType)
 
     this.towerPlacementViewOpen = true;
 
+    var gridX = x;
+    var gridY = y;
+
     if (coordinateType && coordinateType == 'grid') {
-        var gridX = x;
-        var gridY = y;
         var coordinates = mainState.translateGridCoordinatesToPixelCoordinates(x, y);
         x = coordinates[0];
         y = coordinates[1];
     } else {
         var coordinates = mainState.translatePixelCoordinatesToGridCoordinates(x, y);
-        var gridX = coordinates[0];
-        var gridY = coordinates[1];
+        gridX = coordinates[0];
+        gridY = coordinates[1];
     }
 
     this.currentGridPosition = {
@@ -2892,4 +2860,9 @@ mainState.setupSounds = function()
     this.sounds.nes15.allowMultiple = true;
     this.sounds.nes15.volume = .3;
 
+};
+
+mainState.playSound = function(soundName)
+{
+    this.sounds[soundName].play();
 };
