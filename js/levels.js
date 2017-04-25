@@ -2247,5 +2247,6 @@ var helhoughton = {
     towerPlacementForbiddenColumns: [0, 1, 38, 39],
     canPlaceTowerOnPathway: true,
     distinctWaves: true,
-    tileSetImageName: 'roguelikeSheet_transparent'
+    tileSetImageName: 'roguelikeSheet_transparent',
+    bulletsCanOnlyHitTarget: true
 };

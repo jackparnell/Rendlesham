@@ -103,6 +103,11 @@ Tower.prototype.fire = function()
             bullet.enableBody = true;
             bullet.target = this.target;
             bullet.speed = this.weapon1.bulletSpeed;
+
+            if (mainState.level.bulletsCanOnlyHitTarget) {
+                bullet.canOnlyHitTarget = true;
+            }
+
         }
     }
 };

@@ -61,6 +61,10 @@ Attacker.prototype.initialise = function(waveNumber)
 };
 Attacker.prototype.hit = function(attacker, bullet)
 {
+    if (bullet.canOnlyHitTarget && bullet.target.guid != attacker.guid) {
+        return false;
+    }
+
     if (!this.invulnerable) {
         attacker.health -= bullet.damageValue;
     }
@@ -77,6 +81,8 @@ Attacker.prototype.hit = function(attacker, bullet)
 
     delete bullet.target;
     bullet.kill();
+
+    return true;
 
 };
 Attacker.prototype.update = function()

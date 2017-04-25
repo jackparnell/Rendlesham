@@ -57,6 +57,10 @@ Obstacle.prototype.firstUpdate = function()
 
 Obstacle.prototype.hit = function(attacker, bullet)
 {
+    if (bullet.canOnlyHitTarget && bullet.target.guid != attacker.guid) {
+        return false;
+    }
+
     if (!this.invulnerable) {
         attacker.health -= bullet.damageValue;
     }
@@ -69,6 +73,8 @@ Obstacle.prototype.hit = function(attacker, bullet)
 
     delete bullet.target;
     bullet.kill();
+
+    return true;
 };
 Obstacle.prototype.generateGridCoordinates = function()
 {
