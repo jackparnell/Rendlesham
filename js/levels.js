@@ -110,16 +110,6 @@ var fridayStreet = {
         }
         return true;
     },
-    calculateCompletionStars: function() {
-        var stars = 1;
-        if (mainState.lives == this.startingLives) {
-            stars ++;
-        }
-        if (mainState.countObstaclesWithCoinsValue() <= mainState.startingObstaclesWithCoinsValue * .4) {
-            stars ++;
-        }
-        return stars;
-    },
     startingCoins: 100,
     startingLives: 5,
     entryXGrid: 21,
@@ -249,16 +239,6 @@ var orfordRoad = {
             return false;
         }
         return true;
-    },
-    calculateCompletionStars: function() {
-        var stars = 1;
-        if (mainState.lives == this.startingLives) {
-            stars ++;
-        }
-        if (mainState.countObstaclesWithCoinsValue() <= mainState.startingObstaclesWithCoinsValue * .4) {
-            stars ++;
-        }
-        return stars;
     },
     startingCoins: 150,
     startingLives: 5,
@@ -391,16 +371,6 @@ var orfordness = {
         }
         return true;
     },
-    calculateCompletionStars: function() {
-        var stars = 1;
-        if (mainState.lives == this.startingLives) {
-            stars ++;
-        }
-        if (mainState.countObstaclesWithCoinsValue() <= mainState.startingObstaclesWithCoinsValue * .4) {
-            stars ++;
-        }
-        return stars;
-    },
     startingCoins: 150,
     startingLives: 5,
     entryXGrid: 21,
@@ -524,16 +494,6 @@ var westletonHeath = {
         }
         return true;
     },
-    calculateCompletionStars: function() {
-        var stars = 1;
-        if (mainState.lives == this.startingLives) {
-            stars ++;
-        }
-        if (mainState.countObstaclesWithCoinsValue() <= mainState.startingObstaclesWithCoinsValue * .4) {
-            stars ++;
-        }
-        return stars;
-    },
     startingCoins: 150,
     startingLives: 5,
     entryXGrid: 21,
@@ -655,16 +615,6 @@ var bartonMills = {
             return false;
         }
         return true;
-    },
-    calculateCompletionStars: function() {
-        var stars = 1;
-        if (mainState.lives == this.startingLives) {
-            stars ++;
-        }
-        if (mainState.countObstaclesWithCoinsValue() <= mainState.startingObstaclesWithCoinsValue * .4) {
-            stars ++;
-        }
-        return stars;
     },
     pathAdditionalCostTiles: function(attacker) {
 
@@ -801,16 +751,6 @@ var worthamLing = {
             return false;
         }
         return true;
-    },
-    calculateCompletionStars: function() {
-        var stars = 1;
-        if (mainState.lives == this.startingLives) {
-            stars ++;
-        }
-        if (mainState.countObstaclesWithCoinsValue() <= mainState.startingObstaclesWithCoinsValue * .4) {
-            stars ++;
-        }
-        return stars;
     },
     pathAdditionalCostTiles: function(attacker) {
 
@@ -950,16 +890,6 @@ var waveneyCrossing = {
         }
         return true;
     },
-    calculateCompletionStars: function() {
-        var stars = 1;
-        if (mainState.lives == this.startingLives) {
-            stars ++;
-        }
-        if (mainState.countObstaclesWithCoinsValue() <= mainState.startingObstaclesWithCoinsValue * .4) {
-            stars ++;
-        }
-        return stars;
-    },
     pathAdditionalCostTiles: function(attacker) {
 
         var additionalCostTiles = [];
@@ -1098,16 +1028,6 @@ var frozenFen = {
         }
         return true;
     },
-    calculateCompletionStars: function() {
-        var stars = 1;
-        if (mainState.lives == this.startingLives) {
-            stars ++;
-        }
-        if (mainState.countObstaclesWithCoinsValue() <= mainState.startingObstaclesWithCoinsValue * .4) {
-            stars ++;
-        }
-        return stars;
-    },
     pathAdditionalCostTiles: function(attacker) {
 
         return mainState.globalAdditionalCostTiles;
@@ -1239,16 +1159,6 @@ var sandringhamWoods = {
         }
         return true;
     },
-    calculateCompletionStars: function() {
-        var stars = 1;
-        if (mainState.lives == this.startingLives) {
-            stars ++;
-        }
-        if (mainState.countObstaclesWithCoinsValue() <= mainState.startingObstaclesWithCoinsValue * .4) {
-            stars ++;
-        }
-        return stars;
-    },
     pathAdditionalCostTiles: function(attacker) {
 
         return mainState.globalAdditionalCostTiles;
@@ -1378,16 +1288,6 @@ var holkhamBeach = {
         }
         return true;
     },
-    calculateCompletionStars: function() {
-        var stars = 1;
-        if (mainState.lives == this.startingLives) {
-            stars ++;
-        }
-        if (mainState.countObstaclesWithCoinsValue() <= mainState.startingObstaclesWithCoinsValue * .4) {
-            stars ++;
-        }
-        return stars;
-    },
     pathAdditionalCostTiles: function(attacker) {
 
         return mainState.globalAdditionalCostTiles;
@@ -1516,16 +1416,6 @@ var northCreake = {
             return false;
         }
         return true;
-    },
-    calculateCompletionStars: function() {
-        var stars = 1;
-        if (mainState.lives == this.startingLives) {
-            stars ++;
-        }
-        if (mainState.countObstaclesWithCoinsValue() <= mainState.startingObstaclesWithCoinsValue * .4) {
-            stars ++;
-        }
-        return stars;
     },
     pathAdditionalCostTiles: function(attacker) {
 
@@ -1665,16 +1555,6 @@ var westRudhamChurchyard = {
         }
         return true;
     },
-    calculateCompletionStars: function() {
-        var stars = 1;
-        if (mainState.lives == this.startingLives) {
-            stars ++;
-        }
-        if (mainState.countObstaclesWithCoinsValue() <= mainState.startingObstaclesWithCoinsValue * .4) {
-            stars ++;
-        }
-        return stars;
-    },
     pathAdditionalCostTiles: function(attacker) {
 
         return mainState.globalAdditionalCostTiles;
@@ -1803,16 +1683,6 @@ var kingsLynn = {
             return false;
         }
         return true;
-    },
-    calculateCompletionStars: function() {
-        var stars = 1;
-        if (mainState.lives == this.startingLives) {
-            stars ++;
-        }
-        if (mainState.countObstaclesWithCoinsValue() <= mainState.startingObstaclesWithCoinsValue * .4) {
-            stars ++;
-        }
-        return stars;
     },
     pathAdditionalCostTiles: function(attacker) {
 
@@ -1943,16 +1813,6 @@ var pumpkinPatch = {
         }
         return true;
     },
-    calculateCompletionStars: function() {
-        var stars = 1;
-        if (mainState.lives == this.startingLives) {
-            stars ++;
-        }
-        if (mainState.countObstaclesWithCoinsValue() <= mainState.startingObstaclesWithCoinsValue * .4) {
-            stars ++;
-        }
-        return stars;
-    },
     pathAdditionalCostTiles: function(attacker) {
 
         return mainState.globalAdditionalCostTiles;
@@ -2082,16 +1942,6 @@ var shouldhamWarren = {
         }
         return true;
     },
-    calculateCompletionStars: function() {
-        var stars = 1;
-        if (mainState.lives == this.startingLives) {
-            stars ++;
-        }
-        if (mainState.countObstaclesWithCoinsValue() <= mainState.startingObstaclesWithCoinsValue * .4) {
-            stars ++;
-        }
-        return stars;
-    },
     pathAdditionalCostTiles: function(attacker) {
 
         return mainState.globalAdditionalCostTiles;
@@ -2220,16 +2070,6 @@ var helhoughton = {
             return false;
         }
         return true;
-    },
-    calculateCompletionStars: function() {
-        var stars = 1;
-        if (mainState.lives == this.startingLives) {
-            stars ++;
-        }
-        if (mainState.countObstaclesWithCoinsValue() <= mainState.startingObstaclesWithCoinsValue * .4) {
-            stars ++;
-        }
-        return stars;
     },
     pathAdditionalCostTiles: function(attacker) {
 

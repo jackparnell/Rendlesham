@@ -830,7 +830,7 @@ var mainState = {
             this.user.levelStars = {};
         }
 
-        var completionStars = this.level.calculateCompletionStars();
+        var completionStars = this.calculateCompletionStars();
 
         if (!this.user.levelStars[this.level.name] || this.user.levelStars[this.level.name] < completionStars) {
             this.user.levelStars[this.level.name] = completionStars;
@@ -890,7 +890,7 @@ var mainState = {
         this.levelCompleteText.fixedToCamera = true;
 
         // Begin stars
-        var completionStars = this.level.calculateCompletionStars();
+        var completionStars = this.calculateCompletionStars();
 
         var x = (game.camera.width * .5) - 180;
         var y = (game.height * .32);
@@ -2881,4 +2881,21 @@ mainState.getBulletsAlive = function()
     }, this);
 
     return bullets;
+};
+
+mainState.calculateCompletionStars = function()
+{
+    if (typeof this.level.calculateCompletionStars == 'function') {
+        return this.level.calculateCompletionStars();
+    }
+
+    var stars = 1;
+    if (this.lives == this.level.startingLives) {
+        stars ++;
+    }
+    if (this.countObstaclesWithCoinsValue() <= this.startingObstaclesWithCoinsValue * .4) {
+        stars ++;
+    }
+    return stars;
+
 };
