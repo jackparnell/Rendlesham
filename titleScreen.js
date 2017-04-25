@@ -1,12 +1,6 @@
-var Rendlesham = Rendlesham || {};
-
-Rendlesham.titleScreen = function()
-{
-
-};
+Rendlesham.titleScreen = function() {};
 
 Rendlesham.titleScreen.prototype = $.extend(true, {}, Rendlesham.gameState.prototype);
-
 
 Rendlesham.titleScreen.prototype.preload = function()
 {

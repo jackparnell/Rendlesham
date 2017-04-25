@@ -1,8 +1,4 @@
-var Rendlesham = Rendlesham || {};
-
-Rendlesham.preloader = function(game){
-
-}
+Rendlesham.preloader = function(game) {};
 
 Rendlesham.preloader.prototype = $.extend(true, {}, Rendlesham.gameState.prototype);
 

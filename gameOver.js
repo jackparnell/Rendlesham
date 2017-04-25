@@ -1,7 +1,4 @@
-Rendlesham.gameOver = function()
-{
-
-};
+Rendlesham.gameOver = function() {};
 
 Rendlesham.gameOver.prototype = $.extend(true, {}, Rendlesham.gameState.prototype);
 

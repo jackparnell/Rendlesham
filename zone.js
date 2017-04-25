@@ -1,9 +1,4 @@
-var Rendlesham = Rendlesham || {};
-
-Rendlesham.zone = function()
-{
-
-};
+Rendlesham.zone = function() {};
 
 Rendlesham.zone.prototype = $.extend(true, {}, Rendlesham.gameState.prototype);
 
@@ -143,7 +138,7 @@ Rendlesham.zone.prototype.create = function()
         );
 
         this['level' + i + 'Button'].levelNumber = i;
-        this['level' + i + 'Button'].levelName = levelOrdering[this.zoneName][i];
+        this['level' + i + 'Button'].levelName = zones[this.zoneName].levelOrdering[i];
 
         if (!this.isLevelUnlocked(i)) {
             this['level' + i + 'Button'].tint = 0x333333;
@@ -200,7 +195,7 @@ Rendlesham.zone.prototype.isLevelUnlocked = function(levelNumber)
         return true;
     }
 
-    var levelName = levelOrdering[this.zoneName][levelNumber];
+    var levelName = zones[this.zoneName].levelOrdering[levelNumber];
 
     if (this.user.levelsComplete[levelName] || this.user.levelsComplete[levelNumber-1]) {
         return true;
@@ -230,7 +225,7 @@ Rendlesham.zone.prototype.addLevelStars = function(levelNumber)
         return;
     }
 
-    var levelName = levelOrdering[this.zoneName][levelNumber];
+    var levelName = zones[this.zoneName].levelOrdering[levelNumber];
 
     var stars = this.user.levelStars[levelName] || 0;
 

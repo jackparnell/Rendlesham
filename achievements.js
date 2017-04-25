@@ -1,9 +1,4 @@
-var Rendlesham = Rendlesham || {};
-
-Rendlesham.achievements = function()
-{
-
-};
+Rendlesham.achievements = function() {};
 
 Rendlesham.achievements.prototype = jQuery.extend(true, {}, Rendlesham.gameState.prototype);
 
@@ -51,8 +46,8 @@ Rendlesham.achievements.prototype.create = function()
 
     y += 45;
 
-    for (var levelNumber in levelOrdering.eastAnglia) {
-        if (levelOrdering.eastAnglia.hasOwnProperty(levelNumber)) {
+    for (var levelNumber in zones.eastAnglia.levelOrdering) {
+        if (zones.eastAnglia.levelOrdering.hasOwnProperty(levelNumber)) {
 
             level = getLevelByName(levelOrdering.eastAnglia[levelNumber]);
 

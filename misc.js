@@ -83,9 +83,9 @@ function loadMainFiles()
     game.load.spritesheet('tallRedMushroom', 'assets/sprites/obstacles/tallRedMushroom.png', 35, 35, 1);
     game.load.spritesheet('pumpkin', 'assets/sprites/obstacles/pumpkin.png', 35, 35, 1);
 
-    for (var property in levelOrdering.eastAnglia) {
-        if (levelOrdering.eastAnglia.hasOwnProperty(property)) {
-            var level = window[levelOrdering.eastAnglia[property]];
+    for (var property in zones.eastAnglia.levelOrdering) {
+        if (zones.eastAnglia.levelOrdering.hasOwnProperty(property)) {
+            var level = window[zones.eastAnglia.levelOrdering[property]];
             game.load.tilemap(level.mapName, 'assets/tilemaps/maps/' + level.mapName + '.json', null, Phaser.Tilemap.TILED_JSON);
         }
     }
@@ -113,9 +113,9 @@ function getLevelByName(levelName) {
     var item;
     var level;
 
-    for (var property in levelOrdering.eastAnglia) {
-        if (levelOrdering.eastAnglia.hasOwnProperty(property)) {
-            item = window[levelOrdering.eastAnglia[property]];
+    for (var property in zones.eastAnglia.levelOrdering) {
+        if (zones.eastAnglia.levelOrdering.hasOwnProperty(property)) {
+            item = window[zones.eastAnglia.levelOrdering[property]];
 
             if (item.name && item.name == levelName) {
                 level = item;

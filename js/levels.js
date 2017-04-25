@@ -1,21 +1,23 @@
-var levelOrdering = {
-    'eastAnglia': {
-        1: 'fridayStreet',
-        2: 'orfordRoad',
-        3: 'orfordness',
-        4: 'westletonHeath',
-        5: 'bartonMills',
-        6: 'worthamLing',
-        7: 'waveneyCrossing',
-        8: 'frozenFen',
-        9: 'sandringhamWoods',
-        10: 'holkhamBeach',
-        11: 'northCreake',
-        12: 'westRudhamChurchyard',
-        13: 'kingsLynn',
-        14: 'pumpkinPatch',
-        15: 'shouldhamWarren',
-        16: 'helhoughton'
+var zones = {
+    eastAnglia: {
+        levelOrdering: {
+            1: 'fridayStreet',
+            2: 'orfordRoad',
+            3: 'orfordness',
+            4: 'westletonHeath',
+            5: 'bartonMills',
+            6: 'worthamLing',
+            7: 'waveneyCrossing',
+            8: 'frozenFen',
+            9: 'sandringhamWoods',
+            10: 'holkhamBeach',
+            11: 'northCreake',
+            12: 'westRudhamChurchyard',
+            13: 'kingsLynn',
+            14: 'pumpkinPatch',
+            15: 'shouldhamWarren',
+            16: 'helhoughton'
+        }
     }
 };
 

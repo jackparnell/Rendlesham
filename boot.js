@@ -1,8 +1,6 @@
 var Rendlesham = Rendlesham || {};
 
-Rendlesham.boot = function(game){
-
-};
+Rendlesham.boot = function(game) {};
 
 Rendlesham.boot.prototype = {
     preload: function()

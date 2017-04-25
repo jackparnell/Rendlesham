@@ -1268,7 +1268,7 @@ var mainState = {
 
     fetchLevelInfo: function()
     {
-        this.level = window[levelOrdering.eastAnglia[this.levelId]];
+        this.level = window[zones.eastAnglia.levelOrdering[this.levelId]];
         return this.level;
     },
 
