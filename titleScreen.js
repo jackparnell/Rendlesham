@@ -40,7 +40,7 @@ Rendlesham.titleScreen.prototype.create = function()
 
     game.stage.backgroundColor = "#112c06";
 
-    this.addButtonTextLink('playGameLink', 'Play the Game', 46, 'forestGreen', 0, game.height * .68, 'center', 'playTheGame');
+    this.addButtonTextLink('playGameLink', 'Play the Game', 46, 'forestGreen', 0, game.height * .68, 'center', 'goToZone');
 
     this.titleText = game.add.bitmapText(500, game.height * .12, bitmapFontName, 'Rendlesham Forest', 64);
     this.titleText.x = (game.width * .5) - (this.titleText.width * .5);
@@ -71,7 +71,14 @@ Rendlesham.titleScreen.prototype.showAchievements = function()
     this.changeGameState('achievements');
 };
 
-Rendlesham.titleScreen.prototype.playTheGame = function()
+Rendlesham.titleScreen.prototype.goToZone = function(zoneButton)
 {
-    this.changeGameState('eastAnglia');
+    var zoneName;
+    if (zoneButton && zoneButton.zoneName) {
+        zoneName = zoneButton.zoneName;
+    } else {
+        zoneName = 'eastAnglia';
+    }
+
+    game.state.start('zone', true, true, zoneName);
 };

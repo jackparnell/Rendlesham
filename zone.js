@@ -1,13 +1,13 @@
 var Rendlesham = Rendlesham || {};
 
-Rendlesham.eastAnglia = function()
+Rendlesham.zone = function()
 {
 
 };
 
-Rendlesham.eastAnglia.prototype = $.extend(true, {}, Rendlesham.gameState.prototype);
+Rendlesham.zone.prototype = $.extend(true, {}, Rendlesham.gameState.prototype);
 
-Rendlesham.eastAnglia.prototype.preload = function()
+Rendlesham.zone.prototype.preload = function()
 {
     this.backgrounds = game.add.group();
     this.pathways = game.add.group();
@@ -18,8 +18,13 @@ Rendlesham.eastAnglia.prototype.preload = function()
     loadMainFiles();
 };
 
-Rendlesham.eastAnglia.prototype.init = function()
+Rendlesham.zone.prototype.init = function(zoneName)
 {
+    if (zoneName) {
+        this.zoneName = zoneName;
+    } else {
+        this.zoneName = 'eastAnglia';
+    }
 
     this.game.kineticScrolling = this.game.plugins.add(Phaser.Plugin.KineticScrolling);
 
@@ -29,11 +34,10 @@ Rendlesham.eastAnglia.prototype.init = function()
         verticalWheel: true
     });
 
-    this.zoneName = 'eastAnglia';
 
 };
 
-Rendlesham.eastAnglia.prototype.create = function()
+Rendlesham.zone.prototype.create = function()
 {
 
     game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
@@ -167,19 +171,19 @@ Rendlesham.eastAnglia.prototype.create = function()
 
 };
 
-Rendlesham.eastAnglia.prototype.update = function()
+Rendlesham.zone.prototype.update = function()
 {
 
 };
 
-Rendlesham.eastAnglia.prototype.shutdown = function()
+Rendlesham.zone.prototype.shutdown = function()
 {
     this.user.zones[this.zoneName].cameraX = game.camera.x;
     this.user.zones[this.zoneName].cameraY = game.camera.y;
     this.save();
 };
 
-Rendlesham.eastAnglia.prototype.clickLevelButton = function(levelButton)
+Rendlesham.zone.prototype.clickLevelButton = function(levelButton)
 {
     var levelNumber = levelButton.levelNumber;
 
@@ -190,7 +194,7 @@ Rendlesham.eastAnglia.prototype.clickLevelButton = function(levelButton)
     game.state.start('main', true, true, levelNumber);
 };
 
-Rendlesham.eastAnglia.prototype.isLevelUnlocked = function(levelNumber)
+Rendlesham.zone.prototype.isLevelUnlocked = function(levelNumber)
 {
     if (levelNumber == 1) {
         return true;
@@ -205,7 +209,7 @@ Rendlesham.eastAnglia.prototype.isLevelUnlocked = function(levelNumber)
     return false;
 };
 
-Rendlesham.eastAnglia.prototype.writeLevelText = function(levelNumber)
+Rendlesham.zone.prototype.writeLevelText = function(levelNumber)
 {
     var x = this.levels[levelNumber].x + 16;
     var y = this.levels[levelNumber].y - 19;
@@ -220,7 +224,7 @@ Rendlesham.eastAnglia.prototype.writeLevelText = function(levelNumber)
     this['level' + levelNumber + 'Text'].x = x - (this['level' + levelNumber + 'Text'].width * .5);
 };
 
-Rendlesham.eastAnglia.prototype.addLevelStars = function(levelNumber)
+Rendlesham.zone.prototype.addLevelStars = function(levelNumber)
 {
     if (!this.isLevelUnlocked(levelNumber)) {
         return;
@@ -250,7 +254,7 @@ Rendlesham.eastAnglia.prototype.addLevelStars = function(levelNumber)
     }
 };
 
-Rendlesham.eastAnglia.prototype.drawLinesBetweenLevels = function()
+Rendlesham.zone.prototype.drawLinesBetweenLevels = function()
 {
     var graphics = game.add.graphics(0, 0);
 
