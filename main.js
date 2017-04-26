@@ -274,49 +274,42 @@ var mainState = {
                 break;
         }
 
-        this.titlesYCoordinate = 5;
-        this.valuesYCoordinate = 21;
-        this.notificationYCoordinate = 50;
+        this.titlesYCoordinate = game.camera.y + 5;
+        this.valuesYCoordinate = game.camera.y + 21;
+        this.notificationYCoordinate = game.camera.y + 50;
 
-        this.labelCoinsXCoordinate = 10;
+        this.labelCoinsXCoordinate = game.camera.x + 10;
 
         this.labelCoinsTitle = game.add.bitmapText(this.labelCoinsXCoordinate, this.titlesYCoordinate, bitmapFontName, 'Coins', 16);
         this.labelCoinsTitle.tint = titleTint;
-        this.labelCoinsTitle.fixedToCamera = true;
-
 
         this.labelCoins = game.add.bitmapText(this.labelCoinsXCoordinate, this.valuesYCoordinate, bitmapFontName, this.coins, 28);
         this.labelCoins.tint = valueTint;
-        this.labelCoins.fixedToCamera = true;
         this.labelCoinsNotifications = [];
 
         // Begin lives
-        this.labelLivesXCoordinate = 75;
+        this.labelLivesXCoordinate = game.camera.x + 75;
 
         this.labelLivesTitle = game.add.bitmapText(this.labelLivesXCoordinate, this.titlesYCoordinate, bitmapFontName, 'Lives', 16);
         this.labelLivesTitle.tint = titleTint;
-        this.labelLivesTitle.fixedToCamera = true;
 
         this.labelLives = game.add.bitmapText(this.labelLivesXCoordinate + 12, this.valuesYCoordinate, bitmapFontName, this.lives, 28);
         this.labelLives.tint = valueTint;
-        this.labelLives.fixedToCamera = true;
         this.labelLivesNotifications = [];
         // End lives
 
         // Begin score
-        this.labelScoreXCoordinate = game.width - 90;
+        this.labelScoreXCoordinate = game.camera.width - 60;
 
         this.labelScoreTitle = game.add.bitmapText(this.labelScoreXCoordinate, this.titlesYCoordinate, bitmapFontName, 'Score', 16);
         this.labelScoreTitle.tint = titleTint;
-        this.labelScoreTitle.fixedToCamera = true;
 
         this.labelScore = game.add.bitmapText(this.labelScoreXCoordinate + 12, this.valuesYCoordinate, bitmapFontName, this.score, 28);
         this.labelScore.tint = valueTint;
-        this.labelScore.fixedToCamera = true;
         this.labelScoreNotifications = [];
         // End score
 
-        this.messageXCoordinate = this.labelCoinsXCoordinate;
+        this.messageXCoordinate = 10;
         this.messageYCoordinate = game.height - 33;
 
         this.labelMessage = game.add.bitmapText(this.messageXCoordinate, this.messageYCoordinate, bitmapFontName, '', 24);
