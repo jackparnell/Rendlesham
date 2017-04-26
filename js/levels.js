@@ -377,7 +377,7 @@ var orfordness = {
     entryYGrid: 5,
     goalXGrid: 1,
     goalYGrid: 5,
-    waveHealthModifier: .33,
+    waveHealthModifier: .35,
     towerPlacementForbiddenRows: [0, 10, 11],
     distinctWaves: true
 };

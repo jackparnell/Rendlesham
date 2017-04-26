@@ -134,41 +134,30 @@ var mainState = {
             this.turn += 1;
 
             if (this.impassableTiles && this.impassableTiles.length) {
-
-                this.towers.forEach(function(tower) {
-                    if (tower.weapon1) {
-                        tower.weapon1.bullets.forEach(function (bullet) {
-                            var gridCoordinates = mainState.translatePixelCoordinatesToGridCoordinates(bullet.x, bullet.y);
-
-                            var gridPositionString = gridCoordinates[0] + '_' + gridCoordinates[1];
-
-                            if (mainState.impassableTiles.indexOf(gridPositionString) !== -1) {
-                                bullet.kill();
-                            }
-                        });
+                var bullets = this.getBulletsAlive();
+                for (var i = 0; i < bullets.length; i++) {
+                    var gridCoordinates = mainState.translatePixelCoordinatesToGridCoordinates(bullets[i].x, bullets[i].y);
+                    var gridPositionString = gridCoordinates[0] + '_' + gridCoordinates[1];
+                    if (mainState.impassableTiles.indexOf(gridPositionString) !== -1) {
+                        bullets[i].kill();
                     }
-
-                }, this);
-
+                }
             }
 
             // this.performanceModifier = game.time.elapsed / 16.66;
 
             // Begin bullet heat-seeking
             if (!this.preparingForGameOver) {
-                this.towers.forEach(function(tower) {
-                    if (tower.weapon1) {
-                        tower.weapon1.bullets.forEach(function (bullet) {
-                            if (bullet.target && bullet.target.alive && bullet.target.body && bullet.target.body.moves) {
-                                var midPoint = mainState.getMidPointBetweenSprites(bullet, bullet.target);
-                                var moveX = Math.cos(this.game.math.degToRad(midPoint.angle)) * bullet.speed;
-                                var moveY = Math.sin(this.game.math.degToRad(midPoint.angle)) * bullet.speed;
-                                bullet.body.velocity.set(moveX, moveY);
-                            }
-                        });
+                var bullets = this.getBulletsAlive();
+                for (var i = 0; i < bullets.length; i++) {
+                    var bullet = bullets[i];
+                    if (bullet.target && bullet.target.alive && bullet.target.body && bullet.target.body.moves) {
+                        var midPoint = mainState.getMidPointBetweenSprites(bullet, bullet.target);
+                        var moveX = Math.cos(this.game.math.degToRad(midPoint.angle)) * bullet.speed;
+                        var moveY = Math.sin(this.game.math.degToRad(midPoint.angle)) * bullet.speed;
+                        bullet.body.velocity.set(moveX, moveY);
                     }
-
-                }, this);
+                }
             }
             // End bullet heat-seeking
 
@@ -285,52 +274,62 @@ var mainState = {
                 break;
         }
 
-        this.titlesYCoordinate = game.camera.y + 5;
-        this.valuesYCoordinate = game.camera.y + 21;
-        this.notificationYCoordinate = game.camera.y + 50;
+        this.titlesYCoordinate = 5;
+        this.valuesYCoordinate = 21;
+        this.notificationYCoordinate = 50;
 
-        this.labelCoinsXCoordinate = game.camera.x + 10;
+        this.labelCoinsXCoordinate = 10;
 
         this.labelCoinsTitle = game.add.bitmapText(this.labelCoinsXCoordinate, this.titlesYCoordinate, bitmapFontName, 'Coins', 16);
         this.labelCoinsTitle.tint = titleTint;
+        this.labelCoinsTitle.fixedToCamera = true;
+
 
         this.labelCoins = game.add.bitmapText(this.labelCoinsXCoordinate, this.valuesYCoordinate, bitmapFontName, this.coins, 28);
         this.labelCoins.tint = valueTint;
+        this.labelCoins.fixedToCamera = true;
         this.labelCoinsNotifications = [];
 
         // Begin lives
-        this.labelLivesXCoordinate = game.camera.x + 75;
+        this.labelLivesXCoordinate = 75;
 
         this.labelLivesTitle = game.add.bitmapText(this.labelLivesXCoordinate, this.titlesYCoordinate, bitmapFontName, 'Lives', 16);
         this.labelLivesTitle.tint = titleTint;
+        this.labelLivesTitle.fixedToCamera = true;
 
         this.labelLives = game.add.bitmapText(this.labelLivesXCoordinate + 12, this.valuesYCoordinate, bitmapFontName, this.lives, 28);
         this.labelLives.tint = valueTint;
+        this.labelLives.fixedToCamera = true;
         this.labelLivesNotifications = [];
         // End lives
 
         // Begin score
-        this.labelScoreXCoordinate = game.camera.width - 60;
+        this.labelScoreXCoordinate = game.width - 90;
 
         this.labelScoreTitle = game.add.bitmapText(this.labelScoreXCoordinate, this.titlesYCoordinate, bitmapFontName, 'Score', 16);
         this.labelScoreTitle.tint = titleTint;
+        this.labelScoreTitle.fixedToCamera = true;
 
         this.labelScore = game.add.bitmapText(this.labelScoreXCoordinate + 12, this.valuesYCoordinate, bitmapFontName, this.score, 28);
         this.labelScore.tint = valueTint;
+        this.labelScore.fixedToCamera = true;
         this.labelScoreNotifications = [];
         // End score
 
         this.messageXCoordinate = this.labelCoinsXCoordinate;
-        this.messageYCoordinate = game.camera.y + (game.height - this.squareWidth + 2);
+        this.messageYCoordinate = game.height - 33;
 
         this.labelMessage = game.add.bitmapText(this.messageXCoordinate, this.messageYCoordinate, bitmapFontName, '', 24);
         this.labelMessage.tint = valueTint;
+        this.labelMessage.fixedToCamera = true;
 
-        this.indicatorMessageXCoordinate = game.camera.x + game.width * .6;
-        this.indicatorMessageYCoordinate = game.camera.y + (game.height - this.squareWidth + 8);
+        this.indicatorMessageXCoordinate = game.width * .6;
+        this.indicatorMessageYCoordinate = game.height - 27;
 
         this.labelIndicatorMessage = game.add.bitmapText(this.indicatorMessageXCoordinate, this.indicatorMessageYCoordinate, bitmapFontName, '', 18);
         this.labelIndicatorMessage.tint = valueTint;
+        this.labelIndicatorMessage.fixedToCamera = true;
+
 
     },
 
@@ -1279,6 +1278,7 @@ var mainState = {
 
         this.allAttackersDispatched = false;
         this.pendingLevelCompleted = false;
+        this.levelCompletedScreenOpen = false;
         this.towerClassesUsed = [];
         this.wavesBeaten = [];
         this.wavesStarted = [];
@@ -1565,7 +1565,12 @@ var mainState = {
         if (this.lives < 1) {
 
             borderColor = 0x000000;
-            indicatorMessage = 'Nathan has been captured.';
+
+            if (this.nathan) {
+                indicatorMessage = 'Nathan has been captured.';
+            } else {
+                indicatorMessage = 'You were defeated.';
+            }
 
         } else if (this.isTowerPlacementAppropriateAtPosition(x, y)) {
 
