@@ -1,4 +1,3 @@
-// Begin Goblin
 function Goblin(game, x, y) {
     Attacker.call(this, game, x, y, 'goblin');
     this.simpleSetSize();
@@ -19,9 +18,7 @@ Goblin.prototype.update = function() {
     }
     this.simpleAnimate();
 };
-// End Goblin
 
-// Begin Imp
 function Imp(game, x, y) {
     Attacker.call(this, game, x, y, 'imp');
     this.simpleSetSize();
@@ -42,9 +39,7 @@ Imp.prototype.update = function() {
     }
     this.simpleAnimate();
 };
-// End Imp
 
-// Begin Bogeyman
 function Bogeyman(game, x, y) {
     Attacker.call(this, game, x, y, 'bogeyman');
     this.simpleSetSize();
@@ -65,9 +60,7 @@ Bogeyman.prototype.update = function() {
     }
     this.simpleAnimate();
 };
-// End Bogeyman
 
-// Begin Kappa
 function Kappa(game, x, y) {
     Attacker.call(this, game, x, y, 'kappa');
     this.simpleSetSize();
@@ -88,9 +81,7 @@ Kappa.prototype.update = function() {
     }
     this.simpleAnimate();
 };
-// End Kappa
 
-// Begin Ogre
 function Ogre(game, x, y) {
     Attacker.call(this, game, x, y, 'ogre');
     this.simpleSetSize();
@@ -111,4 +102,24 @@ Ogre.prototype.update = function() {
     }
     this.simpleAnimate();
 };
-// End Ogre
+
+function Skuller(game, x, y) {
+    Attacker.call(this, game, x, y, 'skuller');
+    this.simpleSetSize();
+    this.animations.add('walk', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17], 15, false, true);
+}
+Skuller.prototype = Object.create(Attacker.prototype);
+Skuller.prototype.constructor = Skuller;
+Skuller.defaultScale = 1;
+Skuller.defaultHealth = 3000;
+Skuller.pace = 2.8;
+Skuller.coinsValue = 15;
+Skuller.scoreValue = 15;
+Skuller.spriteHeight = 48;
+Skuller.prototype.update = function() {
+    Attacker.prototype.update.call(this);
+    if (!this.alive) {
+        return;
+    }
+    this.simpleAnimate();
+};

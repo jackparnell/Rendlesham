@@ -2197,9 +2197,20 @@ var iclandu = {
             duration: 27,
             attacks: [
                 {
+                    className: 'Skuller',
+                    duration: 25,
+                    gap: 1,
+                    delay: 0
+                }
+            ]
+        },
+        wave8: {
+            duration: 27,
+            attacks: [
+                {
                     className: 'Ogre',
                     duration: 25,
-                    gap: 1.2,
+                    gap: 1,
                     delay: 0
                 }
             ]

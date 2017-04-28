@@ -390,6 +390,20 @@ Rock.scoreValue = 50;
 Rock.spriteSheetGid = 51;
 // End Rock
 
+// Begin PurpleRock
+function PurpleRock(game, x, y) {
+    Obstacle.call(this, game, x, y, 'PurpleRock');
+    this.createCentralCircle(18);
+}
+PurpleRock.prototype = Object.create(Obstacle.prototype);
+PurpleRock.prototype.constructor = Rock;
+PurpleRock.defaultScale = 1;
+PurpleRock.defaultHealth = 15000;
+PurpleRock.coinsValue = 0;
+PurpleRock.scoreValue = 50;
+PurpleRock.spriteSheetGid = 59;
+// End Rock
+
 // Begin Crate
 function Crate(game, x, y) {
     Obstacle.call(this, game, x, y, 'crate');

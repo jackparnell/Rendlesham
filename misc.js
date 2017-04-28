@@ -77,6 +77,7 @@ function loadMainFiles()
     game.load.spritesheet('snowman', 'assets/sprites/obstacles/Snowman.png', 35, 35, 1);
     game.load.spritesheet('snowyPine', 'assets/sprites/obstacles/SnowyPine.png', 35, 35, 1);
     game.load.spritesheet('PinkCrystal', 'assets/sprites/obstacles/PinkCrystal.png', 35, 35, 1);
+    game.load.spritesheet('PurpleRock', 'assets/sprites/obstacles/PurpleRock.png', 35, 35, 1);
 
     game.load.spritesheet('tallBrownMushroom', 'assets/sprites/obstacles/tallBrownMushroom.png', 35, 35, 1);
     game.load.spritesheet('tallGreyMushroom', 'assets/sprites/obstacles/tallGreyMushroom.png', 35, 35, 1);
@@ -112,6 +113,7 @@ function loadMainFiles()
     game.load.atlasJSONHash('imp', 'assets/sprites/attackers/imp.png', 'assets/sprites/attackers/imp.json');
     game.load.atlasJSONHash('kappa', 'assets/sprites/attackers/kappa.png', 'assets/sprites/attackers/kappa.json');
     game.load.atlasJSONHash('ogre', 'assets/sprites/attackers/ogre.png', 'assets/sprites/attackers/ogre.json');
+    game.load.atlasJSONHash('skuller', 'assets/sprites/attackers/skuller.png', 'assets/sprites/attackers/skuller.json');
 
 }
 
