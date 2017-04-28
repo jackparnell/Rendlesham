@@ -106,6 +106,10 @@ function loadMainFiles()
     game.load.audio('nes13', 'assets/audio/nes13.ogg');
     game.load.audio('nes15', 'assets/audio/nes15.ogg');
 
+    game.load.atlasJSONHash('bogeyman', 'assets/sprites/attackers/bogeyman.png', 'assets/sprites/attackers/bogeyman.json');
+    game.load.atlasJSONHash('goblin', 'assets/sprites/attackers/goblin.png', 'assets/sprites/attackers/goblin.json');
+    game.load.atlasJSONHash('imp', 'assets/sprites/attackers/imp.png', 'assets/sprites/attackers/imp.json');
+
 }
 
 function getLevelByName(levelName) {

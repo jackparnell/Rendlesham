@@ -49,7 +49,7 @@ Rendlesham.achievements.prototype.create = function()
     for (var levelNumber in zones.eastAnglia.levelOrdering) {
         if (zones.eastAnglia.levelOrdering.hasOwnProperty(levelNumber)) {
 
-            level = getLevelByName(levelOrdering.eastAnglia[levelNumber]);
+            level = getLevelByName(zones.eastAnglia.levelOrdering[levelNumber]);
 
             if (this.user.hasOwnProperty('levelHighScores') && this.user.levelHighScores.hasOwnProperty(level.name)) {
                 userLevelHighScore = this.user.levelHighScores[level.name];

@@ -1967,7 +1967,7 @@ var helhoughton = {
             duration: 27,
             attacks: [
                 {
-                    className: 'Oscar',
+                    className: 'Bogeyman',
                     duration: 20,
                     gap: 1.75,
                     delay: 2.5
@@ -1978,19 +1978,19 @@ var helhoughton = {
             duration: 23,
             attacks: [
                 {
-                    className: 'Roger',
+                    className: 'Goblin',
                     duration: 10,
                     gap: 1,
                     delay: 0
                 },
                 {
-                    className: 'Mib',
+                    className: 'Bogeyman',
                     duration: 5,
                     gap: 1,
                     delay: 10
                 },
                 {
-                    className: 'Roger',
+                    className: 'Goblin',
                     duration: 5,
                     gap: 1,
                     delay: 15
@@ -2001,13 +2001,13 @@ var helhoughton = {
             duration: 19,
             attacks: [
                 {
-                    className: 'Mib',
+                    className: 'Imp',
                     duration: 15,
                     gap: 2,
                     delay: 0
                 },
                 {
-                    className: 'Aquila',
+                    className: 'Bogeyman',
                     duration: 15,
                     gap: 2,
                     delay: 1
@@ -2018,13 +2018,13 @@ var helhoughton = {
             duration: 24,
             attacks: [
                 {
-                    className: 'Aquila',
+                    className: 'Imp',
                     duration: 10,
-                    gap: .5,
+                    gap: 1,
                     delay: 0
                 },
                 {
-                    className: 'Mib',
+                    className: 'Goblin',
                     duration: 10,
                     gap: 1,
                     delay: 10
@@ -2035,13 +2035,13 @@ var helhoughton = {
             duration: 29,
             attacks: [
                 {
-                    className: 'Aquila',
+                    className: 'Goblin',
                     duration: 10,
                     gap: .8,
                     delay: 0
                 },
                 {
-                    className: 'Aquila',
+                    className: 'Goblin',
                     duration: 15,
                     gap: .6,
                     delay: 10
@@ -2052,7 +2052,7 @@ var helhoughton = {
             duration: 32,
             attacks: [
                 {
-                    className: 'Mib',
+                    className: 'Imp',
                     duration: 30,
                     gap: .75,
                     delay: 0
