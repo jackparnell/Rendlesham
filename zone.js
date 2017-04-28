@@ -120,6 +120,10 @@ Rendlesham.zone.prototype.create = function()
         16: {
             x: game.width * .85,
             y: game.height * 1.05
+        },
+        17: {
+            x: game.width * .925,
+            y: game.height * 1.3
         }
     };
 

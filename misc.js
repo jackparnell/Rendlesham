@@ -90,8 +90,9 @@ function loadMainFiles()
         }
     }
 
-    game.load.image('tiles', 'assets/tilemaps/tiles/tiles_spritesheet.png');
+    game.load.image('tiles_spritesheet', 'assets/tilemaps/tiles/tiles_spritesheet.png');
     game.load.image('roguelikeSheet_transparent', 'assets/tilemaps/tiles/roguelikeSheet_transparent.png');
+    game.load.image('2dTopDownTileSet', 'assets/tilemaps/tiles/2dTopDownTileSet.png');
 
     game.load.bitmapFont('gem', 'assets/fonts/bitmapFonts/gem.png', 'assets/fonts/bitmapFonts/gem.xml');
     game.load.bitmapFont('passionOne', 'assets/fonts/bitmapFonts/passionOne.png', 'assets/fonts/bitmapFonts/passionOne.fnt');
@@ -109,6 +110,8 @@ function loadMainFiles()
     game.load.atlasJSONHash('bogeyman', 'assets/sprites/attackers/bogeyman.png', 'assets/sprites/attackers/bogeyman.json');
     game.load.atlasJSONHash('goblin', 'assets/sprites/attackers/goblin.png', 'assets/sprites/attackers/goblin.json');
     game.load.atlasJSONHash('imp', 'assets/sprites/attackers/imp.png', 'assets/sprites/attackers/imp.json');
+    game.load.atlasJSONHash('kappa', 'assets/sprites/attackers/kappa.png', 'assets/sprites/attackers/kappa.json');
+    game.load.atlasJSONHash('ogre', 'assets/sprites/attackers/ogre.png', 'assets/sprites/attackers/ogre.json');
 
 }
 

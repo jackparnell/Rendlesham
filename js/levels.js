@@ -16,7 +16,7 @@ var zones = {
             13: 'kingsLynn',
             14: 'pumpkinPatch',
             15: 'shouldhamWarren',
-            16: 'helhoughton'
+            16: 'iclandu'
         }
     }
 };
@@ -2088,6 +2088,149 @@ var helhoughton = {
     canPlaceTowerOnPathway: true,
     distinctWaves: true,
     tileSetImageName: 'roguelikeSheet_transparent',
+    bulletsCanOnlyHitTarget: true,
+    calculateAttackerProjectedHealth: true
+};
+
+var iclandu = {
+    name: 'iclandu',
+    mapName: 'iclandu',
+    title: 'Iclandu',
+    waveInfo: {
+        wave1: {
+            duration: 26,
+            attacks: [
+                {
+                    className: 'Bogeyman',
+                    duration: 20,
+                    gap: 1.25,
+                    delay: 1
+                }
+            ]
+        },
+        wave2: {
+            duration: 23,
+            attacks: [
+                {
+                    className: 'Goblin',
+                    duration: 10,
+                    gap: 1,
+                    delay: 0
+                },
+                {
+                    className: 'Bogeyman',
+                    duration: 5,
+                    gap: 1,
+                    delay: 10
+                },
+                {
+                    className: 'Goblin',
+                    duration: 5,
+                    gap: 1,
+                    delay: 15
+                }
+            ]
+        },
+        wave3: {
+            duration: 18,
+            attacks: [
+                {
+                    className: 'Imp',
+                    duration: 14,
+                    gap: 2,
+                    delay: 0
+                },
+                {
+                    className: 'Bogeyman',
+                    duration: 14,
+                    gap: 2,
+                    delay: 1
+                }
+            ]
+        },
+        wave4: {
+            duration: 23,
+            attacks: [
+                {
+                    className: 'Imp',
+                    duration: 10,
+                    gap: 1,
+                    delay: 0
+                },
+                {
+                    className: 'Goblin',
+                    duration: 10,
+                    gap: 1.25,
+                    delay: 10
+                }
+            ]
+        },
+        wave5: {
+            duration: 28,
+            attacks: [
+                {
+                    className: 'Kappa',
+                    duration: 10,
+                    gap: .9,
+                    delay: 0
+                },
+                {
+                    className: 'Goblin',
+                    duration: 15,
+                    gap: .9,
+                    delay: 10
+                }
+            ]
+        },
+        wave6: {
+            duration: 32,
+            attacks: [
+                {
+                    className: 'Imp',
+                    duration: 30,
+                    gap: .8,
+                    delay: 0
+                }
+            ]
+        },
+        wave7: {
+            duration: 27,
+            attacks: [
+                {
+                    className: 'Ogre',
+                    duration: 25,
+                    gap: 1.2,
+                    delay: 0
+                }
+            ]
+        }
+
+    },
+    completed: function() {
+
+        if (!mainState.allAttackersDispatched) {
+            return false;
+        }
+        if (mainState.attackers.countLiving() >= 1) {
+            return false;
+        }
+        return true;
+    },
+    pathAdditionalCostTiles: function(attacker) {
+
+        return mainState.globalAdditionalCostTiles;
+
+    },
+    startingCoins: 100,
+    startingLives: 5,
+    entryXGrid: 21,
+    entryYGrid: 5,
+    goalXGrid: 1,
+    goalYGrid: 5,
+    waveHealthModifier: .4,
+    towerPlacementForbiddenRows: [0, 11],
+    canPlaceTowerOnPathway: false,
+    distinctWaves: true,
     bulletsCanOnlyHitTarget: true,
     calculateAttackerProjectedHealth: true
 };

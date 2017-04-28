@@ -786,6 +786,12 @@ var mainState = {
         */
 
         /*
+        this.attackers.forEachAlive(function(item){
+            game.debug.body(item);
+        });
+        */
+
+        /*
         if (this.towers.children[0]) {
             this.towers.children[0].weapon1.debug();
         }
@@ -1842,7 +1848,10 @@ mainState.setupMap = function()
         this.level.tileSetImageName = 'tiles';
     }
 
-    this.map.addTilesetImage(this.map.tilesets[0].name, this.level.tileSetImageName, this.squareWidth, this.squareWidth, 0, 1);
+    this.map.tilesets.forEach(function (tileset) {
+        this.map.addTilesetImage(tileset.name, tileset.name, this.squareWidth, this.squareWidth, 0, 1);
+    }, this);
+
 
     // create map layers
     this.layers = {};
@@ -2145,6 +2154,10 @@ mainState.removeGlobalImpassablePoint = function(x, y)
 
 mainState.wouldObstaclePlacementBlockPath = function(x, y, coordinateType)
 {
+    if (!this.level.canPlaceTowerOnPathway) {
+        return false;
+    }
+
     if (coordinateType && coordinateType == 'pixels') {
         var gridCoordinates = this.translatePixelCoordinatesToGridCoordinates(x, y);
         x = gridCoordinates[0];
