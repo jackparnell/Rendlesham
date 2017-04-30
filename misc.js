@@ -108,12 +108,15 @@ function loadMainFiles()
     game.load.audio('nes13', 'assets/audio/nes13.ogg');
     game.load.audio('nes15', 'assets/audio/nes15.ogg');
 
-    game.load.atlasJSONHash('bogeyman', 'assets/sprites/attackers/bogeyman.png', 'assets/sprites/attackers/bogeyman.json');
-    game.load.atlasJSONHash('goblin', 'assets/sprites/attackers/goblin.png', 'assets/sprites/attackers/goblin.json');
-    game.load.atlasJSONHash('imp', 'assets/sprites/attackers/imp.png', 'assets/sprites/attackers/imp.json');
-    game.load.atlasJSONHash('kappa', 'assets/sprites/attackers/kappa.png', 'assets/sprites/attackers/kappa.json');
-    game.load.atlasJSONHash('ogre', 'assets/sprites/attackers/ogre.png', 'assets/sprites/attackers/ogre.json');
-    game.load.atlasJSONHash('skuller', 'assets/sprites/attackers/skuller.png', 'assets/sprites/attackers/skuller.json');
+    var transylvanianAttackerNames = ['bogeyman', 'goblin', 'imp', 'kappa', 'ogre', 'skull', 'skuller'];
+
+    for (var i = 0; i < transylvanianAttackerNames.length; i++) {
+        game.load.atlasJSONHash(
+            transylvanianAttackerNames[i],
+            'assets/sprites/attackers/' + transylvanianAttackerNames[i] + '.png',
+            'assets/sprites/attackers/' + transylvanianAttackerNames[i] + '.json'
+        );
+    }
 
 }
 

@@ -2114,7 +2114,7 @@ var iclandu = {
                 {
                     className: 'Goblin',
                     duration: 10,
-                    gap: 1,
+                    gap: 1.25,
                     delay: 0
                 },
                 {
@@ -2126,7 +2126,7 @@ var iclandu = {
                 {
                     className: 'Goblin',
                     duration: 5,
-                    gap: 1,
+                    gap: 1.25,
                     delay: 15
                 }
             ]
@@ -2135,7 +2135,7 @@ var iclandu = {
             duration: 18,
             attacks: [
                 {
-                    className: 'Imp',
+                    className: 'Goblin',
                     duration: 14,
                     gap: 2,
                     delay: 0
@@ -2194,17 +2194,28 @@ var iclandu = {
             ]
         },
         wave7: {
-            duration: 27,
+            duration: 30,
             attacks: [
                 {
-                    className: 'Skuller',
-                    duration: 25,
-                    gap: 1,
+                    className: 'Skull',
+                    duration: 28,
+                    gap: .8,
                     delay: 0
                 }
             ]
         },
         wave8: {
+            duration: 27,
+            attacks: [
+                {
+                    className: 'Skuller',
+                    duration: 25,
+                    gap: .8,
+                    delay: 0
+                }
+            ]
+        },
+        wave9: {
             duration: 27,
             attacks: [
                 {

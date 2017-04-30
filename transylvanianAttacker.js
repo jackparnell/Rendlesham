@@ -103,6 +103,27 @@ Ogre.prototype.update = function() {
     this.simpleAnimate();
 };
 
+function Skull(game, x, y) {
+    Attacker.call(this, game, x, y, 'skull');
+    this.simpleSetSize();
+    this.animations.add('walk', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17], 15, false, true);
+}
+Skull.prototype = Object.create(Attacker.prototype);
+Skull.prototype.constructor = Skull;
+Skull.defaultScale = 1;
+Skull.defaultHealth = 2000;
+Skull.pace = 2.8;
+Skull.coinsValue = 10;
+Skull.scoreValue = 10;
+Skull.spriteHeight = 50;
+Skull.prototype.update = function() {
+    Attacker.prototype.update.call(this);
+    if (!this.alive) {
+        return;
+    }
+    this.simpleAnimate();
+};
+
 function Skuller(game, x, y) {
     Attacker.call(this, game, x, y, 'skuller');
     this.simpleSetSize();
