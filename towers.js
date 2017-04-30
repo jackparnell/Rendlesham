@@ -18,7 +18,6 @@ function Tower(game, x, y, spriteName) {
     this.weapon1.bulletKillDistance = bulletKillDistance;
     this.weapon1.fireRate = window[this.constructor.name].defaultFireRate;
     this.weapon1.angle = this.angleToTarget();
-    this.weapon1.setBulletBodyOffset(15, 15, 25, 25);
 
     this.anchor.setTo(0.5, 0.5);
 
@@ -106,6 +105,10 @@ Tower.prototype.fire = function()
 
             if (mainState.level.bulletsCanOnlyHitTarget) {
                 bullet.canOnlyHitTarget = true;
+            }
+
+            if (!bullet.guid) {
+                bullet.guid = guid();
             }
 
         }
@@ -201,8 +204,7 @@ Tower.prototype.angleToTarget = function()
 };
 Tower.prototype.angleToSprite = function(otherSprite)
 {
-    var angleToSprite = Math.atan2(otherSprite.y - this.y, otherSprite.x - this.x ) * (180/Math.PI);
-    return angleToSprite;
+    return Math.atan2(otherSprite.y - this.y, otherSprite.x - this.x ) * (180/Math.PI);
 };
 
 Tower.prototype.prepareForGameOver = function()
@@ -308,7 +310,7 @@ Tower.prototype.calculateBulletSpeed = function()
 function Gun(game, x, y) {
     Tower.call(this, game, x, y, Gun.spriteName);
     this.body.setSize(14, 19, 4, 7);
-
+    this.weapon1.setBulletBodyOffset(15, 15, 25, 25);
 }
 Gun.prototype = Object.create(Tower.prototype);
 Gun.prototype.constructor = Gun;
@@ -329,6 +331,7 @@ Gun.bulletHitDecorationClassName = 'Explosion';
 function Freezer(game, x, y) {
     Tower.call(this, game, x, y, Freezer.spriteName);
     this.body.setSize(14, 19, 4, 7);
+    this.weapon1.setBulletBodyOffset(12, 12, 8, 8);
 }
 Freezer.prototype = Object.create(Tower.prototype);
 Freezer.prototype.constructor = Freezer;
@@ -350,6 +353,7 @@ Freezer.bulletHitDecorationTint = 0x0000FF;
 function Laser(game, x, y) {
     Tower.call(this, game, x, y, Laser.spriteName);
     this.body.setSize(14, 19, 4, 7);
+    this.weapon1.setBulletBodyOffset(12, 12, 8, 8);
 }
 Laser.prototype = Object.create(Tower.prototype);
 Laser.prototype.constructor = Laser;

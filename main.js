@@ -133,8 +133,9 @@ var mainState = {
 
             this.turn += 1;
 
+            var bullets = this.getBulletsAlive();
+
             if (this.impassableTiles && this.impassableTiles.length) {
-                var bullets = this.getBulletsAlive();
                 for (var i = 0; i < bullets.length; i++) {
                     var gridCoordinates = mainState.translatePixelCoordinatesToGridCoordinates(bullets[i].x, bullets[i].y);
                     var gridPositionString = gridCoordinates[0] + '_' + gridCoordinates[1];
@@ -148,7 +149,6 @@ var mainState = {
 
             // Begin bullet heat-seeking
             if (!this.preparingForGameOver) {
-                var bullets = this.getBulletsAlive();
                 for (var i = 0; i < bullets.length; i++) {
                     var bullet = bullets[i];
                     if (bullet.target && bullet.target.alive && bullet.target.body && bullet.target.body.moves) {
@@ -786,8 +786,16 @@ var mainState = {
         });
         */
 
+
         /*
         this.attackers.forEachAlive(function(item){
+            game.debug.body(item);
+        });
+        */
+
+        /*
+        var bullets = this.getBulletsAlive();
+        bullets.forEach(function(item){
             game.debug.body(item);
         });
         */
@@ -2765,10 +2773,15 @@ mainState.getTowerClassNames = function()
 
 mainState.getMidPointBetweenSprites = function(spriteA, spriteB)
 {
+
+    var x = Math.round((spriteA.x + spriteB.x) / 2);
+    var y = Math.round((spriteA.y + spriteB.y) / 2);
+    var angle = Math.atan2(spriteB.y - spriteA.y, spriteB.x - spriteA.x ) * (180/Math.PI);
+
     return {
-        x: Math.round((spriteA.x + spriteB.x) / 2),
-        y: Math.round((spriteA.y + spriteB.y) / 2),
-        angle: Math.atan2(spriteB.y - spriteA.y, spriteB.x - spriteA.x ) * (180/Math.PI)
+        x: x,
+        y: y,
+        angle: angle
     }
 };
 

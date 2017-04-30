@@ -76,6 +76,7 @@ Attacker.prototype.hit = function(attacker, bullet)
     var decorationClassName = window[bullet.towerClass].bulletHitDecorationClassName || 'Explosion';
     var decorationTint = window[bullet.towerClass].bulletHitDecorationTint || '0xFFFFFF';
     var spawnFunctionName = 'spawn' + decorationClassName;
+
     var midPoint = mainState.getMidPointBetweenSprites(attacker, bullet);
     mainState[spawnFunctionName](midPoint.x, midPoint.y, decorationTint, midPoint.angle);
 
