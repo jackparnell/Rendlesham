@@ -16,7 +16,8 @@ var zones = {
             13: 'kingsLynn',
             14: 'pumpkinPatch',
             15: 'shouldhamWarren',
-            16: 'iclandu'
+            16: 'iclandu',
+            17: 'ludus'
         }
     }
 };
@@ -2092,6 +2093,183 @@ var iclandu = {
     goalYGrid: 5,
     waveHealthModifier: .44,
     towerPlacementForbiddenRows: [0, 11],
+    canPlaceTowerOnPathway: false,
+    distinctWaves: true,
+    bulletsCanOnlyHitTarget: true,
+    calculateAttackerProjectedHealth: true
+};
+
+var ludus = {
+    name: 'ludus',
+    mapName: 'ludus',
+    title: 'Ludus',
+    waveInfo: {
+        wave1: {
+            duration: 26,
+            attacks: [
+                {
+                    className: 'Bogeyman',
+                    duration: 20,
+                    gap: 1.25,
+                    delay: 1
+                }
+            ]
+        },
+        wave2: {
+            duration: 23,
+            attacks: [
+                {
+                    className: 'Goblin',
+                    duration: 10,
+                    gap: 1.25,
+                    delay: 0
+                },
+                {
+                    className: 'Bogeyman',
+                    duration: 5,
+                    gap: 1,
+                    delay: 10
+                },
+                {
+                    className: 'Goblin',
+                    duration: 5,
+                    gap: 1.25,
+                    delay: 15
+                }
+            ]
+        },
+        wave3: {
+            duration: 18,
+            attacks: [
+                {
+                    className: 'Goblin',
+                    duration: 14,
+                    gap: 2,
+                    delay: 0
+                },
+                {
+                    className: 'Bogeyman',
+                    duration: 14,
+                    gap: 2,
+                    delay: 1
+                }
+            ]
+        },
+        wave4: {
+            duration: 23,
+            attacks: [
+                {
+                    className: 'Imp',
+                    duration: 10,
+                    gap: 1,
+                    delay: 0
+                },
+                {
+                    className: 'Goblin',
+                    duration: 10,
+                    gap: 1.25,
+                    delay: 10
+                }
+            ]
+        },
+        wave5: {
+            duration: 28,
+            attacks: [
+                {
+                    className: 'Kappa',
+                    duration: 10,
+                    gap: .7,
+                    delay: 0
+                },
+                {
+                    className: 'Goblin',
+                    duration: 15,
+                    gap: .9,
+                    delay: 10
+                }
+            ]
+        },
+        wave6: {
+            duration: 32,
+            attacks: [
+                {
+                    className: 'Imp',
+                    duration: 30,
+                    gap: .8,
+                    delay: 0
+                }
+            ]
+        },
+        wave7: {
+            duration: 30,
+            attacks: [
+                {
+                    className: 'Skull',
+                    duration: 28,
+                    gap: .8,
+                    delay: 0
+                }
+            ]
+        },
+        wave8: {
+            duration: 27,
+            attacks: [
+                {
+                    className: 'Cyclops',
+                    duration: 25,
+                    gap: 1,
+                    delay: 0
+                }
+            ]
+        },
+        wave9: {
+            duration: 27,
+            attacks: [
+                {
+                    className: 'Skuller',
+                    duration: 25,
+                    gap: .8,
+                    delay: 0
+                }
+            ]
+        },
+        wave10: {
+            duration: 27,
+            attacks: [
+                {
+                    className: 'Ogre',
+                    duration: 25,
+                    gap: 1,
+                    delay: 0
+                }
+            ]
+        }
+
+    },
+    pathAdditionalCostTiles: function(attacker) {
+
+        var additionalCostTiles = [];
+
+        if (attacker.incrementalId % 2) {
+            additionalCostTiles.push([17, 2, 20]);
+            additionalCostTiles.push([4, 2, 20]);
+        } else {
+            additionalCostTiles.push([17, 2, 0]);
+            additionalCostTiles.push([4, 2, 0]);
+        }
+
+        return additionalCostTiles;
+
+    },
+    startingCoins: 200,
+    startingLives: 5,
+    entryXGrid: 21,
+    entryYGrid: 5,
+    goalXGrid: 1,
+    goalYGrid: 5,
+    waveHealthModifier: .44,
+    towerPlacementForbiddenRows: [0, 11],
+    towerPlacementForbiddenColumns: [7, 8, 9, 10, 11, 12, 13, 14],
     canPlaceTowerOnPathway: false,
     distinctWaves: true,
     bulletsCanOnlyHitTarget: true,
