@@ -108,7 +108,9 @@ function loadMainFiles()
     game.load.audio('nes13', 'assets/audio/nes13.ogg');
     game.load.audio('nes15', 'assets/audio/nes15.ogg');
 
-    var transylvanianAttackerNames = ['bogeyman', 'goblin', 'imp', 'kappa', 'ogre', 'skull', 'skuller'];
+    var transylvanianAttackerNames = [
+        'betty', 'bogeyman', 'bruce', 'farmer', 'goblin', 'imp', 'kappa', 'nic', 'ogre', 'purp', 'skull', 'skuller', 'villager', 'woodcutter'
+    ];
 
     for (var i = 0; i < transylvanianAttackerNames.length; i++) {
         game.load.atlasJSONHash(
