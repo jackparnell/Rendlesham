@@ -100,23 +100,13 @@ var fridayStreet = {
         }
 
     },
-    completed: function() {
-
-        if (!mainState.allAttackersDispatched) {
-            return false;
-        }
-        if (mainState.attackers.countLiving() >= 1) {
-            return false;
-        }
-        return true;
-    },
     startingCoins: 100,
     startingLives: 5,
     entryXGrid: 21,
     entryYGrid: 5,
     goalXGrid: 1,
     goalYGrid: 5,
-    waveHealthModifier: .2,
+    waveHealthModifier: .21,
     towerPlacementForbiddenRows: [0, 11],
     towersAvailable: ['Gun'],
     distinctWaves: true
@@ -229,16 +219,6 @@ var orfordRoad = {
                 }
             ]
         }
-    },
-    completed: function() {
-
-        if (!mainState.allAttackersDispatched) {
-            return false;
-        }
-        if (mainState.attackers.countLiving() >= 1) {
-            return false;
-        }
-        return true;
     },
     startingCoins: 150,
     startingLives: 5,
@@ -361,16 +341,6 @@ var orfordness = {
         }
 
     },
-    completed: function() {
-
-        if (!mainState.allAttackersDispatched) {
-            return false;
-        }
-        if (mainState.attackers.countLiving() >= 1) {
-            return false;
-        }
-        return true;
-    },
     startingCoins: 150,
     startingLives: 5,
     entryXGrid: 21,
@@ -484,16 +454,6 @@ var westletonHeath = {
             ]
         }
     },
-    completed: function() {
-
-        if (!mainState.allAttackersDispatched) {
-            return false;
-        }
-        if (mainState.attackers.countLiving() >= 1) {
-            return false;
-        }
-        return true;
-    },
     startingCoins: 150,
     startingLives: 5,
     entryXGrid: 21,
@@ -605,16 +565,6 @@ var bartonMills = {
                 }
             ]
         }
-    },
-    completed: function() {
-
-        if (!mainState.allAttackersDispatched) {
-            return false;
-        }
-        if (mainState.attackers.countLiving() >= 1) {
-            return false;
-        }
-        return true;
     },
     pathAdditionalCostTiles: function(attacker) {
 
@@ -741,16 +691,6 @@ var worthamLing = {
             ]
         }
 
-    },
-    completed: function() {
-
-        if (!mainState.allAttackersDispatched) {
-            return false;
-        }
-        if (mainState.attackers.countLiving() >= 1) {
-            return false;
-        }
-        return true;
     },
     pathAdditionalCostTiles: function(attacker) {
 
@@ -880,16 +820,6 @@ var waveneyCrossing = {
         }
 
     },
-    completed: function() {
-
-        if (!mainState.allAttackersDispatched) {
-            return false;
-        }
-        if (mainState.attackers.countLiving() >= 1) {
-            return false;
-        }
-        return true;
-    },
     pathAdditionalCostTiles: function(attacker) {
 
         var additionalCostTiles = [];
@@ -1018,16 +948,6 @@ var frozenFen = {
         }
 
     },
-    completed: function() {
-
-        if (!mainState.allAttackersDispatched) {
-            return false;
-        }
-        if (mainState.attackers.countLiving() >= 1) {
-            return false;
-        }
-        return true;
-    },
     pathAdditionalCostTiles: function(attacker) {
 
         return mainState.globalAdditionalCostTiles;
@@ -1039,7 +959,7 @@ var frozenFen = {
     entryYGrid: 5,
     goalXGrid: 1,
     goalYGrid: 5,
-    waveHealthModifier: .28,
+    waveHealthModifier: .3,
     towerPlacementForbiddenRows: [0, 11],
     canPlaceTowerOnPathway: true,
     theme: 'snow',
@@ -1148,16 +1068,6 @@ var sandringhamWoods = {
             ]
         }
 
-    },
-    completed: function() {
-
-        if (!mainState.allAttackersDispatched) {
-            return false;
-        }
-        if (mainState.attackers.countLiving() >= 1) {
-            return false;
-        }
-        return true;
     },
     pathAdditionalCostTiles: function(attacker) {
 
@@ -1278,16 +1188,6 @@ var holkhamBeach = {
         }
 
     },
-    completed: function() {
-
-        if (!mainState.allAttackersDispatched) {
-            return false;
-        }
-        if (mainState.attackers.countLiving() >= 1) {
-            return false;
-        }
-        return true;
-    },
     pathAdditionalCostTiles: function(attacker) {
 
         return mainState.globalAdditionalCostTiles;
@@ -1406,16 +1306,6 @@ var northCreake = {
             ]
         }
 
-    },
-    completed: function() {
-
-        if (!mainState.allAttackersDispatched) {
-            return false;
-        }
-        if (mainState.attackers.countLiving() >= 1) {
-            return false;
-        }
-        return true;
     },
     pathAdditionalCostTiles: function(attacker) {
 
@@ -1545,16 +1435,6 @@ var westRudhamChurchyard = {
         game.overlays.add(this.nightTime);
 
     },
-    completed: function() {
-
-        if (!mainState.allAttackersDispatched) {
-            return false;
-        }
-        if (mainState.attackers.countLiving() >= 1) {
-            return false;
-        }
-        return true;
-    },
     pathAdditionalCostTiles: function(attacker) {
 
         return mainState.globalAdditionalCostTiles;
@@ -1673,16 +1553,6 @@ var kingsLynn = {
             ]
         }
 
-    },
-    completed: function() {
-
-        if (!mainState.allAttackersDispatched) {
-            return false;
-        }
-        if (mainState.attackers.countLiving() >= 1) {
-            return false;
-        }
-        return true;
     },
     pathAdditionalCostTiles: function(attacker) {
 
@@ -1803,16 +1673,6 @@ var pumpkinPatch = {
         }
 
     },
-    completed: function() {
-
-        if (!mainState.allAttackersDispatched) {
-            return false;
-        }
-        if (mainState.attackers.countLiving() >= 1) {
-            return false;
-        }
-        return true;
-    },
     pathAdditionalCostTiles: function(attacker) {
 
         return mainState.globalAdditionalCostTiles;
@@ -1932,16 +1792,6 @@ var shouldhamWarren = {
         }
 
     },
-    completed: function() {
-
-        if (!mainState.allAttackersDispatched) {
-            return false;
-        }
-        if (mainState.attackers.countLiving() >= 1) {
-            return false;
-        }
-        return true;
-    },
     pathAdditionalCostTiles: function(attacker) {
 
         return mainState.globalAdditionalCostTiles;
@@ -2060,16 +1910,6 @@ var helhoughton = {
             ]
         }
 
-    },
-    completed: function() {
-
-        if (!mainState.allAttackersDispatched) {
-            return false;
-        }
-        if (mainState.attackers.countLiving() >= 1) {
-            return false;
-        }
-        return true;
     },
     pathAdditionalCostTiles: function(attacker) {
 
@@ -2227,16 +2067,6 @@ var iclandu = {
             ]
         }
 
-    },
-    completed: function() {
-
-        if (!mainState.allAttackersDispatched) {
-            return false;
-        }
-        if (mainState.attackers.countLiving() >= 1) {
-            return false;
-        }
-        return true;
     },
     pathAdditionalCostTiles: function(attacker) {
 

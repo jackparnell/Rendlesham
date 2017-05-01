@@ -172,15 +172,13 @@ var mainState = {
                 this.checkIfWaveHasBeenBeaten(i);
             }
 
-            if (!this.pendingLevelCompleted && this.level.completed()) {
+            if (!this.pendingLevelCompleted && this.checkLevelCompleted()) {
                 this.levelCompleted();
             }
 
             if (this.towerPlacementViewOpen) {
                 this.updateTowerPlacementView();
             }
-
-            // console.log(game.time.fps);
 
         }
         catch (err) {
@@ -812,6 +810,22 @@ var mainState = {
 
         // game.debug.text(game.time.fps, game.width - 50, 30)
 
+    },
+
+    checkLevelCompleted: function()
+    {
+        if (typeof this.level.completed == 'function') {
+            return this.level.completed();
+        }
+
+        if (!this.allAttackersDispatched) {
+            return false;
+        }
+        if (this.attackers.countLiving() >= 1) {
+            return false;
+        }
+
+        return true;
     },
 
     levelCompleted: function()
