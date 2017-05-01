@@ -61,6 +61,27 @@ Bogeyman.prototype.update = function() {
     this.simpleAnimate();
 };
 
+function Villager(game, x, y) {
+    Attacker.call(this, game, x, y, 'villager');
+    this.simpleSetSize();
+    this.animations.add('walk', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17], 15, false, true);
+}
+Villager.prototype = Object.create(Attacker.prototype);
+Villager.prototype.constructor = Villager;
+Villager.defaultScale = 1;
+Villager.defaultHealth = 1000;
+Villager.pace = 2.15;
+Villager.coinsValue = 5;
+Villager.scoreValue = 5;
+Villager.spriteHeight = 48;
+Villager.prototype.update = function() {
+    Attacker.prototype.update.call(this);
+    if (!this.alive) {
+        return;
+    }
+    this.simpleAnimate();
+};
+
 function Kappa(game, x, y) {
     Attacker.call(this, game, x, y, 'kappa');
     this.simpleSetSize();
@@ -70,10 +91,10 @@ Kappa.prototype = Object.create(Attacker.prototype);
 Kappa.prototype.constructor = Kappa;
 Kappa.defaultScale = 1;
 Kappa.defaultHealth = 1000;
-Kappa.pace = 4.5;
+Kappa.pace = 4.2;
 Kappa.coinsValue = 5;
 Kappa.scoreValue = 10;
-Kappa.spriteHeight = 48;
+Kappa.spriteHeight = 50;
 Kappa.prototype.update = function() {
     Attacker.prototype.update.call(this);
     if (!this.alive) {
@@ -138,6 +159,27 @@ Skuller.coinsValue = 15;
 Skuller.scoreValue = 15;
 Skuller.spriteHeight = 48;
 Skuller.prototype.update = function() {
+    Attacker.prototype.update.call(this);
+    if (!this.alive) {
+        return;
+    }
+    this.simpleAnimate();
+};
+
+function Cyclops(game, x, y) {
+    Attacker.call(this, game, x, y, 'cyclops');
+    this.simpleSetSize();
+    this.animations.add('walk', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17], 15, false, true);
+}
+Cyclops.prototype = Object.create(Attacker.prototype);
+Cyclops.prototype.constructor = Cyclops;
+Cyclops.defaultScale = 1;
+Cyclops.defaultHealth = 4000;
+Cyclops.pace = 2.8;
+Cyclops.coinsValue = 20;
+Cyclops.scoreValue = 20;
+Cyclops.spriteHeight = 50;
+Cyclops.prototype.update = function() {
     Attacker.prototype.update.call(this);
     if (!this.alive) {
         return;

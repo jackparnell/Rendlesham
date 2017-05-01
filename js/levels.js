@@ -2011,7 +2011,7 @@ var iclandu = {
                 {
                     className: 'Kappa',
                     duration: 10,
-                    gap: .9,
+                    gap: .7,
                     delay: 0
                 },
                 {
@@ -2048,6 +2048,17 @@ var iclandu = {
             duration: 27,
             attacks: [
                 {
+                    className: 'Cyclops',
+                    duration: 25,
+                    gap: 1,
+                    delay: 0
+                }
+            ]
+        },
+        wave9: {
+            duration: 27,
+            attacks: [
+                {
                     className: 'Skuller',
                     duration: 25,
                     gap: .8,
@@ -2055,7 +2066,7 @@ var iclandu = {
                 }
             ]
         },
-        wave9: {
+        wave10: {
             duration: 27,
             attacks: [
                 {
@@ -2079,7 +2090,7 @@ var iclandu = {
     entryYGrid: 5,
     goalXGrid: 1,
     goalYGrid: 5,
-    waveHealthModifier: .4,
+    waveHealthModifier: .44,
     towerPlacementForbiddenRows: [0, 11],
     canPlaceTowerOnPathway: false,
     distinctWaves: true,

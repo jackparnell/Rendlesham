@@ -39,10 +39,11 @@ var moveable = {
             this.path = [];
         }
     },
-    reached_target_position: function (target_position) {
+    reached_target_position: function (target_position)
+    {
         var distance;
         distance = Phaser.Point.distance(this.position, target_position);
-        return distance < 1;
+        return distance < 3;
     },
     followPath: function()
     {

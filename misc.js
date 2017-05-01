@@ -109,7 +109,7 @@ function loadMainFiles()
     game.load.audio('nes15', 'assets/audio/nes15.ogg');
 
     var transylvanianAttackerNames = [
-        'betty', 'bogeyman', 'bruce', 'farmer', 'goblin', 'imp', 'kappa', 'nic', 'ogre', 'purp', 'skull', 'skuller', 'villager', 'woodcutter'
+        'betty', 'bogeyman', 'bruce', 'cyclops', 'farmer', 'goblin', 'imp', 'kappa', 'nic', 'ogre', 'purp', 'skull', 'skuller', 'villager', 'woodcutter'
     ];
 
     for (var i = 0; i < transylvanianAttackerNames.length; i++) {

@@ -2938,3 +2938,33 @@ mainState.calculateCompletionStars = function()
     return stars;
 
 };
+
+/**
+ * @param waveNumber
+ * @returns {number}
+ */
+mainState.calculateFirepowerAtWave = function(waveNumber)
+{
+    var firepower = this.level.startingCoins || 0;
+
+    var i = 0;
+    for (var wave in this.level.waveInfo) {
+        i++;
+        if (i >= waveNumber) {
+            break;
+        }
+
+        if (this.level.waveInfo[wave].attacks) {
+            this.level.waveInfo[wave].attacks.forEach(function(attack) {
+
+                var coinsValue = window[attack.className].coinsValue || 5;
+                var quantity = Math.floor(attack.duration / attack.gap);
+
+                firepower += (coinsValue * quantity);
+            });
+        }
+    }
+
+    return firepower;
+
+};
