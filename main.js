@@ -1962,9 +1962,10 @@ mainState.initiateEasyStar = function()
 {
     var collisionLayer = this.getCollisionLayer();
 
+    var tile_dimensions = new Phaser.Point(this.map.tileWidth, this.map.tileHeight);
+
     // Begin async pathfinding plugin instance
 
-    var tile_dimensions = new Phaser.Point(this.map.tileWidth, this.map.tileHeight);
     this.pathfinding = this.game.plugins.add(Rendlesham.Pathfinding, collisionLayer.data, [-1], tile_dimensions);
     this.pathfinding.easy_star.setIterationsPerCalculation(1000);
 
@@ -1976,7 +1977,6 @@ mainState.initiateEasyStar = function()
 
     var world_grid = collisionLayer.data;
     var acceptable_tiles = [-1];
-    var tile_dimensions = new Phaser.Point(this.map.tileWidth, this.map.tileHeight);
 
     this.grid_dimensions = {row: world_grid.length, column: world_grid[0].length};
 
@@ -2976,4 +2976,20 @@ mainState.calculateFirepowerAtWave = function(waveNumber)
 
     return firepower;
 
+};
+
+mainState.suggestAttackProperties = function(waveNumber, attackerClassName)
+{
+    var firepower = this.calculateFirepowerAtWave(waveNumber);
+
+    var attackerHealth = window[attackerClassName].defaultHealth * this.calculateWaveHealthModifier(waveNumber);
+
+    // TODO
+
+};
+
+mainState.calculateWaveHealthModifier = function(waveNumber)
+{
+    var waveHealthModifier = this.level.waveHealthModifier || .2;
+    return (1 - waveHealthModifier) + (waveNumber * waveHealthModifier);
 };

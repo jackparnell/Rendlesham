@@ -24,7 +24,6 @@ function Attacker(game, x, y, spriteName, waveNumber) {
         this.scale.setTo(scale, scale);
     }
 
-
     this.initialise(waveNumber);
 
 }
@@ -382,9 +381,7 @@ Attacker.prototype.updateCrosshair = function()
 };
 Attacker.prototype.calculateHealthModifier = function()
 {
-    var waveHealthModifier = mainState.level.waveHealthModifier || .2;
-    
-    return (1 - waveHealthModifier) + (mainState.waveNumber * waveHealthModifier);
+    return mainState.calculateWaveHealthModifier(mainState.waveNumber);
 };
 Attacker.prototype.freeze = function(bulletGrade)
 {
