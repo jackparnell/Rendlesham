@@ -81,6 +81,11 @@ var moveable = {
                     this.body.velocity.x = 0;
                     this.body.velocity.y = 0;
                 }
+
+                if (typeof this.reachedTargetPosition == 'function') {
+                    this.reachedTargetPosition();
+                }
+
             }
         }
 

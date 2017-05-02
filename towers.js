@@ -130,7 +130,6 @@ Tower.prototype.determineTarget = function()
 {
     var target = {};
     var mostAdvanced = 1;
-    var mostAdvancedDistance = 999999;
 
     if (this.game.target.guid) {
         var distanceBetween = game.physics.arcade.distanceBetween(this, this.game.target);
@@ -154,22 +153,23 @@ Tower.prototype.determineTarget = function()
 
         var distanceBetween = game.physics.arcade.distanceBetween(this, item);
 
-        var advanced = (item.tilesTraversed * 1000) + mainState.turn - item.creationTurn;
-        // TODO at some point, work out distance to Nathan via path
+        if (distanceBetween < this.weapon1.bulletKillDistance) {
 
-        if (
-            !target.targeted // If target is targeted, we've found the target.
-            &&
-            distanceBetween < this.weapon1.bulletKillDistance  // Within range
-            &&
-            (advanced > mostAdvanced || item.targeted)
-            &&
-            item.projectedHealth > 0
-        ) {
-            mostAdvanced = advanced;
-            mostAdvancedDistance = distanceBetween;
-            target = item;
+            var advanced = item.getAdvancement() + (item.getAgeInTurns() * 0.01);
+
+            if (
+                !target.targeted // If target is targeted, we've found the target.
+                &&
+                (advanced > mostAdvanced || item.targeted)
+                &&
+                item.projectedHealth > 0
+            ) {
+                mostAdvanced = advanced;
+                target = item;
+            }
+
         }
+
 
     }, this);
 

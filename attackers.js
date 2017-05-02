@@ -44,6 +44,7 @@ Attacker.prototype.initialise = function(waveNumber)
     this.speed = this.calculateSpeed();
     this.path = [];
     this.path_step = -1;
+    this.advancement = 0;
 
     this.targeted = false;
 
@@ -104,8 +105,6 @@ Attacker.prototype.update = function()
     }
 
     this.followPath();
-
-    // game.physics.arcade.collide(this, mainState.collisionLayer);
 
     this.game.bullets.forEachAlive(function(bullet) {
         game.physics.arcade.overlap(this, bullet, this.hit, null, this);
@@ -417,8 +416,6 @@ Attacker.prototype.unfreeze = function()
 Attacker.prototype.reuse = function()
 {
 
-    // console.log('Reusing ' + this.constructor.name + ' ' + this.guid);
-
     var coordinates = mainState.generateSpawnAttackerPixelCoordinates();
 
     var x = coordinates[0];
@@ -484,6 +481,41 @@ Attacker.prototype.simpleSetSize = function()
     var offsetY = 45 - bodyHeight;
     this.body.setSize(bodyWidth, bodyHeight, bodyWidth, offsetY);
 
+};
+Attacker.prototype.getStepsToGoal = function()
+{
+    if (!this.path) {
+        return 999;
+    }
+    return this.path.length - this.path_step;
+};
+Attacker.prototype.generateAdvancement = function()
+{
+    var stepsToGoal = this.getStepsToGoal();
+
+    var advancement = 0;
+
+    if (stepsToGoal) {
+        advancement = 100000 - (stepsToGoal * 100);
+    }
+
+    this.advancement = advancement;
+
+};
+Attacker.prototype.getAdvancement = function()
+{
+    if (!this.advancement) {
+        this.generateAdvancement();
+    }
+    return this.advancement;
+};
+Attacker.prototype.getAgeInTurns = function()
+{
+    return mainState.turn - this.creationTurn;
+};
+Attacker.prototype.reachedTargetPosition = function()
+{
+    this.generateAdvancement();
 };
 
 // Begin Oscar
