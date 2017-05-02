@@ -812,6 +812,15 @@ var mainState = {
 
     },
 
+    pathAdditionalCostTiles: function(attacker)
+    {
+        if (typeof this.level.pathAdditionalCostTiles == 'function') {
+            return this.level.pathAdditionalCostTiles(attacker);
+        }
+
+        return this.globalAdditionalCostTiles;
+    },
+
     checkLevelCompleted: function()
     {
         if (typeof this.level.completed == 'function') {

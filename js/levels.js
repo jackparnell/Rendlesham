@@ -949,11 +949,6 @@ var frozenFen = {
         }
 
     },
-    pathAdditionalCostTiles: function(attacker) {
-
-        return mainState.globalAdditionalCostTiles;
-
-    },
     startingCoins: 400,
     startingLives: 5,
     entryXGrid: 21,
@@ -1070,11 +1065,6 @@ var sandringhamWoods = {
         }
 
     },
-    pathAdditionalCostTiles: function(attacker) {
-
-        return mainState.globalAdditionalCostTiles;
-
-    },
     startingCoins: 300,
     startingLives: 5,
     entryXGrid: 21,
@@ -1189,11 +1179,6 @@ var holkhamBeach = {
         }
 
     },
-    pathAdditionalCostTiles: function(attacker) {
-
-        return mainState.globalAdditionalCostTiles;
-
-    },
     startingCoins: 300,
     startingLives: 5,
     entryXGrid: 21,
@@ -1306,11 +1291,6 @@ var northCreake = {
                 }
             ]
         }
-
-    },
-    pathAdditionalCostTiles: function(attacker) {
-
-        return mainState.globalAdditionalCostTiles;
 
     },
     startingCoins: 350,
@@ -1436,11 +1416,6 @@ var westRudhamChurchyard = {
         game.overlays.add(this.nightTime);
 
     },
-    pathAdditionalCostTiles: function(attacker) {
-
-        return mainState.globalAdditionalCostTiles;
-
-    },
     startingCoins: 250,
     startingLives: 5,
     entryXGrid: 10,
@@ -1555,11 +1530,6 @@ var kingsLynn = {
         }
 
     },
-    pathAdditionalCostTiles: function(attacker) {
-
-        return mainState.globalAdditionalCostTiles;
-
-    },
     startingCoins: 250,
     startingLives: 5,
     entryXGrid: 21,
@@ -1672,11 +1642,6 @@ var pumpkinPatch = {
                 }
             ]
         }
-
-    },
-    pathAdditionalCostTiles: function(attacker) {
-
-        return mainState.globalAdditionalCostTiles;
 
     },
     startingCoins: 200,
@@ -1912,11 +1877,6 @@ var helhoughton = {
         }
 
     },
-    pathAdditionalCostTiles: function(attacker) {
-
-        return mainState.globalAdditionalCostTiles;
-
-    },
     startingCoins: 400,
     startingLives: 5,
     entryXGrid: 0,
@@ -2078,11 +2038,6 @@ var iclandu = {
                 }
             ]
         }
-
-    },
-    pathAdditionalCostTiles: function(attacker) {
-
-        return mainState.globalAdditionalCostTiles;
 
     },
     startingCoins: 100,

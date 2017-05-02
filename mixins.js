@@ -112,14 +112,9 @@ var moveable = {
         this.pathNeedsRegenerating = false;
 
     },
-    getAdditionalCostTiles: function() {
-
-        if (typeof mainState.level.pathAdditionalCostTiles == 'function') {
-            return mainState.level.pathAdditionalCostTiles(this);
-        }
-
-        return [];
-
+    getAdditionalCostTiles: function()
+    {
+        return mainState.pathAdditionalCostTiles(this);
     },
     /**
      * Determines whether grid coordinates have changed since last turn.
