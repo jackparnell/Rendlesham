@@ -205,19 +205,24 @@ var mainState = {
 
         this.preparingForGameOver = true;
 
-        // TODO The tween below is nowhere near finished after 4 seconds. Determine why and fix.
-        game.add.tween(this.gameOverBackground, this.game).to( { alpha: 1 }, Phaser.Timer.SECOND * 4, Phaser.Easing.Linear.None, true);
-        game.time.events.add(Phaser.Timer.SECOND * 5, this.gameOver, this);
-
-        this.attackers.callAll('prepareForGameOver');
-        this.towers.callAll('prepareForGameOver');
-        this.characters.callAll('prepareForGameOver');
-        this.ZapGroup.callAll('prepareForGameOver');
-
         if (this.mode == 'endless') {
             this.handleScore();
-            this.save();
         }
+
+        game.add.tween(this.gameOverBackground, this.game).to( { alpha: 1 }, Phaser.Timer.SECOND * 5, Phaser.Easing.Linear.None, true);
+        game.time.events.add(Phaser.Timer.SECOND * 5, this.gameOver, this);
+
+        try {
+            this.attackers.callAll('prepareForGameOver');
+            this.towers.callAll('prepareForGameOver');
+            this.characters.callAll('prepareForGameOver');
+            this.ZapGroup.callAll('prepareForGameOver');
+        }
+        catch (err) {
+            console.log('Error preparing sprites for game over. ');
+            console.log(err);
+        }
+
 
     },
 
@@ -902,8 +907,6 @@ var mainState = {
 
         this.handleScore();
 
-        this.save();
-
         game.time.events.add(Phaser.Timer.SECOND * 5, this.levelCompletedScreen, this).autoDestroy = true;
 
     },
@@ -925,6 +928,8 @@ var mainState = {
         if (!this.user.levelHighScores[this.mode][this.level.name] || this.user.levelHighScores[this.mode][this.level.name] < this.score) {
             this.user.levelHighScores[this.mode][this.level.name] = this.score;
         }
+
+        this.save();
     },
 
     levelCompletedScreen: function()
@@ -1343,6 +1348,7 @@ var mainState = {
         this.allAttackersDispatched = false;
         this.pendingLevelCompleted = false;
         this.levelCompletedScreenOpen = false;
+        this.preparingForGameOver = false;
         this.towerClassesUsed = [];
         this.wavesBeaten = [];
         this.wavesStarted = [];
@@ -1395,8 +1401,18 @@ var mainState = {
         } else {
             for (var wave in this.level.waveInfo) {
                 waveNumber ++;
-                this.scheduleWaveEvents(this.level.waveInfo[wave], waveNumber, s);
+
+                timerEvents.push(
+                    game.time.events.add(
+                        Phaser.Timer.SECOND * s,
+                        this.startWave,
+                        this,
+                        waveNumber
+                    ).autoDestroy = true
+                );
+
                 s += this.level.waveInfo[wave].duration;
+
             }
             timerEvents.push(game.time.events.add(Phaser.Timer.SECOND * s, this.lastWaveDispatched, this));
         }
@@ -1478,6 +1494,11 @@ var mainState = {
             return;
         }
 
+        if (this.preparingForGameOver) {
+            // Don't start a wave if preparingForGameOver
+            return;
+        }
+
         this.wavesStarted.push(waveNumber);
 
         this.waveNumber = waveNumber;
@@ -1497,9 +1518,7 @@ var mainState = {
 
         this.displayMessage(message);
 
-        if (this.level.distinctWaves) {
-            this.scheduleWaveEvents(this.level.waveInfo['wave' + waveNumber], waveNumber, 0.5);
-        }
+        this.scheduleWaveEvents(this.level.waveInfo['wave' + waveNumber], waveNumber, 0.5);
     },
 
     clearMap: function()

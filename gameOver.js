@@ -43,14 +43,16 @@ Rendlesham.gameOver.prototype.create = function()
     this.capturedText.align = 'center';
     this.capturedText.x = (game.width * .5) - (this.capturedText.width * .5);
 
-    this.detailsText = game.add.bitmapText(500, game.height * .35, bitmapFontName, 'You were captured by the humans', 20);
-    this.detailsText.align = 'center';
-    this.detailsText.x = (game.width * .5) - (this.detailsText.width * .5);
-
     var replayText = 'Try Again';
+    var details = 'You were captured by the humans';
     if (this.mode == 'endless') {
         replayText = 'Play Again';
+        details = 'Score: ' + this.score;
     }
+
+    this.detailsText = game.add.bitmapText(500, game.height * .35, bitmapFontName, details, 20);
+    this.detailsText.align = 'center';
+    this.detailsText.x = (game.width * .5) - (this.detailsText.width * .5);
 
     this.addButtonTextLink('retry', replayText, 46, 'forestGreen', 0, game.height * .5, 'center', 'tryAgain');
 
