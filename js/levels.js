@@ -15,9 +15,7 @@ var zones = {
             12: 'westRudhamChurchyard',
             13: 'kingsLynn',
             14: 'pumpkinPatch',
-            15: 'shouldhamWarren',
-            16: 'iclandu',
-            17: 'ludus'
+            15: 'shouldhamWarren'
         }
     }
 };
@@ -110,7 +108,8 @@ var fridayStreet = {
     waveHealthModifier: .21,
     towerPlacementForbiddenRows: [0, 11],
     towersAvailable: ['Gun'],
-    distinctWaves: true
+    distinctWaves: true,
+    previousLevelName: null
 };
 
 var orfordRoad = {
@@ -230,7 +229,8 @@ var orfordRoad = {
     waveHealthModifier: .25,
     towerPlacementForbiddenRows: [0, 11],
     towersAvailable: ['Gun', 'Freezer'],
-    distinctWaves: true
+    distinctWaves: true,
+    previousLevelName: 'fridayStreet'
 };
 
 var orfordness = {
@@ -350,7 +350,8 @@ var orfordness = {
     goalYGrid: 5,
     waveHealthModifier: .35,
     towerPlacementForbiddenRows: [0, 10, 11],
-    distinctWaves: true
+    distinctWaves: true,
+    previousLevelName: 'orfordRoad'
 };
 
 var westletonHeath = {
@@ -462,7 +463,8 @@ var westletonHeath = {
     goalXGrid: 1,
     goalYGrid: 5,
     waveHealthModifier: .38,
-    towerPlacementForbiddenRows: [0, 11]
+    towerPlacementForbiddenRows: [0, 11],
+    previousLevelName: 'orfordness'
 };
 
 var bartonMills = {
@@ -587,7 +589,8 @@ var bartonMills = {
     goalXGrid: 1,
     goalYGrid: 8,
     waveHealthModifier: .33,
-    towerPlacementForbiddenRows: [0, 11]
+    towerPlacementForbiddenRows: [0, 11],
+    previousLevelName: 'westletonHeath'
 };
 
 var worthamLing = {
@@ -715,7 +718,8 @@ var worthamLing = {
     goalXGrid: 1,
     goalYGrid: 5,
     waveHealthModifier: .3,
-    towerPlacementForbiddenRows: [0, 11]
+    towerPlacementForbiddenRows: [0, 11],
+    previousLevelName: 'bartonMills'
 };
 
 var waveneyCrossing = {
@@ -843,7 +847,8 @@ var waveneyCrossing = {
     goalXGrid: 1,
     goalYGrid: 5,
     waveHealthModifier: .33,
-    towerPlacementForbiddenRows: [0, 11]
+    towerPlacementForbiddenRows: [0, 11],
+    previousLevelName: 'worthamLing'
 };
 
 var frozenFen = {
@@ -959,7 +964,8 @@ var frozenFen = {
     towerPlacementForbiddenRows: [0, 11],
     canPlaceTowerOnPathway: true,
     theme: 'snow',
-    distinctWaves: true
+    distinctWaves: true,
+    previousLevelName: 'waveneyCrossing'
 };
 
 var sandringhamWoods = {
@@ -1073,7 +1079,8 @@ var sandringhamWoods = {
     goalYGrid: 5,
     waveHealthModifier: .29,
     towerPlacementForbiddenRows: [0, 11],
-    canPlaceTowerOnPathway: true
+    canPlaceTowerOnPathway: true,
+    previousLevelName: 'frozenFen'
 };
 
 var holkhamBeach = {
@@ -1187,7 +1194,8 @@ var holkhamBeach = {
     goalYGrid: 5,
     waveHealthModifier: .35,
     towerPlacementForbiddenRows: [0, 11],
-    canPlaceTowerOnPathway: true
+    canPlaceTowerOnPathway: true,
+    previousLevelName: 'sandringhamWoods'
 };
 
 var northCreake = {
@@ -1302,7 +1310,8 @@ var northCreake = {
     waveHealthModifier: .37,
     towerPlacementForbiddenRows: [0, 11],
     canPlaceTowerOnPathway: false,
-    bullyGoalCoordinates: [[17, 6], [18, 10], [1, 4], [4, 8], [11, 8]]
+    bullyGoalCoordinates: [[17, 6], [18, 10], [1, 4], [4, 8], [11, 8]],
+    previousLevelName: 'holkhamBeach'
 };
 
 var westRudhamChurchyard = {
@@ -1424,7 +1433,8 @@ var westRudhamChurchyard = {
     goalYGrid: 1,
     waveHealthModifier: .35,
     towerPlacementForbiddenRows: [0, 11],
-    canPlaceTowerOnPathway: false
+    canPlaceTowerOnPathway: false,
+    previousLevelName: 'holkhamBeach'
 };
 
 var kingsLynn = {
@@ -1538,7 +1548,8 @@ var kingsLynn = {
     goalYGrid: 6,
     waveHealthModifier: .38,
     towerPlacementForbiddenRows: [0, 11],
-    canPlaceTowerOnPathway: true
+    canPlaceTowerOnPathway: true,
+    previousLevelName: 'westRudhamChurchyard'
 };
 
 var pumpkinPatch = {
@@ -1652,7 +1663,8 @@ var pumpkinPatch = {
     goalYGrid: 1,
     waveHealthModifier: .44,
     towerPlacementForbiddenRows: [0, 11],
-    canPlaceTowerOnPathway: false
+    canPlaceTowerOnPathway: false,
+    previousLevelName: 'kingsLynn'
 };
 
 var shouldhamWarren = {
@@ -1766,9 +1778,11 @@ var shouldhamWarren = {
     goalYGrid: 6,
     waveHealthModifier: .41,
     towerPlacementForbiddenRows: [0, 11],
-    canPlaceTowerOnPathway: false
+    canPlaceTowerOnPathway: false,
+    previousLevelName: 'pumpkinPatch'
 };
 
+/*
 var helhoughton = {
     name: 'helhoughton',
     mapName: 'helhoughton',
@@ -1887,6 +1901,7 @@ var helhoughton = {
     bulletsCanOnlyHitTarget: true,
     calculateAttackerProjectedHealth: true
 };
+*/
 
 var iclandu = {
     name: 'iclandu',

@@ -94,12 +94,12 @@ Rendlesham.zone.prototype.create = function()
             y: game.height * .7
         },
         10: {
-            x: game.width * .1,
-            y: game.height * .75
+            x: game.width * .18,
+            y: game.height * .95
         },
         11: {
-            x: game.width * .15,
-            y: game.height * 1
+            x: game.width * .05,
+            y: game.height * .975
         },
         12: {
             x: game.width * .275,
@@ -116,7 +116,8 @@ Rendlesham.zone.prototype.create = function()
         15: {
             x: game.width * .725,
             y: game.height * 1.2
-        },
+        }
+        /*,
         16: {
             x: game.width * .85,
             y: game.height * 1.05
@@ -125,6 +126,7 @@ Rendlesham.zone.prototype.create = function()
             x: game.width * .925,
             y: game.height * 1.3
         }
+        */
     };
 
     this.lastLevel = Object.keys(this.levels).length;
@@ -199,9 +201,13 @@ Rendlesham.zone.prototype.isLevelUnlocked = function(levelNumber)
         return true;
     }
 
-    var levelName = zones[this.zoneName].levelOrdering[levelNumber];
+    var level = this.getLevelFromZoneAndNumber(this.zoneName, levelNumber);
 
-    if (this.user.levelsComplete[levelName] || this.user.levelsComplete[levelNumber-1]) {
+    if (level && level.hasOwnProperty('previousLevelName') && this.user.levelsComplete[level.name]) {
+        return true;
+    }
+
+    if (this.user.levelsComplete[level.name] || this.user.levelsComplete[levelNumber-1]) {
         return true;
     }
 
@@ -259,17 +265,33 @@ Rendlesham.zone.prototype.drawLinesBetweenLevels = function()
 
     graphics.lineStyle(3, 0x886666, 1);
 
-    for (var i = 1; i < this.lastLevel; i++) {
+    for (var i = 1; i <= this.lastLevel; i++) {
 
-        graphics.moveTo(
-            Math.round(this.levels[i].x + 16),
-            Math.round(this.levels[i].y + 16)
-        );
+        var level = this.getLevelFromZoneAndNumber(this.zoneName, i);
 
-        graphics.lineTo(
-            Math.round(this.levels[String(i+1)].x + 16),
-            Math.round(this.levels[String(i+1)].y + 16)
-        );
+        if (level && level.hasOwnProperty('previousLevelName')) {
+            var previousLevelNumber = this.getLevelNumberFromZoneAndName(this.zoneName, level.previousLevelName);
+
+            if (previousLevelNumber) {
+                var startX = this.levels[i].x + 16;
+                var startY = this.levels[i].y + 16;
+
+                graphics.moveTo(
+                    Math.round(startX),
+                    Math.round(startY)
+                );
+
+                var finishX = this.levels[previousLevelNumber].x + 16;
+                var finishY = this.levels[previousLevelNumber].y + 16;
+
+                graphics.lineTo(
+                    Math.round(finishX),
+                    Math.round(finishY)
+                );
+
+            }
+
+        }
 
     }
 };

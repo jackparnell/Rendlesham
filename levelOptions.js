@@ -70,7 +70,7 @@ Rendlesham.levelOptions.prototype.create = function()
 
         y = (44 + (i * 24.5)) / 100;
 
-        this[modes[i] + 'HighScoreText'] = game.add.bitmapText(500, game.height * y, bitmapFontName, highScoreInfo, 20);
+        this[modes[i] + 'HighScoreText'] = game.add.bitmapText(500, game.height * y, bitmapFontName, highScoreInfo, 16);
         this[modes[i] + 'HighScoreText'].x = (game.width * .5) - (this[modes[i] + 'HighScoreText'].width * .5);
         this[modes[i] + 'HighScoreText'].tint = textTint;
 

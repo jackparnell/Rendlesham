@@ -111,7 +111,7 @@ Rendlesham.gameState.prototype = {
         var xOffset = (this[buttonName].width - this[name].width) * .5;
         this[name].x = this[buttonName].x + xOffset;
 
-        var yOffset = (this[buttonName].height - this[name].height) / 3;
+        var yOffset = (this[buttonName].height - this[name].height) * .38;
         this[name].y = this[buttonName].y + yOffset;
 
         this[name].fixedToCamera = true;
@@ -138,6 +138,16 @@ Rendlesham.gameState.prototype = {
             );
         }
 
-    }
+    },
 
+    getLevelFromZoneAndNumber: function(zoneName, levelNumber)
+    {
+        return window[zones[zoneName].levelOrdering[levelNumber]];
+    },
+
+    getLevelNumberFromZoneAndName: function(zoneName, levelName)
+    {
+        var levelOrdering = zones[zoneName].levelOrdering;
+        return Object.keys(levelOrdering)[Object.values(levelOrdering).indexOf(levelName)];
+    }
 };
