@@ -190,7 +190,7 @@ Rendlesham.zone.prototype.clickLevelButton = function(levelButton)
         return false;
     }
 
-    game.state.start('main', true, true, levelNumber);
+    game.state.start('levelOptions', true, true, levelNumber, this.zoneName);
 };
 
 Rendlesham.zone.prototype.isLevelUnlocked = function(levelNumber)

@@ -247,7 +247,7 @@ Tower.prototype.getCost = function()
 };
 Tower.prototype.getSellValue = function()
 {
-    return Math.round((window[this.constructor.name].cost * this.grade) * (2/3));
+    return Math.round((window[this.constructor.name].cost * this.grade) * .6);
 };
 Tower.prototype.sell = function()
 {

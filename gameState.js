@@ -28,7 +28,6 @@ Rendlesham.gameState.prototype = {
 
     save: function()
     {
-
         localStorage.setItem(this.name, JSON.stringify(this.user));
     },
 
@@ -123,6 +122,22 @@ Rendlesham.gameState.prototype = {
     goToTitleScreen: function()
     {
         this.changeGameState('titleScreen');
+    },
+
+    loadTransylvanianFiles: function()
+    {
+        var transylvanianAttackerNames = [
+            'betty', 'bogeyman', 'bruce', 'cyclops', 'farmer', 'goblin', 'imp', 'kappa', 'nic', 'ogre', 'purp', 'skull', 'skuller', 'villager', 'woodcutter'
+        ];
+
+        for (var i = 0; i < transylvanianAttackerNames.length; i++) {
+            game.load.atlasJSONHash(
+                transylvanianAttackerNames[i],
+                'assets/sprites/attackers/' + transylvanianAttackerNames[i] + '.png',
+                'assets/sprites/attackers/' + transylvanianAttackerNames[i] + '.json'
+            );
+        }
+
     }
 
 };

@@ -1672,7 +1672,7 @@ var shouldhamWarren = {
             ]
         },
         wave2: {
-            duration: 23,
+            duration: 24,
             attacks: [
                 {
                     className: 'Aquila',
@@ -1695,7 +1695,7 @@ var shouldhamWarren = {
             ]
         },
         wave3: {
-            duration: 18,
+            duration: 19,
             attacks: [
                 {
                     className: 'Dibley',
@@ -1712,7 +1712,7 @@ var shouldhamWarren = {
             ]
         },
         wave4: {
-            duration: 23,
+            duration: 24,
             attacks: [
                 {
                     className: 'Aquila',
@@ -1740,7 +1740,7 @@ var shouldhamWarren = {
                 {
                     className: 'Aquila',
                     duration: 15,
-                    gap: .9,
+                    gap: 1,
                     delay: 10
                 }
             ]
@@ -1751,16 +1751,11 @@ var shouldhamWarren = {
                 {
                     className: 'Mib',
                     duration: 30,
-                    gap: .8,
+                    gap: 1,
                     delay: 0
                 }
             ]
         }
-
-    },
-    pathAdditionalCostTiles: function(attacker) {
-
-        return mainState.globalAdditionalCostTiles;
 
     },
     startingCoins: 200,
@@ -1769,7 +1764,7 @@ var shouldhamWarren = {
     entryYGrid: 5,
     goalXGrid: 3,
     goalYGrid: 6,
-    waveHealthModifier: .4,
+    waveHealthModifier: .41,
     towerPlacementForbiddenRows: [0, 11],
     canPlaceTowerOnPathway: false
 };
@@ -2051,7 +2046,8 @@ var iclandu = {
     canPlaceTowerOnPathway: false,
     distinctWaves: true,
     bulletsCanOnlyHitTarget: true,
-    calculateAttackerProjectedHealth: true
+    calculateAttackerProjectedHealth: true,
+    packs: ['transylvanian']
 };
 
 var ludus = {
@@ -2228,5 +2224,6 @@ var ludus = {
     canPlaceTowerOnPathway: false,
     distinctWaves: true,
     bulletsCanOnlyHitTarget: true,
-    calculateAttackerProjectedHealth: true
+    calculateAttackerProjectedHealth: true,
+    packs: ['transylvanian']
 };

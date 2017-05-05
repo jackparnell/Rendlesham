@@ -12,14 +12,20 @@ Rendlesham.gameOver.prototype.preload = function()
     loadMainFiles();
 };
 
-Rendlesham.gameOver.prototype.init = function(levelNumber)
+Rendlesham.gameOver.prototype.init = function(obj)
 {
-    this.levelId = levelNumber;
+    this.levelId = obj.levelNumber;
+    this.mode = obj.mode || 'classic';
+    this.score = obj.score || 0;
 };
 
 Rendlesham.gameOver.prototype.tryAgain = function()
 {
-    game.state.start('main', true, true, this.levelId);
+    var obj = {
+        levelNumber: this.levelId,
+        mode: this.mode
+    };
+    game.state.start('main', true, true, obj);
 };
 
 Rendlesham.gameOver.prototype.create = function()
@@ -41,8 +47,12 @@ Rendlesham.gameOver.prototype.create = function()
     this.detailsText.align = 'center';
     this.detailsText.x = (game.width * .5) - (this.detailsText.width * .5);
 
+    var replayText = 'Try Again';
+    if (this.mode == 'endless') {
+        replayText = 'Play Again';
+    }
 
-    this.addButtonTextLink('retry', 'Try Again', 46, 'forestGreen', 0, game.height * .5, 'center', 'tryAgain');
+    this.addButtonTextLink('retry', replayText, 46, 'forestGreen', 0, game.height * .5, 'center', 'tryAgain');
 
     this.addButtonTextLink('exit', 'Exit', 46, 'forestGreen', 0, game.height * .725, 'center', 'goToTitleScreen');
 

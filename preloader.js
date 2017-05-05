@@ -3,6 +3,7 @@ Rendlesham.preloader = function(game) {};
 Rendlesham.preloader.prototype = $.extend(true, {}, Rendlesham.gameState.prototype);
 
 Rendlesham.preloader.prototype = {
+
     preload: function()
     {
 
@@ -28,7 +29,10 @@ Rendlesham.preloader.prototype = {
 
         loadMainFiles();
 
+        Rendlesham.gameState.prototype.loadTransylvanianFiles();
+
     },
+
     create: function()
     {
         this.game.state.start('titleScreen');

@@ -5,7 +5,8 @@ var wouldObstaclePlacementBlockPathResult;
 var bitmapFontName = 'gem';
 
 var mainState = {
-    preload: function() {
+    preload: function()
+    {
 
         this.guid = guid();
 
@@ -13,18 +14,29 @@ var mainState = {
         this.name = 'rendlesham';
 
         loadMainFiles();
+        this.loadTransylvanianFiles();
 
     },
 
-    init: function(levelNumber, mode)
+    init: function(obj)
     {
-        this.levelId = levelNumber;
 
-        if (!mode) {
-            mode = 'classic';
+        this.levelId = obj.levelNumber;
+        this.mode = obj.mode || 'classic';
+
+        this.fetchLevelInfo();
+
+        // TODO load packs rather than everything
+        /*
+        if (this.level.packs) {
+            var functionName = '';
+            for (var i = 0; i < this.level.packs.length; i++) {
+                functionName = 'load' + this.level.packs[i].charAt(0).toUpperCase() + this.level.packs[i].slice(1) + 'Files';
+                this[functionName]();
+            }
         }
+        */
 
-        this.mode = mode;
     },
 
     create: function()
@@ -74,8 +86,6 @@ var mainState = {
         };
 
         this.backgrounds = game.add.group();
-
-        this.fetchLevelInfo();
 
         /*
         this.game.goalX = game.width * .025;
@@ -189,22 +199,37 @@ var mainState = {
 
     noLivesLeft: function()
     {
+        if (this.preparingForGameOver) {
+            return;
+        }
+
+        this.preparingForGameOver = true;
+
         // TODO The tween below is nowhere near finished after 4 seconds. Determine why and fix.
         game.add.tween(this.gameOverBackground, this.game).to( { alpha: 1 }, Phaser.Timer.SECOND * 4, Phaser.Easing.Linear.None, true);
         game.time.events.add(Phaser.Timer.SECOND * 5, this.gameOver, this);
-
-        this.preparingForGameOver = true;
 
         this.attackers.callAll('prepareForGameOver');
         this.towers.callAll('prepareForGameOver');
         this.characters.callAll('prepareForGameOver');
         this.ZapGroup.callAll('prepareForGameOver');
 
+        if (this.mode == 'endless') {
+            this.handleScore();
+            this.save();
+        }
+
     },
 
     gameOver: function()
     {
-        game.state.start('gameOver', true, true, this.levelId);
+        var obj = {
+            levelNumber: this.levelId,
+            mode: this.mode,
+            score: this.score
+        };
+
+        game.state.start('gameOver', true, true, obj);
     },
 
     shutdown: function()
@@ -875,7 +900,16 @@ var mainState = {
         }
         // End stars
 
-        // Begin score
+        this.handleScore();
+
+        this.save();
+
+        game.time.events.add(Phaser.Timer.SECOND * 5, this.levelCompletedScreen, this).autoDestroy = true;
+
+    },
+
+    handleScore: function()
+    {
         if (!this.user.levelHighScores) {
             this.user.levelHighScores = {};
         }
@@ -891,12 +925,6 @@ var mainState = {
         if (!this.user.levelHighScores[this.mode][this.level.name] || this.user.levelHighScores[this.mode][this.level.name] < this.score) {
             this.user.levelHighScores[this.mode][this.level.name] = this.score;
         }
-        // End score
-
-        this.save();
-
-        game.time.events.add(Phaser.Timer.SECOND * 5, this.levelCompletedScreen, this).autoDestroy = true;
-
     },
 
     levelCompletedScreen: function()
@@ -973,7 +1001,12 @@ var mainState = {
 
         this.levelId ++;
 
-        game.state.start('main', true, true, this.levelId);
+        var obj = {
+            levelNumber: this.levelId,
+            mode: this.mode
+        };
+
+        game.state.start('main', true, true, obj);
 
         return true;
     },
@@ -1328,8 +1361,6 @@ var mainState = {
         var s = 0;
         var waveNumber = 0;
 
-        this.mode = 'classic';
-
         this.initialWavesCount = Object.keys(this.level.waveInfo).length;
 
         switch (this.mode) {
@@ -1454,7 +1485,12 @@ var mainState = {
         var message = '';
 
         if (waveNumber == 1) {
-            message = 'Level ' + this.levelId + ' ';
+            message += 'Level ' + this.levelId + ' ';
+
+            if (this.mode != 'classic') {
+                message += ucfirst(this.mode) + ' Mode ';
+            }
+
         }
 
         message += 'Wave ' + this.waveNumber;
@@ -1525,7 +1561,7 @@ var mainState = {
     clearTimedEvents: function()
     {
 
-        for (var i=0; i < timerEvents.length; i++) {
+        for (var i = 0; i < timerEvents.length; i++) {
             game.time.events.remove(timerEvents[i]);
         }
 
@@ -2352,11 +2388,12 @@ mainState.closePauseScreen = function()
 mainState.restartLevel = function()
 {
     this.closePauseScreen();
-    game.state.start('main', true, true, this.levelId);
+    var obj = {
+        levelNumber: this.levelId,
+        mode: this.mode
+    };
+    game.state.start('main', true, true, obj);
 };
-
-mainState.addButtonTextLink = Rendlesham.gameState.prototype.addButtonTextLink;
-mainState.changeGameState = Rendlesham.gameState.prototype.changeGameState;
 
 mainState.goToTitleScreen = function()
 {
@@ -2993,3 +3030,8 @@ mainState.calculateWaveHealthModifier = function(waveNumber)
     var waveHealthModifier = this.level.waveHealthModifier || .2;
     return (1 - waveHealthModifier) + (waveNumber * waveHealthModifier);
 };
+
+mainState.addButtonTextLink = Rendlesham.gameState.prototype.addButtonTextLink;
+mainState.changeGameState = Rendlesham.gameState.prototype.changeGameState;
+mainState.addButtonTextLink = Rendlesham.gameState.prototype.addButtonTextLink;
+mainState.loadTransylvanianFiles = Rendlesham.gameState.prototype.loadTransylvanianFiles;

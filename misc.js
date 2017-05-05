@@ -108,18 +108,6 @@ function loadMainFiles()
     game.load.audio('nes13', 'assets/audio/nes13.ogg');
     game.load.audio('nes15', 'assets/audio/nes15.ogg');
 
-    var transylvanianAttackerNames = [
-        'betty', 'bogeyman', 'bruce', 'cyclops', 'farmer', 'goblin', 'imp', 'kappa', 'nic', 'ogre', 'purp', 'skull', 'skuller', 'villager', 'woodcutter'
-    ];
-
-    for (var i = 0; i < transylvanianAttackerNames.length; i++) {
-        game.load.atlasJSONHash(
-            transylvanianAttackerNames[i],
-            'assets/sprites/attackers/' + transylvanianAttackerNames[i] + '.png',
-            'assets/sprites/attackers/' + transylvanianAttackerNames[i] + '.json'
-        );
-    }
-
 }
 
 function getLevelByName(levelName) {
@@ -151,3 +139,7 @@ var newUser = {
 var extendObj = function(childObj, parentObj) {
     childObj.prototype = parentObj.prototype;
 };
+
+function ucfirst(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1)
+}
