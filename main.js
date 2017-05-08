@@ -1372,7 +1372,7 @@ var mainState = {
 
         switch (this.mode) {
             case 'endless':
-                this.totalWaves = 99;
+                this.totalWaves = 299;
                 break;
             case 'epic':
                 this.totalWaves = this.initialWavesCount * 2;
@@ -1387,6 +1387,14 @@ var mainState = {
             this.generateWave(i);
             i++;
         }
+
+        i = 0;
+        while (i <= this.totalWaves) {
+            console.log(i + ': ' + this.calculateWaveHealthModifier(i));
+            i++;
+        }
+
+
 
         if (this.level.distinctWaves) {
 
@@ -3049,18 +3057,18 @@ mainState.calculateWaveHealthModifier = function(waveNumber)
 {
     var modifier;
 
+    var x = waveNumber - 1;
+
     if (this.level.hasOwnProperty('waveHealthCubicA')) {
         var a = this.level.waveHealthCubicA;
         var b = this.level.waveHealthCubicB || 0;
         var c = this.level.waveHealthCubicC || 0;
         var d = this.level.waveHealthCubicD || 1;
-        var x = waveNumber - 1;
         modifier = Math.pow((a * x), 3) + Math.pow((b * x), 2) + (c * x) + d;
     } else if (this.level.hasOwnProperty('waveHealthQuadraticA')) {
         var a = this.level.waveHealthQuadraticA;
         var b = this.level.waveHealthQuadraticB || 0;
         var c = this.level.waveHealthQuadraticC || 1;
-        var x = waveNumber - 1;
         modifier = Math.pow((a * x), 2) + (b * x) + c;
     } else {
         var waveHealthModifier = this.level.waveHealthModifier || .2;
