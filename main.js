@@ -231,7 +231,8 @@ var mainState = {
         var obj = {
             levelNumber: this.levelId,
             mode: this.mode,
-            score: this.score
+            score: this.score,
+            waveReached: this.waveNumber
         };
 
         game.state.start('gameOver', true, true, obj);

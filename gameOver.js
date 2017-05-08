@@ -17,6 +17,7 @@ Rendlesham.gameOver.prototype.init = function(obj)
     this.levelId = obj.levelNumber;
     this.mode = obj.mode || 'classic';
     this.score = obj.score || 0;
+    this.waveReached = obj.waveReached || 0;
 };
 
 Rendlesham.gameOver.prototype.tryAgain = function()
@@ -44,7 +45,7 @@ Rendlesham.gameOver.prototype.create = function()
     this.capturedText.x = (game.width * .5) - (this.capturedText.width * .5);
 
     var replayText = 'Try Again';
-    var details = 'You were captured by the humans';
+    var details = 'You were captured by the humans in wave ' + this.waveReached + '.';
     if (this.mode == 'endless') {
         replayText = 'Play Again';
         details = 'Score: ' + this.score;
