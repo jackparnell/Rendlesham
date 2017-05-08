@@ -1533,7 +1533,7 @@ var kingsLynn = {
                 {
                     className: 'Mib',
                     duration: 30,
-                    gap: .85,
+                    gap: 1,
                     delay: 0
                 }
             ]
@@ -1661,7 +1661,9 @@ var pumpkinPatch = {
     entryYGrid: 11,
     goalXGrid: 12,
     goalYGrid: 1,
-    waveHealthModifier: .44,
+    waveHealthCubicA: .1,
+    waveHealthCubicB: .2,
+    waveHealthCubicC: .4,
     towerPlacementForbiddenRows: [0, 11],
     canPlaceTowerOnPathway: false,
     previousLevelName: 'kingsLynn'
@@ -1776,7 +1778,8 @@ var shouldhamWarren = {
     entryYGrid: 5,
     goalXGrid: 3,
     goalYGrid: 6,
-    waveHealthModifier: .41,
+    waveHealthQuadraticA: .2,
+    waveHealthQuadraticB: .44,
     towerPlacementForbiddenRows: [0, 11],
     canPlaceTowerOnPathway: false,
     previousLevelName: 'pumpkinPatch'
@@ -2056,7 +2059,8 @@ var iclandu = {
     entryYGrid: 5,
     goalXGrid: 1,
     goalYGrid: 5,
-    waveHealthModifier: .44,
+    waveHealthQuadraticA: 1.2,
+    waveHealthQuadraticB: 1.44,
     towerPlacementForbiddenRows: [0, 11],
     canPlaceTowerOnPathway: false,
     distinctWaves: true,

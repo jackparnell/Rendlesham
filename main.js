@@ -3046,8 +3046,30 @@ mainState.suggestAttackProperties = function(waveNumber, attackerClassName)
 
 mainState.calculateWaveHealthModifier = function(waveNumber)
 {
-    var waveHealthModifier = this.level.waveHealthModifier || .2;
-    return (1 - waveHealthModifier) + (waveNumber * waveHealthModifier);
+    var modifier;
+
+    if (this.level.hasOwnProperty('waveHealthCubicA')) {
+        var a = this.level.waveHealthCubicA;
+        var b = this.level.waveHealthCubicB || 0;
+        var c = this.level.waveHealthCubicC || 0;
+        var d = this.level.waveHealthCubicD || 1;
+        var x = waveNumber - 1;
+        modifier = Math.pow((a * x), 3) + Math.pow((b * x), 2) + (c * x) + d;
+    } else if (this.level.hasOwnProperty('waveHealthQuadraticA')) {
+        var a = this.level.waveHealthQuadraticA;
+        var b = this.level.waveHealthQuadraticB || 0;
+        var c = this.level.waveHealthQuadraticC || 1;
+        var x = waveNumber - 1;
+        modifier = Math.pow((a * x), 2) + (b * x) + c;
+    } else {
+        var waveHealthModifier = this.level.waveHealthModifier || .2;
+        modifier =  (1 - waveHealthModifier) + (waveNumber * waveHealthModifier);
+    }
+
+    console.log(waveNumber + ' ' + modifier);
+
+    return modifier;
+
 };
 
 mainState.addButtonTextLink = Rendlesham.gameState.prototype.addButtonTextLink;
