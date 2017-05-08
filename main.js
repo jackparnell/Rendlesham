@@ -3066,8 +3066,6 @@ mainState.calculateWaveHealthModifier = function(waveNumber)
         modifier =  (1 - waveHealthModifier) + (waveNumber * waveHealthModifier);
     }
 
-    console.log(waveNumber + ' ' + modifier);
-
     return modifier;
 
 };
