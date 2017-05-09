@@ -15,11 +15,7 @@ Rendlesham.zone.prototype.preload = function()
 
 Rendlesham.zone.prototype.init = function(zoneName)
 {
-    if (zoneName) {
-        this.zoneName = zoneName;
-    } else {
-        this.zoneName = 'eastAnglia';
-    }
+    this.zoneName = zoneName || 'eastAnglia';
 
     this.zone = zones[zoneName];
 
@@ -61,19 +57,19 @@ Rendlesham.zone.prototype.create = function()
     this.levels = {
         1: {
             x: game.width * .1,
-            y: game.height * .1
+            y: game.height * .15
         },
         2: {
             x: game.width * .3,
-            y: game.height * .15
+            y: game.height * .2
         },
         3: {
             x: game.width * .5,
-            y: game.height * .125
+            y: game.height * .175
         },
         4: {
             x: game.width * .7,
-            y: game.height * .175
+            y: game.height * .225
         },
         5: {
             x: game.width * .85,
@@ -158,6 +154,13 @@ Rendlesham.zone.prototype.create = function()
         this.addLevelStars(i);
 
     }
+
+
+    this.addButtonTextLink('nextZoneLink', 'Next', 20, 'smallDark', 10, game.camera.height - 40, 'right', 'nextZone');
+
+    this.titleText = game.add.bitmapText(500, game.height * .01, bitmapFontName, this.zone.title, 28);
+    this.titleText.x = (game.width * .5) - (this.titleText.width * .5);
+    this.titleText.alpha = .5;
 
     if (this.user.zones && this.user.zones[this.zoneName]) {
         this.game.camera.x = this.user.zones[this.zoneName].cameraX || 0;
@@ -297,4 +300,9 @@ Rendlesham.zone.prototype.drawLinesBetweenLevels = function()
         }
 
     }
+};
+
+Rendlesham.zone.prototype.nextZone = function()
+{
+    game.state.start('zone', true, true, this.zone.nextZoneName);
 };

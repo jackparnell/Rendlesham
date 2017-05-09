@@ -27,7 +27,7 @@ function Imp(game, x, y) {
 Imp.prototype = Object.create(Attacker.prototype);
 Imp.prototype.constructor = Imp;
 Imp.defaultScale = 1;
-Imp.defaultHealth = 1500;
+Imp.defaultHealth = 2000;
 Imp.pace = 3.2;
 Imp.coinsValue = 15;
 Imp.scoreValue = 15;
@@ -48,7 +48,7 @@ function Bogeyman(game, x, y) {
 Bogeyman.prototype = Object.create(Attacker.prototype);
 Bogeyman.prototype.constructor = Bogeyman;
 Bogeyman.defaultScale = 1;
-Bogeyman.defaultHealth = 1500;
+Bogeyman.defaultHealth = 2000;
 Bogeyman.pace = 2.15;
 Bogeyman.coinsValue = 10;
 Bogeyman.scoreValue = 10;
@@ -69,7 +69,7 @@ function Villager(game, x, y) {
 Villager.prototype = Object.create(Attacker.prototype);
 Villager.prototype.constructor = Villager;
 Villager.defaultScale = 1;
-Villager.defaultHealth = 1000;
+Villager.defaultHealth = 1500;
 Villager.pace = 2.15;
 Villager.coinsValue = 5;
 Villager.scoreValue = 5;
@@ -90,7 +90,7 @@ function Kappa(game, x, y) {
 Kappa.prototype = Object.create(Attacker.prototype);
 Kappa.prototype.constructor = Kappa;
 Kappa.defaultScale = 1;
-Kappa.defaultHealth = 1000;
+Kappa.defaultHealth = 1500;
 Kappa.pace = 4.2;
 Kappa.coinsValue = 5;
 Kappa.scoreValue = 10;
