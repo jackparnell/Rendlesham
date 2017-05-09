@@ -338,6 +338,19 @@ var mainState = {
         this.labelScoreNotifications = [];
         // End score
 
+
+        // Begin current wave
+        this.labelCurrentWaveXCoordinate = this.labelScoreXCoordinate - 60;
+
+        this.labelCurrentWaveTitle = game.add.bitmapText(this.labelCurrentWaveXCoordinate, this.titlesYCoordinate, bitmapFontName, 'Wave', 16);
+        this.labelCurrentWaveTitle.tint = titleTint;
+
+        this.labelCurrentWave = game.add.bitmapText(this.labelCurrentWaveXCoordinate, this.valuesYCoordinate, bitmapFontName, this.waveNumber, 28);
+        this.labelCurrentWave.tint = valueTint;
+
+        this.updateCurrentWaveLabel();
+        // End current wave
+
         this.messageXCoordinate = 10;
         this.messageYCoordinate = game.height - 33;
 
@@ -417,6 +430,33 @@ var mainState = {
         }
 
         this.labelScore.setText(this.score);
+    },
+
+    updateCurrentWaveLabel: function()
+    {
+        if (typeof this.waveNumber == 'undefined') {
+            return;
+        }
+
+        var currentWaveText = this.waveNumber || 1;
+        if (this.mode != 'endless' && typeof this.totalWaves != 'undefined' && this.totalWaves < 99) {
+            currentWaveText += '/' + this.totalWaves;
+        }
+
+        if (currentWaveText.length >= 5) {
+            this.labelCurrentWave.x = this.labelCurrentWaveXCoordinate - 18;
+        } else if (currentWaveText.length == 4) {
+            this.labelCurrentWave.x = this.labelCurrentWaveXCoordinate - 10;
+        } else if (currentWaveText.length == 3) {
+            this.labelCurrentWave.x = this.labelCurrentWaveXCoordinate - 4;
+        } else if (currentWaveText.length == 2) {
+            this.labelCurrentWave.x = this.labelCurrentWaveXCoordinate + 2;
+        } else {
+            this.labelCurrentWave.x = this.labelCurrentWaveXCoordinate + 8;
+        }
+
+        this.labelCurrentWave.setText(currentWaveText);
+
     },
 
     changeLives: function(amount, notificationSpawnX, notificationSpawnY)
@@ -1526,6 +1566,8 @@ var mainState = {
         message += 'Wave ' + this.waveNumber;
 
         this.displayMessage(message);
+
+        this.updateCurrentWaveLabel();
 
         this.scheduleWaveEvents(this.level.waveInfo['wave' + waveNumber], waveNumber, 0.5);
     },

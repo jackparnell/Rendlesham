@@ -15,7 +15,8 @@ var zones = {
             12: 'westRudhamChurchyard',
             13: 'kingsLynn',
             14: 'pumpkinPatch',
-            15: 'shouldhamWarren'
+            15: 'shouldhamWarren',
+            16: 'thetfordForest'
         }
     }
 };
@@ -105,7 +106,6 @@ var fridayStreet = {
     entryYGrid: 5,
     goalXGrid: 1,
     goalYGrid: 5,
-    waveHealthModifier: .21,
     waveHealthCubicA: .08,
     waveHealthCubicB: .05,
     waveHealthCubicC: .15,
@@ -469,7 +469,9 @@ var westletonHeath = {
     entryYGrid: 5,
     goalXGrid: 1,
     goalYGrid: 5,
-    waveHealthModifier: .38,
+    waveHealthCubicA: .02,
+    waveHealthCubicB: .03,
+    waveHealthCubicC: .33,
     towerPlacementForbiddenRows: [0, 11],
     previousLevelName: 'orfordness'
 };
@@ -480,7 +482,7 @@ var bartonMills = {
     title: 'Barton Mills',
     waveInfo: {
         wave1: {
-            duration: 26,
+            duration: 24,
             attacks: [
                 {
                     className: 'Aquila',
@@ -548,18 +550,18 @@ var bartonMills = {
             ]
         },
         wave5: {
-            duration: 28,
+            duration: 25,
             attacks: [
                 {
                     className: 'Aquila',
                     duration: 10,
-                    gap: .8,
+                    gap: .9,
                     delay: 0
                 },
                 {
                     className: 'Aquila',
                     duration: 10,
-                    gap: .6,
+                    gap: .65,
                     delay: 10
                 }
             ]
@@ -570,7 +572,7 @@ var bartonMills = {
                 {
                     className: 'Mib',
                     duration: 30,
-                    gap: .75,
+                    gap: .9,
                     delay: 0
                 }
             ]
@@ -595,7 +597,9 @@ var bartonMills = {
     entryYGrid: 3,
     goalXGrid: 1,
     goalYGrid: 8,
-    waveHealthModifier: .33,
+    waveHealthCubicA: .02,
+    waveHealthCubicB: .03,
+    waveHealthCubicC: .3,
     towerPlacementForbiddenRows: [0, 11],
     previousLevelName: 'westletonHeath'
 };
@@ -724,7 +728,9 @@ var worthamLing = {
     entryYGrid: 5,
     goalXGrid: 1,
     goalYGrid: 5,
-    waveHealthModifier: .3,
+    waveHealthCubicA: .02,
+    waveHealthCubicB: .03,
+    waveHealthCubicC: .27,
     towerPlacementForbiddenRows: [0, 11],
     previousLevelName: 'bartonMills'
 };
@@ -853,7 +859,9 @@ var waveneyCrossing = {
     entryYGrid: 5,
     goalXGrid: 1,
     goalYGrid: 5,
-    waveHealthModifier: .33,
+    waveHealthCubicA: .02,
+    waveHealthCubicB: .03,
+    waveHealthCubicC: .3,
     towerPlacementForbiddenRows: [0, 11],
     previousLevelName: 'worthamLing'
 };
@@ -967,7 +975,9 @@ var frozenFen = {
     entryYGrid: 5,
     goalXGrid: 1,
     goalYGrid: 5,
-    waveHealthModifier: .3,
+    waveHealthCubicA: .02,
+    waveHealthCubicB: .03,
+    waveHealthCubicC: .27,
     towerPlacementForbiddenRows: [0, 11],
     canPlaceTowerOnPathway: true,
     theme: 'snow',
@@ -1084,7 +1094,9 @@ var sandringhamWoods = {
     entryYGrid: 5,
     goalXGrid: 1,
     goalYGrid: 5,
-    waveHealthModifier: .29,
+    waveHealthCubicA: .02,
+    waveHealthCubicB: .03,
+    waveHealthCubicC: .26,
     towerPlacementForbiddenRows: [0, 11],
     canPlaceTowerOnPathway: true,
     previousLevelName: 'frozenFen'
@@ -1199,7 +1211,9 @@ var holkhamBeach = {
     entryYGrid: 5,
     goalXGrid: 1,
     goalYGrid: 5,
-    waveHealthModifier: .35,
+    waveHealthCubicA: .02,
+    waveHealthCubicB: .03,
+    waveHealthCubicC: .31,
     towerPlacementForbiddenRows: [0, 11],
     canPlaceTowerOnPathway: true,
     previousLevelName: 'sandringhamWoods'
@@ -1314,7 +1328,9 @@ var northCreake = {
     entryYGrid: 6,
     goalXGrid: 1,
     goalYGrid: 6,
-    waveHealthModifier: .37,
+    waveHealthCubicA: .02,
+    waveHealthCubicB: .03,
+    waveHealthCubicC: .33,
     towerPlacementForbiddenRows: [0, 11],
     canPlaceTowerOnPathway: false,
     bullyGoalCoordinates: [[17, 6], [18, 10], [1, 4], [4, 8], [11, 8]],
@@ -1438,7 +1454,9 @@ var westRudhamChurchyard = {
     entryYGrid: 11,
     goalXGrid: 12,
     goalYGrid: 1,
-    waveHealthModifier: .35,
+    waveHealthCubicA: .02,
+    waveHealthCubicB: .03,
+    waveHealthCubicC: .31,
     towerPlacementForbiddenRows: [0, 11],
     canPlaceTowerOnPathway: false,
     previousLevelName: 'holkhamBeach'
@@ -1553,7 +1571,9 @@ var kingsLynn = {
     entryYGrid: 6,
     goalXGrid: 1,
     goalYGrid: 6,
-    waveHealthModifier: .38,
+    waveHealthCubicA: .02,
+    waveHealthCubicB: .03,
+    waveHealthCubicC: .33,
     towerPlacementForbiddenRows: [0, 11],
     canPlaceTowerOnPathway: true,
     previousLevelName: 'westRudhamChurchyard'
@@ -1785,11 +1805,130 @@ var shouldhamWarren = {
     entryYGrid: 5,
     goalXGrid: 3,
     goalYGrid: 6,
-    waveHealthQuadraticA: .2,
-    waveHealthQuadraticB: .44,
+    waveHealthCubicA: .02,
+    waveHealthCubicB: .04,
+    waveHealthCubicC: .4,
     towerPlacementForbiddenRows: [0, 11],
     canPlaceTowerOnPathway: false,
     previousLevelName: 'pumpkinPatch'
+};
+
+var thetfordForest = {
+    name: 'thetfordForest',
+    mapName: 'thetfordForest',
+    title: 'Thetford Forest',
+    waveInfo: {
+        wave1: {
+            duration: 25,
+            attacks: [
+                {
+                    className: 'Aquila',
+                    duration: 20,
+                    gap: 1.25,
+                    delay: 1
+                }
+            ]
+        },
+        wave2: {
+            duration: 24,
+            attacks: [
+                {
+                    className: 'Aquila',
+                    duration: 10,
+                    gap: 1,
+                    delay: 0
+                },
+                {
+                    className: 'Roger',
+                    duration: 5,
+                    gap: 1,
+                    delay: 10
+                },
+                {
+                    className: 'Aquila',
+                    duration: 5,
+                    gap: 1,
+                    delay: 15
+                }
+            ]
+        },
+        wave3: {
+            duration: 19,
+            attacks: [
+                {
+                    className: 'Dibley',
+                    duration: 14,
+                    gap: 2,
+                    delay: 0
+                },
+                {
+                    className: 'Mib',
+                    duration: 14,
+                    gap: 2,
+                    delay: 1
+                }
+            ]
+        },
+        wave4: {
+            duration: 24,
+            attacks: [
+                {
+                    className: 'Aquila',
+                    duration: 10,
+                    gap: 1,
+                    delay: 0
+                },
+                {
+                    className: 'Mib',
+                    duration: 10,
+                    gap: 1.25,
+                    delay: 10
+                }
+            ]
+        },
+        wave5: {
+            duration: 28,
+            attacks: [
+                {
+                    className: 'Roger',
+                    duration: 10,
+                    gap: 1.2,
+                    delay: 0
+                },
+                {
+                    className: 'Aquila',
+                    duration: 15,
+                    gap: 1,
+                    delay: 10
+                }
+            ]
+        },
+        wave6: {
+            duration: 32,
+            attacks: [
+                {
+                    className: 'Mib',
+                    duration: 30,
+                    gap: 1,
+                    delay: 0
+                }
+            ]
+        }
+
+    },
+    startingCoins: 200,
+    startingLives: 5,
+    entryXGrid: 21,
+    entryYGrid: 5,
+    goalXGrid: 1,
+    goalYGrid: 6,
+    waveHealthCubicA: .02,
+    waveHealthCubicB: .05,
+    waveHealthCubicC: .32,
+    towerPlacementForbiddenRows: [0, 11],
+    canPlaceTowerOnPathway: true,
+    distinctWaves: true,
+    previousLevelName: 'shouldhamWarren'
 };
 
 /*
@@ -2066,8 +2205,9 @@ var iclandu = {
     entryYGrid: 5,
     goalXGrid: 1,
     goalYGrid: 5,
-    waveHealthQuadraticA: 1.2,
-    waveHealthQuadraticB: 1.44,
+    waveHealthCubicA: .02,
+    waveHealthCubicB: .04,
+    waveHealthCubicC: .3,
     towerPlacementForbiddenRows: [0, 11],
     canPlaceTowerOnPathway: false,
     distinctWaves: true,
@@ -2244,7 +2384,9 @@ var ludus = {
     entryYGrid: 5,
     goalXGrid: 1,
     goalYGrid: 5,
-    waveHealthModifier: .44,
+    waveHealthCubicA: .02,
+    waveHealthCubicB: .03,
+    waveHealthCubicC: .4,
     towerPlacementForbiddenRows: [0, 11],
     towerPlacementForbiddenColumns: [7, 8, 9, 10, 11, 12, 13, 14],
     canPlaceTowerOnPathway: false,
