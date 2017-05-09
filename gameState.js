@@ -58,8 +58,13 @@ Rendlesham.gameState.prototype = {
         if (!this.user.zones) {
             this.user.zones = {};
         }
-        if (!this.user.zones.eastAnglia) {
-            this.user.zones.eastAnglia = {};
+
+        for (var zoneName in zones) {
+            if (zones.hasOwnProperty(zoneName)) {
+                if (!this.user.zones[zoneName]) {
+                    this.user.zones[zoneName] = {};
+                }
+            }
         }
 
         this.save();

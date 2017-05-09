@@ -209,15 +209,32 @@ Rendlesham.zone.prototype.isLevelUnlocked = function(levelNumber)
 
     var level = this.getLevelFromZoneAndNumber(this.zoneName, levelNumber);
 
-    if (level && level.hasOwnProperty('previousLevelName') && this.user.levelsComplete[level.name]) {
-        return true;
-    }
-
-    if (this.user.levelsComplete[level.name] || this.user.levelsComplete[levelNumber-1]) {
+    if (level && level.hasOwnProperty('previousLevelName') && this.hasUserCompletedLevel(level.previousLevelName)) {
         return true;
     }
 
     return false;
+};
+
+Rendlesham.zone.prototype.hasUserCompletedLevel = function(levelName)
+{
+    var completed = false;
+
+    var modes = ['classic', 'epic', 'endless'];
+
+    for (var i = 0; i < modes.length; i++) {
+        if (this.user.levelCompletions[modes[i]][levelName]) {
+            completed = true;
+        }
+    }
+
+    var levelNumber = this.getLevelNumberFromZoneAndName(this.zoneName, levelName);
+    if (this.zoneName == 'eastAnglia' && this.user.levelsComplete[levelNumber]) {
+        return true;
+    }
+
+    return completed;
+
 };
 
 Rendlesham.zone.prototype.writeLevelText = function(levelNumber)
@@ -250,7 +267,7 @@ Rendlesham.zone.prototype.addLevelStars = function(levelNumber)
 
     var spriteName;
 
-    for (i = 1; i <= 3; i++) {
+    for (var i = 1; i <= 3; i++) {
 
         if (i <= stars) {
             spriteName = 'starYellow';
