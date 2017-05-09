@@ -21,6 +21,8 @@ Rendlesham.zone.prototype.init = function(zoneName)
         this.zoneName = 'eastAnglia';
     }
 
+    this.zone = zones[zoneName];
+
     this.game.kineticScrolling = this.game.plugins.add(Phaser.Plugin.KineticScrolling);
 
     this.game.kineticScrolling.configure({
@@ -130,7 +132,7 @@ Rendlesham.zone.prototype.create = function()
         */
     };
 
-    this.lastLevel = Object.keys(this.levels).length;
+    this.lastLevel = Object.keys(this.zone.levelOrdering).length;
 
     this.drawLinesBetweenLevels();
 
@@ -139,7 +141,7 @@ Rendlesham.zone.prototype.create = function()
         this['level' + i + 'Button'] = game.add.button(
             this.levels[i].x,
             this.levels[i].y,
-            'ufo',
+            this.zone.levelButtonGraphic,
             this.clickLevelButton,
             this
         );

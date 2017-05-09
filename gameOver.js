@@ -14,6 +14,7 @@ Rendlesham.gameOver.prototype.preload = function()
 
 Rendlesham.gameOver.prototype.init = function(obj)
 {
+    this.zoneName = obj.zoneName;
     this.levelId = obj.levelNumber;
     this.mode = obj.mode || 'classic';
     this.score = obj.score || 0;
@@ -23,6 +24,7 @@ Rendlesham.gameOver.prototype.init = function(obj)
 Rendlesham.gameOver.prototype.tryAgain = function()
 {
     var obj = {
+        zoneName: this.zoneName,
         levelNumber: this.levelId,
         mode: this.mode
     };

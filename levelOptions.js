@@ -103,6 +103,7 @@ Rendlesham.levelOptions.prototype.goToZone = function(button)
 Rendlesham.levelOptions.prototype.playClassic = function(button)
 {
     var obj = {
+        zoneName: this.zoneName,
         levelNumber: this.levelNumber,
         mode: 'classic'
     };
@@ -112,6 +113,7 @@ Rendlesham.levelOptions.prototype.playClassic = function(button)
 Rendlesham.levelOptions.prototype.playEpic = function(button)
 {
     var obj = {
+        zoneName: this.zoneName,
         levelNumber: this.levelNumber,
         mode: 'epic'
     };
@@ -121,6 +123,7 @@ Rendlesham.levelOptions.prototype.playEpic = function(button)
 Rendlesham.levelOptions.prototype.playEndless = function(button)
 {
     var obj = {
+        zoneName: this.zoneName,
         levelNumber: this.levelNumber,
         mode: 'endless'
     };

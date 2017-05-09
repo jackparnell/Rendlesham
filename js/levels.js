@@ -17,7 +17,15 @@ var zones = {
             14: 'pumpkinPatch',
             15: 'shouldhamWarren',
             16: 'thetfordForest'
-        }
+        },
+        levelButtonGraphic: 'ufo'
+    },
+    transylvania: {
+        levelOrdering: {
+            1: 'iclandu',
+            2: 'ludus'
+        },
+        levelButtonGraphic: 'PurpleRock'
     }
 };
 
@@ -2206,8 +2214,8 @@ var iclandu = {
     goalXGrid: 1,
     goalYGrid: 5,
     waveHealthCubicA: .02,
-    waveHealthCubicB: .04,
-    waveHealthCubicC: .3,
+    waveHealthCubicB: .05,
+    waveHealthCubicC: .33,
     towerPlacementForbiddenRows: [0, 11],
     canPlaceTowerOnPathway: false,
     distinctWaves: true,
@@ -2393,5 +2401,6 @@ var ludus = {
     distinctWaves: true,
     bulletsCanOnlyHitTarget: true,
     calculateAttackerProjectedHealth: true,
-    packs: ['transylvanian']
+    packs: ['transylvanian'],
+    previousLevelName: 'iclandu'
 };

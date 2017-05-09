@@ -21,6 +21,7 @@ var mainState = {
     init: function(obj)
     {
 
+        this.zoneName = obj.zoneName;
         this.levelId = obj.levelNumber;
         this.mode = obj.mode || 'classic';
 
@@ -229,6 +230,7 @@ var mainState = {
     gameOver: function()
     {
         var obj = {
+            zoneName: this.zoneName,
             levelNumber: this.levelId,
             mode: this.mode,
             score: this.score,
@@ -340,7 +342,7 @@ var mainState = {
 
 
         // Begin current wave
-        this.labelCurrentWaveXCoordinate = this.labelScoreXCoordinate - 60;
+        this.labelCurrentWaveXCoordinate = this.labelScoreXCoordinate - 70;
 
         this.labelCurrentWaveTitle = game.add.bitmapText(this.labelCurrentWaveXCoordinate, this.titlesYCoordinate, bitmapFontName, 'Wave', 16);
         this.labelCurrentWaveTitle.tint = titleTint;
@@ -1048,6 +1050,7 @@ var mainState = {
         this.levelId ++;
 
         var obj = {
+            zoneName: this.zoneName,
             levelNumber: this.levelId,
             mode: this.mode
         };
@@ -1377,7 +1380,8 @@ var mainState = {
 
     fetchLevelInfo: function()
     {
-        this.level = window[zones.eastAnglia.levelOrdering[this.levelId]];
+        this.level = window[zones[this.zoneName].levelOrdering[this.levelId]];
+        console.log(this.level);
         return this.level;
     },
 
@@ -2459,6 +2463,7 @@ mainState.restartLevel = function()
 {
     this.closePauseScreen();
     var obj = {
+        zoneName: this.zoneName,
         levelNumber: this.levelId,
         mode: this.mode
     };

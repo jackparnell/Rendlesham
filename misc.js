@@ -22,7 +22,10 @@ function changeGameState(stateName){
 function loadMainFiles()
 {
 
-    game.load.image('eastAnglia', 'assets/backgrounds/eastAnglia.png');
+    for (var zoneName in zones) {
+        game.load.image(zoneName, 'assets/backgrounds/' + zoneName + '.png');
+    }
+
     game.load.image('gameOverBackground', 'assets/backgrounds/gameOverBackground.png');
 
     game.load.image('forestGreen', 'assets/buttons/forestGreen.png');
@@ -84,9 +87,18 @@ function loadMainFiles()
     game.load.spritesheet('tallRedMushroom', 'assets/sprites/obstacles/tallRedMushroom.png', 35, 35, 1);
     game.load.spritesheet('pumpkin', 'assets/sprites/obstacles/pumpkin.png', 35, 35, 1);
 
-    for (var property in zones.eastAnglia.levelOrdering) {
+    var property;
+    var level;
+    for (property in zones.eastAnglia.levelOrdering) {
         if (zones.eastAnglia.levelOrdering.hasOwnProperty(property)) {
-            var level = window[zones.eastAnglia.levelOrdering[property]];
+            level = window[zones.eastAnglia.levelOrdering[property]];
+            game.load.tilemap(level.mapName, 'assets/tilemaps/maps/' + level.mapName + '.json', null, Phaser.Tilemap.TILED_JSON);
+        }
+    }
+
+    for (property in zones.transylvania.levelOrdering) {
+        if (zones.transylvania.levelOrdering.hasOwnProperty(property)) {
+            level = window[zones.transylvania.levelOrdering[property]];
             game.load.tilemap(level.mapName, 'assets/tilemaps/maps/' + level.mapName + '.json', null, Phaser.Tilemap.TILED_JSON);
         }
     }
