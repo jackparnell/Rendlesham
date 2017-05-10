@@ -87,11 +87,6 @@ var mainState = {
         };
 
         this.backgrounds = game.add.group();
-
-        /*
-        this.game.goalX = game.width * .025;
-        this.game.goalY = game.height * .41;
-        */
         
         this.towers = game.add.group();
         this.obstacles = game.add.group();
@@ -112,7 +107,6 @@ var mainState = {
         this.initiateLoops();
 
         game.input.onDown.add(this.userInput, this);
-
 
         this.gameOverBackground = this.game.add.tileSprite(0, 0, game.camera.width, game.camera.height, 'gameOverBackground');
         this.gameOverBackground.fixedToCamera = true;
@@ -162,11 +156,14 @@ var mainState = {
             if (!this.preparingForGameOver) {
                 for (var i = 0; i < bullets.length; i++) {
                     var bullet = bullets[i];
-                    if (bullet.target && bullet.target.alive && bullet.target.body && bullet.target.body.moves) {
+                    if (bullet.target && bullet.target.alive && bullet.target.body) {
                         var midPoint = mainState.getMidPointBetweenSprites(bullet, bullet.target);
                         var moveX = Math.cos(this.game.math.degToRad(midPoint.angle)) * bullet.speed;
                         var moveY = Math.sin(this.game.math.degToRad(midPoint.angle)) * bullet.speed;
                         bullet.body.velocity.set(moveX, moveY);
+                    } else if (this.level.bulletsCanOnlyHitTarget) {
+                        // If bullet has no target and in level where bulletsCanOnlyHitTarget, kill it
+                        bullet.kill();
                     }
                 }
             }
@@ -1380,8 +1377,9 @@ var mainState = {
 
     fetchLevelInfo: function()
     {
-        this.level = window[zones[this.zoneName].levelOrdering[this.levelId]];
-        console.log(this.level);
+        var level = window[zones[this.zoneName].levelOrdering[this.levelId]];
+        this.initialWavesCount = Object.keys(level.waveInfo).length;
+        this.level = JSON.parse(JSON.stringify(level));
         return this.level;
     },
 
@@ -1411,8 +1409,6 @@ var mainState = {
         // Begin level wave scheduling
         var s = 0;
         var waveNumber = 0;
-
-        this.initialWavesCount = Object.keys(this.level.waveInfo).length;
 
         switch (this.mode) {
             case 'endless':

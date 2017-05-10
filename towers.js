@@ -10,6 +10,7 @@ function Tower(game, x, y, spriteName) {
     this.checkWorldBounds = true;
     this.outOfBoundsKill = false;
 
+    var rangeInPixels = this.calculateRangeInPixels(1);
     var bulletKillDistance = this.calculateBulletKillDistance(1);
 
     this.weapon1 = this.game.add.weapon(3, window[this.constructor.name].bulletSpriteName, 0, this.game.bullets);
@@ -18,6 +19,7 @@ function Tower(game, x, y, spriteName) {
     this.weapon1.bulletKillDistance = bulletKillDistance;
     this.weapon1.fireRate = window[this.constructor.name].defaultFireRate;
     this.weapon1.angle = this.angleToTarget();
+    this.weapon1.rangeInPixels = rangeInPixels;
 
     this.anchor.setTo(0.5, 0.5);
 
@@ -111,6 +113,10 @@ Tower.prototype.fire = function()
                 bullet.guid = guid();
             }
 
+        }
+
+        if (typeof this.target.calculateProjectedHealth == 'function') {
+            this.target.calculateProjectedHealth();
         }
     }
 };
@@ -216,21 +222,22 @@ Tower.prototype.calculateSpecs = function()
 {
     this.bulletDamageValue = window[this.constructor.name].defaultDamageValue * this.grade;
     this.weapon1.fireRate = window[this.constructor.name].defaultFireRate * 1.1 - (this.grade / 8);
+    this.weapon1.rangeInPixels = this.calculateRangeInPixels(this.grade);
     this.weapon1.bulletKillDistance = this.calculateBulletKillDistance(this.grade);
+};
+Tower.prototype.calculateRangeInPixels = function(grade)
+{
+    var rangeInPixels = window[this.constructor.name].range * mainState.map.tileWidth;
+    rangeInPixels *= (1 + ((grade - 1) * .3));
+    this.rangeInPixels = rangeInPixels;
+    return rangeInPixels;
 };
 Tower.prototype.calculateBulletKillDistance = function(grade)
 {
-    // Default kill distance is 100
-    var bulletKillDistance = 100;
-    if (window[this.constructor.name].range) {
-        // Range is kill distance in tiles
-        bulletKillDistance = window[this.constructor.name].range * mainState.map.tileWidth;
-    } else if (window[this.constructor.name].range) {
-        bulletKillDistance = window[this.constructor.name].defaultKillDistance;
+    var bulletKillDistance = this.rangeInPixels;
+    if (mainState.level.bulletsCanOnlyHitTarget) {
+        bulletKillDistance *= 1.4;
     }
-
-    bulletKillDistance *= (1 + ((grade - 1) * .3));
-
     return bulletKillDistance;
 };
 Tower.prototype.upgradable = function()
