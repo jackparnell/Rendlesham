@@ -856,14 +856,11 @@ var mainState = {
         });
         */
 
-
         /*
         this.attackers.forEachAlive(function(item){
             game.debug.body(item);
         });
-        */
 
-        /*
         var bullets = this.getBulletsAlive();
         bullets.forEach(function(item){
             game.debug.body(item);
@@ -2907,9 +2904,9 @@ mainState.getTowerClassNames = function()
 mainState.getMidPointBetweenSprites = function(spriteA, spriteB)
 {
 
-    var x = Math.round((spriteA.x + spriteB.x) / 2);
-    var y = Math.round((spriteA.y + spriteB.y) / 2);
-    var angle = Math.atan2(spriteB.y - spriteA.y, spriteB.x - spriteA.x ) * (180/Math.PI);
+    var x = Math.round((spriteA.body.x + spriteB.body.x) / 2);
+    var y = Math.round((spriteA.body.y + spriteB.body.y) / 2);
+    var angle = Math.atan2(spriteB.body.y - spriteA.body.y, spriteB.body.x - spriteA.body.x ) * (180/Math.PI);
 
     return {
         x: x,

@@ -210,7 +210,7 @@ Tower.prototype.angleToTarget = function()
 };
 Tower.prototype.angleToSprite = function(otherSprite)
 {
-    return Math.atan2(otherSprite.y - this.y, otherSprite.x - this.x ) * (180/Math.PI);
+    return Math.atan2(otherSprite.body.y - this.body.y, otherSprite.body.x - this.body.x ) * (180/Math.PI);
 };
 
 Tower.prototype.prepareForGameOver = function()

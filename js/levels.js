@@ -27,7 +27,8 @@ var zones = {
         levelOrdering: {
             1: 'iclandu',
             2: 'ludus',
-            3: 'draculeaBandului'
+            3: 'draculeaBandului',
+            4: 'sacadat'
         },
         levelButtonGraphic: 'PurpleRock',
         nextZoneName: 'eastAnglia'
@@ -2579,7 +2580,7 @@ var draculeaBandului = {
     goalXGrid: 1,
     goalYGrid: 5,
     waveHealthCubicA: .02,
-    waveHealthCubicB: .04,
+    waveHealthCubicB: .06,
     waveHealthCubicC: .39,
     towerPlacementForbiddenRows: [0, 11],
     towerPlacementForbiddenColumns: [0, 21],
@@ -2589,4 +2590,170 @@ var draculeaBandului = {
     calculateAttackerProjectedHealth: true,
     packs: ['transylvanian'],
     previousLevelName: 'ludus'
+};
+
+var sacadat = {
+    name: 'sacadat',
+    mapName: 'sacadat',
+    title: 'Sacadat',
+    waveInfo: {
+        wave1: {
+            duration: 26,
+            attacks: [
+                {
+                    className: 'Villager',
+                    duration: 20,
+                    gap: 1.25,
+                    delay: 1
+                }
+            ]
+        },
+        wave2: {
+            duration: 23,
+            attacks: [
+                {
+                    className: 'Kappa',
+                    duration: 5,
+                    gap: 1,
+                    delay: 0
+                },
+                {
+                    className: 'Imp',
+                    duration: 5,
+                    gap: 1,
+                    delay: 5
+                },
+                {
+                    className: 'Goblin',
+                    duration: 10,
+                    gap: 1,
+                    delay: 10
+                }
+            ]
+        },
+        wave3: {
+            duration: 18,
+            attacks: [
+                {
+                    className: 'Goblin',
+                    duration: 14,
+                    gap: 2,
+                    delay: 0
+                },
+                {
+                    className: 'Bogeyman',
+                    duration: 14,
+                    gap: 2,
+                    delay: 1
+                }
+            ]
+        },
+        wave4: {
+            duration: 23,
+            attacks: [
+                {
+                    className: 'Imp',
+                    duration: 10,
+                    gap: 1,
+                    delay: 0
+                },
+                {
+                    className: 'Goblin',
+                    duration: 10,
+                    gap: 1.25,
+                    delay: 10
+                }
+            ]
+        },
+        wave5: {
+            duration: 28,
+            attacks: [
+                {
+                    className: 'Kappa',
+                    duration: 10,
+                    gap: .7,
+                    delay: 0
+                },
+                {
+                    className: 'Goblin',
+                    duration: 15,
+                    gap: .9,
+                    delay: 10
+                }
+            ]
+        },
+        wave6: {
+            duration: 27,
+            attacks: [
+                {
+                    className: 'Cyclops',
+                    duration: 25,
+                    gap: 1.5,
+                    delay: 0
+                }
+            ]
+        },
+        wave7: {
+            duration: 30,
+            attacks: [
+                {
+                    className: 'Skull',
+                    duration: 28,
+                    gap: .8,
+                    delay: 0
+                }
+            ]
+        },
+        wave8: {
+            duration: 27,
+            attacks: [
+                {
+                    className: 'Cyclops',
+                    duration: 25,
+                    gap: 1,
+                    delay: 0
+                }
+            ]
+        },
+        wave9: {
+            duration: 27,
+            attacks: [
+                {
+                    className: 'Skuller',
+                    duration: 25,
+                    gap: .85,
+                    delay: 0
+                }
+            ]
+        },
+        wave10: {
+            duration: 27,
+            attacks: [
+                {
+                    className: 'Ogre',
+                    duration: 25,
+                    gap: 1.1,
+                    delay: 0
+                }
+            ]
+        }
+
+    },
+    startingCoins: 100,
+    startingLives: 5,
+    entryXGrid: 21,
+    entryYGrid: 9,
+    goalXGrid: 11,
+    goalYGrid: 5,
+    waveHealthCubicA: .03,
+    waveHealthCubicB: .06,
+    waveHealthCubicC: .42,
+    towerPlacementForbiddenRows: [0, 11],
+    towerPlacementForbiddenColumns: [0, 21],
+    canPlaceTowerOnPathway: false,
+    distinctWaves: true,
+    bulletsCanOnlyHitTarget: true,
+    calculateAttackerProjectedHealth: true,
+    packs: ['transylvanian'],
+    previousLevelName: 'draculeaBandului'
 };
