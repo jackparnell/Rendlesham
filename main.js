@@ -1381,7 +1381,7 @@ var mainState = {
     {
         var level = window[zones[this.zoneName].levelOrdering[this.levelId]];
         this.initialWavesCount = Object.keys(level.waveInfo).length;
-        this.level = JSON.parse(JSON.stringify(level));
+        this.level = $.extend(true, {}, level);
         return this.level;
     },
 
@@ -1430,13 +1430,13 @@ var mainState = {
             i++;
         }
 
+        /*
         i = 0;
         while (i <= this.totalWaves) {
             console.log(i + ': ' + this.calculateWaveHealthModifier(i));
             i++;
         }
-
-
+        */
 
         if (this.level.distinctWaves) {
 
