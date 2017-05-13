@@ -390,6 +390,8 @@ var mainState = {
             previousCoins < 50 && this.coins >= 50
             ||
             previousCoins < 100 && this.coins >= 100
+            ||
+            previousCoins < 150 && this.coins >= 150
         ) {
             this.refreshTowerInfoIfOpen();
             this.refreshTowerPlacementViewIfOpen();

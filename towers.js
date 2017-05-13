@@ -368,10 +368,10 @@ Laser.prototype.update = function() {
     Tower.prototype.update.call(this);
 };
 Laser.defaultScale = .5;
-Laser.defaultDamageValue = 175;
+Laser.defaultDamageValue = 200;
 Laser.defaultFireRate = 500;
 Laser.range = 4.2;
-Laser.cost = 100;
+Laser.cost = 150;
 Laser.maximumGrade = 3;
 Laser.spriteName = 'laser';
 Laser.bulletSpriteName = 'redLaser';
