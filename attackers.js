@@ -137,7 +137,7 @@ Attacker.prototype.handleNoPath = function()
 };
 Attacker.prototype.moveToGoal = function()
 {
-    this.moveToCoordinates(mainState.level.goalXGrid, mainState.level.goalYGrid);
+    this.moveToCoordinates(mainState.getGoalXGrid(), mainState.getGoalYGrid());
 };
 
 /**

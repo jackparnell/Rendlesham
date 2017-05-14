@@ -139,7 +139,7 @@ Tower.prototype.determineTarget = function()
 
     if (this.game.target.guid) {
         var distanceBetween = game.physics.arcade.distanceBetween(this, this.game.target);
-        if (distanceBetween < this.weapon1.bulletKillDistance) {
+        if (distanceBetween < this.weapon1.rangeInPixels) {
             target = this.game.target;
         }
     }
@@ -159,7 +159,7 @@ Tower.prototype.determineTarget = function()
 
         var distanceBetween = game.physics.arcade.distanceBetween(this, item);
 
-        if (distanceBetween < this.weapon1.bulletKillDistance) {
+        if (distanceBetween < this.weapon1.rangeInPixels) {
 
             var advanced = item.getAdvancement() + (item.getAgeInTurns() * 0.01);
 
@@ -234,9 +234,9 @@ Tower.prototype.calculateRangeInPixels = function(grade)
 };
 Tower.prototype.calculateBulletKillDistance = function(grade)
 {
-    var bulletKillDistance = this.rangeInPixels;
+    var bulletKillDistance = this.calculateRangeInPixels(grade);
     if (mainState.level.bulletsCanOnlyHitTarget) {
-        bulletKillDistance *= 1.4;
+        bulletKillDistance *= 1.6;
     }
     return bulletKillDistance;
 };
@@ -327,12 +327,12 @@ Gun.prototype.update = function() {
 Gun.defaultScale = .5;
 Gun.defaultDamageValue = 500;
 Gun.defaultFireRate = 1000;
-Gun.range = 2.6;
+Gun.range = 2.7;
 Gun.cost = 50;
 Gun.maximumGrade = 3;
 Gun.spriteName = 'gun';
 Gun.bulletSpriteName = 'bullet';
-Gun.bulletPace = 12;
+Gun.bulletPace = 14;
 Gun.bulletHitDecorationClassName = 'Explosion';
 
 function Freezer(game, x, y) {
@@ -348,12 +348,12 @@ Freezer.prototype.update = function() {
 Freezer.defaultScale = .5;
 Freezer.defaultDamageValue = 200;
 Freezer.defaultFireRate = 1500;
-Freezer.range = 2.6;
+Freezer.range = 2.7;
 Freezer.cost = 100;
 Freezer.maximumGrade = 3;
 Freezer.spriteName = 'freezer';
 Freezer.bulletSpriteName = 'iceLance';
-Freezer.bulletPace = 12;
+Freezer.bulletPace = 14;
 Freezer.bulletHitDecorationClassName = 'Zap';
 Freezer.bulletHitDecorationTint = 0x0000FF;
 

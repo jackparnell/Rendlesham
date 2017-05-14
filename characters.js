@@ -6,10 +6,6 @@ function Character(game, x, y, spriteName) {
     this.guid = guid();
     this.creationTurn = mainState.turn;
 
-    var gridCoordinates = mainState.translatePixelCoordinatesToGridCoordinates(x, y);
-    this.gridX = gridCoordinates[0];
-    this.gridY = gridCoordinates[1];
-
     Phaser.Sprite.call(this, game, x, y, spriteName);
     
     game.physics.arcade.enable(this);
@@ -26,6 +22,10 @@ function Character(game, x, y, spriteName) {
     this.checkWorldBounds = true;
     this.collideWorldBounds = false;
     this.outOfBoundsKill = false;
+
+    var gridCoordinates = mainState.translatePixelCoordinatesToGridCoordinates(this.body.x, this.body.y);
+    this.gridX = gridCoordinates[0];
+    this.gridY = gridCoordinates[1];
 
     var scale = this.getScale();
     if (scale != 1) {

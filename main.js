@@ -1176,6 +1176,10 @@ var mainState = {
              return false;
         }
 
+        if (this.isPositionOnLayer(x, y, 'lava')) {
+            return false;
+        }
+
         if (this.isPositionOnLayer(x, y, 'impassable')) {
             return false;
         }
@@ -1756,12 +1760,12 @@ var mainState = {
             if (tower.weapon1) {
                 this.graphics.lineStyle(2, 0x88FF88, 0.5);
                 this.graphics.beginFill(0x88FF88, 0.2);
-                this.graphics.drawCircle(tower.x, tower.y, tower.calculateBulletKillDistance(tower.grade)*2);
+                this.graphics.drawCircle(tower.x, tower.y, tower.weapon1.rangeInPixels*2);
                 this.graphics.endFill();
 
                 if (tower.upgradable()) {
                     this.graphics.lineStyle(2, upgradeColor, 0.5);
-                    this.graphics.drawCircle(tower.x, tower.y, tower.calculateBulletKillDistance(tower.grade+1)*2);
+                    this.graphics.drawCircle(tower.x, tower.y, tower.calculateRangeInPixels(tower.grade+1)*2);
                     this.graphics.endFill();
                 }
 
@@ -2028,6 +2032,11 @@ mainState.setupMap = function()
     this.backgrounds.add(this.collisionLayer);
 
     game.physics.arcade.enable(this.collisionLayer);
+
+    if (this.layers.hasOwnProperty('lava')) {
+        this.lavaLayer = this.map.createLayer('lava');
+        this.backgrounds.add(this.lavaLayer);
+    }
 
     var impassableTiles = [];
 
@@ -2339,12 +2348,30 @@ mainState.getEntryYGrid = function()
 
 mainState.getGoalXGrid = function()
 {
+    if (!this.level.goalXGrid) {
+        this.generateGoal();
+    }
     return this.level.goalXGrid;
 };
 
 mainState.getGoalYGrid = function()
 {
+    if (!this.level.goalXGrid) {
+        this.generateGoal();
+    }
     return this.level.goalYGrid;
+};
+
+mainState.generateGoal = function()
+{
+    var gridX;
+    var gridY;
+    if (this.nathan) {
+        gridX = this.nathan.gridX;
+        gridY = this.nathan.gridY;
+    }
+    this.level.goalXGrid = gridX;
+    this.level.goalYGrid = gridY;
 };
 
 mainState.pixelsNearestTileTopLeftCoordinates = function(x, y)
@@ -2564,12 +2591,12 @@ mainState.openTowerInfo = function(tower)
 
         this.towerInfoOpenRangeGraphics.lineStyle(2, 0x88FF88, 0.5);
         this.towerInfoOpenRangeGraphics.beginFill(0x88FF88, 0.2);
-        this.towerInfoOpenRangeGraphics.drawCircle(tower.x, tower.y, tower.calculateBulletKillDistance(tower.grade)*2);
+        this.towerInfoOpenRangeGraphics.drawCircle(tower.x, tower.y, tower.weapon1.rangeInPixels*2);
         this.towerInfoOpenRangeGraphics.endFill();
 
         if (tower.upgradable()) {
             this.towerInfoOpenRangeGraphics.lineStyle(2, 0x33FFFF, 0.5);
-            this.towerInfoOpenRangeGraphics.drawCircle(tower.x, tower.y, tower.calculateBulletKillDistance(tower.grade+1)*2);
+            this.towerInfoOpenRangeGraphics.drawCircle(tower.x, tower.y, tower.weapon1.rangeInPixels*2);
             this.towerInfoOpenRangeGraphics.endFill();
         }
 
