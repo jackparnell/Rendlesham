@@ -33,7 +33,11 @@ Attacker.prototype.initialise = function(waveNumber)
 {
     this.creationTurn = mainState.turn;
     this.waveNumber = waveNumber;
-    this.health = (window[this.constructor.name].defaultHealth || 1000) * this.calculateHealthModifier();
+    this.health = Math.floor(
+        (window[this.constructor.name].defaultHealth || 1000)
+        *
+        this.calculateHealthModifier()
+    );
     this.maximumHealth = this.health;
     this.coinsValue = window[this.constructor.name].coinsValue || 1;
     this.scoreValue = window[this.constructor.name].scoreValue || 5;
@@ -109,14 +113,15 @@ Attacker.prototype.update = function()
         game.physics.arcade.overlap(this, bullet, this.hit, null, this);
     }, this);
 
-    this.updateHealthBar();
-    this.updateCrosshair();
-    this.handleNoPath();
-
     if (this.health <= 0) {
         this.health = 0;
         this.die();
+        return;
     }
+
+    this.updateHealthBar();
+    this.updateCrosshair();
+    this.handleNoPath();
 
     this.calculateProjectedHealth();
 
@@ -457,7 +462,7 @@ Attacker.prototype.calculateProjectedHealth = function()
         projectedHealth -= bullets[i].damageValue;
     }
 
-    this.projectedHealth = projectedHealth;
+    this.projectedHealth = Math.floor(projectedHealth);
 };
 Attacker.prototype.simpleAnimate = function()
 {
