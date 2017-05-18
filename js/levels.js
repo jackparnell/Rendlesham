@@ -37,6 +37,18 @@ var zones = {
 };
 
 var fridayStreet = {
+    story: true,
+    storyImages: {
+        1: {
+            name: 'shipBreaking'
+        },
+        2: {
+            name: 'navigateToEarth'
+        },
+        3: {
+            name: 'flyToEarth'
+        }
+    },
     name: 'fridayStreet',
     mapName: 'fridayStreet',
     title: 'Friday Street',

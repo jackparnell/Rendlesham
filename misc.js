@@ -27,6 +27,10 @@ function loadMainFiles()
     }
 
     game.load.image('gameOverBackground', 'assets/backgrounds/gameOverBackground.png');
+    game.load.image('flyToEarth', 'assets/backgrounds/flyToEarth.jpg');
+    game.load.image('navigateToEarth', 'assets/backgrounds/navigateToEarth.jpg');
+    game.load.image('shipBreaking', 'assets/backgrounds/shipBreaking.jpg');
+    game.load.image('touchMushroomBackground', 'assets/backgrounds/touchMushroom.png');
 
     game.load.image('forestGreen', 'assets/buttons/forestGreen.png');
     game.load.image('smallDark', 'assets/buttons/smallDark.png');

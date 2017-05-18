@@ -32,7 +32,11 @@ Rendlesham.titleScreen.prototype.create = function()
 
     game.canvas.oncontextmenu = function (e) { e.preventDefault(); }
 
-    game.stage.backgroundColor = "#112c06";
+    // game.stage.backgroundColor = "#112c06";
+
+    this.titleScreenBackground = game.add.tileSprite(0, 0, game.camera.width, game.camera.height, 'touchMushroomBackground');
+    this.titleScreenBackground.fixedToCamera = true;
+    this.backgrounds.add(this.titleScreenBackground);
 
     this.addButtonTextLink('playGameLink', 'Play the Game', 46, 'forestGreen', 0, game.height * .68, 'center', 'goToZone');
 

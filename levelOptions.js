@@ -107,7 +107,13 @@ Rendlesham.levelOptions.prototype.playClassic = function(button)
         levelNumber: this.levelNumber,
         mode: 'classic'
     };
-    game.state.start('main', true, true, obj);
+
+    var goToState = 'main';
+    if (this.level.story) {
+        goToState = 'story';
+    }
+
+    game.state.start(goToState, true, true, obj);
 };
 
 Rendlesham.levelOptions.prototype.playEpic = function(button)
@@ -117,7 +123,13 @@ Rendlesham.levelOptions.prototype.playEpic = function(button)
         levelNumber: this.levelNumber,
         mode: 'epic'
     };
-    game.state.start('main', true, true, obj);
+
+    var goToState = 'main';
+    if (this.level.story) {
+        goToState = 'story';
+    }
+
+    game.state.start(goToState, true, true, obj);
 };
 
 Rendlesham.levelOptions.prototype.playEndless = function(button)
@@ -127,5 +139,11 @@ Rendlesham.levelOptions.prototype.playEndless = function(button)
         levelNumber: this.levelNumber,
         mode: 'endless'
     };
-    game.state.start('main', true, true, obj);
+
+    var goToState = 'main';
+    if (this.level.story) {
+        goToState = 'story';
+    }
+
+    game.state.start(goToState, true, true, obj);
 };
