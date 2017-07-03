@@ -1,508 +1,523 @@
-function Obstacle(game, x, y, spriteName) {
-    
-    $.extend( this, standard );
+class Obstacle extends Phaser.Sprite
+{
+    constructor (game, x, y, spriteName)
+    {
+        super(game, x, y, spriteName);
 
-    this.guid = guid();
-    this.creationTurn = mainState.turn;
-    this.health = window[this.constructor.name].defaultHealth || 1000;
-    this.maximumHealth = this.health;
-    this.coinsValue = window[this.constructor.name].coinsValue || 0;
-    this.scoreValue = window[this.constructor.name].scoreValue || 0;
-    this.invulnerable = false;
+        $.extend( this, standard );
 
-    Phaser.Sprite.call(this, game, x, y, spriteName);
+        this.guid = guid();
+        this.creationTurn = mainState.turn;
 
-    game.physics.arcade.enable(this);
+        console.log(this);
 
-    this.roundedCoordinates = mainState.pixelsNearestTileTopLeftCoordinates(x, y);
-    x = this.roundedCoordinates[0];
-    y = this.roundedCoordinates[1];
+        this.health = this.constructor.DEFAULT_HEALTH || 1000;
+        this.maximumHealth = this.health;
+        this.coinsValue = this.constructor.DEFAULT_COINS_VALUE || 0;
+        this.scoreValue = this.constructor.DEFAULT_SCORE_VALUE || 0;
+        this.invulnerable = false;
 
-    this.x = x + mainState.halfSquareWidth;
-    this.y = y + mainState.halfSquareWidth;
+        game.physics.arcade.enable(this);
 
-    this.anchor.setTo(0.5, 0.5);
+        this.roundedCoordinates = mainState.pixelsNearestTileTopLeftCoordinates(x, y);
+        x = this.roundedCoordinates[0];
+        y = this.roundedCoordinates[1];
 
-    this.checkWorldBounds = true;
-    this.collideWorldBounds = false;
-    this.outOfBoundsKill = false;
+        this.x = x + mainState.halfSquareWidth;
+        this.y = y + mainState.halfSquareWidth;
 
-    var scale = this.getScale();
-    if (scale != 1) {
-        this.scale.setTo(scale, scale);
+        this.anchor.setTo(0.5, 0.5);
+
+        this.checkWorldBounds = true;
+        this.collideWorldBounds = false;
+        this.outOfBoundsKill = false;
+
+        let scale = this.constructor.DEFAULT_SCALE || 1;
+        if (scale != 1) {
+            this.scale.setTo(scale, scale);
+        }
+
+        this.targeted = false;
+
+        this.initialise();
     }
 
-    this.targeted = false;
-
-    this.initialise();
-
-
-}
-Obstacle.prototype = Object.create(Phaser.Sprite.prototype);
-Obstacle.prototype.constructor = Obstacle;
-
-Obstacle.prototype.initialise = function()
-{
-    this.body.immovable = true;
-    this.body.moves = false;
-};
-
-Obstacle.prototype.firstUpdate = function()
-{
-    this.generateGridCoordinates();
-    mainState.addGlobalImpassablePoint(this.gridX, this.gridY, 'grid');
-
-    this.firstUpdateRun = true;
-};
-
-Obstacle.prototype.hit = function(attacker, bullet)
-{
-    if (bullet.canOnlyHitTarget && bullet.target.guid != attacker.guid) {
-        return false;
+    initialise()
+    {
+        this.body.immovable = true;
+        this.body.moves = false;
     }
 
-    if (!this.invulnerable) {
-        attacker.health -= bullet.damageValue;
-    }
-
-    var decorationClassName = window[bullet.towerClass].bulletHitDecorationClassName || 'Explosion';
-    var decorationTint = window[bullet.towerClass].bulletHitDecorationTint || '0xFFFFFF';
-    var spawnFunctionName = 'spawn' + decorationClassName;
-    var midPoint = mainState.getMidPointBetweenSprites(attacker, bullet);
-    mainState[spawnFunctionName](midPoint.x, midPoint.y, decorationTint, midPoint.angle);
-
-    delete bullet.target;
-    bullet.kill();
-
-    return true;
-};
-Obstacle.prototype.generateGridCoordinates = function()
-{
-    var gridCoordinates = mainState.translatePixelCoordinatesToGridCoordinates(this.x, this.y);
-    this.gridX = gridCoordinates[0];
-    this.gridY = gridCoordinates[1];
-    
-};
-Obstacle.prototype.update = function()
-{
-
-    if (!this.alive) {
-        return;
-    }
-
-    if (!this.firstUpdateRun) {
-        this.firstUpdate();
-    }
-
-    if (!this.gridX || !this.gridY) {
+    firstUpdate()
+    {
         this.generateGridCoordinates();
+        mainState.addGlobalImpassablePoint(this.gridX, this.gridY, 'grid');
+
+        this.firstUpdateRun = true;
     }
 
-    this.game.bullets.forEachAlive(function(bullet) {
-        game.physics.arcade.overlap(this, bullet, this.hit, null, this);
-    }, this);
+    hit(obstacle, bullet)
+    {
+        if (bullet.canOnlyHitTarget && bullet.target.guid != obstacle.guid) {
+            return false;
+        }
 
-    this.updateHealthBar();
-    this.updateCrosshair();
+        console.log(obstacle.health);
+        if (!this.invulnerable) {
+            obstacle.health -= bullet.damageValue;
+        }
+        console.log(obstacle.health);
 
-    if (this.health <= 0) {
-        this.health = 0;
-        this.die();
+        let decorationClassName = window[bullet.towerClass].bulletHitDecorationClassName || 'Explosion';
+        let decorationTint = window[bullet.towerClass].bulletHitDecorationTint || '0xFFFFFF';
+        let spawnFunctionName = 'spawn' + decorationClassName;
+        let midPoint = mainState.getMidPointBetweenSprites(obstacle, bullet);
+        mainState[spawnFunctionName](midPoint.x, midPoint.y, decorationTint, midPoint.angle);
+
+        delete bullet.target;
+        bullet.kill();
+
+        return true;
     }
-    if (isNaN(this.health)) {
-        throw {
-            'code': 10001,
-            'description': 'Health of ' + this.constructor.name + ' is not a number.'
-        };
+
+    generateGridCoordinates()
+    {
+        let gridCoordinates = mainState.translatePixelCoordinatesToGridCoordinates(this.x, this.y);
+        this.gridX = gridCoordinates[0];
+        this.gridY = gridCoordinates[1];
     }
 
+    update()
+    {
+        if (!this.alive) {
+            return;
+        }
 
-};
+        if (!this.firstUpdateRun) {
+            this.firstUpdate();
+        }
 
-Obstacle.prototype.prepareForGameOver = function()
+        if (!this.gridX || !this.gridY) {
+            this.generateGridCoordinates();
+        }
+
+        this.game.bullets.forEachAlive(function(bullet) {
+            game.physics.arcade.overlap(this, bullet, this.hit, null, this);
+        }, this);
+
+        this.updateHealthBar();
+        this.updateCrosshair();
+
+        if (this.health <= 0) {
+            this.health = 0;
+            this.die();
+        }
+        if (isNaN(this.health)) {
+            throw {
+                'code': 10001,
+                'description': 'Health of ' + this.constructor.name + ' is not a number.'
+            };
+        }
+    }
+
+    prepareForGameOver()
+    {
+        this.body.enable = false;
+        this.invulnerable = true;
+    }
+
+    die()
+    {
+        if (this.health <= 0) {
+            mainState.changeCoins(this.coinsValue, this.x, this.y);
+            mainState.changeScore(this.scoreValue, this.x, this.y);
+            mainState.sounds.nes08.play();
+        }
+        if (this.healthBar) {
+            this.healthBar.kill();
+        }
+        if (this.crosshair) {
+            this.crosshair.kill();
+        }
+        if (this.targeted) {
+            mainState.noTarget();
+        }
+
+        mainState.removeGlobalImpassablePoint(this.gridX, this.gridY, 'grid');
+
+        this.kill();
+
+    }
+
+    /**
+     * Create a health bar for the sprite, if appropriate.
+     *
+     * @returns {boolean}
+     */
+    createHealthBar()
+    {
+        if (this.game.noHealthBars) {
+            return false;
+        }
+
+        if (!this.alive) {
+            return false;
+        }
+
+        // No health bar if at full health
+        if (this.health >= this.maximumHealth) {
+            return;
+        }
+
+        let healthBarX = this.x;
+        let healthBarY = this.y - 20;
+
+        this.healthBar = this.game.add.sprite(healthBarX, healthBarY, 'healthBar');
+        this.game.healthBars.add(this.healthBar);
+
+        this.healthBar.anchor.setTo(0.5, 0.5);
+
+        return true;
+    }
+
+    /**
+     * Update's the sprite's health bar, if appropriate.
+     *
+     * @returns {boolean}
+     */
+    updateHealthBar()
+    {
+        if (this.game.noHealthBars) {
+            return false;
+        }
+
+        // No health bar if at full health
+        if (this.health >= this.maximumHealth) {
+            return false;
+        }
+
+        if (!this.healthBar) {
+            this.createHealthBar();
+        }
+
+        let healthPercentage = Math.round((this.health / this.maximumHealth) * 100);
+
+        let healthBarFrame = Math.floor(healthPercentage*.2);
+
+        healthBarFrame = 20 - healthBarFrame;
+
+        if (healthBarFrame != this.healthBar.frame) {
+            this.healthBar.frame = healthBarFrame;
+        }
+
+        let healthBarX = this.x;
+        let healthBarY = this.y - 18;
+
+        this.healthBar.x = healthBarX;
+        this.healthBar.y = healthBarY;
+
+        return true;
+    }
+
+    targetToggle()
+    {
+        if (this.targeted) {
+            this.untarget();
+        } else {
+            this.target();
+        }
+    }
+
+    target()
+    {
+        // Un-target all other obstacles and attackers
+        mainState.untargetAll();
+        mainState.setTarget(this);
+
+        this.targeted = true;
+
+        this.crosshair = game.add.sprite(this.x, this.y, 'crosshair');
+        game.physics.arcade.enable(this.crosshair);
+
+        mainState.crosshairs.add(this.crosshair);
+    }
+
+    untarget()
+    {
+        this.targeted = false;
+
+        if (this.game.target.guid && this.guid == this.game.target.guid) {
+            mainState.noTarget();
+        }
+
+        if (this.crosshair) {
+            this.crosshair.kill();
+        }
+    }
+
+    updateCrosshair()
+    {
+        if (!this.crosshair) {
+            return false;
+        }
+
+        this.crosshair.x = this.x - mainState.halfSquareWidth - 2 ;
+        this.crosshair.y = this.y - mainState.halfSquareWidth - 2;
+    }
+}
+
+class TallBrownMushroom extends Obstacle
 {
-    this.body.enable = false;
-    this.invulnerable = true;
-};
+    static get DEFAULT_SCALE() { return 1; }
+    static get DEFAULT_HEALTH() { return 10000; }
+    static get DEFAULT_COINS_VALUE() { return 50; }
+    static get DEFAULT_SCORE_VALUE() { return 50; }
+    static get SPRITE_SHEET_GID() { return 105; }
 
-Obstacle.prototype.die = function()
+    constructor(game, x, y)
+    {
+        super(game, x, y, 'tallBrownMushroom');
+        this.createCentralCircle(16);
+    }
+}
+
+class TallRedMushroom extends Obstacle
 {
-    if (this.health <= 0) {
-        mainState.changeCoins(this.coinsValue, this.x, this.y);
-        mainState.changeScore(this.scoreValue, this.x, this.y);
-        mainState.sounds.nes08.play();
-    }
-    if (this.healthBar) {
-        this.healthBar.kill();
-    }
-    if (this.crosshair) {
-        this.crosshair.kill();
-    }
-    if (this.targeted) {
-        mainState.noTarget();
-    }
 
-    mainState.removeGlobalImpassablePoint(this.gridX, this.gridY, 'grid');
+    static get DEFAULT_SCALE() { return 1; }
+    static get DEFAULT_HEALTH() { return 35000; }
+    static get DEFAULT_COINS_VALUE() { return 100; }
+    static get DEFAULT_SCORE_VALUE() { return 100; }
+    static get SPRITE_SHEET_GID() { return 106; }
 
+    constructor(game, x, y)
+    {
+        super(game, x, y, 'tallRedMushroom');
+        this.createCentralCircle(16);
+    }
+}
 
-    this.kill();
-};
-
-/**
- * Create a health bar for the sprite, if appropriate.
- *
- * @returns {boolean}
- */
-Obstacle.prototype.createHealthBar = function()
+class TallGreyMushroom extends Obstacle
 {
-    if (this.game.noHealthBars) {
-        return false;
+    static get DEFAULT_SCALE() { return 1; }
+    static get DEFAULT_HEALTH() { return 50000; }
+    static get DEFAULT_COINS_VALUE() { return 100; }
+    static get DEFAULT_SCORE_VALUE() { return 150; }
+    static get SPRITE_SHEET_GID() { return 107; }
+
+    constructor(game, x, y)
+    {
+        super(game, x, y, 'tallGreyMushroom');
+        this.createCentralCircle(16);
     }
 
-    if (!this.alive) {
-        return false;
+    die()
+    {
+        super.die();
+
+        if (!mainState.hasItem('greyMushroomSpore')) {
+            mainState.addItem('greyMushroomSpore');
+        }
     }
+}
 
-    // No health bar if at full health
-    if (this.health >= this.maximumHealth) {
-        return;
-    }
-
-    var healthBarX = this.x;
-    var healthBarY = this.y - 20;
-
-    this.healthBar = this.game.add.sprite(healthBarX, healthBarY, 'healthBar');
-    this.game.healthBars.add(this.healthBar);
-
-    this.healthBar.anchor.setTo(0.5, 0.5);
-
-    return true;
-
-};
-
-/**
- * Update's the sprite's health bar, if appropriate.
- *
- * @returns {boolean}
- */
-Obstacle.prototype.updateHealthBar = function()
+class BigBush extends Obstacle
 {
-    if (this.game.noHealthBars) {
-        return false;
+    static get DEFAULT_SCALE() { return 1; }
+    static get DEFAULT_HEALTH() { return 10000; }
+    static get DEFAULT_COINS_VALUE() { return 0; }
+    static get DEFAULT_SCORE_VALUE() { return 20; }
+    static get SPRITE_SHEET_GID() { return 63; }
+
+    constructor(game, x, y)
+    {
+        super(game, x, y, 'bigBush');
+        this.createCentralCircle(16);
     }
+}
 
-    // No health bar if at full health
-    if (this.health >= this.maximumHealth) {
-        return false;
-    }
-
-    if (!this.healthBar) {
-        this.createHealthBar();
-    }
-
-    var healthPercentage = Math.round((this.health / this.maximumHealth) * 100);
-
-    var healthBarFrame = Math.floor(healthPercentage*.2);
-
-    healthBarFrame = 20 - healthBarFrame;
-
-    if (healthBarFrame != this.healthBar.frame) {
-        this.healthBar.frame = healthBarFrame;
-    }
-
-    var healthBarX = this.x;
-    var healthBarY = this.y - 18;
-
-    this.healthBar.x = healthBarX;
-    this.healthBar.y = healthBarY;
-
-    return true;
-
-};
-
-Obstacle.prototype.targetToggle = function()
+class BigBushAutumn extends Obstacle
 {
-    if (this.targeted) {
-        this.untarget();
-    } else {
-        this.target();
-    }
-};
+    static get DEFAULT_SCALE() { return 1; }
+    static get DEFAULT_HEALTH() { return 10000; }
+    static get DEFAULT_COINS_VALUE() { return 0; }
+    static get DEFAULT_SCORE_VALUE() { return 20; }
+    static get SPRITE_SHEET_GID() { return 5; }
 
-Obstacle.prototype.target = function()
+    constructor(game, x, y)
+    {
+        super(game, x, y, 'bigBushAutumn');
+        this.createCentralCircle(16);
+    }
+}
+
+class SmallBush extends Obstacle
 {
-    // Un-target all other obstacles and attackers
-    mainState.untargetAll();
-    mainState.setTarget(this);
+    static get DEFAULT_SCALE() { return 1; }
+    static get DEFAULT_HEALTH() { return 5000; }
+    static get DEFAULT_COINS_VALUE() { return 0; }
+    static get DEFAULT_SCORE_VALUE() { return 10; }
+    static get SPRITE_SHEET_GID() { return 64; }
 
-    this.targeted = true;
+    constructor(game, x, y)
+    {
+        super(game, x, y, 'smallBush');
+        this.createCentralCircle(16);
+    }
+}
 
-    this.crosshair = game.add.sprite(this.x, this.y, 'crosshair');
-    game.physics.arcade.enable(this.crosshair);
-
-    mainState.crosshairs.add(this.crosshair);
-
-};
-
-Obstacle.prototype.untarget = function()
+class SnowyPine extends Obstacle
 {
-    this.targeted = false;
+    static get DEFAULT_SCALE() { return 1; }
+    static get DEFAULT_HEALTH() { return 5000; }
+    static get DEFAULT_COINS_VALUE() { return 0; }
+    static get DEFAULT_SCORE_VALUE() { return 20; }
+    static get SPRITE_SHEET_GID() { return 94; }
 
-    if (this.game.target.guid && this.guid == this.game.target.guid) {
-        mainState.noTarget();
+    constructor(game, x, y)
+    {
+        super(game, x, y, 'smallBush');
+        this.createCentralCircle(16);
     }
+}
 
-    if (this.crosshair) {
-        this.crosshair.kill();
-    }
-};
-
-Obstacle.prototype.updateCrosshair = function()
+class Rock extends Obstacle
 {
-    if (!this.crosshair) {
-        return false;
+    static get DEFAULT_SCALE() { return 1; }
+    static get DEFAULT_HEALTH() { return 15000; }
+    static get DEFAULT_COINS_VALUE() { return 0; }
+    static get DEFAULT_SCORE_VALUE() { return 50; }
+    static get SPRITE_SHEET_GID() { return 51; }
+
+    constructor(game, x, y)
+    {
+        super(game, x, y, 'rock');
+        // this.createCentralCircle(18);
+    }
+}
+
+class PurpleRock extends Obstacle
+{
+    static get DEFAULT_SCALE() { return 1; }
+    static get DEFAULT_HEALTH() { return 15000; }
+    static get DEFAULT_COINS_VALUE() { return 0; }
+    static get DEFAULT_SCORE_VALUE() { return 50; }
+    static get SPRITE_SHEET_GID() { return 59; }
+
+    constructor(game, x, y)
+    {
+        super(game, x, y, 'PurpleRock');
+        this.createCentralCircle(18);
+    }
+}
+
+class Crate extends Obstacle
+{
+    static get DEFAULT_SCALE() { return 1; }
+    static get DEFAULT_HEALTH() { return 15000; }
+    static get DEFAULT_COINS_VALUE() { return 0; }
+    static get DEFAULT_SCORE_VALUE() { return 50; }
+    static get SPRITE_SHEET_GID() { return 51; }
+
+    constructor(game, x, y)
+    {
+        super(game, x, y, 'crate');
+        this.createCentralCircle(18);
+    }
+}
+
+class Bulrush extends Obstacle
+{
+    static get DEFAULT_SCALE() { return 1; }
+    static get DEFAULT_HEALTH() { return 20000; }
+    static get DEFAULT_COINS_VALUE() { return 100; }
+    static get DEFAULT_SCORE_VALUE() { return 150; }
+    static get SPRITE_SHEET_GID() { return 78; }
+
+    constructor(game, x, y)
+    {
+        super(game, x, y, 'bulrush');
+        this.createCentralCircle(8);
     }
 
-    this.crosshair.x = this.x - mainState.halfSquareWidth - 2 ;
-    this.crosshair.y = this.y - mainState.halfSquareWidth - 2;
-};
+    die()
+    {
+        super.die();
 
-// Begin TallBrownMushroom
-function TallBrownMushroom(game, x, y) {
-    Obstacle.call(this, game, x, y, 'tallBrownMushroom');
-    this.createCentralCircle(16);
-
+        if (!mainState.hasItem('bulrushSeed')) {
+            mainState.addItem('bulrushSeed');
+        }
+    }
 }
-TallBrownMushroom.prototype = Object.create(Obstacle.prototype);
-TallBrownMushroom.prototype.constructor = TallBrownMushroom;
-TallBrownMushroom.defaultScale = 1;
-TallBrownMushroom.defaultHealth = 10000;
-TallBrownMushroom.coinsValue = 50;
-TallBrownMushroom.scoreValue = 50;
-TallBrownMushroom.spriteSheetGid = 105;
-// End TallBrownMushroom
 
-// Begin TallRedMushroom
-function TallRedMushroom(game, x, y) {
-    Obstacle.call(this, game, x, y, 'tallRedMushroom');
-    this.createCentralCircle(16);
-}
-TallRedMushroom.prototype = Object.create(Obstacle.prototype);
-TallRedMushroom.prototype.constructor = TallRedMushroom;
-TallRedMushroom.defaultScale = 1;
-TallRedMushroom.defaultHealth = 35000;
-TallRedMushroom.coinsValue = 100;
-TallRedMushroom.scoreValue = 100;
-TallRedMushroom.spriteSheetGid = 106;
-// End TallBrownMushroom
+class Snowman extends Obstacle
+{
+    static get DEFAULT_SCALE() { return 1; }
+    static get DEFAULT_HEALTH() { return 100000; }
+    static get DEFAULT_COINS_VALUE() { return 100; }
+    static get DEFAULT_SCORE_VALUE() { return 150; }
+    static get SPRITE_SHEET_GID() { return 76; }
 
-// Begin TallGreyMushroom
-function TallGreyMushroom(game, x, y) {
-    Obstacle.call(this, game, x, y, 'tallGreyMushroom');
-    this.createCentralCircle(16);
-}
-TallGreyMushroom.prototype = Object.create(Obstacle.prototype);
-TallGreyMushroom.prototype.constructor = TallGreyMushroom;
-TallGreyMushroom.defaultScale = 1;
-TallGreyMushroom.defaultHealth = 50000;
-TallGreyMushroom.coinsValue = 100;
-TallGreyMushroom.scoreValue = 150;
-TallGreyMushroom.spriteSheetGid = 107;
-TallGreyMushroom.prototype.die = function() {
-    Obstacle.prototype.die.call(this);
-    
-    if (!mainState.hasItem('greyMushroomSpore')) {
-        mainState.addItem('greyMushroomSpore');
+    constructor(game, x, y)
+    {
+        super(game, x, y, 'snowman');
+        this.createCentralCircle(16);
     }
 
-};
-// End TallGreyMushroom
+    die()
+    {
+        super.die();
 
-// Begin BigBush
-function BigBush(game, x, y) {
-    Obstacle.call(this, game, x, y, 'bigBush');
-    this.createCentralCircle(16);
-
+        if (!mainState.hasItem('carrot')) {
+            mainState.addItem('carrot');
+        }
+    }
 }
-BigBush.prototype = Object.create(Obstacle.prototype);
-BigBush.prototype.constructor = BigBush;
-BigBush.defaultScale = 1;
-BigBush.defaultHealth = 10000;
-BigBush.coinsValue = 0;
-BigBush.scoreValue = 20;
-BigBush.spriteSheetGid = 63;
-// End BigBush
 
-// Begin BigBushAutumn
-function BigBushAutumn(game, x, y) {
-    Obstacle.call(this, game, x, y, 'bigBushAutumn');
-    this.createCentralCircle(16);
+class Pumpkin extends Obstacle
+{
+    static get DEFAULT_SCALE() { return 1; }
+    static get DEFAULT_HEALTH() { return 10000; }
+    static get DEFAULT_COINS_VALUE() { return 50; }
+    static get DEFAULT_SCORE_VALUE() { return 50; }
+    static get SPRITE_SHEET_GID() { return 60; }
 
-}
-BigBushAutumn.prototype = Object.create(Obstacle.prototype);
-BigBushAutumn.prototype.constructor = BigBushAutumn;
-BigBushAutumn.defaultScale = 1;
-BigBushAutumn.defaultHealth = 10000;
-BigBushAutumn.coinsValue = 0;
-BigBushAutumn.scoreValue = 20;
-BigBushAutumn.spriteSheetGid = 5;
-// End BigBushAutumn
-
-// Begin SmallBush
-function SmallBush(game, x, y) {
-    Obstacle.call(this, game, x, y, 'smallBush');
-    this.createCentralCircle(10);
-}
-SmallBush.prototype = Object.create(Obstacle.prototype);
-SmallBush.prototype.constructor = SmallBush;
-SmallBush.defaultScale = 1;
-SmallBush.defaultHealth = 5000;
-SmallBush.coinsValue = 0;
-SmallBush.scoreValue = 10;
-SmallBush.spriteSheetGid = 64;
-// End SmallBush
-
-// Begin SnowyPine
-function SnowyPine(game, x, y) {
-    Obstacle.call(this, game, x, y, 'smallBush');
-    this.createCentralCircle(16);
-}
-SnowyPine.prototype = Object.create(Obstacle.prototype);
-SnowyPine.prototype.constructor = SnowyPine;
-SnowyPine.defaultScale = 1;
-SnowyPine.defaultHealth = 5000;
-SnowyPine.coinsValue = 0;
-SnowyPine.scoreValue = 20;
-SnowyPine.spriteSheetGid = 94;
-// End SnowyPine
-
-// Begin Rock
-function Rock(game, x, y) {
-    Obstacle.call(this, game, x, y, 'rock');
-    // this.createCentralCircle(18);
-}
-Rock.prototype = Object.create(Obstacle.prototype);
-Rock.prototype.constructor = Rock;
-Rock.defaultScale = 1;
-Rock.defaultHealth = 15000;
-Rock.coinsValue = 0;
-Rock.scoreValue = 50;
-Rock.spriteSheetGid = 51;
-// End Rock
-
-// Begin PurpleRock
-function PurpleRock(game, x, y) {
-    Obstacle.call(this, game, x, y, 'PurpleRock');
-    this.createCentralCircle(18);
-}
-PurpleRock.prototype = Object.create(Obstacle.prototype);
-PurpleRock.prototype.constructor = Rock;
-PurpleRock.defaultScale = 1;
-PurpleRock.defaultHealth = 15000;
-PurpleRock.coinsValue = 0;
-PurpleRock.scoreValue = 50;
-PurpleRock.spriteSheetGid = 59;
-// End Rock
-
-// Begin Crate
-function Crate(game, x, y) {
-    Obstacle.call(this, game, x, y, 'crate');
-    this.createCentralCircle(18);
-}
-Crate.prototype = Object.create(Obstacle.prototype);
-Crate.prototype.constructor = Crate;
-Crate.defaultScale = 1;
-Crate.defaultHealth = 15000;
-Crate.coinsValue = 0;
-Crate.scoreValue = 50;
-Crate.spriteSheetGid = 51;
-// End Crate
-
-
-// Begin Bulrush
-function Bulrush(game, x, y) {
-    Obstacle.call(this, game, x, y, 'bulrush');
-    this.createCentralCircle(8);
-}
-Bulrush.prototype = Object.create(Obstacle.prototype);
-Bulrush.prototype.constructor = Bulrush;
-Bulrush.defaultScale = 1;
-Bulrush.defaultHealth = 20000;
-Bulrush.coinsValue = 100;
-Bulrush.scoreValue = 150;
-Bulrush.spriteSheetGid = 78;
-Bulrush.prototype.die = function() {
-    Obstacle.prototype.die.call(this);
-
-    if (!mainState.hasItem('bulrushSeed')) {
-        mainState.addItem('bulrushSeed');
+    constructor(game, x, y)
+    {
+        super(game, x, y, 'pumpkin');
+        this.createCentralCircle(16);
     }
 
-};
-// End Bulrush
+    die()
+    {
+        super.die();
 
-// Begin Snowman
-function Snowman(game, x, y) {
-    Obstacle.call(this, game, x, y, 'snowman');
-    this.createCentralCircle(16);
+        if (!mainState.hasItem('pumpkin')) {
+            mainState.addItem('pumpkin');
+        }
+    }
 }
-Snowman.prototype = Object.create(Obstacle.prototype);
-Snowman.prototype.constructor = Snowman;
-Snowman.defaultScale = 1;
-Snowman.defaultHealth = 100000;
-Snowman.coinsValue = 100;
-Snowman.scoreValue = 150;
-Snowman.spriteSheetGid = 76;
-Snowman.prototype.die = function() {
-    Obstacle.prototype.die.call(this);
 
-    if (!mainState.hasItem('carrot')) {
-        mainState.addItem('carrot');
+class PinkCrystal extends Obstacle
+{
+    static get DEFAULT_SCALE() { return 1; }
+    static get DEFAULT_HEALTH() { return 30000; }
+    static get DEFAULT_COINS_VALUE() { return 200; }
+    static get DEFAULT_SCORE_VALUE() { return 200; }
+    static get SPRITE_SHEET_GID() { return 118; }
+
+    constructor(game, x, y)
+    {
+        super(game, x, y, 'PinkCrystal');
+        this.createCentralCircle(8);
     }
 
-};
-// End Snowman
+    die()
+    {
+        super.die();
 
-// Begin Pumpkin
-function Pumpkin(game, x, y) {
-    Obstacle.call(this, game, x, y, 'pumpkin');
-    this.createCentralCircle(16);
-}
-Pumpkin.prototype = Object.create(Obstacle.prototype);
-Pumpkin.prototype.constructor = Pumpkin;
-Pumpkin.defaultScale = 1;
-Pumpkin.defaultHealth = 10000;
-Pumpkin.coinsValue = 50;
-Pumpkin.scoreValue = 50;
-Pumpkin.spriteSheetGid = 60;
-Pumpkin.prototype.die = function() {
-    Obstacle.prototype.die.call(this);
-
-    if (!mainState.hasItem('pumpkin')) {
-        mainState.addItem('pumpkin');
+        if (!mainState.hasItem('pinkCrystal')) {
+            mainState.addItem('pinkCrystal');
+        }
     }
-
-};
-// End Pumpkin
-
-// Begin PinkCrystal
-function PinkCrystal(game, x, y) {
-    Obstacle.call(this, game, x, y, 'PinkCrystal');
-    this.createCentralCircle(8);
 }
-PinkCrystal.prototype = Object.create(Obstacle.prototype);
-PinkCrystal.prototype.constructor = PinkCrystal;
-PinkCrystal.defaultScale = 1;
-PinkCrystal.defaultHealth = 30000;
-PinkCrystal.coinsValue = 200;
-PinkCrystal.scoreValue = 200;
-PinkCrystal.spriteSheetGid = 118;
-PinkCrystal.prototype.die = function() {
-    Obstacle.prototype.die.call(this);
-
-    if (!mainState.hasItem('pinkCrystal')) {
-        mainState.addItem('pinkCrystal');
-    }
-
-};
-// End PinkCrystal
