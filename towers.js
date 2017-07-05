@@ -1,95 +1,106 @@
-function Tower(game, x, y, spriteName) {
-
-    $.extend( this, standard );
-
-    this.guid = guid();
-
-    Phaser.Sprite.call(this, game, x, y, spriteName);
-    game.physics.arcade.enable(this);
-
-    this.checkWorldBounds = true;
-    this.outOfBoundsKill = false;
-
-    var rangeInPixels = this.calculateRangeInPixels(1);
-    var bulletKillDistance = this.calculateBulletKillDistance(1);
-
-    this.weapon1 = this.game.add.weapon(3, window[this.constructor.name].bulletSpriteName, 0, this.game.bullets);
-    this.weapon1.bulletKillType = Phaser.Weapon.KILL_DISTANCE;
-    this.weapon1.bulletSpeed = this.calculateBulletSpeed();
-    this.weapon1.bulletKillDistance = bulletKillDistance;
-    this.weapon1.fireRate = window[this.constructor.name].defaultFireRate;
-    this.weapon1.angle = this.angleToTarget();
-    this.weapon1.rangeInPixels = rangeInPixels;
-
-    this.anchor.setTo(0.5, 0.5);
-
-    this.initialise(x, y);
-
-}
-Tower.prototype = Object.create(Phaser.Sprite.prototype);
-Tower.prototype.constructor = Tower;
-Tower.prototype.initialise = function(x, y)
+class Tower extends Phaser.Sprite
 {
-    this.grade = 1;
-    this.calculateSpecs();
+    constructor(game, x, y, spriteName)
+    {
+        super(game, x, y, spriteName);
 
-    this.frame = this.grade - 1;
+        $.extend( this, standard );
 
-    if (this.width != mainState.map.tileWidth) {
-        this.scaleToTile();
+        this.guid = guid();
+
+        game.physics.arcade.enable(this);
+
+        this.checkWorldBounds = true;
+        this.outOfBoundsKill = false;
+
+        let rangeInPixels = this.calculateRangeInPixels(1);
+        let bulletKillDistance = this.calculateBulletKillDistance(1);
+
+        this.weapon1 = this.game.add.weapon(3, window[this.constructor.name].bulletSpriteName, 0, this.game.bullets);
+        this.weapon1.bulletKillType = Phaser.Weapon.KILL_DISTANCE;
+        this.weapon1.bulletSpeed = this.calculateBulletSpeed();
+        this.weapon1.bulletKillDistance = bulletKillDistance;
+        this.weapon1.fireRate = window[this.constructor.name].defaultFireRate;
+        this.weapon1.angle = this.angleToTarget();
+        this.weapon1.rangeInPixels = rangeInPixels;
+
+        this.anchor.setTo(0.5, 0.5);
+
+        this.initialise(x, y);
     }
 
-    var gridCoordinates = mainState.translatePixelCoordinatesToGridCoordinates(x, y);
-    this.gridX = gridCoordinates[0];
-    this.gridY = gridCoordinates[1];
+    initialise(x, y)
+    {
+        this.grade = 1;
+        this.calculateSpecs();
 
-    this.target = {};
+        this.frame = this.grade - 1;
 
-    this.bulletDamageValue = window[this.constructor.name].defaultDamageValue;
+        if (this.width !== mainState.map.tileWidth)
+        {
+            this.scaleToTile();
+        }
 
-    if (mainState.level.canPlaceTowerOnPathway) {
-        mainState.addGlobalImpassablePoint(this.gridX, this.gridY, 'grid');
+        let gridCoordinates = mainState.translatePixelCoordinatesToGridCoordinates(x, y);
+        this.gridX = gridCoordinates[0];
+        this.gridY = gridCoordinates[1];
+
+        this.target = {};
+
+        this.bulletDamageValue = window[this.constructor.name].defaultDamageValue;
+
+        if (mainState.level.canPlaceTowerOnPathway)
+        {
+            mainState.addGlobalImpassablePoint(this.gridX, this.gridY, 'grid');
+        }
+
+        this.body.immovable = true;
+        this.body.moves = false;
+
+        this.weapon1.trackSprite(this);
     }
 
-    this.body.immovable = true;
-    this.body.moves = false;
+    update()
+    {
+        if (!this.alive)
+        {
+            return false;
+        }
 
-    this.weapon1.trackSprite(this);
+        // If pendingLevelCompleted, do nothing
+        if (mainState.pendingLevelCompleted)
+        {
+            return;
+        }
 
-};
-Tower.prototype.update = function()
-{
-    if (!this.alive) {
-        return false;
+        if (this.game.time.now >= this.weapon1._nextFire)
+        {
+            this.determineTarget();
+        }
+        this.fire();
+
+        if (this.hasTarget())
+        {
+            this.angle = this.angleToTarget();
+        }
     }
 
-    // If pendingLevelCompleted, do nothing
-    if (mainState.pendingLevelCompleted) {
-        return;
-    }
-
-    if (this.game.time.now >= this.weapon1._nextFire) {
-        this.determineTarget();
-    }
-    this.fire();
-
-    if (this.hasTarget()) {
-        this.angle = this.angleToTarget();
-    }
-};
-Tower.prototype.fire = function()
-{
-    if (this.hasTarget()) {
+    fire()
+    {
+        if (!this.hasTarget())
+        {
+            return
+        }
 
         this.weapon1.fireAngle = this.angleToTarget() - 90;
 
-        var angleRadians = Number(this.angleToTarget() * (Math.PI / 180) );
-        var offsetDistance = 15;
-        var offsetX = Math.round(offsetDistance * Math.sin(angleRadians));
-        var offsetY = -Math.round(offsetDistance * Math.cos(angleRadians));
+        let angleRadians = Number(this.angleToTarget() * (Math.PI / 180) );
+        let offsetDistance = 15;
+        let offsetX = Math.round(offsetDistance * Math.sin(angleRadians));
+        let offsetY = -Math.round(offsetDistance * Math.cos(angleRadians));
         this.weapon1.trackSprite(this, offsetX, offsetY, false);
 
-        var bullet = this.weapon1.fire();
+        let bullet = this.weapon1.fire();
 
         if (bullet) {
 
@@ -105,224 +116,248 @@ Tower.prototype.fire = function()
             bullet.target = this.target;
             bullet.speed = this.weapon1.bulletSpeed;
 
-            if (mainState.level.bulletsCanOnlyHitTarget) {
+            if (mainState.level.bulletsCanOnlyHitTarget)
+            {
                 bullet.canOnlyHitTarget = true;
             }
 
-            if (!bullet.guid) {
+            if (!bullet.guid)
+            {
                 bullet.guid = guid();
             }
 
         }
 
-        if (typeof this.target.calculateProjectedHealth == 'function') {
+        if (typeof this.target.calculateProjectedHealth === 'function')
+        {
             this.target.calculateProjectedHealth();
         }
     }
-};
-Tower.prototype.die = function()
-{
-    if (!this.alive) {
-        return false;
-    }
 
-    // this.weapon1.destroy();
-
-    mainState.removeGlobalImpassablePoint(this.gridX, this.gridY);
-
-    this.kill();
-};
-Tower.prototype.determineTarget = function()
-{
-    var target = {};
-    var mostAdvanced = 1;
-
-    if (this.game.target.guid) {
-        var distanceBetween = game.physics.arcade.distanceBetween(this, this.game.target);
-        if (distanceBetween < this.weapon1.rangeInPixels) {
-            target = this.game.target;
+    die()
+    {
+        if (!this.alive)
+        {
+            return false;
         }
+
+        // this.weapon1.destroy();
+
+        mainState.removeGlobalImpassablePoint(this.gridX, this.gridY);
+
+        this.kill();
     }
 
-    // If target obtained from this.game.target, no need to iterate through attackers
-    if (target.guid) {
-        this.setTarget(target);
-        return;
-    }
+    determineTarget()
+    {
+        let target = {};
+        let mostAdvanced = 1;
 
-    mainState.attackers.forEachAlive(function(item) {
+        if (this.game.target.guid)
+        {
+            let distanceBetween = game.physics.arcade.distanceBetween(this, this.game.target);
+            if (distanceBetween < this.weapon1.rangeInPixels)
+            {
+                target = this.game.target;
+            }
+        }
 
-        // If not in camera, don't target
-        if (!item.inCamera) {
+        // If target obtained from this.game.target, no need to iterate through attackers
+        if (target.guid)
+        {
+            this.setTarget(target);
             return;
         }
 
-        var distanceBetween = game.physics.arcade.distanceBetween(this, item);
+        mainState.attackers.forEachAlive(function(item) {
 
-        if (distanceBetween < this.weapon1.rangeInPixels) {
-
-            var advanced = item.getAdvancement() + (item.getAgeInTurns() * 0.01);
-
-            if (
-                !target.targeted // If target is targeted, we've found the target.
-                &&
-                (advanced > mostAdvanced || item.targeted)
-                &&
-                item.projectedHealth > 0
-            ) {
-                mostAdvanced = advanced;
-                target = item;
+            // If not in camera, don't target
+            if (!item.inCamera)
+            {
+                return;
             }
 
+            let distanceBetween = game.physics.arcade.distanceBetween(this, item);
+
+            if (distanceBetween < this.weapon1.rangeInPixels)
+            {
+
+                let advanced = item.getAdvancement() + (item.getAgeInTurns() * 0.01);
+
+                if (
+                    !target.targeted // If target is targeted, we've found the target.
+                    &&
+                    (advanced > mostAdvanced || item.targeted)
+                    &&
+                    item.projectedHealth > 0
+                ) {
+                    mostAdvanced = advanced;
+                    target = item;
+                }
+
+            }
+
+
+        }, this);
+
+        this.setTarget(target);
+    }
+
+    setTarget(target)
+    {
+        if (this.target.guid && this.target.guid === target.guid)
+        {
+            return;
         }
 
-
-    }, this);
-
-    this.setTarget(target);
-
-};
-Tower.prototype.setTarget = function(target)
-{
-    if (this.target.guid && this.target.guid == target.guid) {
-        return;
+        this.target = target;
     }
 
-    this.target = target;
-};
-Tower.prototype.hasTarget = function()
-{
-    if (this.target && this.target.hasOwnProperty("body")) {
+    hasTarget()
+    {
+        return (this.target && this.target.hasOwnProperty("body"));
+    }
+
+    angleToTarget()
+    {
+        let angleToTarget = 0;
+
+        if (this.hasTarget())
+        {
+            angleToTarget = this.angleToSprite(this.target) + 90;
+        }
+
+        return angleToTarget;
+    }
+
+    angleToSprite(otherSprite)
+    {
+        return Math.atan2(otherSprite.body.y - this.body.y, otherSprite.body.x - this.body.x ) * (180/Math.PI);
+    }
+
+    prepareForGameOver()
+    {
+        this.weapon1.fireRate = 9999999;
+    }
+
+    calculateSpecs()
+    {
+        this.bulletDamageValue = window[this.constructor.name].defaultDamageValue * this.grade;
+        this.weapon1.fireRate = window[this.constructor.name].defaultFireRate * 1.1 - (this.grade / 8);
+        this.weapon1.rangeInPixels = this.calculateRangeInPixels(this.grade);
+        this.weapon1.bulletKillDistance = this.calculateBulletKillDistance(this.grade);
+    }
+
+    calculateRangeInPixels(grade)
+    {
+        let rangeInPixels = window[this.constructor.name].range * mainState.map.tileWidth;
+        rangeInPixels *= (1 + ((grade - 1) * .3));
+        this.rangeInPixels = rangeInPixels;
+        return rangeInPixels;
+    }
+
+    calculateBulletKillDistance(grade)
+    {
+        let bulletKillDistance = this.calculateRangeInPixels(grade);
+        if (mainState.level.bulletsCanOnlyHitTarget)
+        {
+            bulletKillDistance *= 1.6;
+        }
+        return bulletKillDistance;
+    }
+
+    upgradable()
+    {
+        return !(this.grade >= window[this.constructor.name].maximumGrade);
+    }
+
+    getCost()
+    {
+        return window[this.constructor.name].cost;
+    }
+
+    getSellValue()
+    {
+        return Math.round((window[this.constructor.name].cost * this.grade) * .6);
+    }
+
+    sell()
+    {
+        mainState.changeCoins(this.getSellValue(), this.x, this.y);
+        this.die();
+    }
+
+    sellable()
+    {
         return true;
-    } else {
-        return false;
-    }
-};
-Tower.prototype.angleToTarget = function()
-{
-    var angleToTarget = 0;
-
-    if (this.hasTarget()) {
-        angleToTarget = this.angleToSprite(this.target) + 90;
     }
 
-    return angleToTarget;
-};
-Tower.prototype.angleToSprite = function(otherSprite)
-{
-    return Math.atan2(otherSprite.body.y - this.body.y, otherSprite.body.x - this.body.x ) * (180/Math.PI);
-};
+    upgrade()
+    {
+        if (!this.upgradable())
+        {
+            return false;
+        }
 
-Tower.prototype.prepareForGameOver = function()
-{
-    this.weapon1.fireRate = 9999999;
-};
+        this.grade ++;
+        this.calculateSpecs();
+        this.frame = (this.grade - 1);
 
-Tower.prototype.calculateSpecs = function()
-{
-    this.bulletDamageValue = window[this.constructor.name].defaultDamageValue * this.grade;
-    this.weapon1.fireRate = window[this.constructor.name].defaultFireRate * 1.1 - (this.grade / 8);
-    this.weapon1.rangeInPixels = this.calculateRangeInPixels(this.grade);
-    this.weapon1.bulletKillDistance = this.calculateBulletKillDistance(this.grade);
-};
-Tower.prototype.calculateRangeInPixels = function(grade)
-{
-    var rangeInPixels = window[this.constructor.name].range * mainState.map.tileWidth;
-    rangeInPixels *= (1 + ((grade - 1) * .3));
-    this.rangeInPixels = rangeInPixels;
-    return rangeInPixels;
-};
-Tower.prototype.calculateBulletKillDistance = function(grade)
-{
-    var bulletKillDistance = this.calculateRangeInPixels(grade);
-    if (mainState.level.bulletsCanOnlyHitTarget) {
-        bulletKillDistance *= 1.6;
-    }
-    return bulletKillDistance;
-};
-Tower.prototype.upgradable = function()
-{
-    if (this.grade >= window[this.constructor.name].maximumGrade) {
-        return false;
+        return true;
     }
 
-    return true;
-};
-Tower.prototype.getCost = function()
-{
-    return window[this.constructor.name].cost;
-};
-Tower.prototype.getSellValue = function()
-{
-    return Math.round((window[this.constructor.name].cost * this.grade) * .6);
-};
-Tower.prototype.sell = function()
-{
-    mainState.changeCoins(this.getSellValue(), this.x, this.y);
-    this.die();
-};
-Tower.prototype.sellable = function()
-{
-    return true;
-};
-Tower.prototype.upgrade = function()
-{
-    if (!this.upgradable()) {
-        return false;
+    upgradeAtCost()
+    {
+        this.upgrade();
+        let cost = this.getUpgradeCost();
+        mainState.changeCoins(-cost, this.x, this.y);
     }
 
-    this.grade ++;
-    this.calculateSpecs();
-    this.frame = (this.grade - 1);
-
-    return true;
-};
-Tower.prototype.upgradeAtCost = function()
-{
-    this.upgrade();
-    var cost = this.getUpgradeCost();
-    mainState.changeCoins(-cost, this.x, this.y);
-};
-Tower.prototype.getUpgradeCost = function()
-{
-    return this.getCost();
-};
-Tower.prototype.reuse = function(x, y)
-{
-
-    this.reset(x, y);
-    this.initialise(x, y);
-
-};
-Tower.prototype.scaleToTile = function()
-{
-    var scale = 1 / (this.width / mainState.map.tileWidth);
-    this.scale.setTo(scale, scale);
-};
-Tower.prototype.calculateBulletSpeed = function()
-{
-    // Default speed is 400
-    var bulletSpeed = 400;
-    // pace is tiles per second
-    if (window[this.constructor.name].bulletPace) {
-        bulletSpeed = mainState.map.tileWidth * window[this.constructor.name].bulletPace;
-    } else if (window[this.constructor.name].defaultBulletSpeed) {
-        bulletSpeed = window[this.constructor.name].defaultBulletSpeed;
+    getUpgradeCost()
+    {
+        return this.getCost();
     }
 
-    return bulletSpeed;
-};
+    reuse(x, y)
+    {
+        this.reset(x, y);
+        this.initialise(x, y);
+    }
 
+    scaleToTile()
+    {
+        let scale = 1 / (this.width / mainState.map.tileWidth);
+        this.scale.setTo(scale, scale);
+    }
 
-function Gun(game, x, y) {
-    Tower.call(this, game, x, y, Gun.spriteName);
-    this.body.setSize(14, 19, 4, 7);
-    this.weapon1.setBulletBodyOffset(15, 15, 25, 25);
+    calculateBulletSpeed()
+    {
+        // Default speed is 400
+        let bulletSpeed = 400;
+        // pace is tiles per second
+        if (window[this.constructor.name].bulletPace)
+        {
+            bulletSpeed = mainState.map.tileWidth * window[this.constructor.name].bulletPace;
+        }
+        else if (window[this.constructor.name].defaultBulletSpeed)
+        {
+            bulletSpeed = window[this.constructor.name].defaultBulletSpeed;
+        }
+
+        return bulletSpeed;
+    }
 }
-Gun.prototype = Object.create(Tower.prototype);
-Gun.prototype.constructor = Gun;
-Gun.prototype.update = function() {
-    Tower.prototype.update.call(this);
+
+window.Gun = class Gun extends Tower
+{
+    static get DEFAULT_SCALE() { return .5; }
+
+    constructor(game, x, y)
+    {
+        super(game, x, y, Gun.spriteName);
+        this.body.setSize(14, 19, 4, 7);
+        this.weapon1.setBulletBodyOffset(15, 15, 25, 25);
+    }
 };
 Gun.defaultScale = .5;
 Gun.defaultDamageValue = 500;
@@ -335,15 +370,17 @@ Gun.bulletSpriteName = 'bullet';
 Gun.bulletPace = 14;
 Gun.bulletHitDecorationClassName = 'Explosion';
 
-function Freezer(game, x, y) {
-    Tower.call(this, game, x, y, Freezer.spriteName);
-    this.body.setSize(14, 19, 4, 7);
-    this.weapon1.setBulletBodyOffset(12, 12, 8, 8);
-}
-Freezer.prototype = Object.create(Tower.prototype);
-Freezer.prototype.constructor = Freezer;
-Freezer.prototype.update = function() {
-    Tower.prototype.update.call(this);
+
+window.Freezer = class Freezer extends Tower
+{
+    static get DEFAULT_SCALE() { return .5; }
+
+    constructor(game, x, y)
+    {
+        super(game, x, y, Freezer.spriteName);
+        this.body.setSize(14, 19, 4, 7);
+        this.weapon1.setBulletBodyOffset(12, 12, 8, 8);
+    }
 };
 Freezer.defaultScale = .5;
 Freezer.defaultDamageValue = 200;
@@ -357,15 +394,16 @@ Freezer.bulletPace = 14;
 Freezer.bulletHitDecorationClassName = 'Zap';
 Freezer.bulletHitDecorationTint = 0x0000FF;
 
-function Laser(game, x, y) {
-    Tower.call(this, game, x, y, Laser.spriteName);
-    this.body.setSize(14, 19, 4, 7);
-    this.weapon1.setBulletBodyOffset(12, 12, 8, 8);
-}
-Laser.prototype = Object.create(Tower.prototype);
-Laser.prototype.constructor = Laser;
-Laser.prototype.update = function() {
-    Tower.prototype.update.call(this);
+window.Laser = class Laser extends Tower
+{
+    static get DEFAULT_SCALE() { return .5; }
+
+    constructor(game, x, y)
+    {
+        super(game, x, y, Laser.spriteName);
+        this.body.setSize(14, 19, 4, 7);
+        this.weapon1.setBulletBodyOffset(12, 12, 8, 8);
+    }
 };
 Laser.defaultScale = .5;
 Laser.defaultDamageValue = 200;

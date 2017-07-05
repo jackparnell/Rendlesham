@@ -28,13 +28,12 @@ Rendlesham.achievements.prototype.create = function()
 {
     this.loadUser();
 
-
-    var level;
-    var userLevelHighScore;
+    let level;
+    let userLevelHighScore;
 
     this.addButtonTextLink('backLink', 'Back', 20, 'smallDark', 10, 10, 'right', 'goToTitleScreen');
 
-    var y = 20;
+    let y = 20;
 
     this.heading_highScores = game.add.bitmapText(
         20,
@@ -46,7 +45,7 @@ Rendlesham.achievements.prototype.create = function()
 
     y += 45;
 
-    for (var levelNumber in zones.eastAnglia.levelOrdering) {
+    for (let levelNumber in zones.eastAnglia.levelOrdering) {
         if (zones.eastAnglia.levelOrdering.hasOwnProperty(levelNumber)) {
 
             level = getLevelByName(zones.eastAnglia.levelOrdering[levelNumber]);

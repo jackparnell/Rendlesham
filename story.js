@@ -24,19 +24,19 @@ Rendlesham.story.prototype.create = function()
 {
     this.level = window[zones[this.zoneName].levelOrdering[this.levelNumber]];
 
-    if (!this.level.story) {
+    if (!this.level.story)
+    {
         this.beginLevel();
     }
 
-
-    for (var i in this.level.storyImages) {
-        if (this.level.storyImages.hasOwnProperty(i)) {
-
+    for (let i in this.level.storyImages)
+    {
+        if (this.level.storyImages.hasOwnProperty(i))
+        {
             this['image' + i] = game.add.tileSprite(0, 0, game.camera.width, game.camera.height, this.level.storyImages[i].name);
             this['image' + i].fixedToCamera = true;
             this['image' + i].alpha = 0;
             this.backgrounds.add(this['image' + i]);
-
         }
     }
 
@@ -53,9 +53,12 @@ Rendlesham.story.prototype.nextImage = function()
     this['image' + this.currentImage].alpha = 0;
     this.currentImage ++;
 
-    if (this.level.storyImages.hasOwnProperty(this.currentImage)) {
+    if (this.level.storyImages.hasOwnProperty(this.currentImage))
+    {
         this['image' + this.currentImage].alpha = 1;
-    } else {
+    }
+    else
+    {
         this.beginLevel();
     }
 
@@ -63,7 +66,7 @@ Rendlesham.story.prototype.nextImage = function()
 
 Rendlesham.story.prototype.beginLevel = function()
 {
-    var obj = {
+    let obj = {
         zoneName: this.zoneName,
         levelNumber: this.levelNumber,
         mode: this.mode

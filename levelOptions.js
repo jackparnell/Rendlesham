@@ -27,7 +27,7 @@ Rendlesham.levelOptions.prototype.create = function()
 
     game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
 
-    if (game.device.desktop == false) {
+    if (game.device.desktop === false) {
         game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
         game.scale.setMinMax(game.width/2, game.height/2, game.width, game.height);
     }
@@ -45,24 +45,31 @@ Rendlesham.levelOptions.prototype.create = function()
 
     this.addButtonTextLink('playClassicLink', 'Play Classic Mode', 36, 'forestGreen', 0, game.height * .27, 'center', 'playClassic');
 
-    var modes = ['classic', 'epic', 'endless'];
-    var highScoreInfo;
-    var y;
-    var modeName;
-    var noValueTerm;
-    var textTint;
-    for (var i = 0; i < modes.length; i++) {
+    let modes = ['classic', 'epic', 'endless'];
+    let highScoreInfo;
+    let y;
+    let modeName;
+    let noValueTerm;
+    let textTint;
+    for (let i = 0; i < modes.length; i++)
+    {
 
         modeName = ucfirst(modes[i]);
 
-        if (this.user.levelHighScores[modes[i]][this.level.name]) {
+        if (this.user.levelHighScores[modes[i]][this.level.name])
+        {
             highScoreInfo = 'Your ' + modeName + ' High Score: ' + this.user.levelHighScores[modes[i]][this.level.name];
             textTint = 0xFFFFFF;
-        } else {
+        }
+        else
+        {
             textTint = 0x888888;
-            if (modes[i] == 'endless') {
+            if (modes[i] === 'endless')
+            {
                 noValueTerm = 'Unplayed';
-            } else {
+            }
+            else
+            {
                 noValueTerm = 'Unbeaten';
             }
             highScoreInfo = modeName + ' Mode ' + noValueTerm;
@@ -102,13 +109,13 @@ Rendlesham.levelOptions.prototype.goToZone = function(button)
 
 Rendlesham.levelOptions.prototype.playClassic = function(button)
 {
-    var obj = {
+    let obj = {
         zoneName: this.zoneName,
         levelNumber: this.levelNumber,
         mode: 'classic'
     };
 
-    var goToState = 'main';
+    let goToState = 'main';
     if (this.level.story) {
         goToState = 'story';
     }
@@ -118,13 +125,13 @@ Rendlesham.levelOptions.prototype.playClassic = function(button)
 
 Rendlesham.levelOptions.prototype.playEpic = function(button)
 {
-    var obj = {
+    let obj = {
         zoneName: this.zoneName,
         levelNumber: this.levelNumber,
         mode: 'epic'
     };
 
-    var goToState = 'main';
+    let goToState = 'main';
     if (this.level.story) {
         goToState = 'story';
     }
@@ -134,13 +141,13 @@ Rendlesham.levelOptions.prototype.playEpic = function(button)
 
 Rendlesham.levelOptions.prototype.playEndless = function(button)
 {
-    var obj = {
+    let obj = {
         zoneName: this.zoneName,
         levelNumber: this.levelNumber,
         mode: 'endless'
     };
 
-    var goToState = 'main';
+    let goToState = 'main';
     if (this.level.story) {
         goToState = 'story';
     }

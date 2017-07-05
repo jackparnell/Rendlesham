@@ -23,7 +23,7 @@ Rendlesham.gameOver.prototype.init = function(obj)
 
 Rendlesham.gameOver.prototype.tryAgain = function()
 {
-    var obj = {
+    let obj = {
         zoneName: this.zoneName,
         levelNumber: this.levelId,
         mode: this.mode
@@ -33,7 +33,7 @@ Rendlesham.gameOver.prototype.tryAgain = function()
 
 Rendlesham.gameOver.prototype.create = function()
 {
-    if (game.device.desktop == false) {
+    if (game.device.desktop === false) {
         game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
         game.scale.setMinMax(game.width/2, game.height/2, game.width, game.height);
     }
@@ -46,9 +46,10 @@ Rendlesham.gameOver.prototype.create = function()
     this.capturedText.align = 'center';
     this.capturedText.x = (game.width * .5) - (this.capturedText.width * .5);
 
-    var replayText = 'Try Again';
-    var details = 'You were captured by the humans in wave ' + this.waveReached + '.';
-    if (this.mode == 'endless') {
+    let replayText = 'Try Again';
+    let details = 'You were captured by the humans in wave ' + this.waveReached + '.';
+    if (this.mode === 'endless')
+    {
         replayText = 'Play Again';
         details = 'Score: ' + this.score;
     }

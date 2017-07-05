@@ -1,4 +1,5 @@
-function guid() {
+function guid()
+{
     function s4() {
         return Math.floor((1 + Math.random()) * 0x10000)
             .toString(16)
@@ -8,11 +9,13 @@ function guid() {
         s4() + '-' + s4() + s4() + s4();
 }
 
-function getRandomInteger(min, max) {
+function getRandomInteger(min, max)
+{
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function changeGameState(stateName){
+function changeGameState(stateName)
+{
     if (!stateName) {
         stateName = 'titleScreen';
     }
@@ -22,7 +25,7 @@ function changeGameState(stateName){
 function loadMainFiles()
 {
 
-    for (var zoneName in zones) {
+    for (let zoneName in zones) {
         game.load.image(zoneName, 'assets/backgrounds/' + zoneName + '.png');
     }
 
@@ -91,8 +94,8 @@ function loadMainFiles()
     game.load.spritesheet('tallRedMushroom', 'assets/sprites/obstacles/tallRedMushroom.png', 35, 35, 1);
     game.load.spritesheet('pumpkin', 'assets/sprites/obstacles/pumpkin.png', 35, 35, 1);
 
-    var property;
-    var level;
+    let property;
+    let level;
     for (property in zones.eastAnglia.levelOrdering) {
         if (zones.eastAnglia.levelOrdering.hasOwnProperty(property)) {
             level = window[zones.eastAnglia.levelOrdering[property]];
@@ -128,14 +131,14 @@ function loadMainFiles()
 
 function getLevelByName(levelName) {
 
-    var item;
-    var level;
+    let item;
+    let level;
 
     for (var property in zones.eastAnglia.levelOrdering) {
         if (zones.eastAnglia.levelOrdering.hasOwnProperty(property)) {
             item = window[zones.eastAnglia.levelOrdering[property]];
 
-            if (item.name && item.name == levelName) {
+            if (item.name && item.name === levelName) {
                 level = item;
             }
         }

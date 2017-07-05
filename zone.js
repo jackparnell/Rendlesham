@@ -35,7 +35,8 @@ Rendlesham.zone.prototype.create = function()
 
     game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
 
-    if (game.device.desktop == false) {
+    if (game.device.desktop === false)
+    {
         game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
         game.scale.setMinMax(game.width/2, game.height/2, game.width, game.height);
     }
@@ -132,7 +133,7 @@ Rendlesham.zone.prototype.create = function()
 
     this.drawLinesBetweenLevels();
 
-    for (var i = 1; i <= this.lastLevel; i++) {
+    for (let i = 1; i <= this.lastLevel; i++) {
 
         this['level' + i + 'Button'] = game.add.button(
             this.levels[i].x,
@@ -162,14 +163,19 @@ Rendlesham.zone.prototype.create = function()
     this.titleText.x = (game.width * .5) - (this.titleText.width * .5);
     this.titleText.alpha = .5;
 
-    if (this.user.zones && this.user.zones[this.zoneName]) {
+    if (this.user.zones && this.user.zones[this.zoneName])
+    {
         this.game.camera.x = this.user.zones[this.zoneName].cameraX || 0;
         this.game.camera.y = this.user.zones[this.zoneName].cameraY || 0;
-    } else {
-        if (!this.user.zones) {
+    }
+    else
+    {
+        if (!this.user.zones)
+        {
             this.user.zones = {};
         }
-        if (!this.user.zones[this.zoneName]) {
+        if (!this.user.zones[this.zoneName])
+        {
             this.user.zones[this.zoneName] = {};
         }
     }
@@ -192,9 +198,10 @@ Rendlesham.zone.prototype.shutdown = function()
 
 Rendlesham.zone.prototype.clickLevelButton = function(levelButton)
 {
-    var levelNumber = levelButton.levelNumber;
+    let levelNumber = levelButton.levelNumber;
 
-    if (!this.isLevelUnlocked(levelNumber)) {
+    if (!this.isLevelUnlocked(levelNumber))
+    {
         return false;
     }
 
@@ -203,33 +210,29 @@ Rendlesham.zone.prototype.clickLevelButton = function(levelButton)
 
 Rendlesham.zone.prototype.isLevelUnlocked = function(levelNumber)
 {
-    if (levelNumber == 1) {
+    if (levelNumber === 1) {
         return true;
     }
 
-    var level = this.getLevelFromZoneAndNumber(this.zoneName, levelNumber);
+    let level = this.getLevelFromZoneAndNumber(this.zoneName, levelNumber);
 
-    if (level && level.hasOwnProperty('previousLevelName') && this.hasUserCompletedLevel(level.previousLevelName)) {
-        return true;
-    }
-
-    return false;
+    return (level && level.hasOwnProperty('previousLevelName') && this.hasUserCompletedLevel(level.previousLevelName));
 };
 
 Rendlesham.zone.prototype.hasUserCompletedLevel = function(levelName)
 {
-    var completed = false;
+    let completed = false;
 
-    var modes = ['classic', 'epic', 'endless'];
+    let modes = ['classic', 'epic', 'endless'];
 
-    for (var i = 0; i < modes.length; i++) {
+    for (let i = 0; i < modes.length; i++) {
         if (this.user.levelCompletions[modes[i]][levelName]) {
             completed = true;
         }
     }
 
-    var levelNumber = this.getLevelNumberFromZoneAndName(this.zoneName, levelName);
-    if (this.zoneName == 'eastAnglia' && this.user.levelsComplete[levelNumber]) {
+    let levelNumber = this.getLevelNumberFromZoneAndName(this.zoneName, levelName);
+    if (this.zoneName === 'eastAnglia' && this.user.levelsComplete[levelNumber]) {
         return true;
     }
 
@@ -239,8 +242,8 @@ Rendlesham.zone.prototype.hasUserCompletedLevel = function(levelName)
 
 Rendlesham.zone.prototype.writeLevelText = function(levelNumber)
 {
-    var x = this.levels[levelNumber].x + 16;
-    var y = this.levels[levelNumber].y - 19;
+    let x = this.levels[levelNumber].x + 16;
+    let y = this.levels[levelNumber].y - 19;
 
     this['level' + levelNumber + 'Text'] = game.add.bitmapText(
         x,
@@ -258,24 +261,28 @@ Rendlesham.zone.prototype.addLevelStars = function(levelNumber)
         return;
     }
 
-    var levelName = zones[this.zoneName].levelOrdering[levelNumber];
+    let levelName = zones[this.zoneName].levelOrdering[levelNumber];
 
-    var stars = this.user.levelStars[levelName] || 0;
+    let stars = this.user.levelStars[levelName] || 0;
 
-    var x = this.levels[levelNumber].x - 13;
-    var y = this.levels[levelNumber].y + 35;
+    let x = this.levels[levelNumber].x - 13;
+    let y = this.levels[levelNumber].y + 35;
 
-    var spriteName;
+    let spriteName;
 
-    for (var i = 1; i <= 3; i++) {
+    for (let i = 1; i <= 3; i++)
+    {
 
-        if (i <= stars) {
+        if (i <= stars)
+        {
             spriteName = 'starYellow';
-        } else {
+        }
+        else
+        {
             spriteName = 'starCharcoal';
         }
 
-        var star = game.add.sprite(x, y, spriteName);
+        let star = game.add.sprite(x, y, spriteName);
         star.scale.setTo(.1, .1);
 
         x += 20;
@@ -284,28 +291,30 @@ Rendlesham.zone.prototype.addLevelStars = function(levelNumber)
 
 Rendlesham.zone.prototype.drawLinesBetweenLevels = function()
 {
-    var graphics = game.add.graphics(0, 0);
+    let graphics = game.add.graphics(0, 0);
 
     graphics.lineStyle(3, 0x886666, 1);
 
-    for (var i = 1; i <= this.lastLevel; i++) {
+    for (let i = 1; i <= this.lastLevel; i++)
+    {
+        let level = this.getLevelFromZoneAndNumber(this.zoneName, i);
 
-        var level = this.getLevelFromZoneAndNumber(this.zoneName, i);
+        if (level && level.hasOwnProperty('previousLevelName'))
+        {
+            let previousLevelNumber = this.getLevelNumberFromZoneAndName(this.zoneName, level.previousLevelName);
 
-        if (level && level.hasOwnProperty('previousLevelName')) {
-            var previousLevelNumber = this.getLevelNumberFromZoneAndName(this.zoneName, level.previousLevelName);
-
-            if (previousLevelNumber) {
-                var startX = this.levels[i].x + 16;
-                var startY = this.levels[i].y + 16;
+            if (previousLevelNumber)
+            {
+                let startX = this.levels[i].x + 16;
+                let startY = this.levels[i].y + 16;
 
                 graphics.moveTo(
                     Math.round(startX),
                     Math.round(startY)
                 );
 
-                var finishX = this.levels[previousLevelNumber].x + 16;
-                var finishY = this.levels[previousLevelNumber].y + 16;
+                let finishX = this.levels[previousLevelNumber].x + 16;
+                let finishY = this.levels[previousLevelNumber].y + 16;
 
                 graphics.lineTo(
                     Math.round(finishX),
@@ -313,9 +322,7 @@ Rendlesham.zone.prototype.drawLinesBetweenLevels = function()
                 );
 
             }
-
         }
-
     }
 };
 

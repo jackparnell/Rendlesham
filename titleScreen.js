@@ -23,7 +23,8 @@ Rendlesham.titleScreen.prototype.create = function()
 
     game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
 
-    if (game.device.desktop == false) {
+    if (game.device.desktop === false)
+    {
         game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
         game.scale.setMinMax(game.width/2, game.height/2, game.width, game.height);
     }
@@ -47,11 +48,11 @@ Rendlesham.titleScreen.prototype.create = function()
     this.captionText.x = (game.width * .5) - (this.captionText.width * .5);
     this.captionText.tint = 0xFFCCCC;
 
-    var tips = [
+    let tips = [
         "Save Nathan the alien from being captured by the humans."
     ];
 
-    var tipTextContent = tips[Math.floor(Math.random() * tips.length)];
+    let tipTextContent = tips[Math.floor(Math.random() * tips.length)];
 
     this.tipText = game.add.bitmapText(500, game.height * .53, bitmapFontName, tipTextContent, 20);
     this.tipText.x = (game.width * .5) - (this.tipText.width * .5);
@@ -71,10 +72,13 @@ Rendlesham.titleScreen.prototype.showAchievements = function()
 
 Rendlesham.titleScreen.prototype.goToZone = function(zoneButton)
 {
-    var zoneName;
-    if (zoneButton && zoneButton.zoneName) {
+    let zoneName;
+    if (zoneButton && zoneButton.zoneName)
+    {
         zoneName = zoneButton.zoneName;
-    } else {
+    }
+    else
+    {
         zoneName = 'eastAnglia';
     }
 

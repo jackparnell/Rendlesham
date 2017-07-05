@@ -9,8 +9,6 @@ class Obstacle extends Phaser.Sprite
         this.guid = guid();
         this.creationTurn = mainState.turn;
 
-        console.log(this);
-
         this.health = this.constructor.DEFAULT_HEALTH || 1000;
         this.maximumHealth = this.health;
         this.coinsValue = this.constructor.DEFAULT_COINS_VALUE || 0;
@@ -62,11 +60,9 @@ class Obstacle extends Phaser.Sprite
             return false;
         }
 
-        console.log(obstacle.health);
         if (!this.invulnerable) {
             obstacle.health -= bullet.damageValue;
         }
-        console.log(obstacle.health);
 
         let decorationClassName = window[bullet.towerClass].bulletHitDecorationClassName || 'Explosion';
         let decorationTint = window[bullet.towerClass].bulletHitDecorationTint || '0xFFFFFF';
@@ -206,7 +202,7 @@ class Obstacle extends Phaser.Sprite
 
         healthBarFrame = 20 - healthBarFrame;
 
-        if (healthBarFrame != this.healthBar.frame) {
+        if (healthBarFrame !== this.healthBar.frame) {
             this.healthBar.frame = healthBarFrame;
         }
 
@@ -246,7 +242,7 @@ class Obstacle extends Phaser.Sprite
     {
         this.targeted = false;
 
-        if (this.game.target.guid && this.guid == this.game.target.guid) {
+        if (this.game.target.guid && this.guid === this.game.target.guid) {
             mainState.noTarget();
         }
 
