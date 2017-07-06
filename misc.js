@@ -1,3 +1,5 @@
+var Rendlesham = Rendlesham || {};
+
 function guid()
 {
     function s4() {

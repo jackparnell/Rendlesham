@@ -1,12 +1,7 @@
-Rendlesham.preloader = function(game) {};
-
-Rendlesham.preloader.prototype = $.extend(true, {}, Rendlesham.gameState.prototype);
-
-Rendlesham.preloader.prototype = {
-
-    preload: function()
+class Preloader extends GameState
+{
+    preload()
     {
-
         this.game.stage.backgroundColor = '#112c06';
 
         let loadingBar = this.add.sprite(((this.game.width * .5) - 200), 200, 'loadingBar');
@@ -30,10 +25,9 @@ Rendlesham.preloader.prototype = {
         loadMainFiles();
 
         Rendlesham.gameState.prototype.loadTransylvanianFiles();
+    }
 
-    },
-
-    create: function()
+    create()
     {
         this.game.state.start('titleScreen');
     }

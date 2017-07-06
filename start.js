@@ -1,11 +1,11 @@
-game.state.add('boot', Rendlesham.boot);
-game.state.add('preloader', Rendlesham.preloader);
-game.state.add('titleScreen', Rendlesham.titleScreen);
-game.state.add('zone', Rendlesham.zone);
-game.state.add('levelOptions', Rendlesham.levelOptions);
-game.state.add('story', Rendlesham.story);
-game.state.add('achievements', Rendlesham.achievements);
+game.state.add('boot', Boot);
+game.state.add('preloader', Preloader);
+game.state.add('titleScreen', TitleScreen);
+game.state.add('zone', Zone);
+game.state.add('levelOptions', LevelOptions);
+game.state.add('story', Story);
+game.state.add('achievements', Achievements);
 game.state.add('main', mainState);
-game.state.add('gameOver', Rendlesham.gameOver);
+game.state.add('gameOver', GameOver);
 
 game.state.start('boot');

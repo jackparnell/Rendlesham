@@ -1,9 +1,6 @@
-var Rendlesham = Rendlesham || {};
-
-Rendlesham.boot = function(game) {};
-
-Rendlesham.boot.prototype = {
-    preload: function()
+class Boot extends Phaser.State
+{
+    preload()
     {
         this.game.load.image('loadingBar', 'assets/ui/loading.png');
 
@@ -15,9 +12,10 @@ Rendlesham.boot.prototype = {
         }
         this.game.scale.pageAlignHorizontally = true;
         this.game.scale.pageAlignVertically = true;
-    },
-    create: function()
+    }
+
+    create()
     {
         this.game.state.start('preloader');
     }
-};
+}
