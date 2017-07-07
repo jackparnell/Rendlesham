@@ -30,7 +30,8 @@ class Character extends Phaser.Sprite
         this.gridY = gridCoordinates[1];
 
         let scale = this.getScale();
-        if (scale !== 1) {
+        if (scale !== 1)
+        {
             this.scale.setTo(scale, scale);
         }
     }

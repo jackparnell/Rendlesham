@@ -102,8 +102,8 @@ class Tower extends Phaser.Sprite
 
         let bullet = this.weapon1.fire();
 
-        if (bullet) {
-
+        if (bullet)
+        {
             mainState.sounds.footstep02.play();
 
             bullet.angle = this.angleToTarget();
@@ -125,7 +125,6 @@ class Tower extends Phaser.Sprite
             {
                 bullet.guid = guid();
             }
-
         }
 
         if (typeof this.target.calculateProjectedHealth === 'function')

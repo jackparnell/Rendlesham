@@ -428,7 +428,8 @@ class Attacker extends Phaser.Sprite
 
         this.reset(x, y);
 
-        if (this.healthBar) {
+        if (this.healthBar)
+        {
             this.healthBar.reset();
         }
 
@@ -498,7 +499,8 @@ class Attacker extends Phaser.Sprite
 
     getStepsToGoal()
     {
-        if (!this.path) {
+        if (!this.path)
+        {
             return 999;
         }
         return this.path.length - this.path_step;
@@ -507,13 +509,11 @@ class Attacker extends Phaser.Sprite
     generateAdvancement()
     {
         let stepsToGoal = this.getStepsToGoal();
-
         let advancement = 0;
-
-        if (stepsToGoal) {
+        if (stepsToGoal)
+        {
             advancement = 100000 - (stepsToGoal * 100);
         }
-
         this.advancement = advancement;
     }
 
@@ -587,7 +587,6 @@ Oscar.pace = 2.15;
 Oscar.coinsValue = 5;
 Oscar.scoreValue = 5;
 
-
 window.Roger = class Roger extends Attacker
 {
     constructor(game, x, y)
@@ -599,6 +598,7 @@ window.Roger = class Roger extends Attacker
         this.animations.add('walkLeft', [5, 6], 6, false, true);
         this.animations.add('walkUp', [7, 8], 6, false, true);
     }
+
     update()
     {
         super.update();
@@ -684,7 +684,8 @@ window.Mib = class Mib extends Attacker
     {
         super.update();
 
-        if (!this.alive) {
+        if (!this.alive)
+        {
             return;
         }
 

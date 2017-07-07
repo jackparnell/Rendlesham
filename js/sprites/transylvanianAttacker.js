@@ -25,7 +25,6 @@ Goblin.scoreValue = 15;
 Goblin.spriteHeight = 48;
 
 
-
 window.Imp = class Imp extends Attacker
 {
     constructor(game, x, y)
@@ -107,7 +106,6 @@ Villager.scoreValue = 5;
 Villager.spriteHeight = 48;
 
 
-
 window.Kappa = class Kappa extends Attacker
 {
     constructor(game, x, y)
@@ -133,7 +131,6 @@ Kappa.pace = 4.2;
 Kappa.coinsValue = 5;
 Kappa.scoreValue = 10;
 Kappa.spriteHeight = 50;
-
 
 
 window.Ogre = class Ogre extends Attacker
@@ -215,7 +212,6 @@ Skuller.pace = 2.8;
 Skuller.coinsValue = 15;
 Skuller.scoreValue = 15;
 Skuller.spriteHeight = 48;
-
 
 
 window.Cyclops = class Cyclops extends Attacker

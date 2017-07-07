@@ -152,7 +152,8 @@ class Obstacle extends Phaser.Sprite
      */
     createHealthBar()
     {
-        if (this.game.noHealthBars) {
+        if (this.game.noHealthBars)
+        {
             return false;
         }
 
@@ -161,7 +162,8 @@ class Obstacle extends Phaser.Sprite
         }
 
         // No health bar if at full health
-        if (this.health >= this.maximumHealth) {
+        if (this.health >= this.maximumHealth)
+        {
             return;
         }
 
@@ -183,16 +185,19 @@ class Obstacle extends Phaser.Sprite
      */
     updateHealthBar()
     {
-        if (this.game.noHealthBars) {
+        if (this.game.noHealthBars)
+        {
             return false;
         }
 
         // No health bar if at full health
-        if (this.health >= this.maximumHealth) {
+        if (this.health >= this.maximumHealth)
+        {
             return false;
         }
 
-        if (!this.healthBar) {
+        if (!this.healthBar)
+        {
             this.createHealthBar();
         }
 
@@ -202,7 +207,8 @@ class Obstacle extends Phaser.Sprite
 
         healthBarFrame = 20 - healthBarFrame;
 
-        if (healthBarFrame !== this.healthBar.frame) {
+        if (healthBarFrame !== this.healthBar.frame)
+        {
             this.healthBar.frame = healthBarFrame;
         }
 
@@ -217,9 +223,12 @@ class Obstacle extends Phaser.Sprite
 
     targetToggle()
     {
-        if (this.targeted) {
+        if (this.targeted)
+        {
             this.untarget();
-        } else {
+        }
+        else
+        {
             this.target();
         }
     }
@@ -241,22 +250,22 @@ class Obstacle extends Phaser.Sprite
     untarget()
     {
         this.targeted = false;
-
-        if (this.game.target.guid && this.guid === this.game.target.guid) {
+        if (this.game.target.guid && this.guid === this.game.target.guid)
+        {
             mainState.noTarget();
         }
-
-        if (this.crosshair) {
+        if (this.crosshair)
+        {
             this.crosshair.kill();
         }
     }
 
     updateCrosshair()
     {
-        if (!this.crosshair) {
+        if (!this.crosshair)
+        {
             return false;
         }
-
         this.crosshair.x = this.x - mainState.halfSquareWidth - 2 ;
         this.crosshair.y = this.y - mainState.halfSquareWidth - 2;
     }
@@ -439,8 +448,8 @@ class Bulrush extends Obstacle
     die()
     {
         super.die();
-
-        if (!mainState.hasItem('bulrushSeed')) {
+        if (!mainState.hasItem('bulrushSeed'))
+        {
             mainState.addItem('bulrushSeed');
         }
     }
@@ -463,8 +472,8 @@ class Snowman extends Obstacle
     die()
     {
         super.die();
-
-        if (!mainState.hasItem('carrot')) {
+        if (!mainState.hasItem('carrot'))
+        {
             mainState.addItem('carrot');
         }
     }
@@ -487,8 +496,8 @@ class Pumpkin extends Obstacle
     die()
     {
         super.die();
-
-        if (!mainState.hasItem('pumpkin')) {
+        if (!mainState.hasItem('pumpkin'))
+        {
             mainState.addItem('pumpkin');
         }
     }
@@ -511,8 +520,8 @@ class PinkCrystal extends Obstacle
     die()
     {
         super.die();
-
-        if (!mainState.hasItem('pinkCrystal')) {
+        if (!mainState.hasItem('pinkCrystal'))
+        {
             mainState.addItem('pinkCrystal');
         }
     }
