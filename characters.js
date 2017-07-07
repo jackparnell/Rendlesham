@@ -8,7 +8,7 @@ class Character extends Phaser.Sprite
         $.extend( this, moveable );
 
         this.guid = guid();
-        this.creationTurn = mainState.turn;
+        this.creationTurn = game.globals.turn;
 
         game.physics.arcade.enable(this);
 
@@ -70,7 +70,7 @@ window.Bully = class Bully extends Character
 
     initialise()
     {
-        this.creationTurn = mainState.turn;
+        this.creationTurn = game.globals.turn;
 
         this.speed = (window[this.constructor.name].defaultSpeed || 75);
         this.path = [];
@@ -148,7 +148,7 @@ window.Ghost = class Ghost extends Character
 
     initialise()
     {
-        this.creationTurn = mainState.turn;
+        this.creationTurn = game.globals.turn;
         this.initialised = true;
         this.alpha = .6;
     }

@@ -4,10 +4,10 @@ var timerEvents = [];
 var wouldObstaclePlacementBlockPathResult;
 var bitmapFontName = 'gem';
 
-var mainState = {
-    preload: function()
+class Play extends GameState
+{
+    preload()
     {
-
         this.guid = guid();
 
         this.version = '0.1.1';
@@ -15,12 +15,10 @@ var mainState = {
 
         loadMainFiles();
         this.loadTransylvanianFiles();
+    }
 
-    },
-
-    init: function(obj)
+    init(obj)
     {
-
         this.zoneName = obj.zoneName;
         this.levelId = obj.levelNumber;
         this.mode = obj.mode || 'classic';
@@ -29,24 +27,26 @@ var mainState = {
 
         // TODO load packs rather than everything
         /*
-        if (this.level.packs) {
-            var functionName = '';
-            for (var i = 0; i < this.level.packs.length; i++) {
-                functionName = 'load' + this.level.packs[i].charAt(0).toUpperCase() + this.level.packs[i].slice(1) + 'Files';
-                this[functionName]();
-            }
-        }
-        */
+         if (this.level.packs) {
+         var functionName = '';
+         for (var i = 0; i < this.level.packs.length; i++) {
+         functionName = 'load' + this.level.packs[i].charAt(0).toUpperCase() + this.level.packs[i].slice(1) + 'Files';
+         this[functionName]();
+         }
+         }
+         */
 
-    },
+        this.game = game;
+        this.game.globals = {};
+    }
 
-    create: function()
+    create()
     {
 
         /*
-        game.time.advancedTiming = true;
-        game.time.desiredFps = 60;
-        */
+         game.time.advancedTiming = true;
+         game.time.desiredFps = 60;
+         */
 
         game.forceSingleUpdate = true;
 
@@ -64,8 +64,6 @@ var mainState = {
         // Set the physics system
         game.physics.startSystem(Phaser.Physics.ARCADE);
 
-        this.game = game;
-
         this.game.noHealthBars = false;
 
         // this.game.add.plugin(Phaser.Plugin.Debug);
@@ -73,7 +71,7 @@ var mainState = {
         this.loadUser();
         this.checkUser();
 
-        this.turn = 0;
+        this.game.globals.turn = 0;
         this.coins = 0;
         this.lives = 999;
         this.score = 0;
@@ -82,13 +80,14 @@ var mainState = {
         window.onkeydown = function()
         {
             // Press P
-            if (game.input.keyboard.event.keyCode === 80) {
+            if (game.input.keyboard.event.keyCode === 80)
+            {
                 mainState.togglePauseScreen();
             }
         };
 
         this.backgrounds = game.add.group();
-        
+
         this.towers = game.add.group();
         this.obstacles = game.add.group();
         this.characters = game.add.group();
@@ -123,15 +122,15 @@ var mainState = {
 
         this.attackersSpawnedCount = 0;
 
-    },
+    }
 
-    bulletHitImpassable: function(bullet, impassable)
+    bulletHitImpassable(bullet, impassable)
     {
         bullet.kill();
-    },
+    }
 
-    update: function() {
-
+    update()
+    {
         try {
 
             // console.log(game.time.elapsedMS);
@@ -145,9 +144,9 @@ var mainState = {
             {
                 for (let i = 0; i < bullets.length; i++)
                 {
-                    let gridCoordinates = mainState.translatePixelCoordinatesToGridCoordinates(bullets[i].x, bullets[i].y);
+                    let gridCoordinates = this.translatePixelCoordinatesToGridCoordinates(bullets[i].x, bullets[i].y);
                     let gridPositionString = gridCoordinates[0] + '_' + gridCoordinates[1];
-                    if (mainState.impassableTiles.indexOf(gridPositionString) !== -1)
+                    if (this.impassableTiles.indexOf(gridPositionString) !== -1)
                     {
                         bullets[i].kill();
                     }
@@ -164,7 +163,7 @@ var mainState = {
                     let bullet = bullets[i];
                     if (bullet.target && bullet.target.alive && bullet.target.body)
                     {
-                        let midPoint = mainState.getMidPointBetweenSprites(bullet, bullet.target);
+                        let midPoint = this.getMidPointBetweenSprites(bullet, bullet.target);
                         let moveX = Math.cos(this.game.math.degToRad(midPoint.angle)) * bullet.speed;
                         let moveY = Math.sin(this.game.math.degToRad(midPoint.angle)) * bullet.speed;
                         bullet.body.velocity.set(moveX, moveY);
@@ -206,10 +205,9 @@ var mainState = {
         {
             console.log(err);
         }
+    }
 
-    },
-
-    noLivesLeft: function()
+    noLivesLeft()
     {
         if (this.preparingForGameOver)
         {
@@ -237,11 +235,9 @@ var mainState = {
             console.log('Error preparing sprites for game over. ');
             console.log(err);
         }
+    }
 
-
-    },
-
-    gameOver: function()
+    gameOver()
     {
         let obj = {
             zoneName: this.zoneName,
@@ -252,14 +248,14 @@ var mainState = {
         };
 
         game.state.start('gameOver', true, true, obj);
-    },
+    }
 
-    shutdown: function()
+    shutdown()
     {
 
-    },
+    }
 
-    initiateLoops: function()
+    initiateLoops()
     {
         if (this.loopsInitiated) {
             // Loops already initiated
@@ -271,10 +267,9 @@ var mainState = {
         game.time.events.loop(5000, this.positionCamera, this);
 
         this.loopsInitiated = true;
-    },
+    }
 
-
-    removeNotification: function(containerArrayName, guid)
+    removeNotification(containerArrayName, guid)
     {
         let index = this[containerArrayName].indexOf(guid);
 
@@ -282,11 +277,10 @@ var mainState = {
         {
             this[containerArrayName].splice(index, 1);
         }
-    },
+    }
 
-    destroyLabels: function()
+    destroyLabels()
     {
-
         let labelPropertyNames = [
             'labelCoinsTitle',
             'labelCoins',
@@ -298,17 +292,16 @@ var mainState = {
             'labelIndicatorMessage'
         ];
 
-        labelPropertyNames.forEach(function(labelPropertyName) {
-            if (mainState[labelPropertyName]) {
-                mainState[labelPropertyName].destroy();
+        labelPropertyNames.forEach(function(labelPropertyName)
+        {
+            if (this[labelPropertyName]) {
+                this[labelPropertyName].destroy();
             }
-        });
+        }, this);
+    }
 
-    },
-
-    initiateLabels: function()
+    initiateLabels()
     {
-
         this.destroyLabels();
 
         let titleTint = 0xDDDDDD;
@@ -381,11 +374,9 @@ var mainState = {
         this.labelIndicatorMessage = game.add.bitmapText(this.indicatorMessageXCoordinate, this.indicatorMessageYCoordinate, bitmapFontName, '', 18);
         this.labelIndicatorMessage.tint = valueTint;
         this.labelIndicatorMessage.fixedToCamera = true;
+    }
 
-
-    },
-
-    changeCoins: function(amount, notificationSpawnX, notificationSpawnY)
+    changeCoins(amount, notificationSpawnX, notificationSpawnY)
     {
         if (isNaN(amount))
         {
@@ -416,11 +407,10 @@ var mainState = {
             this.refreshTowerPlacementViewIfOpen();
         }
 
-    },
+    }
 
-    updateCoins: function()
+    updateCoins()
     {
-
         if (this.coins >= 100)
         {
             this.labelCoins.x = this.labelCoinsXCoordinate;
@@ -435,14 +425,14 @@ var mainState = {
         }
 
         this.labelCoins.setText(this.coins);
-    },
+    }
 
-    updateLives: function()
+    updateLives()
     {
         this.labelLives.setText(this.lives);
-    },
+    }
 
-    updateScore: function()
+    updateScore()
     {
         if (this.score >= 1000)
         {
@@ -462,9 +452,9 @@ var mainState = {
         }
 
         this.labelScore.setText(this.score);
-    },
+    }
 
-    updateCurrentWaveLabel: function()
+    updateCurrentWaveLabel()
     {
         if (typeof this.waveNumber === 'undefined')
         {
@@ -499,9 +489,9 @@ var mainState = {
 
         this.labelCurrentWave.setText(currentWaveText);
 
-    },
+    }
 
-    changeLives: function(amount, notificationSpawnX, notificationSpawnY)
+    changeLives(amount, notificationSpawnX, notificationSpawnY)
     {
         if (isNaN(amount))
         {
@@ -531,10 +521,9 @@ var mainState = {
         {
             this.nathan.drawForceFields();
         }
+    }
 
-    },
-
-    changeScore: function(amount, notificationSpawnX, notificationSpawnY)
+    changeScore(amount, notificationSpawnX, notificationSpawnY)
     {
         if (isNaN(amount))
         {
@@ -550,9 +539,9 @@ var mainState = {
 
         this.updateScore();
         this.notification('score', displayAmount, notificationSpawnX, notificationSpawnY);
-    },
+    }
 
-    notification: function(statisticName, changeText, spawnX, spawnY)
+    notification(statisticName, changeText, spawnX, spawnY)
     {
         if (this.clearingMap)
         {
@@ -628,12 +617,10 @@ var mainState = {
             },
             this
         ).autoDestroy = true;
+    }
 
-    },
-
-    updateNotifications: function()
+    updateNotifications()
     {
-
         let notificationArrayNames = [
             'labelCoinsNotifications',
             'labelLivesNotifications',
@@ -657,9 +644,9 @@ var mainState = {
                 }
             }
         }
-    },
+    }
 
-    togglePause: function()
+    togglePause()
     {
         if (game.paused)
         {
@@ -669,9 +656,9 @@ var mainState = {
         {
             this.pause(true);
         }
-    },
+    }
 
-    pause: function(showText)
+    pause(showText)
     {
         game.paused = true;
 
@@ -679,10 +666,9 @@ var mainState = {
             this.pausedText = game.add.text(game.width * 0.5, game.height * 0.5, '-Paused-', this.healthStyle);
             this.pausedText.anchor.set(0.5, 0.5);
         }
+    }
 
-    },
-
-    unpause: function()
+    unpause()
     {
         game.paused = false;
 
@@ -690,9 +676,9 @@ var mainState = {
         {
             this.pausedText.destroy();
         }
-    },
+    }
 
-    spawnAttacker: function(className, x, y)
+    spawnAttacker(className, x, y)
     {
         if (!x || !y) {
             let coordinates = this.generateSpawnAttackerPixelCoordinates();
@@ -724,10 +710,9 @@ var mainState = {
             let item = new window[className](this.game, x, y);
             this.attackers.add(item);
         }
+    }
 
-    },
-    
-    spawnAttackerDelayed: function(className, seconds, waveNumber, x, y)
+    spawnAttackerDelayed(className, seconds, waveNumber, x, y)
     {
 
         // Very slightly delay first attacker, to allow objects which may affect
@@ -745,26 +730,23 @@ var mainState = {
                 className
             ).autoDestroy = true
         );
-    },
+    }
 
-    spawnObstacle: function(className, x, y, coordinateType)
+    spawnObstacle(className, x, y, coordinateType)
     {
-
         if (coordinateType && coordinateType === 'grid')
         {
-            let coordinates = mainState.translateGridCoordinatesToPixelCoordinates(x, y);
+            let coordinates = this.translateGridCoordinatesToPixelCoordinates(x, y);
             x = coordinates[0];
             y = coordinates[1];
         }
 
         let item = new window[className](this.game, x, y);
         this.obstacles.add(item);
+    }
 
-    },
-
-    spawnLevelObstacles: function()
+    spawnLevelObstacles()
     {
-
         let level = this.level;
 
         if (level.obstacles)
@@ -773,9 +755,10 @@ var mainState = {
             {
                 if (level.obstacles.hasOwnProperty(obstacleClassName))
                 {
-                    level.obstacles[obstacleClassName].forEach(function(coordinates) {
-                        mainState.spawnObstacle(obstacleClassName, coordinates[0], coordinates[1], 'grid');
-                    });
+                    level.obstacles[obstacleClassName].forEach(function(coordinates)
+                    {
+                        this.spawnObstacle(obstacleClassName, coordinates[0], coordinates[1], 'grid');
+                    }, this);
                 }
             }
         }
@@ -813,18 +796,15 @@ var mainState = {
                 this.bully = this.getBully();
 
                 this.map.createFromObjects('objects', 72, 'ghost', 0, true, false, this.characters, Ghost, true);
-
         }
+    }
 
-
-    },
-
-    spawnCharacter: function(className, x, y, coordinateType)
+    spawnCharacter(className, x, y, coordinateType)
     {
 
         if (coordinateType && coordinateType === 'grid')
         {
-            let coordinates = mainState.translateGridCoordinatesToPixelCoordinates(x, y);
+            let coordinates = this.translateGridCoordinatesToPixelCoordinates(x, y);
             x = coordinates[0] + this.halfSquareWidth;
             y = coordinates[1] + this.halfSquareWidth;
         }
@@ -833,11 +813,10 @@ var mainState = {
         this.characters.add(item);
 
         return item;
-    },
+    }
 
-    spawnTower: function(className, x, y)
+    spawnTower(className, x, y)
     {
-
         let reusable = {};
 
         this.towers.forEachDead(function(tower) {
@@ -865,10 +844,10 @@ var mainState = {
         this.playSound('metalLatch');
 
         return true;
+    }
 
-    },
-
-    spawnExplosion: function(x, y, tint, angle) {
+    spawnExplosion(x, y, tint, angle)
+    {
 
         let obj;
         let group = this.explosions;
@@ -894,11 +873,10 @@ var mainState = {
         {
             obj.setAngle(angle);
         }
+    }
 
-    },
-
-    spawnZap: function(x, y, tint, angle) {
-
+    spawnZap(x, y, tint, angle)
+    {
         let obj;
         let group = this.ZapGroup;
 
@@ -923,58 +901,56 @@ var mainState = {
         {
             obj.setAngle(angle);
         }
+    }
 
-    },
-
-    render: function()
+    render()
     {
         // game.debug.body(this.test);
 
         /*
-        this.game.bullets.forEachAlive(function(item){
-            game.debug.body(item);
-        });
+         this.game.bullets.forEachAlive(function(item){
+         game.debug.body(item);
+         });
 
-        this.obstacles.forEachAlive(function(item){
-            game.debug.body(item);
-        });
-        */
-
-        /*
-        this.attackers.forEachAlive(function(item){
-            game.debug.body(item);
-        });
-
-        var bullets = this.getBulletsAlive();
-        bullets.forEach(function(item){
-            game.debug.body(item);
-        });
-        */
+         this.obstacles.forEachAlive(function(item){
+         game.debug.body(item);
+         });
+         */
 
         /*
-        if (this.towers.children[0]) {
-            this.towers.children[0].weapon1.debug();
-        }
-        */
+         this.attackers.forEachAlive(function(item){
+         game.debug.body(item);
+         });
+
+         var bullets = this.getBulletsAlive();
+         bullets.forEach(function(item){
+         game.debug.body(item);
+         });
+         */
+
+        /*
+         if (this.towers.children[0]) {
+         this.towers.children[0].weapon1.debug();
+         }
+         */
 
         // game.debug.text(this.game.bullets.countLiving() + ' / ' + this.game.bullets.countDead(), game.width - 50, 30)
 
         // game.debug.text(this.explosions.countLiving() + ' / ' + this.explosions.countDead(), game.width - 100, 80)
 
         // game.debug.text(game.time.fps, game.width - 50, 30)
+    }
 
-    },
-
-    pathAdditionalCostTiles: function(attacker)
+    pathAdditionalCostTiles(attacker)
     {
         if (typeof this.level.pathAdditionalCostTiles === 'function')
         {
             return this.level.pathAdditionalCostTiles(attacker);
         }
         return this.globalAdditionalCostTiles;
-    },
+    }
 
-    checkLevelCompleted: function()
+    checkLevelCompleted()
     {
         if (typeof this.level.completed === 'function') {
             return this.level.completed();
@@ -988,9 +964,9 @@ var mainState = {
         }
 
         return true;
-    },
+    }
 
-    levelCompleted: function()
+    levelCompleted()
     {
         this.pendingLevelCompleted = true;
 
@@ -1035,10 +1011,9 @@ var mainState = {
         this.handleScore();
 
         game.time.events.add(Phaser.Timer.SECOND * 5, this.levelCompletedScreen, this).autoDestroy = true;
+    }
 
-    },
-
-    handleScore: function()
+    handleScore()
     {
         if (!this.user.levelHighScores)
         {
@@ -1061,9 +1036,9 @@ var mainState = {
         }
 
         this.save();
-    },
+    }
 
-    levelCompletedScreen: function()
+    levelCompletedScreen()
     {
         this.levelCompletedScreenOpen = true;
 
@@ -1130,13 +1105,10 @@ var mainState = {
 
         this.addButtonTextLink('exitToTitle', 'Exit to Title', 20, 'smallWideDark', 10, game.camera.height - 42, 'left', 'goToTitleScreen');
         this.addButtonTextLink('replayLevel', 'Replay Level', 20, 'smallWideDark', 10, game.camera.height - 42, 'right', 'restartLevel');
+    }
 
-    },
-
-
-    nextLevel: function()
+    nextLevel()
     {
-
         this.levelId ++;
 
         let obj = {
@@ -1145,12 +1117,12 @@ var mainState = {
             mode: this.mode
         };
 
-        game.state.start('main', true, true, obj);
+        game.state.start('play', true, true, obj);
 
         return true;
-    },
+    }
 
-    userInput: function()
+    userInput()
     {
         if (this.pauseScreenOpen || this.levelCompletedScreenOpen)
         {
@@ -1267,9 +1239,9 @@ var mainState = {
             console.log('Exception resulting from userInput.');
             console.log(err);
         }
-    },
+    }
 
-    isTowerPlacementAppropriateAtPosition: function(x, y)
+    isTowerPlacementAppropriateAtPosition(x, y)
     {
         if (!this.isPositionOnScreen(x, y))
         {
@@ -1293,7 +1265,7 @@ var mainState = {
 
         if (this.isPositionOnPathway(x, y) && !this.level.canPlaceTowerOnPathway)
         {
-             return false;
+            return false;
         }
 
         if (this.isPositionOnLayer(x, y, 'lava'))
@@ -1332,22 +1304,21 @@ var mainState = {
         }
 
         return true;
+    }
 
-    },
-
-    isTowerUpgradeAppropriateAtPosition: function(x, y)
+    isTowerUpgradeAppropriateAtPosition(x, y)
     {
         let tower = this.getTowerAtPosition(x, y);
         return (tower && tower.upgradable());
-    },
+    }
 
-    isTowerSaleAppropriateAtPosition: function(x, y)
+    isTowerSaleAppropriateAtPosition(x, y)
     {
         let tower = this.getTowerAtPosition(x, y);
         return (tower && tower.getSellValue());
-    },
+    }
 
-    isPositionOnScreen: function(x, y)
+    isPositionOnScreen(x, y)
     {
         if (x < game.camera.x || x >= game.width + game.camera.x)
         {
@@ -1359,9 +1330,9 @@ var mainState = {
         }
 
         return true;
-    },
+    }
 
-    isPositionOnGrid: function(x, y)
+    isPositionOnGrid(x, y)
     {
         let gridCoordinates = this.translatePixelCoordinatesToGridCoordinates(x, y);
         let gridX = gridCoordinates[0];
@@ -1377,7 +1348,7 @@ var mainState = {
         }
 
         return true;
-    },
+    }
 
     /**
      * Checks whether a tower exists at supplied x and y coordinates.
@@ -1386,14 +1357,13 @@ var mainState = {
      * @param y
      * @returns {boolean}
      */
-    doesTowerExistAtPosition: function(x, y)
+    doesTowerExistAtPosition(x, y)
     {
         return !!this.getTowerAtPosition(x, y);
-    },
+    }
 
-    getTowerAtPosition: function(x, y)
+    getTowerAtPosition(x, y)
     {
-
         let towerAtPosition;
 
         let gridCoordinates = this.translatePixelCoordinatesToGridCoordinates(x, y);
@@ -1407,7 +1377,7 @@ var mainState = {
         });
 
         return towerAtPosition;
-    },
+    }
 
     /**
      * Checks whether an obstacle exists at supplied x and y coordinates.
@@ -1416,12 +1386,12 @@ var mainState = {
      * @param y
      * @returns {boolean}
      */
-    doesObstacleExistAtPosition: function(x, y)
+    doesObstacleExistAtPosition(x, y)
     {
         return !!this.getObstacleAtPosition(x, y);
-    },
+    }
 
-    getObstacleAtPosition: function(x, y)
+    getObstacleAtPosition(x, y)
     {
 
         let obstacleAtPosition;
@@ -1437,7 +1407,7 @@ var mainState = {
         });
 
         return obstacleAtPosition;
-    },
+    }
 
     /**
      * Checks whether an attacker exists at supplied x and y coordinates.
@@ -1446,12 +1416,12 @@ var mainState = {
      * @param y
      * @returns {boolean}
      */
-    doesAttackerExistAtPosition: function(x, y)
+    doesAttackerExistAtPosition(x, y)
     {
         return !!this.getAttackerAtPosition(x, y);
-    },
+    }
 
-    getAttackerAtPosition: function (x, y)
+    getAttackerAtPosition(x, y)
     {
         let placementRectangle = new Phaser.Rectangle(x-8, y-8, 16, 16);
 
@@ -1464,16 +1434,15 @@ var mainState = {
         });
 
         return attackerAtPosition;
-    },
+    }
 
-    isPositionOnPathway: function(x, y)
+    isPositionOnPathway(x, y)
     {
         return !(this.isPositionOnLayer(x, y, 'collision'));
-    },
+    }
 
-    isPositionOnLayer: function(x, y, layerName)
+    isPositionOnLayer(x, y, layerName)
     {
-
         if (!this.layers[layerName])
         {
             return false;
@@ -1491,19 +1460,18 @@ var mainState = {
         let index = this.layers[layerName].layer.data[gridY][gridX].index;
 
         return (index >= 1);
-    },
+    }
 
-    fetchLevelInfo: function()
+    fetchLevelInfo()
     {
         let level = window[zones[this.zoneName].levelOrdering[this.levelId]];
         this.initialWavesCount = Object.keys(level.waveInfo).length;
         this.level = $.extend(true, {}, level);
         return this.level;
-    },
+    }
 
-    startLevel: function()
+    startLevel()
     {
-
         this.fetchLevelInfo();
 
         this.allAttackersDispatched = false;
@@ -1548,12 +1516,12 @@ var mainState = {
         }
 
         /*
-        i = 0;
-        while (i <= this.totalWaves) {
-            console.log(i + ': ' + this.calculateWaveHealthModifier(i));
-            i++;
-        }
-        */
+         i = 0;
+         while (i <= this.totalWaves) {
+         console.log(i + ': ' + this.calculateWaveHealthModifier(i));
+         i++;
+         }
+         */
 
         if (this.level.distinctWaves)
         {
@@ -1604,12 +1572,12 @@ var mainState = {
         this.updateScore();
 
         this.startingObstaclesWithCoinsValue = this.countObstaclesWithCoinsValue();
+    }
 
-    },
-
-    scheduleWaveEvents: function(wave, waveNumber, s)
+    scheduleWaveEvents(wave, waveNumber, s)
     {
-        if (!this.distinctWaves) {
+        if (!this.distinctWaves)
+        {
             timerEvents.push(
                 game.time.events.add(
                     Phaser.Timer.SECOND * s,
@@ -1629,8 +1597,9 @@ var mainState = {
 
         if (wave.attacks)
         {
-            wave.attacks.forEach(function(attack) {
-                mainState.scheduleAttackersWave(
+            wave.attacks.forEach(function(attack)
+            {
+                this.scheduleAttackersWave(
                     attack.className,
                     waveNumber,
                     s,
@@ -1645,7 +1614,7 @@ var mainState = {
                 {
                     lastAttackerOfWaveSeconds = lastAttackerSeconds;
                 }
-            });
+            }, this);
         }
 
         timerEvents.push(game.time.events.add(Phaser.Timer.SECOND * (s+lastAttackerOfWaveSeconds), this.lastWaveAttackerDispatched, this));
@@ -1654,12 +1623,10 @@ var mainState = {
         {
             timerEvents.push(game.time.events.add(Phaser.Timer.SECOND * (s+lastAttackerOfWaveSeconds), this.lastWaveDispatched, this));
         }
+    }
 
-    },
-
-    startWave: function(waveNumber)
+    startWave(waveNumber)
     {
-
         if (this.wavesStarted.indexOf(waveNumber) !== -1)
         {
             // Wave already started
@@ -1694,9 +1661,9 @@ var mainState = {
         this.updateCurrentWaveLabel();
 
         this.scheduleWaveEvents(this.level.waveInfo['wave' + waveNumber], waveNumber, 0.5);
-    },
+    }
 
-    clearMap: function()
+    clearMap()
     {
         this.clearingMap = true;
 
@@ -1727,11 +1694,12 @@ var mainState = {
             'nextLevelLinkButton'
         ];
 
-        objectsToDestroy.forEach(function(objectName) {
-            if (mainState[objectName]) {
-                mainState[objectName].destroy();
+        objectsToDestroy.forEach(function(objectName)
+        {
+            if (this[objectName]) {
+                this[objectName].destroy();
             }
-        });
+        }, this);
 
         this.gameOverBackground.alpha = 0;
 
@@ -1752,18 +1720,17 @@ var mainState = {
         this.destroyUserInterfaceButtons();
 
         this.clearingMap = false;
+    }
 
-    },
-
-    clearTimedEvents: function()
+    clearTimedEvents()
     {
         for (let i = 0; i < timerEvents.length; i++)
         {
             game.time.events.remove(timerEvents[i]);
         }
-    },
+    }
 
-    drawIndicators: function()
+    drawIndicators()
     {
         if (this.graphics)
         {
@@ -1789,16 +1756,17 @@ var mainState = {
 
         let cancelIndicators = false;
 
-        buttonsForEffect.forEach(function(name) {
-            if (mainState[name]) {
-                if (mainState[name].input.pointerOver()) {
-                    mainState[name].alpha = .8;
+        buttonsForEffect.forEach(function(name)
+        {
+            if (this[name]) {
+                if (this[name].input.pointerOver()) {
+                    this[name].alpha = .8;
                     cancelIndicators = true;
                 } else {
-                    mainState[name].alpha = .5;
+                    this[name].alpha = .5;
                 }
             }
-        });
+        }, this);
 
         if (cancelIndicators)
         {
@@ -1922,1462 +1890,1422 @@ var mainState = {
         }
     }
 
-
-};
-
-mainState.drawForceFields = function(sprite, number)
-{
-    if (this.forceFieldGraphics)
+    drawForceFields(sprite, number)
     {
-        this.forceFieldGraphics.destroy();
+        if (this.forceFieldGraphics)
+        {
+            this.forceFieldGraphics.destroy();
+        }
+
+        this.forceFieldGraphics = game.add.graphics(0, 0);
+
+        if (number >= 5)
+        {
+            this.forceFieldGraphics.lineStyle(2, 0xBBBBFF, 0.5);
+            this.forceFieldGraphics.beginFill(0xCCCCFF, 0.1);
+            this.forceFieldGraphics.drawCircle(sprite.x, sprite.y, 80);
+            this.forceFieldGraphics.endFill();
+        }
+
+        if (number >= 4)
+        {
+            this.forceFieldGraphics.lineStyle(2, 0x9999FF, 0.5);
+            this.forceFieldGraphics.beginFill(0xBBBBFF, 0.1);
+            this.forceFieldGraphics.drawCircle(sprite.x, sprite.y, 65);
+            this.forceFieldGraphics.endFill();
+        }
+
+        if (number >= 3)
+        {
+            this.forceFieldGraphics.lineStyle(2, 0x7777FF, 0.5);
+            this.forceFieldGraphics.beginFill(0xBBBBFF, 0.1);
+            this.forceFieldGraphics.drawCircle(sprite.x, sprite.y, 50);
+            this.forceFieldGraphics.endFill();
+        }
+
+        if (number >= 2)
+        {
+            this.forceFieldGraphics.lineStyle(2, 0x5555FF, 0.5);
+            this.forceFieldGraphics.beginFill(0xBBBBFF, 0.1);
+            this.forceFieldGraphics.drawCircle(sprite.x, sprite.y, 35);
+            this.forceFieldGraphics.endFill();
+        }
     }
 
-    this.forceFieldGraphics = game.add.graphics(0, 0);
-
-    if (number >= 5)
+    coinsSufficientForTowerPlacement()
     {
-        this.forceFieldGraphics.lineStyle(2, 0xBBBBFF, 0.5);
-        this.forceFieldGraphics.beginFill(0xCCCCFF, 0.1);
-        this.forceFieldGraphics.drawCircle(sprite.x, sprite.y, 80);
-        this.forceFieldGraphics.endFill();
+        return !(this.coins < window[this.towerSelected].cost);
     }
 
-    if (number >= 4)
+    coinsSufficientToUpgradeCurrentTower()
     {
-        this.forceFieldGraphics.lineStyle(2, 0x9999FF, 0.5);
-        this.forceFieldGraphics.beginFill(0xBBBBFF, 0.1);
-        this.forceFieldGraphics.drawCircle(sprite.x, sprite.y, 65);
-        this.forceFieldGraphics.endFill();
-    }
+        if (!this.currentTower  || typeof this.currentTower.getUpgradeCost !== 'function')
+        {
+            return false;
+        }
 
-    if (number >= 3)
-    {
-        this.forceFieldGraphics.lineStyle(2, 0x7777FF, 0.5);
-        this.forceFieldGraphics.beginFill(0xBBBBFF, 0.1);
-        this.forceFieldGraphics.drawCircle(sprite.x, sprite.y, 50);
-        this.forceFieldGraphics.endFill();
-    }
+        if (this.coins < this.currentTower.getUpgradeCost())
+        {
+            return false;
+        }
 
-    if (number >= 2)
-    {
-        this.forceFieldGraphics.lineStyle(2, 0x5555FF, 0.5);
-        this.forceFieldGraphics.beginFill(0xBBBBFF, 0.1);
-        this.forceFieldGraphics.drawCircle(sprite.x, sprite.y, 35);
-        this.forceFieldGraphics.endFill();
-    }
-};
-
-mainState.coinsSufficientForTowerPlacement = function()
-{
-    return !(this.coins < window[this.towerSelected].cost);
-};
-
-mainState.coinsSufficientToUpgradeCurrentTower = function()
-{
-    if (!this.currentTower  || typeof this.currentTower.getUpgradeCost !== 'function')
-    {
-        return false;
-    }
-
-    if (this.coins < this.currentTower.getUpgradeCost())
-    {
-        return false;
-    }
-
-    return true;
-};
-
-
-mainState.cleanUp = function()
-{
-    // Code based on an article at http://davidp.net/phaser-sprite-destroy/
-
-    let aCleanup = [];
-
-    this.attackers.forEachDead(function(item){
-        aCleanup.push(item);
-    }, this);
-    this.towers.forEachDead(function(item){
-        aCleanup.push(item);
-    }, this);
-    this.game.bullets.forEachDead(function(item){
-        aCleanup.push(item);
-    }, this);
-    this.explosions.forEachDead(function(item){
-        aCleanup.push(item);
-    }, this);
-
-    let i = aCleanup.length - 1;
-    while(i > -1)
-    {
-        let getItem = aCleanup[i];
-        getItem.destroy();
-        i--;
-    }
-};
-
-mainState.lastWaveAttackerDispatched = function(waveNumber)
-{
-    if (!waveNumber)
-    {
-        waveNumber = this.waveNumber;
-    }
-    this.allAttackersDispatchedForWaves.push(waveNumber);
-};
-
-/**
- * Have all attackers in a wave been defeated?
- *
- * @returns {boolean}
- */
-mainState.checkIfWaveHasBeenBeaten = function(waveNumber)
-{
-    if (this.wavesBeaten.indexOf(waveNumber) !== -1)
-    {
         return true;
     }
 
-    if (this.allAttackersDispatchedForWaves.indexOf(waveNumber) === -1)
+    cleanUp()
     {
-        return false;
+        // Code based on an article at http://davidp.net/phaser-sprite-destroy/
+
+        let aCleanup = [];
+
+        this.attackers.forEachDead(function(item){
+            aCleanup.push(item);
+        }, this);
+        this.towers.forEachDead(function(item){
+            aCleanup.push(item);
+        }, this);
+        this.game.bullets.forEachDead(function(item){
+            aCleanup.push(item);
+        }, this);
+        this.explosions.forEachDead(function(item){
+            aCleanup.push(item);
+        }, this);
+
+        let i = aCleanup.length - 1;
+        while(i > -1)
+        {
+            let getItem = aCleanup[i];
+            getItem.destroy();
+            i--;
+        }
     }
 
-    if (this.level.distinctWaves)
+    lastWaveAttackerDispatched(waveNumber)
     {
+        if (!waveNumber)
+        {
+            waveNumber = this.waveNumber;
+        }
+        this.allAttackersDispatchedForWaves.push(waveNumber);
+    }
 
-        if (this.attackers.countLiving() >= 1)
+    /**
+     * Have all attackers in a wave been defeated?
+     *
+     * @returns {boolean}
+     */
+    checkIfWaveHasBeenBeaten(waveNumber)
+    {
+        if (this.wavesBeaten.indexOf(waveNumber) !== -1)
+        {
+            return true;
+        }
+
+        if (this.allAttackersDispatchedForWaves.indexOf(waveNumber) === -1)
         {
             return false;
         }
 
-    } else {
-
-        let anyLivingAttackersInWave = false;
-        this.attackers.forEachAlive(function(attacker) {
-            if (attacker.waveNumber === waveNumber)
+        if (this.level.distinctWaves)
+        {
+            if (this.attackers.countLiving() >= 1)
             {
-                anyLivingAttackersInWave = true;
+                return false;
             }
-        });
+        } else {
 
-        if (anyLivingAttackersInWave)
-        {
-            return false;
+            let anyLivingAttackersInWave = false;
+            this.attackers.forEachAlive(function(attacker) {
+                if (attacker.waveNumber === waveNumber)
+                {
+                    anyLivingAttackersInWave = true;
+                }
+            });
+
+            if (anyLivingAttackersInWave)
+            {
+                return false;
+            }
         }
 
+
+        this.waveBeaten(waveNumber);
+
+        return true;
     }
 
-
-    this.waveBeaten(waveNumber);
-
-    return true;
-};
-
-mainState.waveBeaten = function(waveNumber)
-{
-
-    this.wavesBeaten.push(waveNumber);
-
-    if (this.totalWaves === waveNumber)
+    waveBeaten(waveNumber)
     {
-        return;
+        this.wavesBeaten.push(waveNumber);
+
+        if (this.totalWaves === waveNumber)
+        {
+            return;
+        }
+
+        if (this.level.distinctWaves)
+        {
+            let nextWaveNumber = waveNumber + 1;
+            timerEvents.push(
+                game.time.events.add(
+                    Phaser.Timer.SECOND * 1.5,
+                    this.startWave,
+                    this,
+                    nextWaveNumber
+                ).autoDestroy = true
+            );
+        }
     }
 
-    if (this.level.distinctWaves) {
-
-        let nextWaveNumber = waveNumber + 1;
-
-        timerEvents.push(
-            game.time.events.add(
-                Phaser.Timer.SECOND * 1.5,
-                this.startWave,
-                this,
-                nextWaveNumber
-            ).autoDestroy = true
-        );
-
-    }
-
-};
-
-mainState.lastWaveDispatched = function()
-{
-    this.allAttackersDispatched = true;
-};
-
-mainState.displayMessage = function(message)
-{
-    this.labelMessage.setText(message);
-    game.time.events.add(Phaser.Timer.SECOND * 6, this.clearMessage, this).autoDestroy = true;
-};
-
-mainState.clearMessage = function()
-{
-    this.labelMessage.setText('');
-};
-
-mainState.translatePixelCoordinatesToGridCoordinates = function(x, y)
-{
-    x = Math.floor(x / this.squareWidth);
-    y = Math.floor(y / this.squareWidth);
-
-    return [x, y];
-};
-
-mainState.translateGridCoordinatesToPixelCoordinates = function(x, y)
-{
-    x = Math.floor(x * this.squareWidth);
-    y = Math.floor(y * this.squareWidth);
-
-    return [x, y];
-};
-
-mainState.setupMap = function()
-{
-    if (!this.level.mapName)
+    lastWaveDispatched()
     {
-        throw 'Level mapName not found';
+        this.allAttackersDispatched = true;
     }
 
-    this.map = game.add.tilemap(this.level.mapName);
-
-    this.squareWidth = this.map.tileWidth || 35;
-    this.halfSquareWidth = this.squareWidth * .5;
-
-    if (!this.level.tileSetImageName)
+    displayMessage(message)
     {
-        this.level.tileSetImageName = 'tiles';
+        this.labelMessage.setText(message);
+        game.time.events.add(Phaser.Timer.SECOND * 6, this.clearMessage, this).autoDestroy = true;
     }
 
-    this.map.tilesets.forEach(function (tileset) {
-        this.map.addTilesetImage(tileset.name, tileset.name, this.squareWidth, this.squareWidth, 0, 1);
-    }, this);
+    clearMessage()
+    {
+        this.labelMessage.setText('');
+    }
+
+    translatePixelCoordinatesToGridCoordinates(x, y)
+    {
+        x = Math.floor(x / this.squareWidth);
+        y = Math.floor(y / this.squareWidth);
+        return [x, y];
+    }
+
+    translateGridCoordinatesToPixelCoordinates(x, y)
+    {
+        x = Math.floor(x * this.squareWidth);
+        y = Math.floor(y * this.squareWidth);
+        return [x, y];
+    }
+
+    setupMap()
+    {
+        if (!this.level.mapName)
+        {
+            throw 'Level mapName not found';
+        }
+
+        this.map = game.add.tilemap(this.level.mapName);
+
+        this.squareWidth = this.map.tileWidth || 35;
+        this.halfSquareWidth = this.squareWidth * .5;
+
+        if (!this.level.tileSetImageName)
+        {
+            this.level.tileSetImageName = 'tiles';
+        }
+
+        this.map.tilesets.forEach(function (tileset) {
+            this.map.addTilesetImage(tileset.name, tileset.name, this.squareWidth, this.squareWidth, 0, 1);
+        }, this);
 
 
-    // create map layers
-    this.layers = {};
-    this.map.layers.forEach(function (layer) {
+        // create map layers
+        this.layers = {};
+        this.map.layers.forEach(function (layer) {
 
-        this.layers[layer.name] = this.map.createLayer(layer.name);
+            this.layers[layer.name] = this.map.createLayer(layer.name);
 
-        this.backgrounds.add(this.layers[layer.name]);
+            this.backgrounds.add(this.layers[layer.name]);
 
-        if (layer.properties.collision) { // collision layer
-            let collision_tiles = [];
-            layer.data.forEach(function (data_row) { // find tiles used in the layer
+            if (layer.properties.collision) { // collision layer
+                let collision_tiles = [];
+                layer.data.forEach(function (data_row) { // find tiles used in the layer
+                    data_row.forEach(function (tile) {
+                        // check if it's a valid tile index and isn't already in the list
+                        if (tile.index > 0 && collision_tiles.indexOf(tile.index) === -1) {
+                            collision_tiles.push(tile.index);
+                        }
+                    }, this);
+                }, this);
+                this.map.setCollision(collision_tiles, true, layer.name);
+            }
+        }, this);
+
+
+        // resize the world to be the size of the current layer
+        this.layers[this.map.layer.name].resizeWorld();
+
+        this.backgroundLayer = this.map.createLayer('background');
+        this.backgrounds.add(this.backgroundLayer);
+
+        if (this.layers.hasOwnProperty('walkable')) {
+            this.walkableLayer = this.map.createLayer('walkable');
+            this.backgrounds.add(this.walkableLayer);
+        }
+
+        this.collisionLayer = this.map.createLayer('collision');
+        this.backgrounds.add(this.collisionLayer);
+
+        game.physics.arcade.enable(this.collisionLayer);
+
+        if (this.layers.hasOwnProperty('lava'))
+        {
+            this.lavaLayer = this.map.createLayer('lava');
+            this.backgrounds.add(this.lavaLayer);
+        }
+
+        let impassableTiles = [];
+
+        if (this.layers.hasOwnProperty('impassable'))
+        {
+            this.impassableLayer = this.map.createLayer('impassable');
+            this.backgrounds.add(this.impassableLayer);
+
+            this.impassableLayer.layer.data.forEach(function (data_row) {
                 data_row.forEach(function (tile) {
-                    // check if it's a valid tile index and isn't already in the list
-                    if (tile.index > 0 && collision_tiles.indexOf(tile.index) === -1) {
-                        collision_tiles.push(tile.index);
+                    if (tile.index > 0 && impassableTiles.indexOf(tile.index) === -1) {
+                        impassableTiles.push(tile.x + '_' + tile.y);
                     }
                 }, this);
             }, this);
-            this.map.setCollision(collision_tiles, true, layer.name);
+
         }
-    }, this);
 
+        if (this.layers.hasOwnProperty('impassable2'))
+        {
+            this.impassable2Layer = this.map.createLayer('impassable2');
+            this.backgrounds.add(this.impassable2Layer);
 
-    // resize the world to be the size of the current layer
-    this.layers[this.map.layer.name].resizeWorld();
-
-    this.backgroundLayer = this.map.createLayer('background');
-    this.backgrounds.add(this.backgroundLayer);
-
-    if (this.layers.hasOwnProperty('walkable')) {
-        this.walkableLayer = this.map.createLayer('walkable');
-        this.backgrounds.add(this.walkableLayer);
-    }
-
-    this.collisionLayer = this.map.createLayer('collision');
-    this.backgrounds.add(this.collisionLayer);
-
-    game.physics.arcade.enable(this.collisionLayer);
-
-    if (this.layers.hasOwnProperty('lava'))
-    {
-        this.lavaLayer = this.map.createLayer('lava');
-        this.backgrounds.add(this.lavaLayer);
-    }
-
-    let impassableTiles = [];
-
-    if (this.layers.hasOwnProperty('impassable'))
-    {
-        this.impassableLayer = this.map.createLayer('impassable');
-        this.backgrounds.add(this.impassableLayer);
-
-        this.impassableLayer.layer.data.forEach(function (data_row) {
-            data_row.forEach(function (tile) {
-                if (tile.index > 0 && impassableTiles.indexOf(tile.index) === -1) {
-                    impassableTiles.push(tile.x + '_' + tile.y);
-                }
+            this.impassable2Layer.layer.data.forEach(function (data_row) {
+                data_row.forEach(function (tile) {
+                    if (tile.index > 0 && impassableTiles.indexOf(tile.index) === -1)
+                    {
+                        impassableTiles.push(tile.x + '_' + tile.y);
+                    }
+                }, this);
             }, this);
-        }, this);
+        }
 
+        this.impassableTiles = impassableTiles;
+
+        this.initiateEasyStar();
     }
 
-    if (this.layers.hasOwnProperty('impassable2'))
+    initiateEasyStar()
     {
-        this.impassable2Layer = this.map.createLayer('impassable2');
-        this.backgrounds.add(this.impassable2Layer);
+        let collisionLayer = this.getCollisionLayer();
 
-        this.impassable2Layer.layer.data.forEach(function (data_row) {
-            data_row.forEach(function (tile) {
-                if (tile.index > 0 && impassableTiles.indexOf(tile.index) === -1)
+        let tile_dimensions = new Phaser.Point(this.map.tileWidth, this.map.tileHeight);
+
+        // Begin async pathfinding plugin instance
+
+        this.pathfinding = this.game.plugins.add(Rendlesham.Pathfinding, collisionLayer.data, [-1], tile_dimensions);
+        this.pathfinding.easy_star.setIterationsPerCalculation(1000);
+
+        // End async pathfinding plugin instance
+
+        // Begin sync instance
+        this.easyStarSync = new EasyStar.js();
+
+        let world_grid = collisionLayer.data;
+        let acceptable_tiles = [-1];
+
+        this.grid_dimensions = {row: world_grid.length, column: world_grid[0].length};
+
+        let grid_indices = [];
+        for (let grid_row = 0; grid_row < world_grid.length; grid_row += 1) {
+            grid_indices[grid_row] = [];
+            for (let grid_column = 0; grid_column < world_grid[grid_row].length; grid_column += 1) {
+                grid_indices[grid_row][grid_column] = world_grid[grid_row][grid_column].index;
+            }
+        }
+
+        this.easyStarSync.setGrid(grid_indices);
+        this.easyStarSync.setAcceptableTiles(acceptable_tiles);
+        this.easyStarSync.enableSync();
+        // End sync instance
+    }
+
+    getCollisionLayer()
+    {
+        let collisionLayer;
+
+        for (let i in this.map.layers)
+        {
+            if (this.map.layers.hasOwnProperty(i))
+            {
+                if (this.map.layers[i].name === 'collision')
                 {
-                    impassableTiles.push(tile.x + '_' + tile.y);
+                    collisionLayer = this.map.layers[i];
                 }
-            }, this);
-        }, this);
-    }
-
-    this.impassableTiles = impassableTiles;
-
-    this.initiateEasyStar();
-};
-
-mainState.initiateEasyStar = function()
-{
-    let collisionLayer = this.getCollisionLayer();
-
-    let tile_dimensions = new Phaser.Point(this.map.tileWidth, this.map.tileHeight);
-
-    // Begin async pathfinding plugin instance
-
-    this.pathfinding = this.game.plugins.add(Rendlesham.Pathfinding, collisionLayer.data, [-1], tile_dimensions);
-    this.pathfinding.easy_star.setIterationsPerCalculation(1000);
-
-    // End async pathfinding plugin instance
-
-    // Begin sync instance
-    this.easyStarSync = new EasyStar.js();
-
-    let world_grid = collisionLayer.data;
-    let acceptable_tiles = [-1];
-
-    this.grid_dimensions = {row: world_grid.length, column: world_grid[0].length};
-
-    grid_indices = [];
-    for (grid_row = 0; grid_row < world_grid.length; grid_row += 1) {
-        grid_indices[grid_row] = [];
-        for (grid_column = 0; grid_column < world_grid[grid_row].length; grid_column += 1) {
-            grid_indices[grid_row][grid_column] = world_grid[grid_row][grid_column].index;
-        }
-    }
-
-    this.easyStarSync.setGrid(grid_indices);
-    this.easyStarSync.setAcceptableTiles(acceptable_tiles);
-    this.easyStarSync.enableSync();
-    // End sync instance
-};
-
-mainState.getCollisionLayer = function()
-{
-    let collisionLayer;
-
-    for (let i in this.map.layers)
-    {
-        if (this.map.layers.hasOwnProperty(i))
-        {
-            if (this.map.layers[i].name === 'collision')
-            {
-                collisionLayer = this.map.layers[i];
             }
         }
+
+        return collisionLayer;
     }
 
-    return collisionLayer;
-};
-
-mainState.loadUser = Rendlesham.gameState.prototype.loadUser;
-mainState.checkUser = Rendlesham.gameState.prototype.checkUser;
-mainState.save = Rendlesham.gameState.prototype.save;
-
-mainState.untargetAll = function()
-{
-    this.attackers.forEachAlive(function(item) {
-        if (item.targeted) {
-            item.untarget();
-        }
-    });
-    this.obstacles.forEachAlive(function(item) {
-        if (item.targeted) {
-            item.untarget();
-        }
-    });
-
-    this.noTarget();
-};
-
-mainState.goFullScreen = function()
-{
-    game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
-    game.scale.startFullScreen(false);
-};
-
-mainState.toggleFullScreen = function()
-{
-    if (game.scale.isFullScreen)
+    untargetAll()
     {
-        game.scale.stopFullScreen();
+        this.attackers.forEachAlive(function(item) {
+            if (item.targeted) {
+                item.untarget();
+            }
+        });
+        this.obstacles.forEachAlive(function(item) {
+            if (item.targeted) {
+                item.untarget();
+            }
+        });
+
+        this.noTarget();
     }
-    else
+
+    goFullScreen()
     {
-        this.goFullScreen();
+        game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
+        game.scale.startFullScreen(false);
     }
-};
 
-mainState.scheduleAttackersWave = function(attackerClassName, waveNumber, s, duration, gap, startOffset)
-{
-
-    if (!startOffset)
+    toggleFullScreen()
     {
-        startOffset = 0;
-    }
-
-    let start = s + startOffset;
-    let end = start + duration;
-
-    let i;
-
-    for (i = start; i < end; i += gap)
-    {
-        this.spawnAttackerDelayed(attackerClassName, i, waveNumber);
-    }
-};
-
-mainState.positionCamera = function()
-{
-    if (!this.map) {
-        throw 'Map not initiated.';
-    }
-
-    let x = (this.map.widthInPixels - game.width) * .5;
-    let y = (this.map.heightInPixels - game.height) * .5;
-
-    game.camera.x = x;
-    game.camera.y = y;
-};
-
-mainState.generateSpawnAttackerPixelCoordinates = function()
-{
-
-    let coordinates = mainState.translateGridCoordinatesToPixelCoordinates(
-        this.level.entryXGrid,
-        this.level.entryYGrid
-    );
-    let x = coordinates[0];
-    let y = coordinates[1];
-
-    if (this.level.entryXGrid >= 20)
-    {
-        x += this.squareWidth - 1;
-        y += this.halfSquareWidth;
-    }
-    if (this.level.entryYGrid >= 10)
-    {
-        x += this.halfSquareWidth;
-        y += this.squareWidth - 1;
-    }
-
-    return [x, y];
-
-};
-
-mainState.addItem = function(itemName)
-{
-    try
-    {
-        if (!this.user.items)
+        if (game.scale.isFullScreen)
         {
-            this.user.items = {};
-        }
-
-        if (!this.user.items[itemName])
-        {
-            this.user.items[itemName] = 1;
+            game.scale.stopFullScreen();
         }
         else
         {
-            this.user.items[itemName] ++;
+            this.goFullScreen();
         }
-
-        this.save();
-    }
-    catch (err)
-    {
-        console.log(err);
-    }
-};
-
-mainState.hasItem = function(itemName)
-{
-    return (
-        this.user.hasOwnProperty('items')
-        &&
-        this.user.items.hasOwnProperty('itemName')
-        &&
-        this.user.items.hasOwnProperty('itemName') >= 1
-    );
-};
-
-mainState.addGlobalAdditionalCostTile = function(x, y, coordinateType, cost)
-{
-    if (!this.globalAdditionalCostTiles)
-    {
-        this.globalAdditionalCostTiles = [];
     }
 
-    if (!cost)
+    scheduleAttackersWave(attackerClassName, waveNumber, s, duration, gap, startOffset)
     {
-        cost = 9999;
-    }
-
-    if (coordinateType && coordinateType === 'pixels')
-    {
-        let gridCoordinates = this.translatePixelCoordinatesToGridCoordinates(x, y);
-        x = gridCoordinates[0];
-        y = gridCoordinates[1];
-    }
-
-    this.globalAdditionalCostTiles.push([
-        x,
-        y,
-        cost
-    ]);
-
-    this.setAllAttackerPathNeedsRegenerating();
-};
-
-mainState.setAllAttackerPathNeedsRegenerating = function()
-{
-    if (!this.level.canPlaceTowerOnPathway && !this.bully)
-    {
-        return false;
-    }
-
-    this.attackers.forEachAlive(function(attacker){
-        attacker.pathNeedsRegenerating = true;
-    });
-};
-
-mainState.addGlobalImpassablePoint = function(x, y, coordinateType)
-{
-    if (coordinateType && coordinateType === 'pixels')
-    {
-        let gridCoordinates = this.translatePixelCoordinatesToGridCoordinates(x, y);
-        x = gridCoordinates[0];
-        y = gridCoordinates[1];
-    }
-
-    this.pathfinding.easy_star.avoidAdditionalPoint(x, y);
-    this.easyStarSync.avoidAdditionalPoint(x, y);
-
-    this.setAllAttackerPathNeedsRegenerating();
-};
-
-mainState.removeGlobalImpassablePoint = function(x, y)
-{
-    this.pathfinding.easy_star.stopAvoidingAdditionalPoint(x, y);
-    this.easyStarSync.stopAvoidingAdditionalPoint(x, y);
-
-    this.setAllAttackerPathNeedsRegenerating();
-};
-
-mainState.wouldObstaclePlacementBlockPath = function(x, y, coordinateType)
-{
-    if (!this.level.canPlaceTowerOnPathway)
-    {
-        return false;
-    }
-
-    if (coordinateType && coordinateType === 'pixels')
-    {
-        let gridCoordinates = this.translatePixelCoordinatesToGridCoordinates(x, y);
-        x = gridCoordinates[0];
-        y = gridCoordinates[1];
-    }
-
-    this.addGlobalImpassablePoint(x, y, 'grid');
-
-    this.easyStarSync.findPath(
-        this.getEntryXGrid(),
-        this.getEntryYGrid(),
-        this.getGoalXGrid(),
-        this.getGoalYGrid(),
-        this.wouldObstaclePlacementBlockPathCallbackHandler
-    );
-
-    this.easyStarSync.calculate();
-
-    this.removeGlobalImpassablePoint(x, y);
-
-    return (wouldObstaclePlacementBlockPathResult === null);
-};
-
-mainState.wouldObstaclePlacementBlockPathCallbackHandler = function(path)
-{
-    wouldObstaclePlacementBlockPathResult = path;
-};
-
-mainState.getEntryXGrid = function()
-{
-    return this.level.entryXGrid;
-};
-
-mainState.getEntryYGrid = function()
-{
-    return this.level.entryYGrid;
-};
-
-mainState.getGoalXGrid = function()
-{
-    if (!this.level.goalXGrid)
-    {
-        this.generateGoal();
-    }
-    return this.level.goalXGrid;
-};
-
-mainState.getGoalYGrid = function()
-{
-    if (!this.level.goalXGrid)
-    {
-        this.generateGoal();
-    }
-    return this.level.goalYGrid;
-};
-
-mainState.generateGoal = function()
-{
-    let gridX;
-    let gridY;
-    if (this.nathan)
-    {
-        gridX = this.nathan.gridX;
-        gridY = this.nathan.gridY;
-    }
-    this.level.goalXGrid = gridX;
-    this.level.goalYGrid = gridY;
-};
-
-mainState.pixelsNearestTileTopLeftCoordinates = function(x, y)
-{
-    return [
-        Math.round(x / this.squareWidth) * this.squareWidth,
-        Math.round(y / this.squareWidth) * this.squareWidth
-    ];
-};
-
-mainState.countObstaclesWithCoinsValue = function()
-{
-    let i = 0;
-
-    this.obstacles.forEachAlive(function(obstacle){
-        if (obstacle.coinsValue >= 1) {
-            i++;
-        }
-    });
-
-    return i;
-};
-
-mainState.setTarget = function(sprite)
-{
-    this.game.target = sprite;
-};
-
-mainState.noTarget = function()
-{
-    this.game.target = {};
-};
-
-mainState.addUserInterfaceButtons = function()
-{
-    this.pauseButton = game.add.button(game.camera.width - 42, 7, 'pauseDark', this.openPauseScreen, this);
-    this.pauseButton.fixedToCamera = true;
-    this.pauseButton.inputEnabled = true;
-    this.pauseButton.alpha = .5;
-};
-
-mainState.destroyUserInterfaceButtons = function()
-{
-    let buttonsToDestroy = ['pauseButton'];
-
-    buttonsToDestroy.forEach(function(buttonName) {
-        if (mainState[buttonName]) {
-            mainState[buttonName].destroy();
-        }
-    });
-};
-
-mainState.togglePauseScreen = function()
-{
-    if (this.pauseScreenOpen)
-    {
-        this.closePauseScreen();
-    }
-    else
-    {
-        this.openPauseScreen();
-    }
-};
-
-mainState.openPauseScreen = function()
-{
-    if (this.pauseScreenOpen)
-    {
-        return false;
-    }
-
-    if (this.graphics)
-    {
-        this.graphics.destroy();
-    }
-    this.closeTowerInfo();
-    this.closeTowerPlacementView();
-
-    this.pause(false);
-
-    this.pauseScreenOpen = true;
-
-    this.gameOverBackground.alpha = .5;
-
-    this.addButtonTextLink('resume', 'Resume', 46, 'forestGreen', 0, game.height * .21, 'center', 'closePauseScreen');
-
-    this.addButtonTextLink('restart', 'Restart Level', 46, 'forestGreen', 0, game.height * .46, 'center', 'restartLevel');
-
-    this.addButtonTextLink('exit', 'Exit', 46, 'forestGreen', 0, game.height * .71, 'center', 'goToTitleScreen');
-
-    return true;
-
-};
-
-mainState.closePauseScreen = function()
-{
-    let buttonsToDestroy = ['resume', 'restart', 'exit'];
-
-    buttonsToDestroy.forEach(function(name) {
-        if (mainState[name]) {
-            mainState[name].destroy();
-        }
-        if (mainState[name + 'Button']) {
-            mainState[name + 'Button'].destroy();
-        }
-    });
-
-    this.gameOverBackground.alpha = 0;
-
-    this.pauseScreenOpen = false;
-
-    this.unpause();
-};
-
-mainState.restartLevel = function()
-{
-    this.closePauseScreen();
-    let obj = {
-        zoneName: this.zoneName,
-        levelNumber: this.levelId,
-        mode: this.mode
-    };
-    game.state.start('main', true, true, obj);
-};
-
-mainState.goToTitleScreen = function()
-{
-    this.closePauseScreen();
-    this.changeGameState('titleScreen');
-};
-
-mainState.getBully = function()
-{
-    let bully;
-
-    this.characters.forEachAlive(function(character) {
-        if (character.constructor.name === 'Bully') {
-            bully = character;
-        }
-    }, this);
-
-    return bully;
-};
-
-mainState.notPossible = function()
-{
-
-};
-
-mainState.openTowerInfo = function(tower)
-{
-
-    if (this.towerInfoOpen)
-    {
-        this.closeTowerInfo();
-    }
-
-    this.towerInfoOpen = true;
-    this.currentTower = tower;
-
-    let buttonsToDestroy = ['upgradeTowerButton', 'sellTowerButton'];
-
-    buttonsToDestroy.forEach(function(buttonName) {
-        if (mainState[buttonName]) {
-            mainState[buttonName].destroy();
-        }
-    });
-
-    if (tower.sellable())
-    {
-        this.sellTowerButton = game.add.button(tower.x , tower.y, 'poundDark', this.sellCurrentTower, this);
-        this.sellTowerButton.inputEnabled = true;
-        this.sellTowerButton.alpha = .5;
-        this.sellTowerButton.anchor.set(0.5, 0.5);
-        this.sellTowerButton.scale.setTo(1.5, 1.5);
-        this.sellTowerButton.x = tower.x - 39;
-
-        this.sellTowerText = game.add.bitmapText(this.sellTowerButton.x, this.sellTowerButton.y, bitmapFontName, '£' + this.currentTower.getSellValue(), 16);
-        this.sellTowerText.x = this.sellTowerButton.x - (this.sellTowerText.width * .5);
-        this.sellTowerText.y = this.sellTowerButton.y + (this.sellTowerButton.height * .5);
-    }
-
-    let upgradeTowerTextString = '';
-
-    if (tower.upgradable())
-    {
-        this.upgradeTowerButton = game.add.button(tower.x, tower.y, 'upDark', this.upgradeCurrentTower, this);
-
-        if (this.coinsSufficientToUpgradeCurrentTower()) {
-            this.upgradeTowerButton.inputEnabled = true;
-        } else {
-            this.upgradeTowerButton.inputEnabled = false;
-            this.upgradeTowerButton.tint = 0x880000;
-        }
-
-        this.upgradeTowerButton.alpha = .5;
-        this.upgradeTowerButton.anchor.set(0.5, 0.5);
-        this.upgradeTowerButton.scale.setTo(1.5, 1.5);
-
-        this.labelIndicatorMessage.setText('Upgrade or sell tower.');
-
-        upgradeTowerTextString = '£' + this.currentTower.getUpgradeCost();
-
-    }
-    else
-    {
-        this.upgradeTowerButton = game.add.button(tower.x, tower.y, 'maxDark', this.notPossible, this);
-        this.upgradeTowerButton.inputEnabled = false;
-        this.upgradeTowerButton.alpha = .5;
-        this.upgradeTowerButton.anchor.set(0.5, 0.5);
-        this.upgradeTowerButton.scale.setTo(1.5, 1.5);
-
-        this.labelIndicatorMessage.setText('Tower is at maximum grade.');
-    }
-    this.upgradeTowerButton.x = tower.x + 39;
-    this.upgradeTowerText = game.add.bitmapText(this.upgradeTowerButton.x, this.upgradeTowerButton.y, bitmapFontName, upgradeTowerTextString, 16);
-
-    if (this.upgradeTowerText)
-    {
-        this.upgradeTowerText.x = this.upgradeTowerButton.x - (this.upgradeTowerText.width * .5);
-        this.upgradeTowerText.y = this.upgradeTowerButton.y + (this.upgradeTowerButton.height * .5);
-    }
-
-    if (tower.weapon1)
-    {
-
-        this.towerInfoOpenRangeGraphics = game.add.graphics(0, 0);
-
-        this.towerInfoOpenRangeGraphics.lineStyle(2, 0x88FF88, 0.5);
-        this.towerInfoOpenRangeGraphics.beginFill(0x88FF88, 0.2);
-        this.towerInfoOpenRangeGraphics.drawCircle(tower.x, tower.y, tower.weapon1.rangeInPixels*2);
-        this.towerInfoOpenRangeGraphics.endFill();
-
-        if (tower.upgradable())
+        if (!startOffset)
         {
-            this.towerInfoOpenRangeGraphics.lineStyle(2, 0x33FFFF, 0.5);
-            this.towerInfoOpenRangeGraphics.drawCircle(tower.x, tower.y, tower.weapon1.rangeInPixels*2);
-            this.towerInfoOpenRangeGraphics.endFill();
+            startOffset = 0;
         }
 
-    }
+        let start = s + startOffset;
+        let end = start + duration;
 
-};
+        let i;
 
-mainState.closeTowerInfo = function()
-{
-
-    this.currentTower = {};
-
-    let buttonsToDestroy = ['upgradeTowerButton', 'sellTowerButton'];
-
-    buttonsToDestroy.forEach(function(buttonName) {
-        if (mainState[buttonName]) {
-            mainState[buttonName].destroy();
+        for (i = start; i < end; i += gap)
+        {
+            this.spawnAttackerDelayed(attackerClassName, i, waveNumber);
         }
-    });
+    }
 
-    let textToDestroy = ['upgradeTowerText', 'sellTowerText'];
-
-    textToDestroy.forEach(function(textName) {
-        if (mainState[textName]) {
-            mainState[textName].destroy();
+    positionCamera()
+    {
+        if (!this.map) {
+            throw 'Map not initiated.';
         }
-    });
 
-    if (this.towerInfoOpenRangeGraphics)
-    {
-        this.towerInfoOpenRangeGraphics.destroy();
+        let x = (this.map.widthInPixels - game.width) * .5;
+        let y = (this.map.heightInPixels - game.height) * .5;
+
+        game.camera.x = x;
+        game.camera.y = y;
     }
 
-    this.labelIndicatorMessage.setText('');
-
-    this.towerInfoOpen = false;
-
-};
-
-mainState.sellCurrentTower = function()
-{
-    this.currentTower.sell();
-    this.playSound('handleCoins');
-    this.closeTowerInfo();
-};
-
-mainState.upgradeCurrentTower = function()
-{
-    if (this.coinsSufficientToUpgradeCurrentTower())
+    generateSpawnAttackerPixelCoordinates()
     {
-        this.currentTower.upgradeAtCost();
-        this.playSound('metalClick');
-    }
-    this.refreshTowerInfo();
-};
 
-mainState.refreshTowerInfo = function()
-{
-    let tower = this.currentTower;
-    this.closeTowerInfo();
-    this.openTowerInfo(tower);
-};
-
-mainState.refreshTowerInfoIfOpen = function()
-{
-    if (this.towerInfoOpen)
-    {
-        this.refreshTowerInfo();
-    }
-};
-
-mainState.openTowerPlacementView = function(x, y, coordinateType)
-{
-
-    if (this.towerPlacementViewOpen)
-    {
-        this.closeTowerPlacementView();
-    }
-
-    this.towerPlacementViewOpen = true;
-
-    let gridX = x;
-    let gridY = y;
-
-    if (coordinateType && coordinateType === 'grid')
-    {
-        let coordinates = mainState.translateGridCoordinatesToPixelCoordinates(x, y);
-        x = coordinates[0];
-        y = coordinates[1];
-    }
-    else
-    {
-        let coordinates = mainState.translatePixelCoordinatesToGridCoordinates(x, y);
-        gridX = coordinates[0];
-        gridY = coordinates[1];
-    }
-
-    this.currentGridPosition = {
-        x: x,
-        y: y,
-        gridX: gridX,
-        gridY: gridY
-    };
-
-    this.towerPlacementViewGraphics = game.add.graphics(0, 0);
-
-    this.towerPlacementViewGraphics.lineStyle(2, 0x00FF00, 1);
-    this.towerPlacementViewGraphics.drawRect(x - this.squareWidth*.5, y - this.squareWidth*.5, this.squareWidth, this.squareWidth);
-
-    let buttonsToDestroy = [];
-
-    buttonsToDestroy.forEach(function(buttonName) {
-        if (mainState[buttonName]) {
-            mainState[buttonName].destroy();
-        }
-    });
-
-    let towerClassNames = this.getTowerClassNames();
-
-    let backdropButtonWidth = 52;
-    let halfBackdropButtonWidth = backdropButtonWidth * .5;
-    let buttonGap = 2;
-    let xOffset = -(towerClassNames.length-1) * (halfBackdropButtonWidth + (buttonGap * .5));
-    let yOffset = -halfBackdropButtonWidth;
-
-    if (this.currentGridPosition.x + xOffset < game.camera.x)
-    {
-        xOffset = -this.currentGridPosition.x + game.camera.x + halfBackdropButtonWidth;
-    }
-    if (this.currentGridPosition.x + (halfBackdropButtonWidth * towerClassNames.length) > (game.camera.x + game.camera.width + 5))
-    {
-        xOffset = -(backdropButtonWidth+buttonGap) * (towerClassNames.length-1);
-    }
-
-    towerClassNames.forEach(function(towerClassName) {
-
-        let backdropButtonName = towerClassName + 'TowerButtonBackdrop';
-        let buttonName = towerClassName + 'TowerButton';
-        let textInfoName = towerClassName + 'TowerButtonInfo';
-
-        let functionName = 'place' + towerClassName + 'TowerAtCost';
-
-        // Backdrop button start
-        mainState[backdropButtonName] = game.add.button(
-            mainState.currentGridPosition.x + xOffset,
-            mainState.currentGridPosition.y + yOffset,
-            'blankDark',
-            mainState[functionName],
-            mainState
+        let coordinates = this.translateGridCoordinatesToPixelCoordinates(
+            this.level.entryXGrid,
+            this.level.entryYGrid
         );
-        mainState[backdropButtonName].inputEnabled = true;
-        mainState[backdropButtonName].alpha = .5;
-        mainState[backdropButtonName].anchor.set(0.5, 0.5);
-        mainState[backdropButtonName].scale.setTo(1.5, 1.5);
-        // Backdrop button end
+        let x = coordinates[0];
+        let y = coordinates[1];
 
-        // Sprite-based button start
-        mainState[buttonName] = game.add.button(
-            mainState.currentGridPosition.x + xOffset,
-            mainState.currentGridPosition.y + yOffset,
-            towerClassName + 'SpriteSheet',
-            mainState[functionName],
-            mainState
-        );
-        mainState[buttonName].inputEnabled = true;
-        mainState[buttonName].alpha = .6;
-        mainState[buttonName].anchor.set(.5, .5);
-        mainState[buttonName].scale.setTo(.75, .75);
-        // Sprite-based button end
-
-        let cost = window[towerClassName].cost;
-
-        mainState[textInfoName] = game.add.bitmapText(
-            mainState[buttonName].x,
-            mainState[buttonName].y  + yOffset + (mainState[buttonName].height * .7),
-            bitmapFontName,
-            '£' + cost,
-            16
-        );
-
-        mainState[textInfoName].x = mainState[textInfoName].x - (mainState[textInfoName].width * .5);
-
-        if (mainState.coins < cost)
+        if (this.level.entryXGrid >= 20)
         {
-            mainState[textInfoName].tint = 0xFF0000;
-            mainState[buttonName].inputEnabled = false;
-            mainState[backdropButtonName].inputEnabled = false;
+            x += this.squareWidth - 1;
+            y += this.halfSquareWidth;
         }
-
-        xOffset += backdropButtonWidth + buttonGap;
-
-    });
-
-    this.labelIndicatorMessage.setText('Select tower to place here.');
-
-
-};
-
-mainState.closeTowerPlacementView = function()
-{
-
-    this.currentGridPosition = {};
-
-    let buttonsToDestroy = [];
-
-    let towerClassNames = this.getTowerClassNames();
-
-    towerClassNames.forEach(function(towerClassName) {
-        buttonsToDestroy.push(towerClassName + 'TowerButtonBackdrop');
-        buttonsToDestroy.push(towerClassName + 'TowerButton');
-    });
-
-    buttonsToDestroy.forEach(function(buttonName) {
-        if (mainState[buttonName]) {
-            mainState[buttonName].destroy();
-        }
-    });
-
-    let textToDestroy = [];
-
-    towerClassNames.forEach(function(towerClassName) {
-        textToDestroy.push(towerClassName + 'TowerButtonInfo');
-    });
-
-    textToDestroy.forEach(function(textName) {
-        if (mainState[textName]) {
-            mainState[textName].destroy();
-        }
-    });
-
-    if (this.towerPlacementViewGraphics)
-    {
-        this.towerPlacementViewGraphics.destroy();
-    }
-
-    this.labelIndicatorMessage.setText('');
-
-    this.towerPlacementViewOpen = false;
-
-};
-
-mainState.refreshTowerPlacementView = function()
-{
-    if (!this.currentGridPosition || !this.currentGridPosition.x || !this.currentGridPosition.y)
-    {
-        return false;
-    }
-
-    let x = this.currentGridPosition.x;
-    let y = this.currentGridPosition.y;
-
-    this.closeTowerPlacementView();
-    this.openTowerPlacementView(x, y, 'pixels');
-
-    return true;
-};
-
-mainState.refreshTowerPlacementViewIfOpen = function()
-{
-    if (this.towerPlacementViewOpen) {
-        this.refreshTowerPlacementView();
-    }
-};
-
-mainState.updateTowerPlacementView = function()
-{
-    this.getTowerClassNames().forEach(function(towerClassName) {
-        let buttonName = towerClassName + 'TowerButton';
-        let backdropButtonName = towerClassName + 'TowerButtonBackdrop';
-        if (
-            mainState[buttonName] && mainState[buttonName].input.pointerOver()
-            ||
-            mainState[backdropButtonName] && mainState[backdropButtonName].input.pointerOver()
-        ) {
-            mainState[backdropButtonName].alpha = .8;
-        }
-        else
+        if (this.level.entryYGrid >= 10)
         {
-            mainState[backdropButtonName].alpha = .5;
+            x += this.halfSquareWidth;
+            y += this.squareWidth - 1;
         }
-    });
-};
 
-mainState.placeGunTowerAtCost = function()
-{
-    this.placeTowerAtCost('Gun');
-};
-
-mainState.placeFreezerTowerAtCost = function()
-{
-    this.placeTowerAtCost('Freezer');
-};
-
-mainState.placeLaserTowerAtCost = function()
-{
-    this.placeTowerAtCost('Laser');
-};
-
-mainState.placeTowerAtCost = function(className)
-{
-
-    this.towerSelected = className;
-
-    let cost = window[this.towerSelected].cost;
-
-    if (!this.coinsSufficientForTowerPlacement())
-    {
-        return false;
+        return [x, y];
     }
 
-    let x = this.currentGridPosition.x;
-    let y = this.currentGridPosition.y;
-
-    if (this.spawnTower(this.towerSelected, x, y))
+    addItem(itemName)
     {
-        this.changeCoins(-cost, x, y);
-        this.addTowerClassUsed(className, x, y);
-    }
-
-    this.closeTowerPlacementView();
-
-};
-
-mainState.getCheapestTowerCost = function()
-{
-    let towerClassNames = this.getTowerClassNames();
-    let cheapestTowerCost = 9999;
-
-    towerClassNames.forEach(function(towerClassName) {
-        if (window[towerClassName].cost < cheapestTowerCost)
+        try
         {
-            cheapestTowerCost = window[towerClassName].cost;
-        }
-    });
-
-    return cheapestTowerCost;
-
-};
-
-mainState.getTowerClassNames = function()
-{
-    if (this.level.towersAvailable)
-    {
-        return this.level.towersAvailable;
-    }
-
-    return ['Gun', 'Freezer', 'Laser'];
-};
-
-mainState.getMidPointBetweenSprites = function(spriteA, spriteB)
-{
-
-    let x = Math.round((spriteA.body.x + spriteB.body.x) / 2);
-    let y = Math.round((spriteA.body.y + spriteB.body.y) / 2);
-    let angle = Math.atan2(spriteB.body.y - spriteA.body.y, spriteB.body.x - spriteA.body.x ) * (180/Math.PI);
-
-    return {
-        x: x,
-        y: y,
-        angle: angle
-    }
-};
-
-mainState.addTowerClassUsed = function(towerClassName, notificationX, notificationY)
-{
-    if (this.towerClassesUsed.indexOf(towerClassName) === -1)
-    {
-        this.towerClassesUsed.push(towerClassName);
-        let additionalTowerClassScoreBonus = 50 * this.towerClassesUsed.length;
-        this.changeScore(additionalTowerClassScoreBonus, notificationX, notificationY);
-    }
-};
-
-/**
- * Generate wave information for a supplied waveNumber.
- *
- * @param waveNumber
- * @returns {boolean}
- */
-mainState.generateWave = function(waveNumber)
-{
-    if (waveNumber <= this.initialWavesCount) {
-        return false;
-    }
-
-    let sourceWaveNumber = (waveNumber % this.initialWavesCount) || this.initialWavesCount;
-
-    let difficultyMultiplier = Math.floor(waveNumber / this.initialWavesCount) + 1;
-
-    let sourceWave = this.level.waveInfo['wave' + sourceWaveNumber];
-
-    let generatedWave = {
-        duration: sourceWave.duration * difficultyMultiplier,
-        attacks: []
-    };
-
-    if (sourceWave.attacks)
-    {
-        sourceWave.attacks.forEach(function(attack)
-        {
-            let delay = attack.delay;
-
-            if (attack.delay >= 3)
+            if (!this.user.items)
             {
-                delay *= difficultyMultiplier;
+                this.user.items = {};
             }
 
-            let generatedAttack = {
-                className: attack.className,
-                duration: attack.duration * difficultyMultiplier,
-                gap: attack.gap,
-                delay: delay
-            };
+            if (!this.user.items[itemName])
+            {
+                this.user.items[itemName] = 1;
+            }
+            else
+            {
+                this.user.items[itemName] ++;
+            }
 
-            generatedWave.attacks.push(generatedAttack);
+            this.save();
+        }
+        catch (err)
+        {
+            console.log(err);
+        }
+    }
+
+    hasItem(itemName)
+    {
+        return (
+            this.user.hasOwnProperty('items')
+            &&
+            this.user.items.hasOwnProperty('itemName')
+            &&
+            this.user.items.hasOwnProperty('itemName') >= 1
+        );
+    }
+
+    addGlobalAdditionalCostTile(x, y, coordinateType, cost)
+    {
+        if (!this.globalAdditionalCostTiles)
+        {
+            this.globalAdditionalCostTiles = [];
+        }
+
+        if (!cost)
+        {
+            cost = 9999;
+        }
+
+        if (coordinateType && coordinateType === 'pixels')
+        {
+            let gridCoordinates = this.translatePixelCoordinatesToGridCoordinates(x, y);
+            x = gridCoordinates[0];
+            y = gridCoordinates[1];
+        }
+
+        this.globalAdditionalCostTiles.push([
+            x,
+            y,
+            cost
+        ]);
+
+        this.setAllAttackerPathNeedsRegenerating();
+    }
+
+    setAllAttackerPathNeedsRegenerating()
+    {
+        if (!this.level.canPlaceTowerOnPathway && !this.bully)
+        {
+            return false;
+        }
+
+        this.attackers.forEachAlive(function(attacker){
+            attacker.pathNeedsRegenerating = true;
         });
     }
 
-    this.level.waveInfo['wave' + waveNumber] = generatedWave;
-
-    return true;
-
-};
-
-mainState.setupSounds = function()
-{
-    if (!this.sounds)
+    addGlobalImpassablePoint(x, y, coordinateType)
     {
-        this.sounds = {};
+        if (coordinateType && coordinateType === 'pixels')
+        {
+            let gridCoordinates = this.translatePixelCoordinatesToGridCoordinates(x, y);
+            x = gridCoordinates[0];
+            y = gridCoordinates[1];
+        }
+
+        this.pathfinding.easy_star.avoidAdditionalPoint(x, y);
+        this.easyStarSync.avoidAdditionalPoint(x, y);
+
+        this.setAllAttackerPathNeedsRegenerating();
     }
 
-    this.sounds.bookOpen =  game.add.audio('bookOpen');
-    this.sounds.bookOpen.allowMultiple = true;
-
-    this.sounds.footstep02 =  game.add.audio('footstep02');
-    this.sounds.footstep02.allowMultiple = true;
-    this.sounds.footstep02.volume = .8;
-
-    this.sounds.handleCoins =  game.add.audio('handleCoins');
-    this.sounds.handleCoins.allowMultiple = true;
-
-    this.sounds.metalClick =  game.add.audio('metalClick');
-    this.sounds.metalClick.allowMultiple = true;
-
-    this.sounds.metalLatch =  game.add.audio('metalLatch');
-    this.sounds.metalLatch.allowMultiple = true;
-    this.sounds.metalLatch.volume = .8;
-
-    this.sounds.nes08 =  game.add.audio('nes08');
-    this.sounds.nes08.allowMultiple = true;
-    this.sounds.nes08.volume = .3;
-
-    this.sounds.nes09 =  game.add.audio('nes09');
-    this.sounds.nes09.allowMultiple = true;
-    this.sounds.nes09.volume = .3;
-
-    this.sounds.nes13 =  game.add.audio('nes13');
-    this.sounds.nes13.allowMultiple = true;
-    this.sounds.nes13.volume = .3;
-
-    this.sounds.nes15 =  game.add.audio('nes15');
-    this.sounds.nes15.allowMultiple = true;
-    this.sounds.nes15.volume = .3;
-
-};
-
-mainState.playSound = function(soundName)
-{
-    this.sounds[soundName].play();
-};
-
-mainState.getBulletsAlive = function()
-{
-    let bullets = [];
-
-    this.towers.forEach(function(tower)
+    removeGlobalImpassablePoint(x, y)
     {
+        this.pathfinding.easy_star.stopAvoidingAdditionalPoint(x, y);
+        this.easyStarSync.stopAvoidingAdditionalPoint(x, y);
+
+        this.setAllAttackerPathNeedsRegenerating();
+    }
+
+    wouldObstaclePlacementBlockPath(x, y, coordinateType)
+    {
+        if (!this.level.canPlaceTowerOnPathway)
+        {
+            return false;
+        }
+
+        if (coordinateType && coordinateType === 'pixels')
+        {
+            let gridCoordinates = this.translatePixelCoordinatesToGridCoordinates(x, y);
+            x = gridCoordinates[0];
+            y = gridCoordinates[1];
+        }
+
+        this.addGlobalImpassablePoint(x, y, 'grid');
+
+        this.easyStarSync.findPath(
+            this.getEntryXGrid(),
+            this.getEntryYGrid(),
+            this.getGoalXGrid(),
+            this.getGoalYGrid(),
+            this.wouldObstaclePlacementBlockPathCallbackHandler
+        );
+
+        this.easyStarSync.calculate();
+
+        this.removeGlobalImpassablePoint(x, y);
+
+        return (wouldObstaclePlacementBlockPathResult === null);
+    }
+
+    wouldObstaclePlacementBlockPathCallbackHandler(path)
+    {
+        wouldObstaclePlacementBlockPathResult = path;
+    }
+
+    getEntryXGrid()
+    {
+        return this.level.entryXGrid;
+    }
+
+    getEntryYGrid()
+    {
+        return this.level.entryYGrid;
+    }
+
+    getGoalXGrid()
+    {
+        if (!this.level.goalXGrid)
+        {
+            this.generateGoal();
+        }
+        return this.level.goalXGrid;
+    }
+
+    getGoalYGrid()
+    {
+        if (!this.level.goalXGrid)
+        {
+            this.generateGoal();
+        }
+        return this.level.goalYGrid;
+    }
+
+    generateGoal()
+    {
+        let gridX;
+        let gridY;
+        if (this.nathan)
+        {
+            gridX = this.nathan.gridX;
+            gridY = this.nathan.gridY;
+        }
+        this.level.goalXGrid = gridX;
+        this.level.goalYGrid = gridY;
+    }
+
+    pixelsNearestTileTopLeftCoordinates(x, y)
+    {
+        return [
+            Math.round(x / this.squareWidth) * this.squareWidth,
+            Math.round(y / this.squareWidth) * this.squareWidth
+        ];
+    }
+
+    countObstaclesWithCoinsValue()
+    {
+        let i = 0;
+        this.obstacles.forEachAlive(function(obstacle){
+            if (obstacle.coinsValue >= 1) {
+                i++;
+            }
+        });
+        return i;
+    }
+
+    setTarget(sprite)
+    {
+        this.game.target = sprite;
+    }
+
+    noTarget()
+    {
+        this.game.target = {};
+    }
+
+    addUserInterfaceButtons()
+    {
+        this.pauseButton = game.add.button(game.camera.width - 42, 7, 'pauseDark', this.openPauseScreen, this);
+        this.pauseButton.fixedToCamera = true;
+        this.pauseButton.inputEnabled = true;
+        this.pauseButton.alpha = .5;
+    }
+
+    destroyUserInterfaceButtons()
+    {
+        let buttonsToDestroy = ['pauseButton'];
+        buttonsToDestroy.forEach(function(buttonName)
+        {
+            if (this[buttonName]) {
+                this[buttonName].destroy();
+            }
+        }, this);
+    }
+
+    togglePauseScreen()
+    {
+        if (this.pauseScreenOpen)
+        {
+            this.closePauseScreen();
+        }
+        else
+        {
+            this.openPauseScreen();
+        }
+    }
+
+    openPauseScreen()
+    {
+        if (this.pauseScreenOpen)
+        {
+            return false;
+        }
+
+        if (this.graphics)
+        {
+            this.graphics.destroy();
+        }
+        this.closeTowerInfo();
+        this.closeTowerPlacementView();
+
+        this.pause(false);
+
+        this.pauseScreenOpen = true;
+
+        this.gameOverBackground.alpha = .5;
+
+        this.addButtonTextLink('resume', 'Resume', 46, 'forestGreen', 0, game.height * .21, 'center', 'closePauseScreen');
+
+        this.addButtonTextLink('restart', 'Restart Level', 46, 'forestGreen', 0, game.height * .46, 'center', 'restartLevel');
+
+        this.addButtonTextLink('exit', 'Exit', 46, 'forestGreen', 0, game.height * .71, 'center', 'goToTitleScreen');
+
+        return true;
+
+    }
+
+    closePauseScreen()
+    {
+        let buttonsToDestroy = ['resume', 'restart', 'exit'];
+
+        buttonsToDestroy.forEach(function(name) {
+            if (this[name]) {
+                this[name].destroy();
+            }
+            if (this[name + 'Button']) {
+                this[name + 'Button'].destroy();
+            }
+        }, this);
+
+        this.gameOverBackground.alpha = 0;
+
+        this.pauseScreenOpen = false;
+
+        this.unpause();
+    }
+
+    restartLevel()
+    {
+        this.closePauseScreen();
+        let obj = {
+            zoneName: this.zoneName,
+            levelNumber: this.levelId,
+            mode: this.mode
+        };
+        game.state.start('play', true, true, obj);
+    }
+
+    goToTitleScreen()
+    {
+        this.closePauseScreen();
+        this.changeGameState('titleScreen');
+    }
+
+    getBully()
+    {
+        let bully;
+        this.characters.forEachAlive(function(character) {
+            if (character.constructor.name === 'Bully') {
+                bully = character;
+            }
+        }, this);
+        return bully;
+    }
+
+    notPossible()
+    {
+
+    }
+
+    openTowerInfo(tower)
+    {
+
+        if (this.towerInfoOpen)
+        {
+            this.closeTowerInfo();
+        }
+
+        this.towerInfoOpen = true;
+        this.currentTower = tower;
+
+        let buttonsToDestroy = ['upgradeTowerButton', 'sellTowerButton'];
+
+        buttonsToDestroy.forEach(function(buttonName) {
+            if (this[buttonName]) {
+                this[buttonName].destroy();
+            }
+        }, this);
+
+        if (tower.sellable())
+        {
+            this.sellTowerButton = game.add.button(tower.x , tower.y, 'poundDark', this.sellCurrentTower, this);
+            this.sellTowerButton.inputEnabled = true;
+            this.sellTowerButton.alpha = .5;
+            this.sellTowerButton.anchor.set(0.5, 0.5);
+            this.sellTowerButton.scale.setTo(1.5, 1.5);
+            this.sellTowerButton.x = tower.x - 39;
+
+            this.sellTowerText = game.add.bitmapText(this.sellTowerButton.x, this.sellTowerButton.y, bitmapFontName, '£' + this.currentTower.getSellValue(), 16);
+            this.sellTowerText.x = this.sellTowerButton.x - (this.sellTowerText.width * .5);
+            this.sellTowerText.y = this.sellTowerButton.y + (this.sellTowerButton.height * .5);
+        }
+
+        let upgradeTowerTextString = '';
+
+        if (tower.upgradable())
+        {
+            this.upgradeTowerButton = game.add.button(tower.x, tower.y, 'upDark', this.upgradeCurrentTower, this);
+
+            if (this.coinsSufficientToUpgradeCurrentTower()) {
+                this.upgradeTowerButton.inputEnabled = true;
+            } else {
+                this.upgradeTowerButton.inputEnabled = false;
+                this.upgradeTowerButton.tint = 0x880000;
+            }
+
+            this.upgradeTowerButton.alpha = .5;
+            this.upgradeTowerButton.anchor.set(0.5, 0.5);
+            this.upgradeTowerButton.scale.setTo(1.5, 1.5);
+
+            this.labelIndicatorMessage.setText('Upgrade or sell tower.');
+
+            upgradeTowerTextString = '£' + this.currentTower.getUpgradeCost();
+
+        }
+        else
+        {
+            this.upgradeTowerButton = game.add.button(tower.x, tower.y, 'maxDark', this.notPossible, this);
+            this.upgradeTowerButton.inputEnabled = false;
+            this.upgradeTowerButton.alpha = .5;
+            this.upgradeTowerButton.anchor.set(0.5, 0.5);
+            this.upgradeTowerButton.scale.setTo(1.5, 1.5);
+
+            this.labelIndicatorMessage.setText('Tower is at maximum grade.');
+        }
+        this.upgradeTowerButton.x = tower.x + 39;
+        this.upgradeTowerText = game.add.bitmapText(this.upgradeTowerButton.x, this.upgradeTowerButton.y, bitmapFontName, upgradeTowerTextString, 16);
+
+        if (this.upgradeTowerText)
+        {
+            this.upgradeTowerText.x = this.upgradeTowerButton.x - (this.upgradeTowerText.width * .5);
+            this.upgradeTowerText.y = this.upgradeTowerButton.y + (this.upgradeTowerButton.height * .5);
+        }
+
         if (tower.weapon1)
         {
-            tower.weapon1.bullets.forEachAlive(function (bullet)
+
+            this.towerInfoOpenRangeGraphics = game.add.graphics(0, 0);
+
+            this.towerInfoOpenRangeGraphics.lineStyle(2, 0x88FF88, 0.5);
+            this.towerInfoOpenRangeGraphics.beginFill(0x88FF88, 0.2);
+            this.towerInfoOpenRangeGraphics.drawCircle(tower.x, tower.y, tower.weapon1.rangeInPixels*2);
+            this.towerInfoOpenRangeGraphics.endFill();
+
+            if (tower.upgradable())
             {
-                bullets.push(bullet);
-            });
+                this.towerInfoOpenRangeGraphics.lineStyle(2, 0x33FFFF, 0.5);
+                this.towerInfoOpenRangeGraphics.drawCircle(tower.x, tower.y, tower.weapon1.rangeInPixels*2);
+                this.towerInfoOpenRangeGraphics.endFill();
+            }
         }
-    }, this);
-
-    return bullets;
-};
-
-mainState.calculateCompletionStars = function()
-{
-    if (typeof this.level.calculateCompletionStars === 'function')
-    {
-        return this.level.calculateCompletionStars();
     }
 
-    let stars = 1;
-    if (this.lives === this.level.startingLives)
+    closeTowerInfo()
     {
-        stars ++;
-    }
-    if (this.countObstaclesWithCoinsValue() <= this.startingObstaclesWithCoinsValue * .4)
-    {
-        stars ++;
-    }
-    return stars;
+        this.currentTower = {};
 
-};
+        let buttonsToDestroy = ['upgradeTowerButton', 'sellTowerButton'];
 
-/**
- * @param waveNumber
- * @returns {number}
- */
-mainState.calculateFirepowerAtWave = function(waveNumber)
-{
-    let firepower = this.level.startingCoins || 0;
+        buttonsToDestroy.forEach(function(buttonName) {
+            if (this[buttonName]) {
+                this[buttonName].destroy();
+            }
+        }, this);
 
-    let i = 0;
-    for (let wave in this.level.waveInfo)
-    {
-        i++;
-        if (i >= waveNumber) {
-            break;
-        }
+        let textToDestroy = ['upgradeTowerText', 'sellTowerText'];
 
-        if (this.level.waveInfo[wave].attacks)
+        textToDestroy.forEach(function(textName) {
+            if (this[textName]) {
+                this[textName].destroy();
+            }
+        }, this);
+
+        if (this.towerInfoOpenRangeGraphics)
         {
-            this.level.waveInfo[wave].attacks.forEach(function(attack)
-            {
-                let coinsValue = window[attack.className].coinsValue || 5;
-                let quantity = Math.floor(attack.duration / attack.gap);
-                firepower += (coinsValue * quantity);
-            });
+            this.towerInfoOpenRangeGraphics.destroy();
+        }
+
+        this.labelIndicatorMessage.setText('');
+
+        this.towerInfoOpen = false;
+    }
+
+    sellCurrentTower()
+    {
+        this.currentTower.sell();
+        this.playSound('handleCoins');
+        this.closeTowerInfo();
+    }
+
+    upgradeCurrentTower()
+    {
+        if (this.coinsSufficientToUpgradeCurrentTower())
+        {
+            this.currentTower.upgradeAtCost();
+            this.playSound('metalClick');
+        }
+        this.refreshTowerInfo();
+    }
+
+    refreshTowerInfo()
+    {
+        let tower = this.currentTower;
+        this.closeTowerInfo();
+        this.openTowerInfo(tower);
+    }
+
+    refreshTowerInfoIfOpen()
+    {
+        if (this.towerInfoOpen)
+        {
+            this.refreshTowerInfo();
         }
     }
 
-    return firepower;
-
-};
-
-mainState.suggestAttackProperties = function(waveNumber, attackerClassName)
-{
-    let firepower = this.calculateFirepowerAtWave(waveNumber);
-
-    let attackerHealth = window[attackerClassName].defaultHealth * this.calculateWaveHealthModifier(waveNumber);
-
-    // TODO
-
-};
-
-mainState.calculateWaveHealthModifier = function(waveNumber)
-{
-    let modifier;
-
-    let x = waveNumber - 1;
-
-    if (this.level.hasOwnProperty('waveHealthCubicA'))
+    openTowerPlacementView(x, y, coordinateType)
     {
-        let a = this.level.waveHealthCubicA;
-        let b = this.level.waveHealthCubicB || 0;
-        let c = this.level.waveHealthCubicC || 0;
-        let d = this.level.waveHealthCubicD || 1;
-        modifier = Math.pow((a * x), 3) + Math.pow((b * x), 2) + (c * x) + d;
+        if (this.towerPlacementViewOpen)
+        {
+            this.closeTowerPlacementView();
+        }
+
+        this.towerPlacementViewOpen = true;
+
+        let gridX = x;
+        let gridY = y;
+
+        if (coordinateType && coordinateType === 'grid')
+        {
+            let coordinates = this.translateGridCoordinatesToPixelCoordinates(x, y);
+            x = coordinates[0];
+            y = coordinates[1];
+        }
+        else
+        {
+            let coordinates = this.translatePixelCoordinatesToGridCoordinates(x, y);
+            gridX = coordinates[0];
+            gridY = coordinates[1];
+        }
+
+        this.currentGridPosition = {
+            x: x,
+            y: y,
+            gridX: gridX,
+            gridY: gridY
+        };
+
+        this.towerPlacementViewGraphics = game.add.graphics(0, 0);
+
+        this.towerPlacementViewGraphics.lineStyle(2, 0x00FF00, 1);
+        this.towerPlacementViewGraphics.drawRect(x - this.squareWidth*.5, y - this.squareWidth*.5, this.squareWidth, this.squareWidth);
+
+        let buttonsToDestroy = [];
+
+        buttonsToDestroy.forEach(function(buttonName) {
+            if (this[buttonName])
+            {
+                this[buttonName].destroy();
+            }
+        }, this);
+
+        let towerClassNames = this.getTowerClassNames();
+
+        let backdropButtonWidth = 52;
+        let halfBackdropButtonWidth = backdropButtonWidth * .5;
+        let buttonGap = 2;
+        let xOffset = -(towerClassNames.length-1) * (halfBackdropButtonWidth + (buttonGap * .5));
+        let yOffset = -halfBackdropButtonWidth;
+
+        if (this.currentGridPosition.x + xOffset < game.camera.x)
+        {
+            xOffset = -this.currentGridPosition.x + game.camera.x + halfBackdropButtonWidth;
+        }
+        if (this.currentGridPosition.x + (halfBackdropButtonWidth * towerClassNames.length) > (game.camera.x + game.camera.width + 5))
+        {
+            xOffset = -(backdropButtonWidth+buttonGap) * (towerClassNames.length-1);
+        }
+
+        towerClassNames.forEach(function(towerClassName) {
+
+            let backdropButtonName = towerClassName + 'TowerButtonBackdrop';
+            let buttonName = towerClassName + 'TowerButton';
+            let textInfoName = towerClassName + 'TowerButtonInfo';
+
+            let functionName = 'place' + towerClassName + 'TowerAtCost';
+
+            // Backdrop button start
+            this[backdropButtonName] = game.add.button(
+                this.currentGridPosition.x + xOffset,
+                this.currentGridPosition.y + yOffset,
+                'blankDark',
+                this[functionName],
+                this
+            );
+            this[backdropButtonName].inputEnabled = true;
+            this[backdropButtonName].alpha = .5;
+            this[backdropButtonName].anchor.set(0.5, 0.5);
+            this[backdropButtonName].scale.setTo(1.5, 1.5);
+            // Backdrop button end
+
+            // Sprite-based button start
+            this[buttonName] = game.add.button(
+                this.currentGridPosition.x + xOffset,
+                this.currentGridPosition.y + yOffset,
+                towerClassName + 'SpriteSheet',
+                this[functionName],
+                this
+            );
+            this[buttonName].inputEnabled = true;
+            this[buttonName].alpha = .6;
+            this[buttonName].anchor.set(.5, .5);
+            this[buttonName].scale.setTo(.75, .75);
+            // Sprite-based button end
+
+            let cost = window[towerClassName].cost;
+
+            this[textInfoName] = game.add.bitmapText(
+                this[buttonName].x,
+                this[buttonName].y  + yOffset + (this[buttonName].height * .7),
+                bitmapFontName,
+                '£' + cost,
+                16
+            );
+
+            this[textInfoName].x = this[textInfoName].x - (this[textInfoName].width * .5);
+
+            if (this.coins < cost)
+            {
+                this[textInfoName].tint = 0xFF0000;
+                this[buttonName].inputEnabled = false;
+                this[backdropButtonName].inputEnabled = false;
+            }
+
+            xOffset += backdropButtonWidth + buttonGap;
+
+        }, this);
+
+        this.labelIndicatorMessage.setText('Select tower to place here.');
     }
-    else if (this.level.hasOwnProperty('waveHealthQuadraticA'))
+
+    closeTowerPlacementView()
     {
-        let a = this.level.waveHealthQuadraticA;
-        let b = this.level.waveHealthQuadraticB || 0;
-        let c = this.level.waveHealthQuadraticC || 1;
-        modifier = Math.pow((a * x), 2) + (b * x) + c;
+        this.currentGridPosition = {};
+
+        let buttonsToDestroy = [];
+
+        let towerClassNames = this.getTowerClassNames();
+
+        towerClassNames.forEach(function(towerClassName)
+        {
+            buttonsToDestroy.push(towerClassName + 'TowerButtonBackdrop');
+            buttonsToDestroy.push(towerClassName + 'TowerButton');
+        });
+
+        buttonsToDestroy.forEach(function(buttonName)
+        {
+            if (this[buttonName]) {
+                this[buttonName].destroy();
+            }
+        }, this);
+
+        let textToDestroy = [];
+
+        towerClassNames.forEach(function(towerClassName)
+        {
+            textToDestroy.push(towerClassName + 'TowerButtonInfo');
+        });
+
+        textToDestroy.forEach(function(textName)
+        {
+            if (this[textName]) {
+                this[textName].destroy();
+            }
+        }, this);
+
+        if (this.towerPlacementViewGraphics)
+        {
+            this.towerPlacementViewGraphics.destroy();
+        }
+
+        this.labelIndicatorMessage.setText('');
+
+        this.towerPlacementViewOpen = false;
     }
-    else
+
+    refreshTowerPlacementView()
     {
-        let waveHealthModifier = this.level.waveHealthModifier || .2;
-        modifier =  (1 - waveHealthModifier) + (waveNumber * waveHealthModifier);
+        if (!this.currentGridPosition || !this.currentGridPosition.x || !this.currentGridPosition.y)
+        {
+            return false;
+        }
+
+        let x = this.currentGridPosition.x;
+        let y = this.currentGridPosition.y;
+
+        this.closeTowerPlacementView();
+        this.openTowerPlacementView(x, y, 'pixels');
+
+        return true;
     }
 
-    return modifier;
+    refreshTowerPlacementViewIfOpen()
+    {
+        if (this.towerPlacementViewOpen)
+        {
+            this.refreshTowerPlacementView();
+        }
+    }
 
-};
+    updateTowerPlacementView()
+    {
+        this.getTowerClassNames().forEach(function(towerClassName) {
+            let buttonName = towerClassName + 'TowerButton';
+            let backdropButtonName = towerClassName + 'TowerButtonBackdrop';
+            if (
+                this[buttonName] && this[buttonName].input.pointerOver()
+                ||
+                this[backdropButtonName] && this[backdropButtonName].input.pointerOver()
+            ) {
+                this[backdropButtonName].alpha = .8;
+            }
+            else
+            {
+                this[backdropButtonName].alpha = .5;
+            }
+        }, this);
+    }
 
-mainState.addButtonTextLink = Rendlesham.gameState.prototype.addButtonTextLink;
-mainState.changeGameState = Rendlesham.gameState.prototype.changeGameState;
-mainState.addButtonTextLink = Rendlesham.gameState.prototype.addButtonTextLink;
-mainState.loadTransylvanianFiles = Rendlesham.gameState.prototype.loadTransylvanianFiles;
+    placeGunTowerAtCost()
+    {
+        this.placeTowerAtCost('Gun');
+    }
+
+    placeFreezerTowerAtCost()
+    {
+        this.placeTowerAtCost('Freezer');
+    }
+
+    placeLaserTowerAtCost()
+    {
+        this.placeTowerAtCost('Laser');
+    }
+
+    placeTowerAtCost(className)
+    {
+        this.towerSelected = className;
+
+        let cost = window[this.towerSelected].cost;
+
+        if (!this.coinsSufficientForTowerPlacement())
+        {
+            return false;
+        }
+
+        let x = this.currentGridPosition.x;
+        let y = this.currentGridPosition.y;
+
+        if (this.spawnTower(this.towerSelected, x, y))
+        {
+            this.changeCoins(-cost, x, y);
+            this.addTowerClassUsed(className, x, y);
+        }
+
+        this.closeTowerPlacementView();
+    }
+
+    getCheapestTowerCost()
+    {
+        let towerClassNames = this.getTowerClassNames();
+        let cheapestTowerCost = 9999;
+
+        towerClassNames.forEach(function(towerClassName) {
+            if (window[towerClassName].cost < cheapestTowerCost)
+            {
+                cheapestTowerCost = window[towerClassName].cost;
+            }
+        });
+
+        return cheapestTowerCost;
+    }
+
+    getTowerClassNames()
+    {
+        if (this.level.towersAvailable)
+        {
+            return this.level.towersAvailable;
+        }
+        return ['Gun', 'Freezer', 'Laser'];
+    }
+
+    getMidPointBetweenSprites(spriteA, spriteB)
+    {
+
+        let x = Math.round((spriteA.body.x + spriteB.body.x) / 2);
+        let y = Math.round((spriteA.body.y + spriteB.body.y) / 2);
+        let angle = Math.atan2(spriteB.body.y - spriteA.body.y, spriteB.body.x - spriteA.body.x ) * (180/Math.PI);
+
+        return {
+            x: x,
+            y: y,
+            angle: angle
+        }
+    }
+
+    addTowerClassUsed(towerClassName, notificationX, notificationY)
+    {
+        if (this.towerClassesUsed.indexOf(towerClassName) === -1)
+        {
+            this.towerClassesUsed.push(towerClassName);
+            let additionalTowerClassScoreBonus = 50 * this.towerClassesUsed.length;
+            this.changeScore(additionalTowerClassScoreBonus, notificationX, notificationY);
+        }
+    }
+
+    /**
+     * Generate wave information for a supplied waveNumber.
+     *
+     * @param waveNumber
+     * @returns {boolean}
+     */
+    generateWave(waveNumber)
+    {
+        if (waveNumber <= this.initialWavesCount)
+        {
+            return false;
+        }
+
+        let sourceWaveNumber = (waveNumber % this.initialWavesCount) || this.initialWavesCount;
+
+        let difficultyMultiplier = Math.floor(waveNumber / this.initialWavesCount) + 1;
+
+        let sourceWave = this.level.waveInfo['wave' + sourceWaveNumber];
+
+        let generatedWave = {
+            duration: sourceWave.duration * difficultyMultiplier,
+            attacks: []
+        };
+
+        if (sourceWave.attacks)
+        {
+            sourceWave.attacks.forEach(function(attack)
+            {
+                let delay = attack.delay;
+
+                if (attack.delay >= 3)
+                {
+                    delay *= difficultyMultiplier;
+                }
+
+                let generatedAttack = {
+                    className: attack.className,
+                    duration: attack.duration * difficultyMultiplier,
+                    gap: attack.gap,
+                    delay: delay
+                };
+
+                generatedWave.attacks.push(generatedAttack);
+            });
+        }
+
+        this.level.waveInfo['wave' + waveNumber] = generatedWave;
+
+        return true;
+    }
+
+    setupSounds()
+    {
+        if (!this.sounds)
+        {
+            this.sounds = {};
+        }
+
+        this.sounds.bookOpen =  game.add.audio('bookOpen');
+        this.sounds.bookOpen.allowMultiple = true;
+
+        this.sounds.footstep02 =  game.add.audio('footstep02');
+        this.sounds.footstep02.allowMultiple = true;
+        this.sounds.footstep02.volume = .8;
+
+        this.sounds.handleCoins =  game.add.audio('handleCoins');
+        this.sounds.handleCoins.allowMultiple = true;
+
+        this.sounds.metalClick =  game.add.audio('metalClick');
+        this.sounds.metalClick.allowMultiple = true;
+
+        this.sounds.metalLatch =  game.add.audio('metalLatch');
+        this.sounds.metalLatch.allowMultiple = true;
+        this.sounds.metalLatch.volume = .8;
+
+        this.sounds.nes08 =  game.add.audio('nes08');
+        this.sounds.nes08.allowMultiple = true;
+        this.sounds.nes08.volume = .3;
+
+        this.sounds.nes09 =  game.add.audio('nes09');
+        this.sounds.nes09.allowMultiple = true;
+        this.sounds.nes09.volume = .3;
+
+        this.sounds.nes13 =  game.add.audio('nes13');
+        this.sounds.nes13.allowMultiple = true;
+        this.sounds.nes13.volume = .3;
+
+        this.sounds.nes15 =  game.add.audio('nes15');
+        this.sounds.nes15.allowMultiple = true;
+        this.sounds.nes15.volume = .3;
+    }
+
+    playSound(soundName)
+    {
+        this.sounds[soundName].play();
+    }
+
+    getBulletsAlive()
+    {
+        let bullets = [];
+
+        this.towers.forEach(function(tower)
+        {
+            if (tower.weapon1)
+            {
+                tower.weapon1.bullets.forEachAlive(function (bullet)
+                {
+                    bullets.push(bullet);
+                });
+            }
+        }, this);
+
+        return bullets;
+    }
+
+    calculateCompletionStars()
+    {
+        if (typeof this.level.calculateCompletionStars === 'function')
+        {
+            return this.level.calculateCompletionStars();
+        }
+
+        let stars = 1;
+        if (this.lives === this.level.startingLives)
+        {
+            stars ++;
+        }
+        if (this.countObstaclesWithCoinsValue() <= this.startingObstaclesWithCoinsValue * .4)
+        {
+            stars ++;
+        }
+        return stars;
+    }
+
+    /**
+     * @param waveNumber
+     * @returns {number}
+     */
+    calculateFirepowerAtWave(waveNumber)
+    {
+        let firepower = this.level.startingCoins || 0;
+
+        let i = 0;
+        for (let wave in this.level.waveInfo)
+        {
+            i++;
+            if (i >= waveNumber) {
+                break;
+            }
+
+            if (this.level.waveInfo[wave].attacks)
+            {
+                this.level.waveInfo[wave].attacks.forEach(function(attack)
+                {
+                    let coinsValue = window[attack.className].coinsValue || 5;
+                    let quantity = Math.floor(attack.duration / attack.gap);
+                    firepower += (coinsValue * quantity);
+                });
+            }
+        }
+
+        return firepower;
+    }
+
+    suggestAttackProperties(waveNumber, attackerClassName)
+    {
+        let firepower = this.calculateFirepowerAtWave(waveNumber);
+        let attackerHealth = window[attackerClassName].defaultHealth * this.calculateWaveHealthModifier(waveNumber);
+        // TODO
+    }
+
+    calculateWaveHealthModifier(waveNumber)
+    {
+        let modifier;
+
+        let x = waveNumber - 1;
+
+        if (this.level.hasOwnProperty('waveHealthCubicA'))
+        {
+            let a = this.level.waveHealthCubicA;
+            let b = this.level.waveHealthCubicB || 0;
+            let c = this.level.waveHealthCubicC || 0;
+            let d = this.level.waveHealthCubicD || 1;
+            modifier = Math.pow((a * x), 3) + Math.pow((b * x), 2) + (c * x) + d;
+        }
+        else if (this.level.hasOwnProperty('waveHealthQuadraticA'))
+        {
+            let a = this.level.waveHealthQuadraticA;
+            let b = this.level.waveHealthQuadraticB || 0;
+            let c = this.level.waveHealthQuadraticC || 1;
+            modifier = Math.pow((a * x), 2) + (b * x) + c;
+        }
+        else
+        {
+            let waveHealthModifier = this.level.waveHealthModifier || .2;
+            modifier =  (1 - waveHealthModifier) + (waveNumber * waveHealthModifier);
+        }
+
+        return modifier;
+
+    }
+}

@@ -63,6 +63,6 @@ class Story extends GameState
             levelNumber: this.levelNumber,
             mode: this.mode
         };
-        game.state.start('main', true, true, obj);
+        game.state.start('play', true, true, obj);
     }
 }

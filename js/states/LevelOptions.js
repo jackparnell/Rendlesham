@@ -109,7 +109,7 @@ class LevelOptions extends GameState
             mode: 'classic'
         };
 
-        let goToState = 'main';
+        let goToState = 'play';
         if (this.level.story) {
             goToState = 'story';
         }
@@ -125,7 +125,7 @@ class LevelOptions extends GameState
             mode: 'epic'
         };
 
-        let goToState = 'main';
+        let goToState = 'play';
         if (this.level.story) {
             goToState = 'story';
         }
@@ -141,7 +141,7 @@ class LevelOptions extends GameState
             mode: 'endless'
         };
 
-        let goToState = 'main';
+        let goToState = 'play';
         if (this.level.story) {
             goToState = 'story';
         }

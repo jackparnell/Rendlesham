@@ -2,7 +2,7 @@ var standard = {
     getScale: function()
     {
         let scale;
-        if ("creationTurn" in this && (mainState.turn - this.creationTurn) > 3) {
+        if ("creationTurn" in this && (game.globals.turn - this.creationTurn) > 3) {
             scale = this.scale.x;
         } else {
             scale = window[this.constructor.name].defaultScale ? window[this.constructor.name].defaultScale : 1;

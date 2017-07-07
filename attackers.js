@@ -32,7 +32,7 @@ class Attacker extends Phaser.Sprite
 
     initialise(waveNumber)
     {
-        this.creationTurn = mainState.turn;
+        this.creationTurn = game.globals.turn;
         this.waveNumber = waveNumber;
         this.health = Math.floor(
             (window[this.constructor.name].defaultHealth || 1000)
@@ -528,7 +528,7 @@ class Attacker extends Phaser.Sprite
 
     getAgeInTurns()
     {
-        return mainState.turn - this.creationTurn;
+        return game.globals.turn - this.creationTurn;
     }
 
     reachedTargetPosition()

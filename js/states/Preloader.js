@@ -23,8 +23,7 @@ class Preloader extends GameState
         text.setTextBounds(0, 100, game.width, 100);
 
         loadMainFiles();
-
-        Rendlesham.gameState.prototype.loadTransylvanianFiles();
+        this.loadTransylvanianFiles();
     }
 
     create()

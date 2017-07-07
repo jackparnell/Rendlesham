@@ -7,7 +7,7 @@ class Obstacle extends Phaser.Sprite
         $.extend( this, standard );
 
         this.guid = guid();
-        this.creationTurn = mainState.turn;
+        this.creationTurn = game.globals.turn;
 
         this.health = this.constructor.DEFAULT_HEALTH || 1000;
         this.maximumHealth = this.health;
@@ -56,7 +56,7 @@ class Obstacle extends Phaser.Sprite
 
     hit(obstacle, bullet)
     {
-        if (bullet.canOnlyHitTarget && bullet.target.guid != obstacle.guid) {
+        if (bullet.canOnlyHitTarget && bullet.target.guid !== obstacle.guid) {
             return false;
         }
 

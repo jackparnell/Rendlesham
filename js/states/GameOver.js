@@ -24,12 +24,13 @@ class GameOver extends GameState
             levelNumber: this.levelId,
             mode: this.mode
         };
-        game.state.start('main', true, true, obj);
+        game.state.start('play', true, true, obj);
     }
 
     create()
     {
-        if (game.device.desktop === false) {
+        if (game.device.desktop === false)
+        {
             game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
             game.scale.setMinMax(game.width/2, game.height/2, game.width, game.height);
         }

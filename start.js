@@ -5,7 +5,9 @@ game.state.add('zone', Zone);
 game.state.add('levelOptions', LevelOptions);
 game.state.add('story', Story);
 game.state.add('achievements', Achievements);
-game.state.add('main', mainState);
+game.state.add('play', Play);
 game.state.add('gameOver', GameOver);
 
 game.state.start('boot');
+
+var mainState = game.state.states.play;
