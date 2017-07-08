@@ -1,10 +1,10 @@
-class Decoration extends Phaser.Sprite
+class Decoration extends GameSprite
 {
     constructor(game, x, y, spriteName)
     {
         super(game, x, y, spriteName);
 
-        $.extend( this, standard );
+        this.moveable = false;
 
         this.guid = guid();
 

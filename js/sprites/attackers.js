@@ -1,11 +1,10 @@
-class Attacker extends Phaser.Sprite
+class Attacker extends GameSprite
 {
     constructor (game, x, y, spriteName, waveNumber)
     {
         super(game, x, y, spriteName);
 
-        $.extend( this, standard );
-        $.extend( this, moveable );
+        this.moveable = true;
 
         this.guid = guid();
 

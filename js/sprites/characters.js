@@ -1,11 +1,10 @@
-class Character extends Phaser.Sprite
+class Character extends GameSprite
 {
     constructor(game, x, y, spriteName)
     {
         super(game, x, y, spriteName);
 
-        $.extend( this, standard );
-        $.extend( this, moveable );
+        this.moveable = true;
 
         this.guid = guid();
         this.creationTurn = game.globals.turn;
