@@ -3,7 +3,7 @@ class Story extends GameState
     preload()
     {
         this.backgrounds = game.add.group();
-        loadMainFiles();
+        this.loadMainFiles();
     }
 
     init(obj)

@@ -7,7 +7,7 @@ class TitleScreen extends GameState
         this.linkBackgrounds = game.add.group();
         this.texts = game.add.group();
 
-        loadMainFiles();
+        this.loadMainFiles();
     }
 
     create()

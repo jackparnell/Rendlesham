@@ -8,7 +8,7 @@ class Zone extends GameState
         this.linkBackgrounds = game.add.group();
         this.texts = game.add.group();
 
-        loadMainFiles();
+        this.loadMainFiles();
     }
 
     init(zoneName)

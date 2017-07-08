@@ -5,7 +5,7 @@ class GameOver extends GameState
         this.backgrounds = game.add.group();
         this.linkBackgrounds = game.add.group();
         this.texts = game.add.group();
-        loadMainFiles();
+        this.loadMainFiles();
     }
 
     init(obj)

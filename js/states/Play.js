@@ -13,7 +13,7 @@ class Play extends GameState
         this.version = '0.1.1';
         this.name = 'rendlesham';
 
-        loadMainFiles();
+        this.loadMainFiles();
         this.loadTransylvanianFiles();
     }
 

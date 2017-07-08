@@ -22,7 +22,7 @@ class Preloader extends GameState
         text.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
         text.setTextBounds(0, 100, game.width, 100);
 
-        loadMainFiles();
+        this.loadMainFiles();
         this.loadTransylvanianFiles();
     }
 

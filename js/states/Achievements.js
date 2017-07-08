@@ -8,7 +8,7 @@ class Achievements extends GameState
         this.linkBackgrounds = game.add.group();
         this.texts = game.add.group();
 
-        loadMainFiles();
+        this.loadMainFiles();
     }
 
     init()
@@ -43,14 +43,18 @@ class Achievements extends GameState
 
         y += 45;
 
-        for (let levelNumber in zones.eastAnglia.levelOrdering) {
-            if (zones.eastAnglia.levelOrdering.hasOwnProperty(levelNumber)) {
+        for (let levelNumber in zones.eastAnglia.levelOrdering)
+        {
+            if (zones.eastAnglia.levelOrdering.hasOwnProperty(levelNumber))
+            {
+                level = this.getLevelByName(zones.eastAnglia.levelOrdering[levelNumber]);
 
-                level = getLevelByName(zones.eastAnglia.levelOrdering[levelNumber]);
-
-                if (this.user.hasOwnProperty('levelHighScores') && this.user.levelHighScores.hasOwnProperty(level.name)) {
+                if (this.user.hasOwnProperty('levelHighScores') && this.user.levelHighScores.hasOwnProperty(level.name))
+                {
                     userLevelHighScore = this.user.levelHighScores[level.name];
-                } else {
+                }
+                else
+                {
                     userLevelHighScore = '';
                 }
 
@@ -63,8 +67,25 @@ class Achievements extends GameState
                 );
 
                 y += 20;
-
             }
         }
+    }
+
+    getLevelByName(levelName)
+    {
+        let item;
+        let level;
+        for (let property in zones.eastAnglia.levelOrdering)
+        {
+            if (zones.eastAnglia.levelOrdering.hasOwnProperty(property))
+            {
+                item = window[zones.eastAnglia.levelOrdering[property]];
+                if (item.name && item.name === levelName)
+                {
+                    level = item;
+                }
+            }
+        }
+        return level;
     }
 }
