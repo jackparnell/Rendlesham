@@ -11,7 +11,7 @@ class LevelOptions extends GameState
     init(levelNumber, zoneName)
     {
         this.levelNumber = levelNumber;
-        this.level = window[zones[zoneName].levelOrdering[levelNumber]];
+        this.level = window[ZONE_INFO[zoneName].LEVEL_ORDERING[levelNumber]];
         this.zoneName = zoneName;
     }
 

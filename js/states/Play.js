@@ -1464,7 +1464,8 @@ class Play extends GameState
 
     fetchLevelInfo()
     {
-        let level = window[zones[this.zoneName].levelOrdering[this.levelId]];
+        console.log(ZONE_INFO);
+        let level = window[ZONE_INFO[this.zoneName].LEVEL_ORDERING[this.levelId]];
         this.initialWavesCount = Object.keys(level.waveInfo).length;
         this.level = $.extend(true, {}, level);
         return this.level;

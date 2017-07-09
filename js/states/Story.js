@@ -16,7 +16,7 @@ class Story extends GameState
 
     create()
     {
-        this.level = window[zones[this.zoneName].levelOrdering[this.levelNumber]];
+        this.level = window[ZONE_INFO[this.zoneName].LEVEL_ORDERING[this.levelNumber]];
 
         if (!this.level.story)
         {

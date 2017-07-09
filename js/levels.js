@@ -1,7 +1,7 @@
-var zones = {
-    eastAnglia: {
-        title: 'East Anglia',
-        levelOrdering: {
+const ZONE_INFO = {
+    EAST_ANGLIA: {
+        TITLE: 'East Anglia',
+        LEVEL_ORDERING: {
             1: 'fridayStreet',
             2: 'orfordRoad',
             3: 'orfordness',
@@ -19,20 +19,22 @@ var zones = {
             15: 'shouldhamWarren',
             16: 'thetfordForest'
         },
-        levelButtonGraphic: 'ufo',
-        nextZoneName: 'transylvania'
+        ZONE_BACKGROUND_FILENAME: 'eastAnglia',
+        LEVEL_BUTTON_GRAPHIC: 'ufo',
+        NEXT_ZONE_NAME: 'TRANSYLVANIA'
     },
-    transylvania: {
-        title: 'Transylvania',
-        levelOrdering: {
+    TRANSYLVANIA: {
+        TITLE: 'Transylvania',
+        LEVEL_ORDERING: {
             1: 'iclandu',
             2: 'ludus',
             3: 'draculeaBandului',
             4: 'sacadat',
             5: 'lapusna'
         },
-        levelButtonGraphic: 'PurpleRock',
-        nextZoneName: 'eastAnglia'
+        ZONE_BACKGROUND_FILENAME: 'transylvania',
+        LEVEL_BUTTON_GRAPHIC: 'PurpleRock',
+        NEXT_ZONE_NAME: 'EAST_ANGLIA'
     }
 };
 

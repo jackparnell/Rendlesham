@@ -57,8 +57,8 @@ class GameState extends Phaser.State
             this.user.zones = {};
         }
 
-        for (let zoneName in zones) {
-            if (zones.hasOwnProperty(zoneName)) {
+        for (let zoneName in ZONE_INFO) {
+            if (ZONE_INFO.hasOwnProperty(zoneName)) {
                 if (!this.user.zones[zoneName]) {
                     this.user.zones[zoneName] = {};
                 }
@@ -126,9 +126,9 @@ class GameState extends Phaser.State
     loadMainFiles()
     {
 
-        for (let zoneName in zones)
+        for (let zoneName in ZONE_INFO)
         {
-            game.load.image(zoneName, 'assets/backgrounds/' + zoneName + '.png');
+            game.load.image(ZONE_INFO[zoneName].ZONE_BACKGROUND_FILENAME, 'assets/backgrounds/' + ZONE_INFO[zoneName].ZONE_BACKGROUND_FILENAME + '.png');
         }
 
         game.load.image('gameOverBackground', 'assets/backgrounds/gameOverBackground.png');
@@ -197,20 +197,20 @@ class GameState extends Phaser.State
 
         let property;
         let level;
-        for (property in zones.eastAnglia.levelOrdering)
+        for (property in ZONE_INFO.EAST_ANGLIA.LEVEL_ORDERING)
         {
-            if (zones.eastAnglia.levelOrdering.hasOwnProperty(property))
+            if (ZONE_INFO.EAST_ANGLIA.LEVEL_ORDERING.hasOwnProperty(property))
             {
-                level = window[zones.eastAnglia.levelOrdering[property]];
+                level = window[ZONE_INFO.EAST_ANGLIA.LEVEL_ORDERING[property]];
                 game.load.tilemap(level.mapName, 'assets/tilemaps/maps/' + level.mapName + '.json', null, Phaser.Tilemap.TILED_JSON);
             }
         }
 
-        for (property in zones.transylvania.levelOrdering)
+        for (property in ZONE_INFO.TRANSYLVANIA.LEVEL_ORDERING)
         {
-            if (zones.transylvania.levelOrdering.hasOwnProperty(property))
+            if (ZONE_INFO.TRANSYLVANIA.LEVEL_ORDERING.hasOwnProperty(property))
             {
-                level = window[zones.transylvania.levelOrdering[property]];
+                level = window[ZONE_INFO.TRANSYLVANIA.LEVEL_ORDERING[property]];
                 game.load.tilemap(level.mapName, 'assets/tilemaps/maps/' + level.mapName + '.json', null, Phaser.Tilemap.TILED_JSON);
             }
         }
@@ -250,12 +250,12 @@ class GameState extends Phaser.State
 
     getLevelFromZoneAndNumber(zoneName, levelNumber)
     {
-        return window[zones[zoneName].levelOrdering[levelNumber]];
+        return window[ZONE_INFO[zoneName].LEVEL_ORDERING[levelNumber]];
     }
 
     getLevelNumberFromZoneAndName(zoneName, levelName)
     {
-        let levelOrdering = zones[zoneName].levelOrdering;
+        let levelOrdering = ZONE_INFO[zoneName].LEVEL_ORDERING;
         return Object.keys(levelOrdering)[Object.values(levelOrdering).indexOf(levelName)];
     }
 }

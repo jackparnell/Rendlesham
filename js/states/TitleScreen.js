@@ -71,7 +71,7 @@ class TitleScreen extends GameState
         }
         else
         {
-            zoneName = 'eastAnglia';
+            zoneName = 'EAST_ANGLIA';
         }
 
         game.state.start('zone', true, true, zoneName);

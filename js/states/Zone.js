@@ -13,9 +13,9 @@ class Zone extends GameState
 
     init(zoneName)
     {
-        this.zoneName = zoneName || 'eastAnglia';
+        this.zoneName = zoneName || 'EAST_ANGLIA';
 
-        this.zone = zones[zoneName];
+        this.zone = ZONE_INFO[zoneName];
 
         this.game.kineticScrolling = this.game.plugins.add(Phaser.Plugin.KineticScrolling);
 
@@ -40,7 +40,7 @@ class Zone extends GameState
 
         game.canvas.oncontextmenu = function (e) { e.preventDefault(); }
 
-        this.zoneMap = this.game.add.tileSprite(0, 0, 1400, 700, this.zoneName);
+        this.zoneMap = this.game.add.tileSprite(0, 0, 1400, 700, this.zone.ZONE_BACKGROUND_FILENAME);
         this.backgrounds.add(this.zoneMap);
 
         this.game.world.setBounds(0, 0, this.zoneMap.width, this.zoneMap.height);
@@ -124,37 +124,36 @@ class Zone extends GameState
              */
         };
 
-        this.lastLevel = Object.keys(this.zone.levelOrdering).length;
+        this.lastLevel = Object.keys(this.zone.LEVEL_ORDERING).length;
 
         this.drawLinesBetweenLevels();
 
-        for (let i = 1; i <= this.lastLevel; i++) {
-
+        for (let i = 1; i <= this.lastLevel; i++)
+        {
             this['level' + i + 'Button'] = game.add.button(
                 this.levels[i].x,
                 this.levels[i].y,
-                this.zone.levelButtonGraphic,
+                this.zone.LEVEL_BUTTON_GRAPHIC,
                 this.clickLevelButton,
                 this
             );
 
             this['level' + i + 'Button'].levelNumber = i;
-            this['level' + i + 'Button'].levelName = zones[this.zoneName].levelOrdering[i];
+            this['level' + i + 'Button'].levelName = ZONE_INFO[this.zoneName].LEVEL_ORDERING[i];
 
-            if (!this.isLevelUnlocked(i)) {
+            if (!this.isLevelUnlocked(i))
+            {
                 this['level' + i + 'Button'].tint = 0x333333;
                 this['level' + i + 'Button'].input.useHandCursor = false;
             }
 
             this.writeLevelText(i);
             this.addLevelStars(i);
-
         }
-
 
         this.addButtonTextLink('nextZoneLink', 'Next', 20, 'smallDark', 10, game.camera.height - 40, 'right', 'nextZone');
 
-        this.titleText = game.add.bitmapText(500, game.height * .01, bitmapFontName, this.zone.title, 28);
+        this.titleText = game.add.bitmapText(500, game.height * .01, bitmapFontName, this.zone.TITLE, 28);
         this.titleText.x = (game.width * .5) - (this.titleText.width * .5);
         this.titleText.alpha = .5;
 
@@ -199,12 +198,11 @@ class Zone extends GameState
 
     isLevelUnlocked(levelNumber)
     {
-        if (levelNumber === 1) {
+        if (levelNumber === 1)
+        {
             return true;
         }
-
         let level = this.getLevelFromZoneAndNumber(this.zoneName, levelNumber);
-
         return (level && level.hasOwnProperty('previousLevelName') && this.hasUserCompletedLevel(level.previousLevelName));
     }
 
@@ -221,7 +219,7 @@ class Zone extends GameState
         }
 
         let levelNumber = this.getLevelNumberFromZoneAndName(this.zoneName, levelName);
-        if (this.zoneName === 'eastAnglia' && this.user.levelsComplete[levelNumber]) {
+        if (this.zoneName === 'EAST_ANGLIA' && this.user.levelsComplete[levelNumber]) {
             return true;
         }
 
@@ -249,7 +247,7 @@ class Zone extends GameState
             return;
         }
 
-        let levelName = zones[this.zoneName].levelOrdering[levelNumber];
+        let levelName = ZONE_INFO[this.zoneName].LEVEL_ORDERING[levelNumber];
 
         let stars = this.user.levelStars[levelName] || 0;
 
@@ -308,7 +306,6 @@ class Zone extends GameState
                         Math.round(finishX),
                         Math.round(finishY)
                     );
-
                 }
             }
         }
@@ -316,6 +313,6 @@ class Zone extends GameState
 
     nextZone()
     {
-        game.state.start('zone', true, true, this.zone.nextZoneName);
+        game.state.start('zone', true, true, this.zone.NEXT_ZONE_NAME);
     }
 }

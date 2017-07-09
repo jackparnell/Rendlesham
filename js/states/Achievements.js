@@ -43,11 +43,11 @@ class Achievements extends GameState
 
         y += 45;
 
-        for (let levelNumber in zones.eastAnglia.levelOrdering)
+        for (let levelNumber in ZONE_INFO.EAST_ANGLIA.LEVEL_ORDERING)
         {
-            if (zones.eastAnglia.levelOrdering.hasOwnProperty(levelNumber))
+            if (ZONE_INFO.EAST_ANGLIA.LEVEL_ORDERING.hasOwnProperty(levelNumber))
             {
-                level = this.getLevelByName(zones.eastAnglia.levelOrdering[levelNumber]);
+                level = this.getLevelByName(ZONE_INFO.EAST_ANGLIA.LEVEL_ORDERING[levelNumber]);
 
                 if (this.user.hasOwnProperty('levelHighScores') && this.user.levelHighScores.hasOwnProperty(level.name))
                 {
@@ -75,11 +75,11 @@ class Achievements extends GameState
     {
         let item;
         let level;
-        for (let property in zones.eastAnglia.levelOrdering)
+        for (let property in ZONE_INFO.EAST_ANGLIA.LEVEL_ORDERING)
         {
-            if (zones.eastAnglia.levelOrdering.hasOwnProperty(property))
+            if (ZONE_INFO.EAST_ANGLIA.LEVEL_ORDERING.hasOwnProperty(property))
             {
-                item = window[zones.eastAnglia.levelOrdering[property]];
+                item = window[ZONE_INFO.EAST_ANGLIA.LEVEL_ORDERING[property]];
                 if (item.name && item.name === levelName)
                 {
                     level = item;

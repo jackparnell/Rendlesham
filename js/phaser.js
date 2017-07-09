@@ -86114,7 +86114,7 @@ Phaser.Color = {
     },
 
     /**
-    * Reflect blend mode. This mode is useful when adding shining objects or light zones to images. 
+    * Reflect blend mode. This mode is useful when adding shining objects or light ZONE_INFO to images.
     *
     * @method Phaser.Color.blendReflect
     * @static
