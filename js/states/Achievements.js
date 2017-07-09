@@ -3,7 +3,6 @@ class Achievements extends GameState
     preload()
     {
         this.backgrounds = game.add.group();
-        this.pathways = game.add.group();
         this.name = 'rendlesham';
         this.linkBackgrounds = game.add.group();
         this.texts = game.add.group();
@@ -14,7 +13,6 @@ class Achievements extends GameState
     init()
     {
         this.game.kineticScrolling = this.game.plugins.add(Phaser.Plugin.KineticScrolling);
-
         this.game.kineticScrolling.configure({
             kineticMovement: false,
             verticalScroll: true,

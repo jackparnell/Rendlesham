@@ -168,8 +168,8 @@ class Tower extends GameSprite
             return;
         }
 
-        mainState.attackers.forEachAlive(function(item) {
-
+        mainState.attackers.forEachAlive(function(item)
+        {
             // If not in camera, don't target
             if (!item.inCamera)
             {
@@ -180,9 +180,7 @@ class Tower extends GameSprite
 
             if (distanceBetween < this.weapon1.rangeInPixels)
             {
-
                 let advanced = item.getAdvancement() + (item.getAgeInTurns() * 0.01);
-
                 if (
                     !target.targeted // If target is targeted, we've found the target.
                     &&
@@ -193,7 +191,6 @@ class Tower extends GameSprite
                     mostAdvanced = advanced;
                     target = item;
                 }
-
             }
 
 
@@ -208,7 +205,6 @@ class Tower extends GameSprite
         {
             return;
         }
-
         this.target = target;
     }
 
@@ -220,12 +216,10 @@ class Tower extends GameSprite
     angleToTarget()
     {
         let angleToTarget = 0;
-
         if (this.hasTarget())
         {
             angleToTarget = this.angleToSprite(this.target) + 90;
         }
-
         return angleToTarget;
     }
 

@@ -348,7 +348,6 @@ class Zone extends GameState
     {
         let character = String.fromCharCode(key.keyCode);
         this.keyInput += character;
-        console.log(this.keyInput);
         this.checkForCode();
     }
 

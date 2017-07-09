@@ -22,7 +22,8 @@ class LevelOptions extends GameState
 
         game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
 
-        if (game.device.desktop === false) {
+        if (game.device.desktop === false)
+        {
             game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
             game.scale.setMinMax(game.width/2, game.height/2, game.width, game.height);
         }
@@ -48,9 +49,7 @@ class LevelOptions extends GameState
         let textTint;
         for (let i = 0; i < modes.length; i++)
         {
-
             modeName = ucfirst(modes[i]);
-
             if (this.user.levelHighScores[modes[i]][this.level.name])
             {
                 highScoreInfo = 'Your ' + modeName + ' High Score: ' + this.user.levelHighScores[modes[i]][this.level.name];
@@ -75,21 +74,7 @@ class LevelOptions extends GameState
             this[modes[i] + 'HighScoreText'] = game.add.bitmapText(500, game.height * y, bitmapFontName, highScoreInfo, 16);
             this[modes[i] + 'HighScoreText'].x = (game.width * .5) - (this[modes[i] + 'HighScoreText'].width * .5);
             this[modes[i] + 'HighScoreText'].tint = textTint;
-
         }
-
-
-        /*
-         var classicHighScoreInfo;
-         if (this.user.levelHighScores['classic'][this.level.name]) {
-         classicHighScoreInfo = 'Your Classic High Score: ' + this.user.levelHighScores['classic'][this.level.name];
-         } else {
-         classicHighScoreInfo = 'Classic Mode Unbeaten';
-         }
-         this.classicHighScoreText = game.add.bitmapText(500, game.height * .45, bitmapFontName, classicHighScoreInfo, 20);
-         this.classicHighScoreText.x = (game.width * .5) - (this.classicHighScoreText.width * .5);
-         */
-
 
         this.addButtonTextLink('playEpicLink', 'Play Epic Mode', 36, 'forestGreen', 0, game.height * .515, 'center', 'playEpic');
 

@@ -250,11 +250,6 @@ class Play extends GameState
         game.state.start('gameOver', true, true, obj);
     }
 
-    shutdown()
-    {
-
-    }
-
     initiateLoops()
     {
         if (this.loopsInitiated) {

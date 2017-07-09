@@ -3,10 +3,12 @@ class GameSprite extends Phaser.Sprite
     getScale()
     {
         let scale;
-        if ("creationTurn" in this && (game.globals.turn - this.creationTurn) > 3) {
+        if ("creationTurn" in this && (game.globals.turn - this.creationTurn) > 3)
+        {
             scale = this.scale.x;
         }
-        else {
+        else
+        {
             scale = window[this.constructor.name].defaultScale ? window[this.constructor.name].defaultScale : 1;
         }
         return scale;
@@ -33,7 +35,10 @@ class GameSprite extends Phaser.Sprite
     {
         if (!this.moveable)
         {
-            throw 'Moveable only function called on object which is not moveable. ';
+            throw {
+                'code': 11001,
+                'description': 'Moveable only function called on object which is not moveable.'
+            };
         }
         mainState.pathfinding.find_path(this.position, target_position, this.move_through_path, this, this.getAdditionalCostTiles());
     }
@@ -42,9 +47,13 @@ class GameSprite extends Phaser.Sprite
     {
         if (!this.moveable)
         {
-            throw 'Moveable only function called on object which is not moveable. ';
+            throw {
+                'code': 11001,
+                'description': 'Moveable only function called on object which is not moveable.'
+            };
         }
-        if (path !== null) {
+        if (path !== null)
+        {
             this.path = path;
             this.path_step = 0;
         }
@@ -58,7 +67,10 @@ class GameSprite extends Phaser.Sprite
     {
         if (!this.moveable)
         {
-            throw 'Moveable only function called on object which is not moveable. ';
+            throw {
+                'code': 11001,
+                'description': 'Moveable only function called on object which is not moveable.'
+            };
         }
         let distance;
         distance = Phaser.Point.distance(this.position, target_position);
@@ -69,7 +81,10 @@ class GameSprite extends Phaser.Sprite
     {
         if (!this.moveable)
         {
-            throw 'Moveable only function called on object which is not moveable. ';
+            throw {
+                'code': 11001,
+                'description': 'Moveable only function called on object which is not moveable.'
+            };
         }
         if (!this.path || this.path.length === 0)
         {
@@ -112,7 +127,8 @@ class GameSprite extends Phaser.Sprite
                     this.body.velocity.y = 0;
                 }
 
-                if (typeof this.reachedTargetPosition === 'function') {
+                if (typeof this.reachedTargetPosition === 'function')
+                {
                     this.reachedTargetPosition();
                 }
             }
@@ -130,7 +146,10 @@ class GameSprite extends Phaser.Sprite
     {
         if (!this.moveable)
         {
-            throw 'Moveable only function called on object which is not moveable. ';
+            throw {
+                'code': 11001,
+                'description': 'Moveable only function called on object which is not moveable.'
+            };
         }
         let pixelCoordinates = mainState.translateGridCoordinatesToPixelCoordinates(
             gridX,
@@ -145,7 +164,10 @@ class GameSprite extends Phaser.Sprite
     {
         if (!this.moveable)
         {
-            throw 'Moveable only function called on object which is not moveable. ';
+            throw {
+                'code': 11001,
+                'description': 'Moveable only function called on object which is not moveable.'
+            };
         }
         return mainState.pathAdditionalCostTiles(this);
     }
@@ -159,7 +181,10 @@ class GameSprite extends Phaser.Sprite
     {
         if (!this.moveable)
         {
-            throw 'Moveable only function called on object which is not moveable. ';
+            throw {
+                'code': 11001,
+                'description': 'Moveable only function called on object which is not moveable.'
+            };
         }
         let gridCoordinatesChanges = false;
         let gridCoordinates = mainState.translatePixelCoordinatesToGridCoordinates(this.x, this.y);
