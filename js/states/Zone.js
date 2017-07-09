@@ -191,6 +191,13 @@ class Zone extends GameState
             this['key' + i].onDown.add(this.keyPress, this);
         }
 
+
+        this.gameOverBackground = this.game.add.tileSprite(0, 0, game.camera.width, game.camera.height, 'gameOverBackground');
+        this.gameOverBackground.fixedToCamera = true;
+        this.gameOverBackground.alpha = 0;
+
+        this.setupSounds();
+
         this.game.kineticScrolling.start();
     }
 
@@ -362,7 +369,6 @@ class Zone extends GameState
     unlockAllLevels()
     {
         this.addCheat('unlockAllLevels', true);
-        game.state.start('zone', true, true, this.zoneName);
     }
 
     addCheat(key, value)
@@ -372,12 +378,40 @@ class Zone extends GameState
             this.user.cheats = {};
         }
         this.user.cheats[key] = value;
+        this.playSound('nes13');
         console.log('Cheat: ' + key + ': ' + value + ' ');
+
+        this.fadeToRestartState(1.5);
     }
 
     clearCheats()
     {
         this.user.cheats = {};
+        this.fadeToRestartState(1.5);
+    }
+
+    fadeToRestartState(seconds)
+    {
+        game.add.tween(
+            this.gameOverBackground,
+            this.game
+        )
+        .to(
+            { alpha: 1 },
+            Phaser.Timer.SECOND * seconds,
+            Phaser.Easing.Linear.None,
+            true
+        );
+        game.time.events.add(
+            Phaser.Timer.SECOND * seconds,
+            this.restartState,
+            this,
+            ''
+        ).autoDestroy = true
+    }
+
+    restartState()
+    {
         game.state.start('zone', true, true, this.zoneName);
     }
 }

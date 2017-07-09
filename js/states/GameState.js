@@ -259,4 +259,50 @@ class GameState extends Phaser.State
         let levelOrdering = ZONE_INFO[zoneName].LEVEL_ORDERING;
         return Object.keys(levelOrdering)[Object.values(levelOrdering).indexOf(levelName)];
     }
+
+    setupSounds()
+    {
+        if (!this.sounds)
+        {
+            this.sounds = {};
+        }
+
+        this.sounds.bookOpen =  game.add.audio('bookOpen');
+        this.sounds.bookOpen.allowMultiple = true;
+
+        this.sounds.footstep02 =  game.add.audio('footstep02');
+        this.sounds.footstep02.allowMultiple = true;
+        this.sounds.footstep02.volume = .8;
+
+        this.sounds.handleCoins =  game.add.audio('handleCoins');
+        this.sounds.handleCoins.allowMultiple = true;
+
+        this.sounds.metalClick =  game.add.audio('metalClick');
+        this.sounds.metalClick.allowMultiple = true;
+
+        this.sounds.metalLatch =  game.add.audio('metalLatch');
+        this.sounds.metalLatch.allowMultiple = true;
+        this.sounds.metalLatch.volume = .8;
+
+        this.sounds.nes08 =  game.add.audio('nes08');
+        this.sounds.nes08.allowMultiple = true;
+        this.sounds.nes08.volume = .3;
+
+        this.sounds.nes09 =  game.add.audio('nes09');
+        this.sounds.nes09.allowMultiple = true;
+        this.sounds.nes09.volume = .3;
+
+        this.sounds.nes13 =  game.add.audio('nes13');
+        this.sounds.nes13.allowMultiple = true;
+        this.sounds.nes13.volume = .3;
+
+        this.sounds.nes15 =  game.add.audio('nes15');
+        this.sounds.nes15.allowMultiple = true;
+        this.sounds.nes15.volume = .3;
+    }
+
+    playSound(soundName)
+    {
+        this.sounds[soundName].play();
+    }
 }
