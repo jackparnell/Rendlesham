@@ -3,7 +3,6 @@ class Zone extends GameState
     preload()
     {
         this.backgrounds = game.add.group();
-        this.pathways = game.add.group();
         this.name = 'rendlesham';
         this.linkBackgrounds = game.add.group();
         this.texts = game.add.group();
@@ -24,6 +23,8 @@ class Zone extends GameState
             verticalScroll: true,
             verticalWheel: true
         });
+
+        this.keyInput = '';
     }
 
     create()
@@ -174,6 +175,22 @@ class Zone extends GameState
             }
         }
 
+        // Capturing of code entry
+        this.key0 = game.input.keyboard.addKey(Phaser.Keyboard.ZERO);
+        this.key1 = game.input.keyboard.addKey(Phaser.Keyboard.ONE);
+        this.key2 = game.input.keyboard.addKey(Phaser.Keyboard.TWO);
+        this.key3 = game.input.keyboard.addKey(Phaser.Keyboard.THREE);
+        this.key4 = game.input.keyboard.addKey(Phaser.Keyboard.FOUR);
+        this.key5 = game.input.keyboard.addKey(Phaser.Keyboard.FIVE);
+        this.key6 = game.input.keyboard.addKey(Phaser.Keyboard.SIX);
+        this.key7 = game.input.keyboard.addKey(Phaser.Keyboard.SEVEN);
+        this.key8 = game.input.keyboard.addKey(Phaser.Keyboard.EIGHT);
+        this.key9 = game.input.keyboard.addKey(Phaser.Keyboard.NINE);
+        for (let i = 0; i <= 9; ++i)
+        {
+            this['key' + i].onDown.add(this.keyPress, this);
+        }
+
         this.game.kineticScrolling.start();
     }
 
@@ -199,6 +216,10 @@ class Zone extends GameState
     isLevelUnlocked(levelNumber)
     {
         if (levelNumber === 1)
+        {
+            return true;
+        }
+        if (this.user.cheats && this.user.cheats.unlockAllLevels)
         {
             return true;
         }
@@ -314,5 +335,49 @@ class Zone extends GameState
     nextZone()
     {
         game.state.start('zone', true, true, this.zone.NEXT_ZONE_NAME);
+    }
+
+    keyPress(key)
+    {
+        let character = String.fromCharCode(key.keyCode);
+        this.keyInput += character;
+        console.log(this.keyInput);
+        this.checkForCode();
+    }
+
+    checkForCode()
+    {
+        let lastFour = this.keyInput.substr(this.keyInput.length - 4);
+        switch (lastFour)
+        {
+            case '1980':
+                this.unlockAllLevels();
+                break;
+            case '2017':
+                this.clearCheats();
+                break;
+        }
+    }
+
+    unlockAllLevels()
+    {
+        this.addCheat('unlockAllLevels', true);
+        game.state.start('zone', true, true, this.zoneName);
+    }
+
+    addCheat(key, value)
+    {
+        if (!this.user.cheats)
+        {
+            this.user.cheats = {};
+        }
+        this.user.cheats[key] = value;
+        console.log('Cheat: ' + key + ': ' + value + ' ');
+    }
+
+    clearCheats()
+    {
+        this.user.cheats = {};
+        game.state.start('zone', true, true, this.zoneName);
     }
 }

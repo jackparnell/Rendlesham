@@ -17,7 +17,8 @@ class GameState extends Phaser.State
                 levelsComplete: [],
                 items: {},
                 levelStars: {},
-                levelHighScores: {}
+                levelHighScores: {},
+                cheats: {}
             };
             this.save();
         }
