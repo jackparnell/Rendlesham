@@ -240,7 +240,6 @@ class Attacker extends GameSprite
         {
             mainState.noTarget();
         }
-
         this.kill();
     }
 
@@ -448,7 +447,6 @@ class Attacker extends GameSprite
         {
             speed = window[this.constructor.name].defaultSpeed;
         }
-
         return speed;
     }
 
@@ -634,7 +632,7 @@ Roger.pace = 2.9;
 Roger.coinsValue = 5;
 Roger.scoreValue = 5;
 
-class Dibley extends Attacker
+window.Dibley = class Dibley extends Attacker
 {
     constructor(game, x, y)
     {
