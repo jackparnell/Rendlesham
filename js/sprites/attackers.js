@@ -243,6 +243,23 @@ class Attacker extends GameSprite
         this.kill();
     }
 
+    vanish()
+    {
+        if (this.healthBar)
+        {
+            this.healthBar.kill();
+        }
+        if (this.crosshair)
+        {
+            this.crosshair.kill();
+        }
+        if (this.targeted)
+        {
+            mainState.noTarget();
+        }
+        this.kill();
+    }
+
     /**
      * Create a health bar for the sprite, if appropriate.
      *

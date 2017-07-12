@@ -76,6 +76,8 @@ class Play extends GameState
         this.lives = 999;
         this.score = 0;
         this.towerSelected = 'Gun';
+        this.hasCheated = false;
+        this.keyInput = '';
 
         window.onkeydown = function()
         {
@@ -115,6 +117,22 @@ class Play extends GameState
         this.game.overlays.add(this.gameOverBackground);
 
         this.game.target = {};
+
+        // Capturing of code entry
+        this.key0 = game.input.keyboard.addKey(Phaser.Keyboard.ZERO);
+        this.key1 = game.input.keyboard.addKey(Phaser.Keyboard.ONE);
+        this.key2 = game.input.keyboard.addKey(Phaser.Keyboard.TWO);
+        this.key3 = game.input.keyboard.addKey(Phaser.Keyboard.THREE);
+        this.key4 = game.input.keyboard.addKey(Phaser.Keyboard.FOUR);
+        this.key5 = game.input.keyboard.addKey(Phaser.Keyboard.FIVE);
+        this.key6 = game.input.keyboard.addKey(Phaser.Keyboard.SIX);
+        this.key7 = game.input.keyboard.addKey(Phaser.Keyboard.SEVEN);
+        this.key8 = game.input.keyboard.addKey(Phaser.Keyboard.EIGHT);
+        this.key9 = game.input.keyboard.addKey(Phaser.Keyboard.NINE);
+        for (let i = 0; i <= 9; ++i)
+        {
+            this['key' + i].onDown.add(this.keyPress, this);
+        }
 
         this.setupSounds();
 
@@ -1010,27 +1028,28 @@ class Play extends GameState
 
     handleScore()
     {
+        if (this.hasCheated)
+        {
+            return false;
+        }
         if (!this.user.levelHighScores)
         {
             this.user.levelHighScores = {};
         }
-
         if (!this.user.levelHighScores[this.level.name] || this.user.levelHighScores[this.level.name] < this.score)
         {
             this.user.levelHighScores[this.level.name] = this.score;
         }
-
         if (!this.user.levelHighScores[this.mode])
         {
             this.user.levelHighScores[this.mode] = {};
         }
-
         if (!this.user.levelHighScores[this.mode][this.level.name] || this.user.levelHighScores[this.mode][this.level.name] < this.score)
         {
             this.user.levelHighScores[this.mode][this.level.name] = this.score;
         }
-
         this.save();
+        return true;
     }
 
     levelCompletedScreen()
@@ -1083,16 +1102,19 @@ class Play extends GameState
         // End stars
 
         // Begin score text
-        this.scoreText = game.add.bitmapText(
-            game.camera.width * .5,
-            game.height * .61,
-            bitmapFontName,
-            'Score: ' + this.score,
-            24
-        );
-        this.scoreText.tint = 0xCCCCCC;
-        this.scoreText.x = (game.camera.width * .5) - (this.scoreText.width * .5);
-        this.scoreText.fixedToCamera = true;
+        if (!this.hasCheated)
+        {
+            this.scoreText = game.add.bitmapText(
+                game.camera.width * .5,
+                game.height * .61,
+                bitmapFontName,
+                'Score: ' + this.score,
+                24
+            );
+            this.scoreText.tint = 0xCCCCCC;
+            this.scoreText.x = (game.camera.width * .5) - (this.scoreText.width * .5);
+            this.scoreText.fixedToCamera = true;
+        }
         // End score text
 
 
@@ -1459,7 +1481,6 @@ class Play extends GameState
 
     fetchLevelInfo()
     {
-        console.log(ZONE_INFO);
         let level = window[ZONE_INFO[this.zoneName].LEVEL_ORDERING[this.levelId]];
         this.initialWavesCount = Object.keys(level.waveInfo).length;
         this.level = $.extend(true, {}, level);
@@ -1621,9 +1642,9 @@ class Play extends GameState
         }
     }
 
-    startWave(waveNumber)
+    startWave(waveNumber, checkAlreadyStarted=true)
     {
-        if (this.wavesStarted.indexOf(waveNumber) !== -1)
+        if (checkAlreadyStarted && this.wavesStarted.indexOf(waveNumber) !== -1)
         {
             // Wave already started
             return;
@@ -1720,10 +1741,13 @@ class Play extends GameState
 
     clearTimedEvents()
     {
+        /*
         for (let i = 0; i < timerEvents.length; i++)
         {
             game.time.events.remove(timerEvents[i]);
         }
+        */
+        this.game.time.removeAll();
     }
 
     drawIndicators()
@@ -3174,11 +3198,14 @@ class Play extends GameState
 
     calculateCompletionStars()
     {
+        if (this.hasCheated)
+        {
+            return 0;
+        }
         if (typeof this.level.calculateCompletionStars === 'function')
         {
             return this.level.calculateCompletionStars();
         }
-
         let stars = 1;
         if (this.lives === this.level.startingLives)
         {
@@ -3256,6 +3283,45 @@ class Play extends GameState
         }
 
         return modifier;
+    }
 
+    keyPress(key)
+    {
+        let character = String.fromCharCode(key.keyCode);
+        this.keyInput += character;
+        this.checkForCode();
+    }
+
+    checkForCode()
+    {
+        let lastSix = this.keyInput.substr(this.keyInput.length - 6);
+        switch (lastSix)
+        {
+            case '528572':
+                this.changeCoins(9999);
+                this.cheated();
+                break;
+            case '529313':
+                this.changeLives(99);
+                this.cheated();
+                break;
+            default:
+                // Go to wave
+                if (this.level.distinctWaves && lastSix > 198000 && lastSix <= (198000 + this.totalWaves))
+                {
+                    let goToWaveNumber = parseInt(lastSix.substr(lastSix.length - 2));
+                    this.cheated();
+                    this.clearTimedEvents();
+                    this.attackers.callAll('vanish');
+                    this.wavesStarted = [];
+                    this.startWave(goToWaveNumber, false);
+                }
+        }
+    }
+
+    cheated()
+    {
+        this.hasCheated = true;
+        this.labelScore.tint = 0xCC3333;
     }
 }
