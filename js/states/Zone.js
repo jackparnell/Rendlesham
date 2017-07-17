@@ -175,22 +175,8 @@ class Zone extends GameState
             }
         }
 
-        // Capturing of code entry
-        this.key0 = game.input.keyboard.addKey(Phaser.Keyboard.ZERO);
-        this.key1 = game.input.keyboard.addKey(Phaser.Keyboard.ONE);
-        this.key2 = game.input.keyboard.addKey(Phaser.Keyboard.TWO);
-        this.key3 = game.input.keyboard.addKey(Phaser.Keyboard.THREE);
-        this.key4 = game.input.keyboard.addKey(Phaser.Keyboard.FOUR);
-        this.key5 = game.input.keyboard.addKey(Phaser.Keyboard.FIVE);
-        this.key6 = game.input.keyboard.addKey(Phaser.Keyboard.SIX);
-        this.key7 = game.input.keyboard.addKey(Phaser.Keyboard.SEVEN);
-        this.key8 = game.input.keyboard.addKey(Phaser.Keyboard.EIGHT);
-        this.key9 = game.input.keyboard.addKey(Phaser.Keyboard.NINE);
-        for (let i = 0; i <= 9; ++i)
-        {
-            this['key' + i].onDown.add(this.keyPress, this);
-        }
-
+        // Listen for keyboard presses
+        game.input.keyboard.onPressCallback = function (input) { this.keyPress(input); }.bind(this);
 
         this.gameOverBackground = this.game.add.tileSprite(0, 0, game.camera.width, game.camera.height, 'gameOverBackground');
         this.gameOverBackground.fixedToCamera = true;
@@ -344,9 +330,13 @@ class Zone extends GameState
         game.state.start('zone', true, true, this.zone.NEXT_ZONE_NAME);
     }
 
-    keyPress(key)
+
+    keyPress(character)
     {
-        let character = String.fromCharCode(key.keyCode);
+        if (!this.keyInput)
+        {
+            this.keyInput = '';
+        }
         this.keyInput += character;
         this.checkForCode();
     }
