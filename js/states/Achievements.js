@@ -34,7 +34,7 @@ class Achievements extends GameState
         this.heading_highScores = game.add.bitmapText(
             20,
             y,
-            bitmapFontName,
+            this.game.globals.bitmapFontName,
             'Your High Scores',
             32
         );
@@ -59,7 +59,7 @@ class Achievements extends GameState
                 this[level.name + '_highScore'] = game.add.bitmapText(
                     20,
                     y,
-                    bitmapFontName,
+                    this.game.globals.bitmapFontName,
                     'Level ' + levelNumber + ' (' + level.title + '): ' + userLevelHighScore,
                     16
                 );

@@ -105,7 +105,7 @@ class GameState extends Phaser.State
         this[name] = game.add.bitmapText(
             0,
             0,
-            bitmapFontName,
+            this.game.globals.bitmapFontName,
             text,
             fontSize
         );

@@ -36,7 +36,7 @@ class LevelOptions extends GameState
 
         this.addButtonTextLink('backLink', 'Back', 20, 'smallDark', 10, 10, 'right', 'goToZone');
 
-        this.titleText = game.add.bitmapText(500, game.height * .07, bitmapFontName, this.level.title, 64);
+        this.titleText = game.add.bitmapText(500, game.height * .07, this.game.globals.bitmapFontName, this.level.title, 64);
         this.titleText.x = (game.width * .5) - (this.titleText.width * .5);
 
         this.addButtonTextLink('playClassicLink', 'Play Classic Mode', 36, 'forestGreen', 0, game.height * .27, 'center', 'playClassic');
@@ -71,7 +71,7 @@ class LevelOptions extends GameState
 
             y = (44 + (i * 24.5)) / 100;
 
-            this[modes[i] + 'HighScoreText'] = game.add.bitmapText(500, game.height * y, bitmapFontName, highScoreInfo, 16);
+            this[modes[i] + 'HighScoreText'] = game.add.bitmapText(500, game.height * y, this.game.globals.bitmapFontName, highScoreInfo, 16);
             this[modes[i] + 'HighScoreText'].x = (game.width * .5) - (this[modes[i] + 'HighScoreText'].width * .5);
             this[modes[i] + 'HighScoreText'].tint = textTint;
         }

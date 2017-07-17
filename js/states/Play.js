@@ -2,17 +2,12 @@ var map;
 var layer;
 var timerEvents = [];
 var wouldObstaclePlacementBlockPathResult;
-var bitmapFontName = 'gem';
 
 class Play extends GameState
 {
     preload()
     {
         this.guid = guid();
-
-        this.version = '0.1.1';
-        this.name = 'rendlesham';
-
         this.loadMainFiles();
         this.loadTransylvanianFiles();
     }
@@ -37,7 +32,6 @@ class Play extends GameState
          */
 
         this.game = game;
-        this.game.globals = {};
     }
 
     create()
@@ -319,20 +313,20 @@ class Play extends GameState
 
         this.labelCoinsXCoordinate = game.camera.x + 10;
 
-        this.labelCoinsTitle = game.add.bitmapText(this.labelCoinsXCoordinate, this.titlesYCoordinate, bitmapFontName, 'Coins', 16);
+        this.labelCoinsTitle = game.add.bitmapText(this.labelCoinsXCoordinate, this.titlesYCoordinate, this.game.globals.bitmapFontName, 'Coins', 16);
         this.labelCoinsTitle.tint = titleTint;
 
-        this.labelCoins = game.add.bitmapText(this.labelCoinsXCoordinate, this.valuesYCoordinate, bitmapFontName, this.coins, 28);
+        this.labelCoins = game.add.bitmapText(this.labelCoinsXCoordinate, this.valuesYCoordinate, this.game.globals.bitmapFontName, this.coins, 28);
         this.labelCoins.tint = valueTint;
         this.labelCoinsNotifications = [];
 
         // Begin lives
         this.labelLivesXCoordinate = game.camera.x + 75;
 
-        this.labelLivesTitle = game.add.bitmapText(this.labelLivesXCoordinate, this.titlesYCoordinate, bitmapFontName, 'Lives', 16);
+        this.labelLivesTitle = game.add.bitmapText(this.labelLivesXCoordinate, this.titlesYCoordinate, this.game.globals.bitmapFontName, 'Lives', 16);
         this.labelLivesTitle.tint = titleTint;
 
-        this.labelLives = game.add.bitmapText(this.labelLivesXCoordinate + 12, this.valuesYCoordinate, bitmapFontName, this.lives, 28);
+        this.labelLives = game.add.bitmapText(this.labelLivesXCoordinate + 12, this.valuesYCoordinate, this.game.globals.bitmapFontName, this.lives, 28);
         this.labelLives.tint = valueTint;
         this.labelLivesNotifications = [];
         // End lives
@@ -340,10 +334,10 @@ class Play extends GameState
         // Begin score
         this.labelScoreXCoordinate = game.camera.width - 60;
 
-        this.labelScoreTitle = game.add.bitmapText(this.labelScoreXCoordinate, this.titlesYCoordinate, bitmapFontName, 'Score', 16);
+        this.labelScoreTitle = game.add.bitmapText(this.labelScoreXCoordinate, this.titlesYCoordinate, this.game.globals.bitmapFontName, 'Score', 16);
         this.labelScoreTitle.tint = titleTint;
 
-        this.labelScore = game.add.bitmapText(this.labelScoreXCoordinate + 12, this.valuesYCoordinate, bitmapFontName, this.score, 28);
+        this.labelScore = game.add.bitmapText(this.labelScoreXCoordinate + 12, this.valuesYCoordinate, this.game.globals.bitmapFontName, this.score, 28);
         this.labelScore.tint = valueTint;
         this.labelScoreNotifications = [];
         // End score
@@ -352,10 +346,10 @@ class Play extends GameState
         // Begin current wave
         this.labelCurrentWaveXCoordinate = this.labelScoreXCoordinate - 70;
 
-        this.labelCurrentWaveTitle = game.add.bitmapText(this.labelCurrentWaveXCoordinate, this.titlesYCoordinate, bitmapFontName, 'Wave', 16);
+        this.labelCurrentWaveTitle = game.add.bitmapText(this.labelCurrentWaveXCoordinate, this.titlesYCoordinate, this.game.globals.bitmapFontName, 'Wave', 16);
         this.labelCurrentWaveTitle.tint = titleTint;
 
-        this.labelCurrentWave = game.add.bitmapText(this.labelCurrentWaveXCoordinate, this.valuesYCoordinate, bitmapFontName, this.waveNumber, 28);
+        this.labelCurrentWave = game.add.bitmapText(this.labelCurrentWaveXCoordinate, this.valuesYCoordinate, this.game.globals.bitmapFontName, this.waveNumber, 28);
         this.labelCurrentWave.tint = valueTint;
 
         this.updateCurrentWaveLabel();
@@ -364,14 +358,14 @@ class Play extends GameState
         this.messageXCoordinate = 10;
         this.messageYCoordinate = game.height - 33;
 
-        this.labelMessage = game.add.bitmapText(this.messageXCoordinate, this.messageYCoordinate, bitmapFontName, '', 24);
+        this.labelMessage = game.add.bitmapText(this.messageXCoordinate, this.messageYCoordinate, this.game.globals.bitmapFontName, '', 24);
         this.labelMessage.tint = valueTint;
         this.labelMessage.fixedToCamera = true;
 
         this.indicatorMessageXCoordinate = game.width * .6;
         this.indicatorMessageYCoordinate = game.height - 27;
 
-        this.labelIndicatorMessage = game.add.bitmapText(this.indicatorMessageXCoordinate, this.indicatorMessageYCoordinate, bitmapFontName, '', 18);
+        this.labelIndicatorMessage = game.add.bitmapText(this.indicatorMessageXCoordinate, this.indicatorMessageYCoordinate, this.game.globals.bitmapFontName, '', 18);
         this.labelIndicatorMessage.tint = valueTint;
         this.labelIndicatorMessage.fixedToCamera = true;
     }
@@ -572,7 +566,7 @@ class Play extends GameState
 
         let x = this[xCoordinateName] + 11;
 
-        this[textName] = game.add.bitmapText(x, y, bitmapFontName, changeText, 16);
+        this[textName] = game.add.bitmapText(x, y, this.game.globals.bitmapFontName, changeText, 16);
 
         this[textName].alpha = 0;
 
@@ -1052,7 +1046,7 @@ class Play extends GameState
         this.levelCompleteText = game.add.bitmapText(
             game.camera.width * .5,
             game.height * .13,
-            bitmapFontName,
+            this.game.globals.bitmapFontName,
             'Level ' + this.levelId + ' complete!',
             58
         );
@@ -1094,7 +1088,7 @@ class Play extends GameState
             this.scoreText = game.add.bitmapText(
                 game.camera.width * .5,
                 game.height * .61,
-                bitmapFontName,
+                this.game.globals.bitmapFontName,
                 'Score: ' + this.score,
                 24
             );
@@ -2115,11 +2109,10 @@ class Play extends GameState
             this.map.addTilesetImage(tileset.name, tileset.name, this.squareWidth, this.squareWidth, 0, 1);
         }, this);
 
-
         // create map layers
         this.layers = {};
-        this.map.layers.forEach(function (layer) {
-
+        this.map.layers.forEach(function (layer)
+        {
             this.layers[layer.name] = this.map.createLayer(layer.name);
 
             this.backgrounds.add(this.layers[layer.name]);
@@ -2137,7 +2130,6 @@ class Play extends GameState
                 this.map.setCollision(collision_tiles, true, layer.name);
             }
         }, this);
-
 
         // resize the world to be the size of the current layer
         this.layers[this.map.layer.name].resizeWorld();
@@ -2175,7 +2167,6 @@ class Play extends GameState
                     }
                 }, this);
             }, this);
-
         }
 
         if (this.layers.hasOwnProperty('impassable2'))
@@ -2254,12 +2245,14 @@ class Play extends GameState
     untargetAll()
     {
         this.attackers.forEachAlive(function(item) {
-            if (item.targeted) {
+            if (item.targeted)
+            {
                 item.untarget();
             }
         });
         this.obstacles.forEachAlive(function(item) {
-            if (item.targeted) {
+            if (item.targeted)
+            {
                 item.untarget();
             }
         });
@@ -2604,7 +2597,6 @@ class Play extends GameState
         this.addButtonTextLink('exit', 'Exit', 46, 'forestGreen', 0, game.height * .71, 'center', 'goToTitleScreen');
 
         return true;
-
     }
 
     closePauseScreen()
@@ -2688,7 +2680,7 @@ class Play extends GameState
             this.sellTowerButton.scale.setTo(1.5, 1.5);
             this.sellTowerButton.x = tower.x - 39;
 
-            this.sellTowerText = game.add.bitmapText(this.sellTowerButton.x, this.sellTowerButton.y, bitmapFontName, '£' + this.currentTower.getSellValue(), 16);
+            this.sellTowerText = game.add.bitmapText(this.sellTowerButton.x, this.sellTowerButton.y, this.game.globals.bitmapFontName, '£' + this.currentTower.getSellValue(), 16);
             this.sellTowerText.x = this.sellTowerButton.x - (this.sellTowerText.width * .5);
             this.sellTowerText.y = this.sellTowerButton.y + (this.sellTowerButton.height * .5);
         }
@@ -2726,7 +2718,7 @@ class Play extends GameState
             this.labelIndicatorMessage.setText('Tower is at maximum grade.');
         }
         this.upgradeTowerButton.x = tower.x + 39;
-        this.upgradeTowerText = game.add.bitmapText(this.upgradeTowerButton.x, this.upgradeTowerButton.y, bitmapFontName, upgradeTowerTextString, 16);
+        this.upgradeTowerText = game.add.bitmapText(this.upgradeTowerButton.x, this.upgradeTowerButton.y, this.game.globals.bitmapFontName, upgradeTowerTextString, 16);
 
         if (this.upgradeTowerText)
         {
@@ -2919,7 +2911,7 @@ class Play extends GameState
             this[textInfoName] = game.add.bitmapText(
                 this[buttonName].x,
                 this[buttonName].y  + yOffset + (this[buttonName].height * .7),
-                bitmapFontName,
+                this.game.globals.bitmapFontName,
                 '£' + cost,
                 16
             );
@@ -3212,15 +3204,14 @@ class Play extends GameState
     calculateFirepowerAtWave(waveNumber)
     {
         let firepower = this.level.startingCoins || 0;
-
         let i = 0;
         for (let wave in this.level.waveInfo)
         {
             i++;
-            if (i >= waveNumber) {
+            if (i >= waveNumber)
+            {
                 break;
             }
-
             if (this.level.waveInfo[wave].attacks)
             {
                 this.level.waveInfo[wave].attacks.forEach(function(attack)
@@ -3231,7 +3222,6 @@ class Play extends GameState
                 });
             }
         }
-
         return firepower;
     }
 
@@ -3245,9 +3235,7 @@ class Play extends GameState
     calculateWaveHealthModifier(waveNumber)
     {
         let modifier;
-
         let x = waveNumber - 1;
-
         if (this.level.hasOwnProperty('waveHealthCubicA'))
         {
             let a = this.level.waveHealthCubicA;
@@ -3268,7 +3256,6 @@ class Play extends GameState
             let waveHealthModifier = this.level.waveHealthModifier || .2;
             modifier =  (1 - waveHealthModifier) + (waveNumber * waveHealthModifier);
         }
-
         return modifier;
     }
 

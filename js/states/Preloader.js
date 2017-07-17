@@ -18,7 +18,7 @@ class Preloader extends GameState
             boundsAlignV: "middle"
         };
 
-        let text = this.game.add.text(0, 0, 'Loading Rendlesham Forest', style);
+        let text = this.game.add.text(0, 0, 'Loading ' + this.game.globals.applicationName, style);
         text.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
         text.setTextBounds(0, 100, game.width, 100);
 

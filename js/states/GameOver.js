@@ -39,7 +39,7 @@ class GameOver extends GameState
 
         game.stage.backgroundColor = "#112c06";
 
-        this.capturedText = game.add.bitmapText(500, game.height * .125, bitmapFontName, 'Captured', 80);
+        this.capturedText = game.add.bitmapText(500, game.height * .125, this.game.globals.bitmapFontName, 'Captured', 80);
         this.capturedText.align = 'center';
         this.capturedText.x = (game.width * .5) - (this.capturedText.width * .5);
 
@@ -51,7 +51,7 @@ class GameOver extends GameState
             details = 'Score: ' + this.score;
         }
 
-        this.detailsText = game.add.bitmapText(500, game.height * .35, bitmapFontName, details, 20);
+        this.detailsText = game.add.bitmapText(500, game.height * .35, this.game.globals.bitmapFontName, details, 20);
         this.detailsText.align = 'center';
         this.detailsText.x = (game.width * .5) - (this.detailsText.width * .5);
 

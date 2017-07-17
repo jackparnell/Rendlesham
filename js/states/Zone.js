@@ -154,7 +154,7 @@ class Zone extends GameState
 
         this.addButtonTextLink('nextZoneLink', 'Next', 20, 'smallDark', 10, game.camera.height - 40, 'right', 'nextZone');
 
-        this.titleText = game.add.bitmapText(500, game.height * .01, bitmapFontName, this.zone.TITLE, 28);
+        this.titleText = game.add.bitmapText(500, game.height * .01, this.game.globals.bitmapFontName, this.zone.TITLE, 28);
         this.titleText.x = (game.width * .5) - (this.titleText.width * .5);
         this.titleText.alpha = .5;
 
@@ -248,7 +248,7 @@ class Zone extends GameState
         this['level' + levelNumber + 'Text'] = game.add.bitmapText(
             x,
             y,
-            bitmapFontName,
+            this.game.globals.bitmapFontName,
             'Level ' + levelNumber,
             18
         );

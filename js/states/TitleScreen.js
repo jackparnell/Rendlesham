@@ -35,10 +35,10 @@ class TitleScreen extends GameState
 
         this.addButtonTextLink('playGameLink', 'Play the Game', 46, 'forestGreen', 0, game.height * .68, 'center', 'goToZone');
 
-        this.titleText = game.add.bitmapText(500, game.height * .12, bitmapFontName, 'Rendlesham Forest', 64);
+        this.titleText = game.add.bitmapText(500, game.height * .12, this.game.globals.bitmapFontName, this.game.globals.applicationName, 64);
         this.titleText.x = (game.width * .5) - (this.titleText.width * .5);
 
-        this.captionText = game.add.bitmapText(500, game.height * .36, bitmapFontName, 'An extra-terrestrial tower defence game', 32);
+        this.captionText = game.add.bitmapText(500, game.height * .36, this.game.globals.bitmapFontName, 'An extra-terrestrial tower defence game', 32);
         this.captionText.x = (game.width * .5) - (this.captionText.width * .5);
         this.captionText.tint = 0xFFCCCC;
 
@@ -48,7 +48,7 @@ class TitleScreen extends GameState
 
         let tipTextContent = tips[Math.floor(Math.random() * tips.length)];
 
-        this.tipText = game.add.bitmapText(500, game.height * .53, bitmapFontName, tipTextContent, 20);
+        this.tipText = game.add.bitmapText(500, game.height * .53, this.game.globals.bitmapFontName, tipTextContent, 20);
         this.tipText.x = (game.width * .5) - (this.tipText.width * .5);
         this.tipText.tint = 0xCCFFCC;
 
