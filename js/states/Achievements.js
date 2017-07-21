@@ -29,6 +29,8 @@ class Achievements extends GameState
 
         this.addButtonTextLink('backLink', 'Back', 20, 'smallDark', 10, 10, 'right', 'goToTitleScreen');
 
+        this.addButtonTextLink('downloadSaveLink', 'Download Save File', 20, 'smallWideDark', 10, game.camera.height - 40, 'right', 'downloadSave');
+
         let y = 20;
 
         this.heading_highScores = game.add.bitmapText(

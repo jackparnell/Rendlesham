@@ -69,6 +69,27 @@ class GameState extends Phaser.State
         this.save();
     }
 
+
+    downloadSave()
+    {
+        let filename = this.game.globals.applicationName + '.sav';
+        let blob = new Blob([btoa(JSON.stringify(this.user))], {type: 'text/plain;charset=utf-8;'});
+        if (window.navigator.msSaveOrOpenBlob)
+        {
+            window.navigator.msSaveBlob(blob, filename);
+        }
+        else
+        {
+            let elem = window.document.createElement('a');
+            elem.href = window.URL.createObjectURL(blob);
+            elem.download = filename;
+            document.body.appendChild(elem);
+            elem.click();
+            document.body.removeChild(elem);
+        }
+    }
+
+
     changeGameState(stateName)
     {
         if (!stateName) {
