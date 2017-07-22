@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Load Save Game File</title>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="js/globals.js"></script>
+    <script type="text/javascript">
+        $(function()
+        {
+            $('#loadFile').change(function()
+            {
+                let reader = new FileReader();
+                reader.onload = function(file)
+                {
+                    let json = JSON.parse(atob(file.target.result));
+                    localStorage.setItem(game.globals.applicationName, JSON.stringify(json));
+                };
+                reader.readAsBinaryString(this.files[0]);
+                $('#message').html('Save game loaded.');
+            });
+        });
+    </script>
+</head>
+
+<body>
+
+<input type="file" id="loadFile" name="file" enctype="multipart/form-data">
+
+<div id="message"></div>
+
+</body>
+</html>

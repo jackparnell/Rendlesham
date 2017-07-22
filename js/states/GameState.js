@@ -7,9 +7,9 @@ class GameState extends Phaser.State
 
     loadUser()
     {
-        if (localStorage.getItem(this.name))
+        if (localStorage.getItem(game.globals.applicationName))
         {
-            this.user = JSON.parse(localStorage.getItem(this.name));
+            this.user = JSON.parse(localStorage.getItem(game.globals.applicationName));
         }
         else
         {
@@ -26,7 +26,10 @@ class GameState extends Phaser.State
 
     save()
     {
-        localStorage.setItem(this.name, JSON.stringify(this.user));
+        localStorage.setItem(game.globals.applicationName, JSON.stringify(this.user));
+
+        console.log(game.globals.applicationName);
+        console.log(game.globals.applicationName);
     }
 
     checkUser()

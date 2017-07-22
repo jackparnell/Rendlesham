@@ -42,8 +42,6 @@ class Play extends GameState
          game.time.desiredFps = 60;
          */
 
-        game.forceSingleUpdate = true;
-
         game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
 
         if (game.device.desktop === false)

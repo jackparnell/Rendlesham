@@ -4,7 +4,6 @@ class LevelOptions extends GameState
     {
         this.backgrounds = game.add.group();
         this.linkBackgrounds = game.add.group();
-        this.name = 'rendlesham';
         this.loadMainFiles();
     }
 

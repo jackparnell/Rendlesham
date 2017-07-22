@@ -1,3 +1,6 @@
+if (typeof game === 'undefined') {
+    game = {};
+}
 game.globals = {};
 game.globals.applicationTitle = 'Rendlesham Forest';
 game.globals.applicationName = 'rendlesham';

@@ -3,7 +3,6 @@ class Achievements extends GameState
     preload()
     {
         this.backgrounds = game.add.group();
-        this.name = 'rendlesham';
         this.linkBackgrounds = game.add.group();
         this.texts = game.add.group();
 
