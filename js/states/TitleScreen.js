@@ -52,6 +52,8 @@ class TitleScreen extends GameState
         this.tipText.x = (game.width * .5) - (this.tipText.width * .5);
         this.tipText.tint = 0xCCFFCC;
 
+        this.addButtonTextLink('downloadSaveLink', 'Download Save File', 20, 'smallWideDark', 10, game.camera.height - 40, 'left', 'downloadSave');
+
         this.addButtonTextLink('achievementsLink', 'View Achievements', 20, 'smallWideDark', 10, game.camera.height - 40, 'right', 'showAchievements');
 
         // this.addButtonTextLink('creditsLink', 'Credits', 20, 'smallWideDark', 10, game.camera.height - 40, 'left', 'showCredits');
