@@ -39,8 +39,10 @@ class Play extends GameState
 
         /*
          game.time.advancedTiming = true;
-         game.time.desiredFps = 60;
          */
+
+        this.game.time.desiredFps = 60;
+        this.game.forceSingleUpdate = false;
 
         game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
 
@@ -77,6 +79,12 @@ class Play extends GameState
             if (game.input.keyboard.event.keyCode === 80)
             {
                 mainState.togglePauseScreen();
+            }
+            // Press F
+            if (game.input.keyboard.event.keyCode === 70)
+            {
+                // Not currently fully working
+                // mainState.toggleFastForward();
             }
         };
 
@@ -3294,5 +3302,19 @@ class Play extends GameState
     {
         this.hasCheated = true;
         this.labelScore.tint = 0xCC3333;
+    }
+
+    toggleFastForward()
+    {
+        if (this.game.time.slowMotion === 1)
+        {
+            this.game.time.slowMotion = .333333;
+            this.game.time.desiredFps = 20;
+        }
+        else
+        {
+            this.game.time.slowMotion = 1;
+            this.game.time.desiredFps = 60;
+        }
     }
 }
