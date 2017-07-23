@@ -141,7 +141,7 @@ class Play extends GameState
             // console.log(game.time.elapsedMS);
             // console.log(1 / game.time.elapsedMS);
 
-            this.turn += 1;
+            game.globals.turn += 1;
 
             let bullets = this.getBulletsAlive();
 

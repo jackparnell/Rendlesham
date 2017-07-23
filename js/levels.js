@@ -817,6 +817,12 @@ var waveneyCrossing = {
                     duration: 15,
                     gap: 2,
                     delay: 1
+                },
+                {
+                    className: 'Drone',
+                    duration: 15,
+                    gap: 4.5,
+                    delay: .5
                 }
             ]
         },

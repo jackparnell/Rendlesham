@@ -86,6 +86,13 @@ class GameSprite extends Phaser.Sprite
                 'description': 'Moveable only function called on object which is not moveable.'
             };
         }
+
+        if (this.domain === 'air')
+        {
+            this.flyToGoal();
+            return;
+        }
+
         if (!this.path || this.path.length === 0)
         {
             if (this.x > game.camera.width)
@@ -140,6 +147,11 @@ class GameSprite extends Phaser.Sprite
          this.body.velocity.y *= deltaTime;
          */
 
+    }
+
+    flyToGoal()
+    {
+        game.physics.arcade.moveToObject(this, mainState.nathan, this.speed);
     }
 
     moveToCoordinates(gridX, gridY)

@@ -41,6 +41,7 @@ class Attacker extends GameSprite
         this.maximumHealth = this.health;
         this.coinsValue = window[this.constructor.name].coinsValue || 1;
         this.scoreValue = window[this.constructor.name].scoreValue || 5;
+        this.domain = window[this.constructor.name].domain || 'land';
         this.invulnerable = false;
         this.incrementalId = mainState.attackersSpawnedCount;
 
@@ -60,6 +61,9 @@ class Attacker extends GameSprite
         {
             game.tweens.remove(this.fadeOutTween);
         }
+
+        this.reachedGoalProcessed = false;
+        this.reachedGoalTurn = 0;
 
         this.moveToGoal();
     }
@@ -189,6 +193,8 @@ class Attacker extends GameSprite
             return;
         }
 
+        this.reachedGoalTurn = game.globals.turn;
+
         this.invulnerable = true;
 
         mainState.spawnExplosion(this.x - 10, this.y, 0x8888ff);
@@ -204,7 +210,7 @@ class Attacker extends GameSprite
 
     prepareForGameOver()
     {
-        if (this.animations)
+        if (this.hasOwnProperty('animations') && this.animations.hasOwnProperty('paused'))
         {
             this.animations.paused = true;
         }
@@ -522,11 +528,19 @@ class Attacker extends GameSprite
 
     generateAdvancement()
     {
-        let stepsToGoal = this.getStepsToGoal();
         let advancement = 0;
-        if (stepsToGoal)
+        switch (this.domain)
         {
-            advancement = 100000 - (stepsToGoal * 100);
+            case 'air':
+                let distanceToGoal = game.physics.arcade.distanceBetween(this, mainState.nathan);
+                advancement = 100000 - (distanceToGoal * (100 / mainState.squareWidth));
+                break;
+            default:
+                let stepsToGoal = this.getStepsToGoal();
+                if (stepsToGoal)
+                {
+                    advancement = 100000 - (stepsToGoal * 100);
+                }
         }
         this.advancement = advancement;
     }
@@ -731,3 +745,31 @@ Mib.defaultHealth = 4000;
 Mib.pace = 2.15;
 Mib.coinsValue = 15;
 Mib.scoreValue = 15;
+
+window.Drone = class Drone extends Attacker
+{
+    constructor(game, x, y)
+    {
+        super(game, x, y, 'drone');
+        this.body.setSize(20, 30, 6, 1);
+    }
+
+    update()
+    {
+        super.update();
+
+        if (!this.alive)
+        {
+            return;
+        }
+
+        this.angle += 1;
+
+    }
+};
+Drone.domain = 'air';
+Drone.defaultScale = 1;
+Drone.defaultHealth = 1000;
+Drone.pace = 3;
+Drone.coinsValue = 15;
+Drone.scoreValue = 15;
