@@ -1712,6 +1712,12 @@ var pumpkinPatch = {
                     duration: 30,
                     gap: .75,
                     delay: 0
+                },
+                {
+                    className: 'Drone',
+                    duration: 28,
+                    gap: 14,
+                    delay: 14
                 }
             ]
         }

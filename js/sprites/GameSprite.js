@@ -26,10 +26,9 @@ class GameSprite extends Phaser.Sprite
 
     createCentralCircle(circleDiameter)
     {
-        let offset = Math.round(mainState.squareWidth * .5) - circleDiameter;
+        let offset = Math.round(this.game.state.states.play.squareWidth * .5) - circleDiameter;
         this.body.setCircle(circleDiameter, offset, offset);
     }
-
 
     move_to(target_position)
     {
@@ -40,7 +39,13 @@ class GameSprite extends Phaser.Sprite
                 'description': 'Moveable only function called on object which is not moveable.'
             };
         }
-        mainState.pathfinding.find_path(this.position, target_position, this.move_through_path, this, this.getAdditionalCostTiles());
+        this.game.state.states.play.pathfinding.find_path(
+            this.position,
+            target_position,
+            this.move_through_path,
+            this,
+            this.getAdditionalCostTiles()
+        );
     }
 
     move_through_path(path)
@@ -120,8 +125,10 @@ class GameSprite extends Phaser.Sprite
             }
             else
             {
+                /*
                 this.position.x = this.next_position.x;
                 this.position.y = this.next_position.y;
+                */
                 if (this.path_step < this.path.length - 1)
                 {
                     this.path_step += 1;
@@ -151,7 +158,11 @@ class GameSprite extends Phaser.Sprite
 
     flyToGoal()
     {
-        game.physics.arcade.moveToObject(this, mainState.nathan, this.speed);
+        this.game.physics.arcade.moveToObject(
+            this,
+            this.game.state.states.play.nathan,
+            this.speed
+        );
     }
 
     moveToCoordinates(gridX, gridY)
@@ -163,7 +174,7 @@ class GameSprite extends Phaser.Sprite
                 'description': 'Moveable only function called on object which is not moveable.'
             };
         }
-        let pixelCoordinates = mainState.translateGridCoordinatesToPixelCoordinates(
+        let pixelCoordinates = this.game.state.states.play.translateGridCoordinatesToPixelCoordinates(
             gridX,
             gridY
         );
@@ -181,7 +192,7 @@ class GameSprite extends Phaser.Sprite
                 'description': 'Moveable only function called on object which is not moveable.'
             };
         }
-        return mainState.pathAdditionalCostTiles(this);
+        return this.game.state.states.play.pathAdditionalCostTiles(this);
     }
 
     /**
@@ -199,7 +210,7 @@ class GameSprite extends Phaser.Sprite
             };
         }
         let gridCoordinatesChanges = false;
-        let gridCoordinates = mainState.translatePixelCoordinatesToGridCoordinates(this.x, this.y);
+        let gridCoordinates = this.game.state.states.play.translatePixelCoordinatesToGridCoordinates(this.x, this.y);
         if (gridCoordinates[0] !== this.gridX || gridCoordinates[1] !== this.gridY)
         {
             this.oldGridX = this.gridX;
