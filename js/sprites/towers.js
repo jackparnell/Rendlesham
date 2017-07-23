@@ -237,6 +237,10 @@ class Tower extends GameSprite
     {
         this.bulletDamageValue = window[this.constructor.name].defaultDamageValue * this.grade;
         this.weapon1.fireRate = window[this.constructor.name].defaultFireRate * 1.1 - (this.grade / 8);
+        if (this.game.time.slowMotion !== 1)
+        {
+            this.weapon1.fireRate *= this.game.time.slowMotion;
+        }
         this.weapon1.rangeInPixels = this.calculateRangeInPixels(this.grade);
         this.weapon1.bulletKillDistance = this.calculateBulletKillDistance(this.grade);
     }

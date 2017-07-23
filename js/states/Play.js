@@ -127,6 +127,8 @@ class Play extends GameState
 
         this.attackersSpawnedCount = 0;
 
+        this.game.fastForwardMode = false;
+
     }
 
     bulletHitImpassable(bullet, impassable)
@@ -3308,13 +3310,20 @@ class Play extends GameState
     {
         if (this.game.time.slowMotion === 1)
         {
-            this.game.time.slowMotion = .333333;
+            this.game.fastForwardMode = true;
+            this.game.time.slowMotion = 1/3;
             this.game.time.desiredFps = 20;
         }
         else
         {
+            this.game.fastForwardMode = false;
             this.game.time.slowMotion = 1;
             this.game.time.desiredFps = 60;
         }
+
+        // The fireRate property of weapons needs updating for all towers.
+        this.towers.callAll('calculateSpecs');
+
     }
+
 }
