@@ -386,11 +386,6 @@ class GameState extends Phaser.State
             }
         }
 
-        let levelNumber = this.getLevelNumberFromZoneAndName(this.zoneName, levelName);
-        if (this.zoneName === 'EAST_ANGLIA' && this.user.levelsComplete[levelNumber]) {
-            return true;
-        }
-
         return completed;
     }
 
