@@ -19,6 +19,8 @@ class LevelOptions extends GameState
         this.loadUser();
         this.checkUser();
 
+        console.log(this.user);
+
         game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
 
         if (game.device.desktop === false)
@@ -54,6 +56,11 @@ class LevelOptions extends GameState
                 highScoreInfo = 'Your ' + modeName + ' High Score: ' + this.user.levelHighScores[modes[i]][this.level.name];
                 textTint = 0xFFFFFF;
             }
+            else if (!this.isLevelUnlocked(this.levelNumber, modes[i]))
+            {
+                textTint = 0x888888;
+                highScoreInfo = 'Defeat ' + ucfirst(getPreviousMode(modes[i])) + ' mode to unlock.';
+            }
             else
             {
                 textTint = 0x888888;
@@ -75,9 +82,24 @@ class LevelOptions extends GameState
             this[modes[i] + 'HighScoreText'].tint = textTint;
         }
 
-        this.addButtonTextLink('playEpicLink', 'Play Epic Mode', 36, 'forestGreen', 0, game.height * .515, 'center', 'playEpic');
+        if (this.isLevelUnlocked(this.levelNumber, 'epic'))
+        {
+            this.addButtonTextLink('playEpicLink', 'Play Epic Mode', 36, 'forestGreen', 0, game.height * .515, 'center', 'playEpic');
+        }
+        else
+        {
+            this.addButtonTextLink('playEpicLink', 'Play Epic Mode', 36, 'locked', 0, game.height * .515, 'center', 'notPossible', 0x666666);
+        }
 
-        this.addButtonTextLink('playEndlessLink', 'Play Endless Mode', 36, 'forestGreen', 0, game.height * .76, 'center', 'playEndless');
+        if (this.isLevelUnlocked(this.levelNumber, 'endless'))
+        {
+            this.addButtonTextLink('playEndlessLink', 'Play Endless Mode', 36, 'forestGreen', 0, game.height * .76, 'center', 'playEndless');
+        }
+        else
+        {
+            this.addButtonTextLink('playEndlessLink', 'Play Endless Mode', 36, 'locked', 0, game.height * .76, 'center', 'notPossible', 0x666666);
+        }
+
     }
 
     goToZone()

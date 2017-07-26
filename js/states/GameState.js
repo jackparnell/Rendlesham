@@ -98,7 +98,7 @@ class GameState extends Phaser.State
         game.state.start(stateName);
     }
 
-    addButtonTextLink(name, text, fontSize, buttonImage, x, y, horizontal, clickFunctionName)
+    addButtonTextLink(name, text, fontSize, buttonImage, x, y, horizontal, clickFunctionName, textColor = 0xFFFFFF)
     {
         let buttonName = name + 'Button';
 
@@ -131,6 +131,8 @@ class GameState extends Phaser.State
             fontSize
         );
 
+        this[name].tint = textColor;
+
         let xOffset = (this[buttonName].width - this[name].width) * .5;
         this[name].x = this[buttonName].x + xOffset;
 
@@ -160,6 +162,7 @@ class GameState extends Phaser.State
         game.load.image('touchMushroomBackground', 'assets/backgrounds/touchMushroom.png');
 
         game.load.image('forestGreen', 'assets/buttons/forestGreen.png');
+        game.load.image('locked', 'assets/buttons/locked.png');
         game.load.image('smallDark', 'assets/buttons/smallDark.png');
         game.load.image('smallWideDark', 'assets/buttons/smallWideDark.png');
         game.load.image('starCharcoal', 'assets/sprites/decorations/StarCharcoal.png');
@@ -326,5 +329,73 @@ class GameState extends Phaser.State
     playSound(soundName)
     {
         this.sounds[soundName].play();
+    }
+
+    isLevelUnlocked(levelNumber, mode='classic')
+    {
+        if (levelNumber === 1 && mode === 'classic')
+        {
+            return true;
+        }
+        if (this.user.cheats && this.user.cheats.unlockAllLevels)
+        {
+            return true;
+        }
+        let level = this.getLevelFromZoneAndNumber(this.zoneName, levelNumber);
+
+        switch (mode)
+        {
+            case 'classic':
+                // Classic is unlocked is user had completed the previous level (on any mode)
+                return (level && level.hasOwnProperty('previousLevelName') && this.hasUserCompletedLevel(level.previousLevelName));
+                break;
+
+            case 'epic':
+                // Epic is unlocked is user had completed the level on classic mode
+                return (level && level.hasOwnProperty('name') && this.hasUserCompletedLevel(level.name, 'classic'));
+                break;
+
+            case 'endless':
+                // Endless is unlocked is user had completed the level on epic mode
+                return (level && level.hasOwnProperty('name') && this.hasUserCompletedLevel(level.name, 'epic'));
+                break;
+
+            default:
+                throw {
+                    'code': 78401,
+                    'description': 'Mode ' + mode + ' invalid.'
+                };
+                break;
+        }
+
+    }
+
+    hasUserCompletedLevel(levelName, mode='any')
+    {
+        let completed = false;
+
+        let modes = ['classic', 'epic', 'endless'];
+
+        for (let i = 0; i < modes.length; i++) {
+            if (
+                (mode === 'any' || mode === modes[i])
+                &&
+                this.user.levelCompletions[modes[i]][levelName])
+            {
+                completed = true;
+            }
+        }
+
+        let levelNumber = this.getLevelNumberFromZoneAndName(this.zoneName, levelName);
+        if (this.zoneName === 'EAST_ANGLIA' && this.user.levelsComplete[levelNumber]) {
+            return true;
+        }
+
+        return completed;
+    }
+
+    notPossible()
+    {
+        return;
     }
 }

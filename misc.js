@@ -34,3 +34,27 @@ function ucfirst(inputString)
 {
     return inputString.charAt(0).toUpperCase() + inputString.slice(1)
 }
+
+/**
+ * Get the previous mode for a supplied mode.
+ *
+ * @param modeName
+ * @returns {string}
+ */
+function getPreviousMode(modeName)
+{
+    switch (modeName)
+    {
+        case 'epic':
+            return 'classic';
+            break;
+        case 'endless':
+            return 'epic';
+            break;
+        default:
+            throw {
+                'code': 78501,
+                'description': 'Mode ' + modeName + ' invalid.'
+            };
+    }
+}

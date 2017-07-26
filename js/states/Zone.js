@@ -205,40 +205,6 @@ class Zone extends GameState
         game.state.start('levelOptions', true, true, levelNumber, this.zoneName);
     }
 
-    isLevelUnlocked(levelNumber)
-    {
-        if (levelNumber === 1)
-        {
-            return true;
-        }
-        if (this.user.cheats && this.user.cheats.unlockAllLevels)
-        {
-            return true;
-        }
-        let level = this.getLevelFromZoneAndNumber(this.zoneName, levelNumber);
-        return (level && level.hasOwnProperty('previousLevelName') && this.hasUserCompletedLevel(level.previousLevelName));
-    }
-
-    hasUserCompletedLevel(levelName)
-    {
-        let completed = false;
-
-        let modes = ['classic', 'epic', 'endless'];
-
-        for (let i = 0; i < modes.length; i++) {
-            if (this.user.levelCompletions[modes[i]][levelName]) {
-                completed = true;
-            }
-        }
-
-        let levelNumber = this.getLevelNumberFromZoneAndName(this.zoneName, levelName);
-        if (this.zoneName === 'EAST_ANGLIA' && this.user.levelsComplete[levelNumber]) {
-            return true;
-        }
-
-        return completed;
-    }
-
     writeLevelText(levelNumber)
     {
         let x = this.levels[levelNumber].x + 16;
