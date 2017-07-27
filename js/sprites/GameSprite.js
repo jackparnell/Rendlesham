@@ -1,5 +1,13 @@
 class GameSprite extends Phaser.Sprite
 {
+    static get DESCRIPTION() { return ''; }
+
+    constructor (game, x, y, spriteName)
+    {
+        super(game, x, y, spriteName);
+        this.game.state.states.play.userSeesObject(this.constructor.name);
+    }
+
     getScale()
     {
         let scale;

@@ -3329,4 +3329,9 @@ class Play extends GameState
 
     }
 
+    shutdown()
+    {
+        this.save();
+    }
+
 }

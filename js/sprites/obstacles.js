@@ -290,6 +290,7 @@ class Obstacle extends GameSprite
 
 class TallBrownMushroom extends Obstacle
 {
+    static get DESCRIPTION() { return 'The Brown Mushroom is a mushroom you can target. Destroy it to earn coins.'; }
     static get DEFAULT_SCALE() { return 1; }
     static get DEFAULT_HEALTH() { return 10000; }
     static get DEFAULT_COINS_VALUE() { return 50; }
@@ -306,6 +307,7 @@ class TallBrownMushroom extends Obstacle
 class TallRedMushroom extends Obstacle
 {
 
+    static get DESCRIPTION() { return 'The Red Mushroom is tougher than the Brown Mushroom and worth more coins.'; }
     static get DEFAULT_SCALE() { return 1; }
     static get DEFAULT_HEALTH() { return 35000; }
     static get DEFAULT_COINS_VALUE() { return 100; }
@@ -321,6 +323,7 @@ class TallRedMushroom extends Obstacle
 
 class TallGreyMushroom extends Obstacle
 {
+    static get DESCRIPTION() { return 'The Grey Mushroom is rare and worth a lot of coins if you can destroy it.'; }
     static get DEFAULT_SCALE() { return 1; }
     static get DEFAULT_HEALTH() { return 50000; }
     static get DEFAULT_COINS_VALUE() { return 100; }
@@ -345,6 +348,7 @@ class TallGreyMushroom extends Obstacle
 
 class BigBush extends Obstacle
 {
+    static get DESCRIPTION() { return 'The Big Bush is foliage. Destroy it for fun, but it has no coin value.'; }
     static get DEFAULT_SCALE() { return 1; }
     static get DEFAULT_HEALTH() { return 10000; }
     static get DEFAULT_COINS_VALUE() { return 0; }
@@ -360,6 +364,7 @@ class BigBush extends Obstacle
 
 class BigBushAutumn extends Obstacle
 {
+    static get DESCRIPTION() { return 'The Big Bush is foliage. Destroy it for fun, but it has no coin value.'; }
     static get DEFAULT_SCALE() { return 1; }
     static get DEFAULT_HEALTH() { return 10000; }
     static get DEFAULT_COINS_VALUE() { return 0; }
@@ -375,6 +380,7 @@ class BigBushAutumn extends Obstacle
 
 class SmallBush extends Obstacle
 {
+    static get DESCRIPTION() { return 'The Small Bush is foliage. Destroy it for fun, but it has no coin value.'; }
     static get DEFAULT_SCALE() { return 1; }
     static get DEFAULT_HEALTH() { return 5000; }
     static get DEFAULT_COINS_VALUE() { return 0; }
@@ -390,6 +396,7 @@ class SmallBush extends Obstacle
 
 class SnowyPine extends Obstacle
 {
+    static get DESCRIPTION() { return 'The Snowy Pine is foliage. Destroy it for fun, but it has no coin value.'; }
     static get DEFAULT_SCALE() { return 1; }
     static get DEFAULT_HEALTH() { return 5000; }
     static get DEFAULT_COINS_VALUE() { return 0; }
@@ -420,6 +427,7 @@ class Rock extends Obstacle
 
 class PurpleRock extends Obstacle
 {
+    static get DESCRIPTION() { return 'The Purple Rock is a tough obstacle to destroy. It is there to block you, but has no coin value.'; }
     static get DEFAULT_SCALE() { return 1; }
     static get DEFAULT_HEALTH() { return 15000; }
     static get DEFAULT_COINS_VALUE() { return 0; }
@@ -435,6 +443,7 @@ class PurpleRock extends Obstacle
 
 class Crate extends Obstacle
 {
+    static get DESCRIPTION() { return 'The Crate is a tough obstacle to destroy. It is there to block you, but has no coin value.'; }
     static get DEFAULT_SCALE() { return 1; }
     static get DEFAULT_HEALTH() { return 15000; }
     static get DEFAULT_COINS_VALUE() { return 0; }
@@ -450,6 +459,7 @@ class Crate extends Obstacle
 
 class Bulrush extends Obstacle
 {
+    static get DESCRIPTION() { return 'The Bulrush is a rare plant. Destroy it for a coin bonus.'; }
     static get DEFAULT_SCALE() { return 1; }
     static get DEFAULT_HEALTH() { return 20000; }
     static get DEFAULT_COINS_VALUE() { return 100; }
@@ -474,6 +484,7 @@ class Bulrush extends Obstacle
 
 class Snowman extends Obstacle
 {
+    static get DESCRIPTION() { return 'The Snowman is a super tough obstacle. Destroy it for a coin bonus.'; }
     static get DEFAULT_SCALE() { return 1; }
     static get DEFAULT_HEALTH() { return 100000; }
     static get DEFAULT_COINS_VALUE() { return 100; }
@@ -498,6 +509,7 @@ class Snowman extends Obstacle
 
 class Pumpkin extends Obstacle
 {
+    static get DESCRIPTION() { return 'The Pumpkin is a plant you can target. Destroy it to earn coins.'; }
     static get DEFAULT_SCALE() { return 1; }
     static get DEFAULT_HEALTH() { return 10000; }
     static get DEFAULT_COINS_VALUE() { return 50; }
@@ -522,6 +534,7 @@ class Pumpkin extends Obstacle
 
 class PinkCrystal extends Obstacle
 {
+    static get DESCRIPTION() { return 'The Pink Crystal is a very valuable target. Destroy it for a coin bonus.'; }
     static get DEFAULT_SCALE() { return 1; }
     static get DEFAULT_HEALTH() { return 30000; }
     static get DEFAULT_COINS_VALUE() { return 200; }
@@ -546,6 +559,7 @@ class PinkCrystal extends Obstacle
 
 class Puffball extends Obstacle
 {
+    static get DESCRIPTION() { return 'The Puffball is a mushroom that grows as the game progress. The larger is gets, the more coins it is worth.'; }
     static get DEFAULT_SCALE() { return 1; }
     static get DEFAULT_HEALTH() { return 15000; }
     static get DEFAULT_COINS_VALUE() { return 50; }

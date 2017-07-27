@@ -347,6 +347,7 @@ class Tower extends GameSprite
 
 window.Gun = class Gun extends Tower
 {
+    static get DESCRIPTION() { return 'The Gun is the most basic of towers. It can shoot at attackers and obstacles.'; }
     static get DEFAULT_SCALE() { return .5; }
 
     constructor(game, x, y)
@@ -370,6 +371,7 @@ Gun.bulletHitDecorationClassName = 'Explosion';
 
 window.Freezer = class Freezer extends Tower
 {
+    static get DESCRIPTION() { return 'The Freezer tower temporarily slows down attackers it hits. It also deals a little damage.'; }
     static get DEFAULT_SCALE() { return .5; }
 
     constructor(game, x, y)
@@ -393,6 +395,7 @@ Freezer.bulletHitDecorationTint = 0x0000FF;
 
 window.Laser = class Laser extends Tower
 {
+    static get DESCRIPTION() { return 'The Laser tower is a fast firing tower with a long range.'; }
     static get DEFAULT_SCALE() { return .5; }
 
     constructor(game, x, y)

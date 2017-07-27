@@ -37,6 +37,11 @@ class GameState extends Phaser.State
             this.user.levelsComplete = [];
         }
 
+        if (!this.user.objectsSeen)
+        {
+            this.user.objectsSeen = [];
+        }
+
         let records = ['items', 'levelCompletions', 'levelStars', 'levelHighScores'];
         let modes = ['classic', 'epic', 'endless'];
 
@@ -393,5 +398,19 @@ class GameState extends Phaser.State
     notPossible()
     {
         return;
+    }
+
+    /**
+     * Handle the user seeing an object of a supplied className.
+     *
+     * @param {string} className
+     */
+    userSeesObject(className)
+    {
+        if (this.user.objectsSeen.indexOf(className) === -1)
+        {
+            this.user.objectsSeen.push(className);
+            console.log(className);
+        }
     }
 }
