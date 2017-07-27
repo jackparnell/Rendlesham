@@ -19,8 +19,6 @@ class LevelOptions extends GameState
         this.loadUser();
         this.checkUser();
 
-        console.log(this.user);
-
         game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
 
         if (game.device.desktop === false)

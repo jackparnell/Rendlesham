@@ -1,5 +1,7 @@
 class Obstacle extends GameSprite
 {
+    static get MAXIMUM_GRADE() { return 1; }
+
     constructor (game, x, y, spriteName)
     {
         super(game, x, y, spriteName);
@@ -44,6 +46,7 @@ class Obstacle extends GameSprite
     {
         this.body.immovable = true;
         this.body.moves = false;
+        this.grade = 1;
     }
 
     firstUpdate()
@@ -268,6 +271,20 @@ class Obstacle extends GameSprite
         }
         this.crosshair.x = this.x - mainState.halfSquareWidth - 2 ;
         this.crosshair.y = this.y - mainState.halfSquareWidth - 2;
+    }
+
+    onWaveBeaten()
+    {
+        this.calculateSpecs();
+    }
+
+    calculateSpecs()
+    {
+        if (this.constructor.MAXIMUM_GRADE > 1)
+        {
+            this.coinsValue = this.constructor.DEFAULT_COINS_VALUE * (.5 + (this.grade * .5));
+            this.scoreValue = this.constructor.DEFAULT_SCORE_VALUE * (.5 + (this.grade * .5));
+        }
     }
 }
 
@@ -524,5 +541,35 @@ class PinkCrystal extends Obstacle
         {
             mainState.addItem('pinkCrystal');
         }
+    }
+}
+
+class Puffball extends Obstacle
+{
+    static get DEFAULT_SCALE() { return 1; }
+    static get DEFAULT_HEALTH() { return 15000; }
+    static get DEFAULT_COINS_VALUE() { return 50; }
+    static get DEFAULT_SCORE_VALUE() { return 50; }
+    static get MAXIMUM_GRADE() { return 3; }
+
+    constructor(game, x, y)
+    {
+        super(game, x, y, 'Puffball');
+        this.createCentralCircle(8);
+    }
+
+    onWaveBeaten()
+    {
+        this.upgrade();
+        super.onWaveBeaten();
+    }
+
+    upgrade()
+    {
+        if (this.grade < this.constructor.MAXIMUM_GRADE)
+        {
+            this.grade += 1;
+        }
+        this.frame = (this.grade - 1);
     }
 }
