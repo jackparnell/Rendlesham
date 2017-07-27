@@ -59,7 +59,7 @@ class LevelOptions extends GameState
             else if (!this.isLevelUnlocked(this.levelNumber, modes[i]))
             {
                 textTint = 0x888888;
-                highScoreInfo = 'Defeat ' + ucfirst(getPreviousMode(modes[i])) + ' mode to unlock.';
+                highScoreInfo = 'Complete ' + ucfirst(getPreviousMode(modes[i])) + ' mode to unlock.';
             }
             else
             {
