@@ -32,7 +32,6 @@
         }, 
         {
          "draworder":"topdown",
-         "height":0,
          "name":"objects",
          "objects":[
                 {
@@ -1090,17 +1089,41 @@
                  "width":35,
                  "x":735,
                  "y":210
+                }, 
+                {
+                 "gid":55,
+                 "height":35,
+                 "id":94,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":35,
+                 "x":419,
+                 "y":386
+                }, 
+                {
+                 "gid":55,
+                 "height":35,
+                 "id":95,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":35,
+                 "x":490,
+                 "y":103
                 }],
          "opacity":1,
          "type":"objectgroup",
          "visible":true,
-         "width":0,
          "x":0,
          "y":0
         }],
- "nextobjectid":94,
+ "nextobjectid":96,
  "orientation":"orthogonal",
  "renderorder":"right-down",
+ "tiledversion":"2017.06.27",
  "tileheight":35,
  "tilesets":[
         {
@@ -1108,7 +1131,7 @@
          "firstgid":1,
          "image":"..\/tiles\/tiles_spritesheet.png",
          "imageheight":468,
-         "imagewidth":457,
+         "imagewidth":432,
          "margin":0,
          "name":"tiles_spritesheet",
          "spacing":1,
@@ -1117,6 +1140,7 @@
          "tilewidth":35
         }],
  "tilewidth":35,
+ "type":"map",
  "version":1,
  "width":22
 }

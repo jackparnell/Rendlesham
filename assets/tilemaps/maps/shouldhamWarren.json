@@ -43,7 +43,6 @@
         }, 
         {
          "draworder":"topdown",
-         "height":0,
          "name":"objects",
          "objects":[
                 {
@@ -1021,18 +1020,6 @@
                 {
                  "gid":64,
                  "height":35,
-                 "id":156,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":35,
-                 "x":594,
-                 "y":176
-                }, 
-                {
-                 "gid":64,
-                 "height":35,
                  "id":157,
                  "name":"",
                  "rotation":0,
@@ -1237,18 +1224,6 @@
                 {
                  "gid":106,
                  "height":35,
-                 "id":176,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":35,
-                 "x":350,
-                 "y":382
-                }, 
-                {
-                 "gid":106,
-                 "height":35,
                  "id":177,
                  "name":"",
                  "rotation":0,
@@ -1401,17 +1376,41 @@
                  "width":35,
                  "x":245,
                  "y":210
+                }, 
+                {
+                 "gid":55,
+                 "height":35,
+                 "id":190,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":35,
+                 "x":596,
+                 "y":176
+                }, 
+                {
+                 "gid":55,
+                 "height":35,
+                 "id":192,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":35,
+                 "x":351,
+                 "y":383
                 }],
          "opacity":1,
          "type":"objectgroup",
          "visible":true,
-         "width":0,
          "x":0,
          "y":0
         }],
- "nextobjectid":190,
+ "nextobjectid":193,
  "orientation":"orthogonal",
  "renderorder":"right-down",
+ "tiledversion":"2017.06.27",
  "tileheight":35,
  "tilesets":[
         {
@@ -1428,6 +1427,7 @@
          "tilewidth":35
         }],
  "tilewidth":35,
+ "type":"map",
  "version":1,
  "width":22
 }

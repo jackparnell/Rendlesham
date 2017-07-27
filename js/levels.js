@@ -38,6 +38,7 @@ const ZONE_INFO = {
     }
 };
 
+// Introducing Gun
 var fridayStreet = {
     story: true,
     storyImages: {
@@ -144,6 +145,7 @@ var fridayStreet = {
     previousLevelName: null
 };
 
+// Introducing Freezer
 var orfordRoad = {
     name: 'orfordRoad',
     mapName: 'orfordRoad',
@@ -267,6 +269,7 @@ var orfordRoad = {
     previousLevelName: 'fridayStreet'
 };
 
+// Introducing Laser
 var orfordness = {
     name: 'orfordness',
     mapName: 'orfordness',
@@ -390,6 +393,7 @@ var orfordness = {
     previousLevelName: 'orfordRoad'
 };
 
+// Introducing Puffball
 var westletonHeath = {
     name: 'westletonHeath',
     mapName: 'westletonHeath',
@@ -502,9 +506,11 @@ var westletonHeath = {
     waveHealthCubicB: .03,
     waveHealthCubicC: .33,
     towerPlacementForbiddenRows: [0, 11],
-    previousLevelName: 'orfordness'
+    previousLevelName: 'orfordness',
+    distinctWaves: true
 };
 
+// Introducing Drone
 var bartonMills = {
     name: 'bartonMills',
     mapName: 'bartonMills',
@@ -550,14 +556,20 @@ var bartonMills = {
                 {
                     className: 'Mib',
                     duration: 15,
-                    gap: 2,
+                    gap: 2.2,
                     delay: 0
                 },
                 {
                     className: 'Aquila',
                     duration: 15,
-                    gap: 2,
-                    delay: 1
+                    gap: 2.2,
+                    delay: 1.1
+                },
+                {
+                    className: 'Drone',
+                    duration: 15,
+                    gap: 4.5,
+                    delay: .5
                 }
             ]
         },
@@ -592,6 +604,12 @@ var bartonMills = {
                     duration: 10,
                     gap: .65,
                     delay: 10
+                },
+                {
+                    className: 'Drone',
+                    duration: 22,
+                    gap: 4.5,
+                    delay: .5
                 }
             ]
         },
@@ -603,13 +621,19 @@ var bartonMills = {
                     duration: 30,
                     gap: .9,
                     delay: 0
+                },
+                {
+                    className: 'Drone',
+                    duration: 25,
+                    gap: 6.5,
+                    delay: 5
                 }
             ]
         }
     },
     pathAdditionalCostTiles: function(attacker) {
 
-        var additionalCostTiles = [];
+        let additionalCostTiles = [];
 
         if (attacker.incrementalId % 2) {
             additionalCostTiles.push([10, 3, 20]);
@@ -630,7 +654,8 @@ var bartonMills = {
     waveHealthCubicB: .03,
     waveHealthCubicC: .3,
     towerPlacementForbiddenRows: [0, 11],
-    previousLevelName: 'westletonHeath'
+    previousLevelName: 'westletonHeath',
+    distinctWaves: true
 };
 
 var worthamLing = {
