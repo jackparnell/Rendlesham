@@ -63,6 +63,7 @@ class Play extends GameState
         this.towerSelected = 'Gun';
         this.hasCheated = false;
         this.keyInput = '';
+        this.buttonTweenInMs = 200;
 
         window.onkeydown = function()
         {
@@ -2696,13 +2697,15 @@ class Play extends GameState
             }
         }, this);
 
+        let buttonDisplayScale = 1.5;
+
         if (tower.sellable())
         {
             this.sellTowerButton = this.game.add.button(tower.x , tower.y, 'poundDark', this.sellCurrentTower, this);
             this.sellTowerButton.inputEnabled = true;
             this.sellTowerButton.alpha = .5;
             this.sellTowerButton.anchor.set(0.5, 0.5);
-            this.sellTowerButton.scale.setTo(1.5, 1.5);
+            this.sellTowerButton.scale.setTo(buttonDisplayScale, buttonDisplayScale);
             this.sellTowerButton.x = tower.x - 39;
 
             this.sellTowerText = this.game.add.bitmapText(this.sellTowerButton.x, this.sellTowerButton.y, this.game.globals.bitmapFontName, '£' + this.currentTower.getSellValue(), 16);
@@ -2725,7 +2728,7 @@ class Play extends GameState
 
             this.upgradeTowerButton.alpha = .5;
             this.upgradeTowerButton.anchor.set(0.5, 0.5);
-            this.upgradeTowerButton.scale.setTo(1.5, 1.5);
+            this.upgradeTowerButton.scale.setTo(buttonDisplayScale, buttonDisplayScale);
 
             this.labelIndicatorMessage.setText('Upgrade or sell tower.');
 
@@ -2738,7 +2741,7 @@ class Play extends GameState
             this.upgradeTowerButton.inputEnabled = false;
             this.upgradeTowerButton.alpha = .5;
             this.upgradeTowerButton.anchor.set(0.5, 0.5);
-            this.upgradeTowerButton.scale.setTo(1.5, 1.5);
+            this.upgradeTowerButton.scale.setTo(buttonDisplayScale, buttonDisplayScale);
 
             this.labelIndicatorMessage.setText('Tower is at maximum grade.');
         }
@@ -2768,6 +2771,13 @@ class Play extends GameState
                 this.towerInfoOpenRangeGraphics.endFill();
             }
         }
+
+        this.upgradeTowerButton.scale.setTo(.1, .1);
+        this.game.add.tween(this.upgradeTowerButton.scale).to({ x: buttonDisplayScale, y: buttonDisplayScale }, this.buttonTweenInMs, Phaser.Easing.Back.Out, true, 0);
+
+        this.sellTowerButton.scale.setTo(.1, .1);
+        this.game.add.tween(this.sellTowerButton.scale).to({ x: buttonDisplayScale, y: buttonDisplayScale }, this.buttonTweenInMs, Phaser.Easing.Back.Out, true, 0);
+
     }
 
     closeTowerInfo()
@@ -2916,7 +2926,7 @@ class Play extends GameState
             this[backdropButtonName].anchor.set(0.5, 0.5);
             this[backdropButtonName].scale.setTo(.1, .1);
 
-            this.game.add.tween(this[backdropButtonName].scale).to({ x: 1.5, y: 1.5 }, 200, Phaser.Easing.Back.Out, true, 10);
+            this.game.add.tween(this[backdropButtonName].scale).to({ x: 1.5, y: 1.5 }, this.buttonTweenInMs, Phaser.Easing.Back.Out, true, 0);
 
             // Backdrop button end
 
@@ -2949,9 +2959,9 @@ class Play extends GameState
             this[textInfoName].x = this[textInfoName].x - (this[textInfoName].width * .5);
 
             this[buttonName].scale.setTo(.1, .1);
-            this.game.add.tween(this[buttonName].scale).to({ x: .75, y: .75 }, 200, Phaser.Easing.Back.Out, true, 10);
+            this.game.add.tween(this[buttonName].scale).to({ x: .75, y: .75 }, this.buttonTweenInMs, Phaser.Easing.Back.Out, true, 0);
 
-            // Sprite-based buttonand cost text end
+            // Sprite-based button and cost text end
 
             if (this.coins < cost)
             {
