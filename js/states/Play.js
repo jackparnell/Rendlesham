@@ -2914,10 +2914,13 @@ class Play extends GameState
             this[backdropButtonName].inputEnabled = true;
             this[backdropButtonName].alpha = .5;
             this[backdropButtonName].anchor.set(0.5, 0.5);
-            this[backdropButtonName].scale.setTo(1.5, 1.5);
+            this[backdropButtonName].scale.setTo(.1, .1);
+
+            this.game.add.tween(this[backdropButtonName].scale).to({ x: 1.5, y: 1.5 }, 200, Phaser.Easing.Back.Out, true, 10);
+
             // Backdrop button end
 
-            // Sprite-based button start
+            // Sprite-based button and cost text start
             this[buttonName] = this.game.add.button(
                 this.currentGridPosition.x + xOffset,
                 this.currentGridPosition.y + yOffset,
@@ -2928,8 +2931,10 @@ class Play extends GameState
             this[buttonName].inputEnabled = true;
             this[buttonName].alpha = .6;
             this[buttonName].anchor.set(.5, .5);
+
+            // Scale to .75 initially to allow positioning of textInfoName based on intended size.
+            // Will rescale to .1, then tween to .75 a few lines down from here
             this[buttonName].scale.setTo(.75, .75);
-            // Sprite-based button end
 
             let cost = window[towerClassName].cost;
 
@@ -2942,6 +2947,11 @@ class Play extends GameState
             );
 
             this[textInfoName].x = this[textInfoName].x - (this[textInfoName].width * .5);
+
+            this[buttonName].scale.setTo(.1, .1);
+            this.game.add.tween(this[buttonName].scale).to({ x: .75, y: .75 }, 200, Phaser.Easing.Back.Out, true, 10);
+
+            // Sprite-based buttonand cost text end
 
             if (this.coins < cost)
             {
