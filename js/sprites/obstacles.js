@@ -9,7 +9,7 @@ class Obstacle extends GameSprite
         this.moveable = false;
 
         this.guid = guid();
-        this.creationTurn = game.globals.turn;
+        this.creationTurn = this.game.globals.turn;
 
         this.health = this.constructor.DEFAULT_HEALTH || 1000;
         this.maximumHealth = this.health;
@@ -17,14 +17,14 @@ class Obstacle extends GameSprite
         this.scoreValue = this.constructor.DEFAULT_SCORE_VALUE || 0;
         this.invulnerable = false;
 
-        game.physics.arcade.enable(this);
+        this.game.physics.arcade.enable(this);
 
-        this.roundedCoordinates = mainState.pixelsNearestTileTopLeftCoordinates(x, y);
+        this.roundedCoordinates = this.game.state.states.play.pixelsNearestTileTopLeftCoordinates(x, y);
         x = this.roundedCoordinates[0];
         y = this.roundedCoordinates[1];
 
-        this.x = x + mainState.halfSquareWidth;
-        this.y = y + mainState.halfSquareWidth;
+        this.x = x + this.game.state.states.play.halfSquareWidth;
+        this.y = y + this.game.state.states.play.halfSquareWidth;
 
         this.anchor.setTo(0.5, 0.5);
 
@@ -33,7 +33,7 @@ class Obstacle extends GameSprite
         this.outOfBoundsKill = false;
 
         let scale = this.constructor.DEFAULT_SCALE || 1;
-        if (scale != 1) {
+        if (scale !== 1) {
             this.scale.setTo(scale, scale);
         }
 
@@ -52,7 +52,7 @@ class Obstacle extends GameSprite
     firstUpdate()
     {
         this.generateGridCoordinates();
-        mainState.addGlobalImpassablePoint(this.gridX, this.gridY, 'grid');
+        this.game.state.states.play.addGlobalImpassablePoint(this.gridX, this.gridY, 'grid');
 
         this.firstUpdateRun = true;
     }
@@ -70,8 +70,8 @@ class Obstacle extends GameSprite
         let decorationClassName = window[bullet.towerClass].bulletHitDecorationClassName || 'Explosion';
         let decorationTint = window[bullet.towerClass].bulletHitDecorationTint || '0xFFFFFF';
         let spawnFunctionName = 'spawn' + decorationClassName;
-        let midPoint = mainState.getMidPointBetweenSprites(obstacle, bullet);
-        mainState[spawnFunctionName](midPoint.x, midPoint.y, decorationTint, midPoint.angle);
+        let midPoint = this.game.state.states.play.getMidPointBetweenSprites(obstacle, bullet);
+        this.game.state.states.play[spawnFunctionName](midPoint.x, midPoint.y, decorationTint, midPoint.angle);
 
         delete bullet.target;
         bullet.kill();
@@ -81,7 +81,7 @@ class Obstacle extends GameSprite
 
     generateGridCoordinates()
     {
-        let gridCoordinates = mainState.translatePixelCoordinatesToGridCoordinates(this.x, this.y);
+        let gridCoordinates = this.game.state.states.play.translatePixelCoordinatesToGridCoordinates(this.x, this.y);
         this.gridX = gridCoordinates[0];
         this.gridY = gridCoordinates[1];
     }
@@ -128,9 +128,9 @@ class Obstacle extends GameSprite
     die()
     {
         if (this.health <= 0) {
-            mainState.changeCoins(this.coinsValue, this.x, this.y);
-            mainState.changeScore(this.scoreValue, this.x, this.y);
-            mainState.sounds.nes08.play();
+            this.game.state.states.play.changeCoins(this.coinsValue, this.x, this.y);
+            this.game.state.states.play.changeScore(this.scoreValue, this.x, this.y);
+            this.game.state.states.play.sounds.nes08.play();
         }
         if (this.healthBar) {
             this.healthBar.kill();
@@ -139,10 +139,10 @@ class Obstacle extends GameSprite
             this.crosshair.kill();
         }
         if (this.targeted) {
-            mainState.noTarget();
+            this.game.state.states.play.noTarget();
         }
 
-        mainState.removeGlobalImpassablePoint(this.gridX, this.gridY, 'grid');
+        this.game.state.states.play.removeGlobalImpassablePoint(this.gridX, this.gridY, 'grid');
 
         this.kill();
 
@@ -239,15 +239,15 @@ class Obstacle extends GameSprite
     target()
     {
         // Un-target all other obstacles and attackers
-        mainState.untargetAll();
-        mainState.setTarget(this);
+        this.game.state.states.play.untargetAll();
+        this.game.state.states.play.setTarget(this);
 
         this.targeted = true;
 
         this.crosshair = game.add.sprite(this.x, this.y, 'crosshair');
         game.physics.arcade.enable(this.crosshair);
 
-        mainState.crosshairs.add(this.crosshair);
+        this.game.state.states.play.crosshairs.add(this.crosshair);
     }
 
     untarget()
@@ -255,7 +255,7 @@ class Obstacle extends GameSprite
         this.targeted = false;
         if (this.game.target.guid && this.guid === this.game.target.guid)
         {
-            mainState.noTarget();
+            this.game.state.states.play.noTarget();
         }
         if (this.crosshair)
         {
@@ -269,8 +269,8 @@ class Obstacle extends GameSprite
         {
             return false;
         }
-        this.crosshair.x = this.x - mainState.halfSquareWidth - 2 ;
-        this.crosshair.y = this.y - mainState.halfSquareWidth - 2;
+        this.crosshair.x = this.x - this.game.state.states.play.halfSquareWidth - 2 ;
+        this.crosshair.y = this.y - this.game.state.states.play.halfSquareWidth - 2;
     }
 
     onWaveBeaten()
@@ -299,7 +299,7 @@ class TallBrownMushroom extends Obstacle
 
     constructor(game, x, y)
     {
-        super(game, x, y, 'tallBrownMushroom');
+        super(game, x, y, 'TallBrownMushroom');
         this.createCentralCircle(16);
     }
 }
@@ -316,7 +316,7 @@ class TallRedMushroom extends Obstacle
 
     constructor(game, x, y)
     {
-        super(game, x, y, 'tallRedMushroom');
+        super(game, x, y, 'TallRedMushroom');
         this.createCentralCircle(16);
     }
 }
@@ -332,7 +332,7 @@ class TallGreyMushroom extends Obstacle
 
     constructor(game, x, y)
     {
-        super(game, x, y, 'tallGreyMushroom');
+        super(game, x, y, 'TallGreyMushroom');
         this.createCentralCircle(16);
     }
 
@@ -340,8 +340,8 @@ class TallGreyMushroom extends Obstacle
     {
         super.die();
 
-        if (!mainState.hasItem('greyMushroomSpore')) {
-            mainState.addItem('greyMushroomSpore');
+        if (!this.game.state.states.play.hasItem('greyMushroomSpore')) {
+            this.game.state.states.play.addItem('greyMushroomSpore');
         }
     }
 }
@@ -357,7 +357,7 @@ class BigBush extends Obstacle
 
     constructor(game, x, y)
     {
-        super(game, x, y, 'bigBush');
+        super(game, x, y, 'BigBush');
         this.createCentralCircle(16);
     }
 }
@@ -373,7 +373,7 @@ class BigBushAutumn extends Obstacle
 
     constructor(game, x, y)
     {
-        super(game, x, y, 'bigBushAutumn');
+        super(game, x, y, 'BigBushAutumn');
         this.createCentralCircle(16);
     }
 }
@@ -389,7 +389,7 @@ class SmallBush extends Obstacle
 
     constructor(game, x, y)
     {
-        super(game, x, y, 'smallBush');
+        super(game, x, y, 'SmallBush');
         this.createCentralCircle(16);
     }
 }
@@ -405,7 +405,7 @@ class SnowyPine extends Obstacle
 
     constructor(game, x, y)
     {
-        super(game, x, y, 'smallBush');
+        super(game, x, y, 'SnowyPine');
         this.createCentralCircle(16);
     }
 }
@@ -420,7 +420,7 @@ class Rock extends Obstacle
 
     constructor(game, x, y)
     {
-        super(game, x, y, 'rock');
+        super(game, x, y, 'Rock');
         // this.createCentralCircle(18);
     }
 }
@@ -452,7 +452,7 @@ class Crate extends Obstacle
 
     constructor(game, x, y)
     {
-        super(game, x, y, 'crate');
+        super(game, x, y, 'Crate');
         this.createCentralCircle(18);
     }
 }
@@ -468,16 +468,16 @@ class Bulrush extends Obstacle
 
     constructor(game, x, y)
     {
-        super(game, x, y, 'bulrush');
+        super(game, x, y, 'Bulrush');
         this.createCentralCircle(8);
     }
 
     die()
     {
         super.die();
-        if (!mainState.hasItem('bulrushSeed'))
+        if (!this.game.state.states.play.hasItem('bulrushSeed'))
         {
-            mainState.addItem('bulrushSeed');
+            this.game.state.states.play.addItem('bulrushSeed');
         }
     }
 }
@@ -493,16 +493,16 @@ class Snowman extends Obstacle
 
     constructor(game, x, y)
     {
-        super(game, x, y, 'snowman');
+        super(game, x, y, 'Snowman');
         this.createCentralCircle(16);
     }
 
     die()
     {
         super.die();
-        if (!mainState.hasItem('carrot'))
+        if (!this.game.state.states.play.hasItem('carrot'))
         {
-            mainState.addItem('carrot');
+            this.game.state.states.play.addItem('carrot');
         }
     }
 }
@@ -518,16 +518,16 @@ class Pumpkin extends Obstacle
 
     constructor(game, x, y)
     {
-        super(game, x, y, 'pumpkin');
+        super(game, x, y, 'Pumpkin');
         this.createCentralCircle(16);
     }
 
     die()
     {
         super.die();
-        if (!mainState.hasItem('pumpkin'))
+        if (!this.game.state.states.play.hasItem('pumpkin'))
         {
-            mainState.addItem('pumpkin');
+            this.game.state.states.play.addItem('pumpkin');
         }
     }
 }
@@ -550,9 +550,9 @@ class PinkCrystal extends Obstacle
     die()
     {
         super.die();
-        if (!mainState.hasItem('pinkCrystal'))
+        if (!this.game.state.states.play.hasItem('pinkCrystal'))
         {
-            mainState.addItem('pinkCrystal');
+            this.game.state.states.play.addItem('pinkCrystal');
         }
     }
 }

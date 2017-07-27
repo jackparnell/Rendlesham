@@ -9,5 +9,3 @@ game.state.add('play', Play);
 game.state.add('gameOver', GameOver);
 
 game.state.start('boot');
-
-var mainState = game.state.states.play;

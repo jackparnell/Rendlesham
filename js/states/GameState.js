@@ -7,9 +7,9 @@ class GameState extends Phaser.State
 
     loadUser()
     {
-        if (localStorage.getItem(game.globals.applicationName))
+        if (localStorage.getItem(this.game.globals.applicationName))
         {
-            this.user = JSON.parse(localStorage.getItem(game.globals.applicationName));
+            this.user = JSON.parse(localStorage.getItem(this.game.globals.applicationName));
         }
         else
         {
@@ -26,7 +26,7 @@ class GameState extends Phaser.State
 
     save()
     {
-        localStorage.setItem(game.globals.applicationName, JSON.stringify(this.user));
+        localStorage.setItem(this.game.globals.applicationName, JSON.stringify(this.user));
     }
 
     checkUser()
@@ -100,7 +100,7 @@ class GameState extends Phaser.State
         if (!stateName) {
             stateName = 'titleScreen';
         }
-        game.state.start(stateName);
+        this.game.state.start(stateName);
     }
 
     addButtonTextLink(name, text, fontSize, buttonImage, x, y, horizontal, clickFunctionName, textColor = 0xFFFFFF)
@@ -157,75 +157,75 @@ class GameState extends Phaser.State
 
         for (let zoneName in ZONE_INFO)
         {
-            game.load.image(ZONE_INFO[zoneName].ZONE_BACKGROUND_FILENAME, 'assets/backgrounds/' + ZONE_INFO[zoneName].ZONE_BACKGROUND_FILENAME + '.png');
+            this.game.load.image(ZONE_INFO[zoneName].ZONE_BACKGROUND_FILENAME, 'assets/backgrounds/' + ZONE_INFO[zoneName].ZONE_BACKGROUND_FILENAME + '.png');
         }
 
-        game.load.image('gameOverBackground', 'assets/backgrounds/gameOverBackground.png');
-        game.load.image('flyToEarth', 'assets/backgrounds/flyToEarth.jpg');
-        game.load.image('navigateToEarth', 'assets/backgrounds/navigateToEarth.jpg');
-        game.load.image('shipBreaking', 'assets/backgrounds/shipBreaking.jpg');
-        game.load.image('touchMushroomBackground', 'assets/backgrounds/touchMushroom.png');
+        this.game.load.image('gameOverBackground', 'assets/backgrounds/gameOverBackground.png');
+        this.game.load.image('flyToEarth', 'assets/backgrounds/flyToEarth.jpg');
+        this.game.load.image('navigateToEarth', 'assets/backgrounds/navigateToEarth.jpg');
+        this.game.load.image('shipBreaking', 'assets/backgrounds/shipBreaking.jpg');
+        this.game.load.image('touchMushroomBackground', 'assets/backgrounds/touchMushroom.png');
 
-        game.load.image('forestGreen', 'assets/buttons/forestGreen.png');
-        game.load.image('locked', 'assets/buttons/locked.png');
-        game.load.image('smallDark', 'assets/buttons/smallDark.png');
-        game.load.image('smallWideDark', 'assets/buttons/smallWideDark.png');
-        game.load.image('starCharcoal', 'assets/sprites/decorations/StarCharcoal.png');
-        game.load.image('starYellow', 'assets/sprites/decorations/StarYellow.png');
-        game.load.image('ufo', 'assets/sprites/decorations/Ufo.png');
+        this.game.load.image('forestGreen', 'assets/buttons/forestGreen.png');
+        this.game.load.image('locked', 'assets/buttons/locked.png');
+        this.game.load.image('smallDark', 'assets/buttons/smallDark.png');
+        this.game.load.image('smallWideDark', 'assets/buttons/smallWideDark.png');
+        this.game.load.image('starCharcoal', 'assets/sprites/decorations/StarCharcoal.png');
+        this.game.load.image('starYellow', 'assets/sprites/decorations/StarYellow.png');
+        this.game.load.image('ufo', 'assets/sprites/decorations/Ufo.png');
 
-        game.load.image('pauseDark', 'assets/buttons/pause-dark.png');
-        game.load.image('upDark', 'assets/buttons/up-dark.png');
-        game.load.image('closeDark', 'assets/buttons/close-dark.png');
-        game.load.image('binDark', 'assets/buttons/bin-dark.png');
-        game.load.image('maxDark', 'assets/buttons/max-dark.png');
-        game.load.image('poundDark', 'assets/buttons/pound-dark.png');
-        game.load.image('blankDark', 'assets/buttons/blank-dark.png');
+        this.game.load.image('pauseDark', 'assets/buttons/pause-dark.png');
+        this.game.load.image('upDark', 'assets/buttons/up-dark.png');
+        this.game.load.image('closeDark', 'assets/buttons/close-dark.png');
+        this.game.load.image('binDark', 'assets/buttons/bin-dark.png');
+        this.game.load.image('maxDark', 'assets/buttons/max-dark.png');
+        this.game.load.image('poundDark', 'assets/buttons/pound-dark.png');
+        this.game.load.image('blankDark', 'assets/buttons/blank-dark.png');
 
-        game.load.spritesheet('explosion', 'assets/sprites/decorations/Explosion.png', 32, 32, 6);
-        game.load.spritesheet('crosshair', 'assets/sprites/decorations/Crosshair.png', 42, 42, 1);
-        game.load.spritesheet('healthBar', 'assets/sprites/decorations/HealthBar.png', 20, 5, 21);
-        game.load.spritesheet('Zap', 'assets/sprites/decorations/Zap.png', 32, 32, 3);
+        this.game.load.spritesheet('explosion', 'assets/sprites/decorations/Explosion.png', 32, 32, 6);
+        this.game.load.spritesheet('crosshair', 'assets/sprites/decorations/Crosshair.png', 42, 42, 1);
+        this.game.load.spritesheet('healthBar', 'assets/sprites/decorations/HealthBar.png', 20, 5, 21);
+        this.game.load.spritesheet('Zap', 'assets/sprites/decorations/Zap.png', 32, 32, 3);
 
-        game.load.spritesheet('bullet', 'assets/sprites/weapons/Bullet.png', 64, 64, 3);
-        game.load.spritesheet('iceLance', 'assets/sprites/weapons/IceLance.png', 32, 32, 3);
-        game.load.spritesheet('redLaser', 'assets/sprites/weapons/RedLaser.png', 32, 32, 3);
+        this.game.load.spritesheet('Bullet', 'assets/sprites/weapons/Bullet.png', 64, 64, 3);
+        this.game.load.spritesheet('IceLance', 'assets/sprites/weapons/IceLance.png', 32, 32, 3);
+        this.game.load.spritesheet('RedLaser', 'assets/sprites/weapons/RedLaser.png', 32, 32, 3);
 
-        game.load.spritesheet('aquila', 'assets/sprites/attackers/Aquila.png', 32, 32, 1);
-        game.load.spritesheet('dibley', 'assets/sprites/attackers/Dibley.png', 32, 32, 1);
-        game.load.spritesheet('drone', 'assets/sprites/attackers/Drone.png', 32, 32, 1);
-        game.load.spritesheet('mib', 'assets/sprites/attackers/Mib.png', 32, 32, 9);
-        game.load.spritesheet('oscar', 'assets/sprites/attackers/Oscar.png', 32, 32, 9);
-        game.load.spritesheet('roger', 'assets/sprites/attackers/Roger.png', 32, 32, 9);
+        this.game.load.spritesheet('Aquila', 'assets/sprites/attackers/Aquila.png', 32, 32, 1);
+        this.game.load.spritesheet('Dibley', 'assets/sprites/attackers/Dibley.png', 32, 32, 1);
+        this.game.load.spritesheet('Drone', 'assets/sprites/attackers/Drone.png', 32, 32, 1);
+        this.game.load.spritesheet('Mib', 'assets/sprites/attackers/Mib.png', 32, 32, 9);
+        this.game.load.spritesheet('Oscar', 'assets/sprites/attackers/Oscar.png', 32, 32, 9);
+        this.game.load.spritesheet('Roger', 'assets/sprites/attackers/Roger.png', 32, 32, 9);
 
-        game.load.spritesheet('nathan', 'assets/sprites/characters/Nathan.png', 35, 35, 1);
-        game.load.spritesheet('bully', 'assets/sprites/characters/Bully.png', 35, 35, 1);
-        game.load.spritesheet('ghost', 'assets/sprites/characters/Ghost.png', 35, 35, 1);
+        this.game.load.spritesheet('Nathan', 'assets/sprites/characters/Nathan.png', 35, 35, 1);
+        this.game.load.spritesheet('Bully', 'assets/sprites/characters/Bully.png', 35, 35, 1);
+        this.game.load.spritesheet('Ghost', 'assets/sprites/characters/Ghost.png', 35, 35, 1);
 
-        game.load.spritesheet('gun', 'assets/sprites/towers/Gun.png', 64, 64, 3);
-        game.load.spritesheet('freezer', 'assets/sprites/towers/Freezer.png', 64, 64, 3);
-        game.load.spritesheet('laser', 'assets/sprites/towers/Laser.png', 64, 64, 3);
+        this.game.load.spritesheet('Gun', 'assets/sprites/towers/Gun.png', 64, 64, 3);
+        this.game.load.spritesheet('Freezer', 'assets/sprites/towers/Freezer.png', 64, 64, 3);
+        this.game.load.spritesheet('Laser', 'assets/sprites/towers/Laser.png', 64, 64, 3);
 
-        game.load.spritesheet('GunSpriteSheet', 'assets/sprites/towers/Gun.png', 64, 64, 3);
-        game.load.spritesheet('FreezerSpriteSheet', 'assets/sprites/towers/Freezer.png', 64, 64, 3);
-        game.load.spritesheet('LaserSpriteSheet', 'assets/sprites/towers/Laser.png', 64, 64, 3);
+        this.game.load.spritesheet('GunSpriteSheet', 'assets/sprites/towers/Gun.png', 64, 64, 3);
+        this.game.load.spritesheet('FreezerSpriteSheet', 'assets/sprites/towers/Freezer.png', 64, 64, 3);
+        this.game.load.spritesheet('LaserSpriteSheet', 'assets/sprites/towers/Laser.png', 64, 64, 3);
 
-        game.load.spritesheet('bigBush', 'assets/sprites/obstacles/bigBush.png', 35, 35, 1);
-        game.load.spritesheet('bigBushAutumn', 'assets/sprites/obstacles/bigBushAutumn.png', 35, 35, 1);
-        game.load.spritesheet('bulrush', 'assets/sprites/obstacles/Bulrush.png', 35, 35, 1);
-        game.load.spritesheet('crate', 'assets/sprites/obstacles/Crate.png', 35, 35, 1);
-        game.load.spritesheet('smallBush', 'assets/sprites/obstacles/smallBush.png', 35, 35, 1);
-        game.load.spritesheet('rock', 'assets/sprites/obstacles/rock.png', 35, 35, 1);
-        game.load.spritesheet('snowman', 'assets/sprites/obstacles/Snowman.png', 35, 35, 1);
-        game.load.spritesheet('snowyPine', 'assets/sprites/obstacles/SnowyPine.png', 35, 35, 1);
-        game.load.spritesheet('PinkCrystal', 'assets/sprites/obstacles/PinkCrystal.png', 35, 35, 1);
-        game.load.spritesheet('PurpleRock', 'assets/sprites/obstacles/PurpleRock.png', 35, 35, 1);
+        this.game.load.spritesheet('BigBush', 'assets/sprites/obstacles/bigBush.png', 35, 35, 1);
+        this.game.load.spritesheet('BigBushAutumn', 'assets/sprites/obstacles/bigBushAutumn.png', 35, 35, 1);
+        this.game.load.spritesheet('Bulrush', 'assets/sprites/obstacles/Bulrush.png', 35, 35, 1);
+        this.game.load.spritesheet('Crate', 'assets/sprites/obstacles/Crate.png', 35, 35, 1);
+        this.game.load.spritesheet('SmallBush', 'assets/sprites/obstacles/smallBush.png', 35, 35, 1);
+        this.game.load.spritesheet('Rock', 'assets/sprites/obstacles/rock.png', 35, 35, 1);
+        this.game.load.spritesheet('Snowman', 'assets/sprites/obstacles/Snowman.png', 35, 35, 1);
+        this.game.load.spritesheet('SnowyPine', 'assets/sprites/obstacles/SnowyPine.png', 35, 35, 1);
+        this.game.load.spritesheet('PinkCrystal', 'assets/sprites/obstacles/PinkCrystal.png', 35, 35, 1);
+        this.game.load.spritesheet('PurpleRock', 'assets/sprites/obstacles/PurpleRock.png', 35, 35, 1);
 
-        game.load.spritesheet('tallBrownMushroom', 'assets/sprites/obstacles/tallBrownMushroom.png', 35, 35, 1);
-        game.load.spritesheet('tallGreyMushroom', 'assets/sprites/obstacles/tallGreyMushroom.png', 35, 35, 1);
-        game.load.spritesheet('tallRedMushroom', 'assets/sprites/obstacles/tallRedMushroom.png', 35, 35, 1);
-        game.load.spritesheet('pumpkin', 'assets/sprites/obstacles/pumpkin.png', 35, 35, 1);
-        game.load.spritesheet('Puffball', 'assets/sprites/obstacles/Puffball.png', 32, 32, 3);
+        this.game.load.spritesheet('TallBrownMushroom', 'assets/sprites/obstacles/TallBrownMushroom.png', 35, 35, 1);
+        this.game.load.spritesheet('TallGreyMushroom', 'assets/sprites/obstacles/TallGreyMushroom.png', 35, 35, 1);
+        this.game.load.spritesheet('TallRedMushroom', 'assets/sprites/obstacles/TallRedMushroom.png', 35, 35, 1);
+        this.game.load.spritesheet('Pumpkin', 'assets/sprites/obstacles/Pumpkin.png', 35, 35, 1);
+        this.game.load.spritesheet('Puffball', 'assets/sprites/obstacles/Puffball.png', 32, 32, 3);
 
         let property;
         let level;
@@ -234,7 +234,7 @@ class GameState extends Phaser.State
             if (ZONE_INFO.EAST_ANGLIA.LEVEL_ORDERING.hasOwnProperty(property))
             {
                 level = window[ZONE_INFO.EAST_ANGLIA.LEVEL_ORDERING[property]];
-                game.load.tilemap(level.mapName, 'assets/tilemaps/maps/' + level.mapName + '.json', null, Phaser.Tilemap.TILED_JSON);
+                this.game.load.tilemap(level.mapName, 'assets/tilemaps/maps/' + level.mapName + '.json', null, Phaser.Tilemap.TILED_JSON);
             }
         }
 
@@ -243,26 +243,26 @@ class GameState extends Phaser.State
             if (ZONE_INFO.TRANSYLVANIA.LEVEL_ORDERING.hasOwnProperty(property))
             {
                 level = window[ZONE_INFO.TRANSYLVANIA.LEVEL_ORDERING[property]];
-                game.load.tilemap(level.mapName, 'assets/tilemaps/maps/' + level.mapName + '.json', null, Phaser.Tilemap.TILED_JSON);
+                this.game.load.tilemap(level.mapName, 'assets/tilemaps/maps/' + level.mapName + '.json', null, Phaser.Tilemap.TILED_JSON);
             }
         }
 
-        game.load.image('tiles_spritesheet', 'assets/tilemaps/tiles/tiles_spritesheet.png');
-        game.load.image('roguelikeSheet_transparent', 'assets/tilemaps/tiles/roguelikeSheet_transparent.png');
-        game.load.image('2dTopDownTileSet', 'assets/tilemaps/tiles/2dTopDownTileSet.png');
+        this.game.load.image('tiles_spritesheet', 'assets/tilemaps/tiles/tiles_spritesheet.png');
+        this.game.load.image('roguelikeSheet_transparent', 'assets/tilemaps/tiles/roguelikeSheet_transparent.png');
+        this.game.load.image('2dTopDownTileSet', 'assets/tilemaps/tiles/2dTopDownTileSet.png');
 
-        game.load.bitmapFont('gem', 'assets/fonts/bitmapFonts/gem.png', 'assets/fonts/bitmapFonts/gem.xml');
-        game.load.bitmapFont('passionOne', 'assets/fonts/bitmapFonts/passionOne.png', 'assets/fonts/bitmapFonts/passionOne.fnt');
+        this.game.load.bitmapFont('gem', 'assets/fonts/bitmapFonts/gem.png', 'assets/fonts/bitmapFonts/gem.xml');
+        this.game.load.bitmapFont('passionOne', 'assets/fonts/bitmapFonts/passionOne.png', 'assets/fonts/bitmapFonts/passionOne.fnt');
 
-        game.load.audio('bookOpen', 'assets/audio/bookOpen.ogg');
-        game.load.audio('footstep02', 'assets/audio/footstep02.ogg');
-        game.load.audio('handleCoins', 'assets/audio/handleCoins.ogg');
-        game.load.audio('metalClick', 'assets/audio/metalClick.ogg');
-        game.load.audio('metalLatch', 'assets/audio/metalLatch.ogg');
-        game.load.audio('nes08', 'assets/audio/nes08.ogg');
-        game.load.audio('nes09', 'assets/audio/nes09.ogg');
-        game.load.audio('nes13', 'assets/audio/nes13.ogg');
-        game.load.audio('nes15', 'assets/audio/nes15.ogg');
+        this.game.load.audio('bookOpen', 'assets/audio/bookOpen.ogg');
+        this.game.load.audio('footstep02', 'assets/audio/footstep02.ogg');
+        this.game.load.audio('handleCoins', 'assets/audio/handleCoins.ogg');
+        this.game.load.audio('metalClick', 'assets/audio/metalClick.ogg');
+        this.game.load.audio('metalLatch', 'assets/audio/metalLatch.ogg');
+        this.game.load.audio('nes08', 'assets/audio/nes08.ogg');
+        this.game.load.audio('nes09', 'assets/audio/nes09.ogg');
+        this.game.load.audio('nes13', 'assets/audio/nes13.ogg');
+        this.game.load.audio('nes15', 'assets/audio/nes15.ogg');
     }
 
     loadTransylvanianFiles()
@@ -271,8 +271,9 @@ class GameState extends Phaser.State
             'betty', 'bogeyman', 'bruce', 'cyclops', 'farmer', 'goblin', 'imp', 'kappa', 'nic', 'ogre', 'purp', 'skull', 'skuller', 'villager', 'woodcutter'
         ];
 
-        for (let i = 0; i < transylvanianAttackerNames.length; i++) {
-            game.load.atlasJSONHash(
+        for (let i = 0; i < transylvanianAttackerNames.length; i++)
+        {
+            this.game.load.atlasJSONHash(
                 transylvanianAttackerNames[i],
                 'assets/sprites/attackers/' + transylvanianAttackerNames[i] + '.png',
                 'assets/sprites/attackers/' + transylvanianAttackerNames[i] + '.json'
@@ -298,36 +299,36 @@ class GameState extends Phaser.State
             this.sounds = {};
         }
 
-        this.sounds.bookOpen =  game.add.audio('bookOpen');
+        this.sounds.bookOpen = this.game.add.audio('bookOpen');
         this.sounds.bookOpen.allowMultiple = true;
 
-        this.sounds.footstep02 =  game.add.audio('footstep02');
+        this.sounds.footstep02 = this.game.add.audio('footstep02');
         this.sounds.footstep02.allowMultiple = true;
         this.sounds.footstep02.volume = .8;
 
-        this.sounds.handleCoins =  game.add.audio('handleCoins');
+        this.sounds.handleCoins = this.game.add.audio('handleCoins');
         this.sounds.handleCoins.allowMultiple = true;
 
-        this.sounds.metalClick =  game.add.audio('metalClick');
+        this.sounds.metalClick = this.game.add.audio('metalClick');
         this.sounds.metalClick.allowMultiple = true;
 
-        this.sounds.metalLatch =  game.add.audio('metalLatch');
+        this.sounds.metalLatch = this.game.add.audio('metalLatch');
         this.sounds.metalLatch.allowMultiple = true;
         this.sounds.metalLatch.volume = .8;
 
-        this.sounds.nes08 =  game.add.audio('nes08');
+        this.sounds.nes08 = this.game.add.audio('nes08');
         this.sounds.nes08.allowMultiple = true;
         this.sounds.nes08.volume = .3;
 
-        this.sounds.nes09 =  game.add.audio('nes09');
+        this.sounds.nes09 = this.game.add.audio('nes09');
         this.sounds.nes09.allowMultiple = true;
         this.sounds.nes09.volume = .3;
 
-        this.sounds.nes13 =  game.add.audio('nes13');
+        this.sounds.nes13 = this.game.add.audio('nes13');
         this.sounds.nes13.allowMultiple = true;
         this.sounds.nes13.volume = .3;
 
-        this.sounds.nes15 =  game.add.audio('nes15');
+        this.sounds.nes15 = this.game.add.audio('nes15');
         this.sounds.nes15.allowMultiple = true;
         this.sounds.nes15.volume = .3;
     }
@@ -412,5 +413,24 @@ class GameState extends Phaser.State
             this.user.objectsSeen.push(className);
             console.log(className);
         }
+    }
+
+    handleScaling()
+    {
+        this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
+
+        if (this.game.device.desktop === false)
+        {
+            this.game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+            this.game.scale.setMinMax(
+                this.game.width * .5,
+                this.game.height * .5,
+                this.game.width * 2,
+                this.game.height * 2
+            );
+            this.goFullScreen();
+        }
+        this.game.scale.pageAlignHorizontally = true;
+        this.game.scale.pageAlignVertically = true;
     }
 }

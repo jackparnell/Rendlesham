@@ -108,7 +108,7 @@ class GameSprite extends Phaser.Sprite
 
         if (!this.path || this.path.length === 0)
         {
-            if (this.x > game.camera.width)
+            if (this.x > this.game.camera.width)
             {
                 this.body.velocity.x = -this.speed;
             }

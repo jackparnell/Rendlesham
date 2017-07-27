@@ -2,7 +2,7 @@ class Story extends GameState
 {
     preload()
     {
-        this.backgrounds = game.add.group();
+        this.backgrounds = this.game.add.group();
         this.loadMainFiles();
     }
 
@@ -16,6 +16,8 @@ class Story extends GameState
 
     create()
     {
+        this.handleScaling();
+
         this.level = window[ZONE_INFO[this.zoneName].LEVEL_ORDERING[this.levelNumber]];
 
         if (!this.level.story)
@@ -27,7 +29,13 @@ class Story extends GameState
         {
             if (this.level.storyImages.hasOwnProperty(i))
             {
-                this['image' + i] = game.add.tileSprite(0, 0, game.camera.width, game.camera.height, this.level.storyImages[i].name);
+                this['image' + i] = this.game.add.tileSprite(
+                    0,
+                    0,
+                    this.game.camera.width,
+                    this.game.camera.height,
+                    this.level.storyImages[i].name
+                );
                 this['image' + i].fixedToCamera = true;
                 this['image' + i].alpha = 0;
                 this.backgrounds.add(this['image' + i]);
@@ -38,7 +46,7 @@ class Story extends GameState
 
         this['image' + this.currentImage].alpha = 1;
 
-        game.input.onDown.add(this.nextImage, this);
+        this.game.input.onDown.add(this.nextImage, this);
     }
 
     nextImage()
@@ -63,6 +71,6 @@ class Story extends GameState
             levelNumber: this.levelNumber,
             mode: this.mode
         };
-        game.state.start('play', true, true, obj);
+        this.game.state.start('play', true, true, obj);
     }
 }

@@ -2,8 +2,8 @@ class LevelOptions extends GameState
 {
     preload()
     {
-        this.backgrounds = game.add.group();
-        this.linkBackgrounds = game.add.group();
+        this.backgrounds = this.game.add.group();
+        this.linkBackgrounds = this.game.add.group();
         this.loadMainFiles();
     }
 
@@ -19,26 +19,24 @@ class LevelOptions extends GameState
         this.loadUser();
         this.checkUser();
 
-        game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
+        this.handleScaling();
 
-        if (game.device.desktop === false)
-        {
-            game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
-            game.scale.setMinMax(game.width/2, game.height/2, game.width, game.height);
-        }
-        game.scale.pageAlignHorizontally = true;
-        game.scale.pageAlignVertically = true;
+        this.game.canvas.oncontextmenu = function (e) { e.preventDefault(); };
 
-        game.canvas.oncontextmenu = function (e) { e.preventDefault(); };
-
-        game.stage.backgroundColor = "#112c06";
+        this.game.stage.backgroundColor = "#112c06";
 
         this.addButtonTextLink('backLink', 'Back', 20, 'smallDark', 10, 10, 'right', 'goToZone');
 
-        this.titleText = game.add.bitmapText(500, game.height * .07, this.game.globals.bitmapFontName, this.level.title, 64);
-        this.titleText.x = (game.width * .5) - (this.titleText.width * .5);
+        this.titleText = this.game.add.bitmapText(
+            500,
+            this.game.height * .07,
+            this.game.globals.bitmapFontName,
+            this.level.title,
+            64
+        );
+        this.titleText.x = (this.game.width * .5) - (this.titleText.width * .5);
 
-        this.addButtonTextLink('playClassicLink', 'Play Classic Mode', 36, 'forestGreen', 0, game.height * .27, 'center', 'playClassic');
+        this.addButtonTextLink('playClassicLink', 'Play Classic Mode', 36, 'forestGreen', 0, this.game.height * .27, 'center', 'playClassic');
 
         let modes = ['classic', 'epic', 'endless'];
         let highScoreInfo;
@@ -75,34 +73,40 @@ class LevelOptions extends GameState
 
             y = (44 + (i * 24.5)) / 100;
 
-            this[modes[i] + 'HighScoreText'] = game.add.bitmapText(500, game.height * y, this.game.globals.bitmapFontName, highScoreInfo, 16);
-            this[modes[i] + 'HighScoreText'].x = (game.width * .5) - (this[modes[i] + 'HighScoreText'].width * .5);
+            this[modes[i] + 'HighScoreText'] = this.game.add.bitmapText(
+                500,
+                this.game.height * y,
+                this.game.globals.bitmapFontName,
+                highScoreInfo,
+                16
+            );
+            this[modes[i] + 'HighScoreText'].x = (this.game.width * .5) - (this[modes[i] + 'HighScoreText'].width * .5);
             this[modes[i] + 'HighScoreText'].tint = textTint;
         }
 
         if (this.isLevelUnlocked(this.levelNumber, 'epic'))
         {
-            this.addButtonTextLink('playEpicLink', 'Play Epic Mode', 36, 'forestGreen', 0, game.height * .515, 'center', 'playEpic');
+            this.addButtonTextLink('playEpicLink', 'Play Epic Mode', 36, 'forestGreen', 0, this.game.height * .515, 'center', 'playEpic');
         }
         else
         {
-            this.addButtonTextLink('playEpicLink', 'Play Epic Mode', 36, 'locked', 0, game.height * .515, 'center', 'notPossible', 0x666666);
+            this.addButtonTextLink('playEpicLink', 'Play Epic Mode', 36, 'locked', 0, this.game.height * .515, 'center', 'notPossible', 0x666666);
         }
 
         if (this.isLevelUnlocked(this.levelNumber, 'endless'))
         {
-            this.addButtonTextLink('playEndlessLink', 'Play Endless Mode', 36, 'forestGreen', 0, game.height * .76, 'center', 'playEndless');
+            this.addButtonTextLink('playEndlessLink', 'Play Endless Mode', 36, 'forestGreen', 0, this.game.height * .76, 'center', 'playEndless');
         }
         else
         {
-            this.addButtonTextLink('playEndlessLink', 'Play Endless Mode', 36, 'locked', 0, game.height * .76, 'center', 'notPossible', 0x666666);
+            this.addButtonTextLink('playEndlessLink', 'Play Endless Mode', 36, 'locked', 0, this.game.height * .76, 'center', 'notPossible', 0x666666);
         }
 
     }
 
     goToZone()
     {
-        game.state.start('zone', true, true, this.zoneName);
+        this.game.state.start('zone', true, true, this.zoneName);
     }
 
     playClassic(button)
@@ -118,7 +122,7 @@ class LevelOptions extends GameState
             goToState = 'story';
         }
 
-        game.state.start(goToState, true, true, obj);
+        this.game.state.start(goToState, true, true, obj);
     }
 
     playEpic(button)
@@ -134,7 +138,7 @@ class LevelOptions extends GameState
             goToState = 'story';
         }
 
-        game.state.start(goToState, true, true, obj);
+        this.game.state.start(goToState, true, true, obj);
     }
 
     playEndless(button)
@@ -150,6 +154,6 @@ class LevelOptions extends GameState
             goToState = 'story';
         }
 
-        game.state.start(goToState, true, true, obj);
+        this.game.state.start(goToState, true, true, obj);
     }
 }

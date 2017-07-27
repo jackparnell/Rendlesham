@@ -2,9 +2,9 @@ class Zone extends GameState
 {
     preload()
     {
-        this.backgrounds = game.add.group();
-        this.linkBackgrounds = game.add.group();
-        this.texts = game.add.group();
+        this.backgrounds = this.game.add.group();
+        this.linkBackgrounds = this.game.add.group();
+        this.texts = this.game.add.group();
 
         this.loadMainFiles();
     }
@@ -28,17 +28,9 @@ class Zone extends GameState
 
     create()
     {
-        game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
+        this.handleScaling();
 
-        if (game.device.desktop === false)
-        {
-            game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
-            game.scale.setMinMax(game.width/2, game.height/2, game.width, game.height);
-        }
-        game.scale.pageAlignHorizontally = true;
-        game.scale.pageAlignVertically = true;
-
-        game.canvas.oncontextmenu = function (e) { e.preventDefault(); }
+        this.game.canvas.oncontextmenu = function (e) { e.preventDefault(); }
 
         this.zoneMap = this.game.add.tileSprite(0, 0, 1400, 700, this.zone.ZONE_BACKGROUND_FILENAME);
         this.backgrounds.add(this.zoneMap);
@@ -52,68 +44,68 @@ class Zone extends GameState
 
         this.levels = {
             1: {
-                x: game.width * .1,
-                y: game.height * .15
+                x: this.game.width * .1,
+                y: this.game.height * .15
             },
             2: {
-                x: game.width * .3,
-                y: game.height * .2
+                x: this.game.width * .3,
+                y: this.game.height * .2
             },
             3: {
-                x: game.width * .5,
-                y: game.height * .175
+                x: this.game.width * .5,
+                y: this.game.height * .175
             },
             4: {
-                x: game.width * .7,
-                y: game.height * .225
+                x: this.game.width * .7,
+                y: this.game.height * .225
             },
             5: {
-                x: game.width * .85,
-                y: game.height * .45
+                x: this.game.width * .85,
+                y: this.game.height * .45
             },
             6: {
-                x: game.width * .7,
-                y: game.height * .55
+                x: this.game.width * .7,
+                y: this.game.height * .55
             },
             7: {
-                x: game.width * .525,
-                y: game.height * .425
+                x: this.game.width * .525,
+                y: this.game.height * .425
             },
             8: {
-                x: game.width * .375,
-                y: game.height * .6
+                x: this.game.width * .375,
+                y: this.game.height * .6
             },
             9: {
-                x: game.width * .25,
-                y: game.height * .7
+                x: this.game.width * .25,
+                y: this.game.height * .7
             },
             10: {
-                x: game.width * .18,
-                y: game.height * .95
+                x: this.game.width * .18,
+                y: this.game.height * .95
             },
             11: {
-                x: game.width * .05,
-                y: game.height * .975
+                x: this.game.width * .05,
+                y: this.game.height * .975
             },
             12: {
-                x: game.width * .275,
-                y: game.height * 1.15
+                x: this.game.width * .275,
+                y: this.game.height * 1.15
             },
             13: {
-                x: game.width * .45,
-                y: game.height * 1.15
+                x: this.game.width * .45,
+                y: this.game.height * 1.15
             },
             14: {
-                x: game.width * .6,
-                y: game.height * 1.25
+                x: this.game.width * .6,
+                y: this.game.height * 1.25
             },
             15: {
-                x: game.width * .725,
-                y: game.height * 1.2
+                x: this.game.width * .725,
+                y: this.game.height * 1.2
             },
             16: {
-                x: game.width * .85,
-                y: game.height * 1.05
+                x: this.game.width * .85,
+                y: this.game.height * 1.05
             }
             /*
              ,
@@ -130,7 +122,7 @@ class Zone extends GameState
 
         for (let i = 1; i <= this.lastLevel; i++)
         {
-            this['level' + i + 'Button'] = game.add.button(
+            this['level' + i + 'Button'] = this.game.add.button(
                 this.levels[i].x,
                 this.levels[i].y,
                 this.zone.LEVEL_BUTTON_GRAPHIC,
@@ -151,10 +143,16 @@ class Zone extends GameState
             this.addLevelStars(i);
         }
 
-        this.addButtonTextLink('nextZoneLink', 'Next', 20, 'smallDark', 10, game.camera.height - 40, 'right', 'nextZone');
+        this.addButtonTextLink('nextZoneLink', 'Next', 20, 'smallDark', 10, this.game.camera.height - 40, 'right', 'nextZone');
 
-        this.titleText = game.add.bitmapText(500, game.height * .01, this.game.globals.bitmapFontName, this.zone.TITLE, 28);
-        this.titleText.x = (game.width * .5) - (this.titleText.width * .5);
+        this.titleText = this.game.add.bitmapText(
+            500,
+            this.game.height * .01,
+            this.game.globals.bitmapFontName,
+            this.zone.TITLE,
+            28
+        );
+        this.titleText.x = (this.game.width * .5) - (this.titleText.width * .5);
         this.titleText.alpha = .5;
 
         if (this.user.zones && this.user.zones[this.zoneName])
@@ -175,9 +173,9 @@ class Zone extends GameState
         }
 
         // Listen for keyboard presses
-        game.input.keyboard.onPressCallback = function (input) { this.keyPress(input); }.bind(this);
+        this.game.input.keyboard.onPressCallback = function (input) { this.keyPress(input); }.bind(this);
 
-        this.gameOverBackground = this.game.add.tileSprite(0, 0, game.camera.width, game.camera.height, 'gameOverBackground');
+        this.gameOverBackground = this.game.add.tileSprite(0, 0, this.game.camera.width, this.game.camera.height, 'gameOverBackground');
         this.gameOverBackground.fixedToCamera = true;
         this.gameOverBackground.alpha = 0;
 
@@ -188,8 +186,8 @@ class Zone extends GameState
 
     shutdown()
     {
-        this.user.zones[this.zoneName].cameraX = game.camera.x;
-        this.user.zones[this.zoneName].cameraY = game.camera.y;
+        this.user.zones[this.zoneName].cameraX = this.game.camera.x;
+        this.user.zones[this.zoneName].cameraY = this.game.camera.y;
         this.save();
     }
 
@@ -202,7 +200,7 @@ class Zone extends GameState
             return false;
         }
 
-        game.state.start('levelOptions', true, true, levelNumber, this.zoneName);
+        this.game.state.start('levelOptions', true, true, levelNumber, this.zoneName);
     }
 
     writeLevelText(levelNumber)
@@ -210,7 +208,7 @@ class Zone extends GameState
         let x = this.levels[levelNumber].x + 16;
         let y = this.levels[levelNumber].y - 19;
 
-        this['level' + levelNumber + 'Text'] = game.add.bitmapText(
+        this['level' + levelNumber + 'Text'] = this.game.add.bitmapText(
             x,
             y,
             this.game.globals.bitmapFontName,
@@ -247,7 +245,7 @@ class Zone extends GameState
                 spriteName = 'starCharcoal';
             }
 
-            let star = game.add.sprite(x, y, spriteName);
+            let star = this.game.add.sprite(x, y, spriteName);
             star.scale.setTo(.1, .1);
 
             x += 20;
@@ -256,7 +254,7 @@ class Zone extends GameState
 
     drawLinesBetweenLevels()
     {
-        let graphics = game.add.graphics(0, 0);
+        let graphics = this.game.add.graphics(0, 0);
 
         graphics.lineStyle(3, 0x886666, 1);
 
@@ -292,9 +290,8 @@ class Zone extends GameState
 
     nextZone()
     {
-        game.state.start('zone', true, true, this.zone.NEXT_ZONE_NAME);
+        this.game.state.start('zone', true, true, this.zone.NEXT_ZONE_NAME);
     }
-
 
     keyPress(character)
     {
@@ -346,7 +343,7 @@ class Zone extends GameState
 
     fadeToRestartState(seconds)
     {
-        game.add.tween(
+        this.game.add.tween(
             this.gameOverBackground,
             this.game
         )
@@ -356,7 +353,7 @@ class Zone extends GameState
             Phaser.Easing.Linear.None,
             true
         );
-        game.time.events.add(
+        this.game.time.events.add(
             Phaser.Timer.SECOND * seconds,
             this.restartState,
             this,
@@ -366,6 +363,6 @@ class Zone extends GameState
 
     restartState()
     {
-        game.state.start('zone', true, true, this.zoneName);
+        this.game.state.start('zone', true, true, this.zoneName);
     }
 }

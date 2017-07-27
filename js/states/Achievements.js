@@ -2,9 +2,9 @@ class Achievements extends GameState
 {
     preload()
     {
-        this.backgrounds = game.add.group();
-        this.linkBackgrounds = game.add.group();
-        this.texts = game.add.group();
+        this.backgrounds = this.game.add.group();
+        this.linkBackgrounds = this.game.add.group();
+        this.texts = this.game.add.group();
 
         this.loadMainFiles();
     }
@@ -23,16 +23,18 @@ class Achievements extends GameState
     {
         this.loadUser();
 
+        this.handleScaling();
+
         let level;
         let userLevelHighScore;
 
         this.addButtonTextLink('backLink', 'Back', 20, 'smallDark', 10, 10, 'right', 'goToTitleScreen');
 
-        this.addButtonTextLink('downloadSaveLink', 'Download Save File', 20, 'smallWideDark', 10, game.camera.height - 40, 'right', 'downloadSave');
+        this.addButtonTextLink('downloadSaveLink', 'Download Save File', 20, 'smallWideDark', 10, this.game.camera.height - 40, 'right', 'downloadSave');
 
         let y = 20;
 
-        this.heading_highScores = game.add.bitmapText(
+        this.heading_highScores = this.game.add.bitmapText(
             20,
             y,
             this.game.globals.bitmapFontName,
@@ -57,7 +59,7 @@ class Achievements extends GameState
                     userLevelHighScore = '';
                 }
 
-                this[level.name + '_highScore'] = game.add.bitmapText(
+                this[level.name + '_highScore'] = this.game.add.bitmapText(
                     20,
                     y,
                     this.game.globals.bitmapFontName,

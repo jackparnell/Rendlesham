@@ -2,9 +2,9 @@ class GameOver extends GameState
 {
     preload()
     {
-        this.backgrounds = game.add.group();
-        this.linkBackgrounds = game.add.group();
-        this.texts = game.add.group();
+        this.backgrounds = this.game.add.group();
+        this.linkBackgrounds = this.game.add.group();
+        this.texts = this.game.add.group();
         this.loadMainFiles();
     }
 
@@ -24,24 +24,24 @@ class GameOver extends GameState
             levelNumber: this.levelId,
             mode: this.mode
         };
-        game.state.start('play', true, true, obj);
+        this.game.state.start('play', true, true, obj);
     }
 
     create()
     {
-        if (game.device.desktop === false)
-        {
-            game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
-            game.scale.setMinMax(game.width/2, game.height/2, game.width, game.height);
-        }
-        game.scale.pageAlignHorizontally = true;
-        game.scale.pageAlignVertically = true;
+        this.handleScaling();
 
-        game.stage.backgroundColor = "#112c06";
+        this.game.stage.backgroundColor = "#112c06";
 
-        this.capturedText = game.add.bitmapText(500, game.height * .125, this.game.globals.bitmapFontName, 'Captured', 80);
+        this.capturedText = this.game.add.bitmapText(
+            500,
+            this.game.height * .125,
+            this.game.globals.bitmapFontName,
+            'Captured',
+            80
+        );
         this.capturedText.align = 'center';
-        this.capturedText.x = (game.width * .5) - (this.capturedText.width * .5);
+        this.capturedText.x = (this.game.width * .5) - (this.capturedText.width * .5);
 
         let replayText = 'Try Again';
         let details = 'You were captured by the humans in wave ' + this.waveReached + '.';
@@ -51,12 +51,18 @@ class GameOver extends GameState
             details = 'Score: ' + this.score;
         }
 
-        this.detailsText = game.add.bitmapText(500, game.height * .35, this.game.globals.bitmapFontName, details, 20);
+        this.detailsText = this.game.add.bitmapText(
+            500,
+            this.game.height * .35,
+            this.game.globals.bitmapFontName,
+            details,
+            20
+        );
         this.detailsText.align = 'center';
-        this.detailsText.x = (game.width * .5) - (this.detailsText.width * .5);
+        this.detailsText.x = (this.game.width * .5) - (this.detailsText.width * .5);
 
-        this.addButtonTextLink('retry', replayText, 46, 'forestGreen', 0, game.height * .5, 'center', 'tryAgain');
+        this.addButtonTextLink('retry', replayText, 46, 'forestGreen', 0, this.game.height * .5, 'center', 'tryAgain');
 
-        this.addButtonTextLink('exit', 'Exit', 46, 'forestGreen', 0, game.height * .725, 'center', 'goToTitleScreen');
+        this.addButtonTextLink('exit', 'Exit', 46, 'forestGreen', 0, this.game.height * .725, 'center', 'goToTitleScreen');
     }
 }

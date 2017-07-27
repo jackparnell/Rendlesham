@@ -8,7 +8,7 @@ class Decoration extends GameSprite
 
         this.guid = guid();
 
-        game.physics.arcade.enable(this);
+        this.game.physics.arcade.enable(this);
 
         this.anchor.setTo(0.5, 0.5);
 

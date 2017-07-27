@@ -8,7 +8,7 @@ class Attacker extends GameSprite
 
         this.guid = guid();
 
-        game.physics.arcade.enable(this);
+        this.game.physics.arcade.enable(this);
 
         this.x = x;
         this.y = y;
@@ -31,7 +31,7 @@ class Attacker extends GameSprite
 
     initialise(waveNumber)
     {
-        this.creationTurn = game.globals.turn;
+        this.creationTurn = this.game.globals.turn;
         this.waveNumber = waveNumber;
         this.health = Math.floor(
             (window[this.constructor.name].defaultHealth || 1000)
@@ -59,7 +59,7 @@ class Attacker extends GameSprite
 
         if (this.fadeOutTween)
         {
-            game.tweens.remove(this.fadeOutTween);
+            this.game.tweens.remove(this.fadeOutTween);
         }
 
         this.reachedGoalProcessed = false;
@@ -121,7 +121,7 @@ class Attacker extends GameSprite
         this.followPath();
 
         this.game.bullets.forEachAlive(function(bullet) {
-            game.physics.arcade.overlap(this, bullet, this.hit, null, this);
+            this.game.physics.arcade.overlap(this, bullet, this.hit, null, this);
         }, this);
 
         if (this.health <= 0)
@@ -181,7 +181,7 @@ class Attacker extends GameSprite
 
         if (this.game.state.states.play.nathan)
         {
-            let distanceToGoal = game.physics.arcade.distanceBetween(this, this.game.state.states.play.nathan);
+            let distanceToGoal = this.game.physics.arcade.distanceBetween(this, this.game.state.states.play.nathan);
             let distanceNeeded = 26 + (this.game.state.states.play.lives-1) * 7.5;
             return (distanceToGoal <= distanceNeeded);
         }
@@ -196,17 +196,17 @@ class Attacker extends GameSprite
             return;
         }
 
-        this.reachedGoalTurn = game.globals.turn;
+        this.reachedGoalTurn = this.game.globals.turn;
 
         this.invulnerable = true;
 
         this.game.state.states.play.spawnExplosion(this.x - 10, this.y, 0x8888ff);
 
         // Fade out over 200 ms
-        this.fadeOutTween = game.add.tween(this).to( { alpha: 0 }, 200, Phaser.Easing.Linear.None, true, 0, 1000, true);
+        this.fadeOutTween = this.game.add.tween(this).to( { alpha: 0 }, 200, Phaser.Easing.Linear.None, true, 0, 1000, true);
 
         // Die in 200 ms
-        timerEvents.push(game.time.events.add(Phaser.Timer.SECOND * .2, this.die, this));
+        timerEvents.push(this.game.time.events.add(Phaser.Timer.SECOND * .2, this.die, this));
 
         this.reachedGoalProcessed = true;
     }
@@ -427,7 +427,7 @@ class Attacker extends GameSprite
         let frozenSeconds = 3 + (bulletGrade * 3);
 
         // Schedule unfreeze event
-        game.time.events.add(
+        this.game.time.events.add(
             Phaser.Timer.SECOND * frozenSeconds,
             this.unfreeze,
             this
@@ -535,7 +535,7 @@ class Attacker extends GameSprite
         switch (this.domain)
         {
             case 'air':
-                let distanceToGoal = game.physics.arcade.distanceBetween(this, this.game.state.states.play.nathan);
+                let distanceToGoal = this.game.physics.arcade.distanceBetween(this, this.game.state.states.play.nathan);
                 advancement = 100000 - (distanceToGoal * (100 / this.game.state.states.play.squareWidth));
                 break;
             default:
@@ -573,7 +573,7 @@ window.Oscar = class Oscar extends Attacker
 {
     constructor(game, x, y)
     {
-        super(game, x, y, 'oscar');
+        super(game, x, y, 'Oscar');
         this.body.setSize(20, 30, 6, 1);
         this.animations.add('walkDown', [1, 2], 6, false, true);
         this.animations.add('walkRight', [3, 4], 6, false, true);
@@ -622,7 +622,7 @@ window.Roger = class Roger extends Attacker
 {
     constructor(game, x, y)
     {
-        super(game, x, y, 'oscar');
+        super(game, x, y, 'Roger');
         this.body.setSize(20, 30, 6, 1);
         this.animations.add('walkDown', [1, 2], 6, false, true);
         this.animations.add('walkRight', [3, 4], 6, false, true);
@@ -670,7 +670,7 @@ window.Dibley = class Dibley extends Attacker
 {
     constructor(game, x, y)
     {
-        super(game, x, y, 'dibley');
+        super(game, x, y, 'Dibley');
         this.body.setSize(20, 30, 6, 1);
     }
 };
@@ -687,7 +687,7 @@ window.Aquila = class Aquila extends Attacker
 {
     constructor(game, x, y)
     {
-        super(game, x, y, 'aquila');
+        super(game, x, y, 'Aquila');
         this.body.setSize(20, 30, 6, 1);
     }
 };
@@ -703,7 +703,7 @@ window.Mib = class Mib extends Attacker
 {
     constructor(game, x, y)
     {
-        super(game, x, y, 'mib');
+        super(game, x, y, 'Mib');
         this.body.setSize(20, 30, 6, 1);
         this.animations.add('walkDown', [1, 2], 6, false, true);
         this.animations.add('walkRight', [3, 4], 6, false, true);
@@ -753,7 +753,7 @@ window.Drone = class Drone extends Attacker
 {
     constructor(game, x, y)
     {
-        super(game, x, y, 'drone');
+        super(game, x, y, 'Drone');
         this.body.setSize(20, 30, 6, 1);
     }
 

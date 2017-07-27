@@ -36,12 +36,12 @@ class Tower extends GameSprite
 
         this.frame = this.grade - 1;
 
-        if (this.width !== mainState.map.tileWidth)
+        if (this.width !== this.game.state.states.play.map.tileWidth)
         {
             this.scaleToTile();
         }
 
-        let gridCoordinates = mainState.translatePixelCoordinatesToGridCoordinates(x, y);
+        let gridCoordinates = this.game.state.states.play.translatePixelCoordinatesToGridCoordinates(x, y);
         this.gridX = gridCoordinates[0];
         this.gridY = gridCoordinates[1];
 
@@ -49,9 +49,9 @@ class Tower extends GameSprite
 
         this.bulletDamageValue = window[this.constructor.name].defaultDamageValue;
 
-        if (mainState.level.canPlaceTowerOnPathway)
+        if (this.game.state.states.play.level.canPlaceTowerOnPathway)
         {
-            mainState.addGlobalImpassablePoint(this.gridX, this.gridY, 'grid');
+            this.game.state.states.play.addGlobalImpassablePoint(this.gridX, this.gridY, 'grid');
         }
 
         this.body.immovable = true;
@@ -68,7 +68,7 @@ class Tower extends GameSprite
         }
 
         // If pendingLevelCompleted, do nothing
-        if (mainState.pendingLevelCompleted)
+        if (this.game.state.states.play.pendingLevelCompleted)
         {
             return;
         }
@@ -104,7 +104,7 @@ class Tower extends GameSprite
 
         if (bullet)
         {
-            mainState.sounds.footstep02.play();
+            this.game.state.states.play.sounds.footstep02.play();
 
             bullet.angle = this.angleToTarget();
             bullet.damageValue = this.bulletDamageValue;
@@ -116,7 +116,7 @@ class Tower extends GameSprite
             bullet.target = this.target;
             bullet.speed = this.weapon1.bulletSpeed;
 
-            if (mainState.level.bulletsCanOnlyHitTarget)
+            if (this.game.state.states.play.level.bulletsCanOnlyHitTarget)
             {
                 bullet.canOnlyHitTarget = true;
             }
@@ -142,7 +142,7 @@ class Tower extends GameSprite
 
         // this.weapon1.destroy();
 
-        mainState.removeGlobalImpassablePoint(this.gridX, this.gridY);
+        this.game.state.states.play.removeGlobalImpassablePoint(this.gridX, this.gridY);
 
         this.kill();
     }
@@ -168,7 +168,7 @@ class Tower extends GameSprite
             return;
         }
 
-        mainState.attackers.forEachAlive(function(item)
+        this.game.state.states.play.attackers.forEachAlive(function(item)
         {
             // If not in camera, don't target
             if (!item.inCamera)
@@ -247,7 +247,7 @@ class Tower extends GameSprite
 
     calculateRangeInPixels(grade)
     {
-        let rangeInPixels = window[this.constructor.name].range * mainState.map.tileWidth;
+        let rangeInPixels = window[this.constructor.name].range * this.game.state.states.play.map.tileWidth;
         rangeInPixels *= (1 + ((grade - 1) * .3));
         this.rangeInPixels = rangeInPixels;
         return rangeInPixels;
@@ -256,7 +256,7 @@ class Tower extends GameSprite
     calculateBulletKillDistance(grade)
     {
         let bulletKillDistance = this.calculateRangeInPixels(grade);
-        if (mainState.level.bulletsCanOnlyHitTarget)
+        if (this.game.state.states.play.level.bulletsCanOnlyHitTarget)
         {
             bulletKillDistance *= 1.6;
         }
@@ -280,7 +280,7 @@ class Tower extends GameSprite
 
     sell()
     {
-        mainState.changeCoins(this.getSellValue(), this.x, this.y);
+        this.game.state.states.play.changeCoins(this.getSellValue(), this.x, this.y);
         this.die();
     }
 
@@ -307,7 +307,7 @@ class Tower extends GameSprite
     {
         this.upgrade();
         let cost = this.getUpgradeCost();
-        mainState.changeCoins(-cost, this.x, this.y);
+        this.game.state.states.play.changeCoins(-cost, this.x, this.y);
     }
 
     getUpgradeCost()
@@ -323,7 +323,7 @@ class Tower extends GameSprite
 
     scaleToTile()
     {
-        let scale = 1 / (this.width / mainState.map.tileWidth);
+        let scale = 1 / (this.width / this.game.state.states.play.map.tileWidth);
         this.scale.setTo(scale, scale);
     }
 
@@ -334,7 +334,7 @@ class Tower extends GameSprite
         // pace is tiles per second
         if (window[this.constructor.name].bulletPace)
         {
-            bulletSpeed = mainState.map.tileWidth * window[this.constructor.name].bulletPace;
+            bulletSpeed = this.game.state.states.play.map.tileWidth * window[this.constructor.name].bulletPace;
         }
         else if (window[this.constructor.name].defaultBulletSpeed)
         {
@@ -363,8 +363,8 @@ Gun.defaultFireRate = 1000;
 Gun.range = 2.7;
 Gun.cost = 50;
 Gun.maximumGrade = 3;
-Gun.spriteName = 'gun';
-Gun.bulletSpriteName = 'bullet';
+Gun.spriteName = 'Gun';
+Gun.bulletSpriteName = 'Bullet';
 Gun.bulletPace = 14;
 Gun.bulletHitDecorationClassName = 'Explosion';
 
@@ -387,8 +387,8 @@ Freezer.defaultFireRate = 1500;
 Freezer.range = 2.7;
 Freezer.cost = 100;
 Freezer.maximumGrade = 3;
-Freezer.spriteName = 'freezer';
-Freezer.bulletSpriteName = 'iceLance';
+Freezer.spriteName = 'Freezer';
+Freezer.bulletSpriteName = 'IceLance';
 Freezer.bulletPace = 14;
 Freezer.bulletHitDecorationClassName = 'Zap';
 Freezer.bulletHitDecorationTint = 0x0000FF;
@@ -411,8 +411,8 @@ Laser.defaultFireRate = 500;
 Laser.range = 3.7;
 Laser.cost = 150;
 Laser.maximumGrade = 3;
-Laser.spriteName = 'laser';
-Laser.bulletSpriteName = 'redLaser';
+Laser.spriteName = 'Laser';
+Laser.bulletSpriteName = 'RedLaser';
 Laser.bulletPace = 23;
 Laser.bulletHitDecorationClassName = 'Zap';
 Laser.bulletHitDecorationTint = 0xFF0000;

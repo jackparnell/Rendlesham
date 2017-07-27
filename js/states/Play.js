@@ -38,25 +38,16 @@ class Play extends GameState
     {
 
         /*
-         game.time.advancedTiming = true;
+         this.game.time.advancedTiming = true;
          */
 
         this.game.time.desiredFps = 60;
         this.game.forceSingleUpdate = false;
 
-        game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
-
-        if (game.device.desktop === false)
-        {
-            game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
-            game.scale.setMinMax(game.width * .5, game.height * .5, game.width * 2, game.height * 2);
-            this.goFullScreen();
-        }
-        game.scale.pageAlignHorizontally = true;
-        game.scale.pageAlignVertically = true;
+        this.handleScaling();
 
         // Set the physics system
-        game.physics.startSystem(Phaser.Physics.ARCADE);
+        this.game.physics.startSystem(Phaser.Physics.ARCADE);
 
         this.game.noHealthBars = false;
 
@@ -76,41 +67,41 @@ class Play extends GameState
         window.onkeydown = function()
         {
             // Press P
-            if (game.input.keyboard.event.keyCode === 80)
+            if (this.game.input.keyboard.event.keyCode === 80)
             {
-                mainState.togglePauseScreen();
+                this.game.state.states.play.togglePauseScreen();
             }
             // Press F
-            if (game.input.keyboard.event.keyCode === 70)
+            if (this.game.input.keyboard.event.keyCode === 70)
             {
                 // Not currently fully working
-                // mainState.toggleFastForward();
+                // game.state.states.play.toggleFastForward();
             }
         };
 
-        this.backgrounds = game.add.group();
+        this.backgrounds = this.game.add.group();
 
-        this.towers = game.add.group();
-        this.obstacles = game.add.group();
-        this.characters = game.add.group();
-        this.attackers = game.add.group();
-        this.weapons = game.add.group();
-        this.explosions = game.add.group();
-        this.ZapGroup = game.add.group();
-        this.crosshairs = game.add.group();
-        this.game.healthBars = game.add.group();
-        this.game.bullets = game.add.group();
-        this.game.overlays = game.add.group();
-        this.finishedItems = game.add.group();
+        this.towers = this.game.add.group();
+        this.obstacles = this.game.add.group();
+        this.characters = this.game.add.group();
+        this.attackers = this.game.add.group();
+        this.weapons = this.game.add.group();
+        this.explosions = this.game.add.group();
+        this.ZapGroup = this.game.add.group();
+        this.crosshairs = this.game.add.group();
+        this.game.healthBars = this.game.add.group();
+        this.game.bullets = this.game.add.group();
+        this.game.overlays = this.game.add.group();
+        this.finishedItems = this.game.add.group();
 
-        this.linkBackgrounds = game.add.group();
-        this.texts = game.add.group();
+        this.linkBackgrounds = this.game.add.group();
+        this.texts = this.game.add.group();
 
         this.initiateLoops();
 
-        game.input.onDown.add(this.userInput, this);
+        this.game.input.onDown.add(this.userInput, this);
 
-        this.gameOverBackground = this.game.add.tileSprite(0, 0, game.camera.width, game.camera.height, 'gameOverBackground');
+        this.gameOverBackground = this.game.add.tileSprite(0, 0, this.game.camera.width, this.game.camera.height, 'gameOverBackground');
         this.gameOverBackground.fixedToCamera = true;
         this.gameOverBackground.alpha = 0;
 
@@ -119,7 +110,7 @@ class Play extends GameState
         this.game.target = {};
 
         // Listen for keyboard presses
-        game.input.keyboard.onPressCallback = function (input) { this.keyPress(input); }.bind(this);
+        this.game.input.keyboard.onPressCallback = function (input) { this.keyPress(input); }.bind(this);
 
         this.setupSounds();
 
@@ -143,7 +134,7 @@ class Play extends GameState
             // console.log(game.time.elapsedMS);
             // console.log(1 / game.time.elapsedMS);
 
-            game.globals.turn += 1;
+            this.game.globals.turn += 1;
 
             let bullets = this.getBulletsAlive();
 
@@ -228,8 +219,8 @@ class Play extends GameState
             this.handleScore();
         }
 
-        game.add.tween(this.gameOverBackground, this.game).to( { alpha: 1 }, Phaser.Timer.SECOND * 5, Phaser.Easing.Linear.None, true);
-        game.time.events.add(Phaser.Timer.SECOND * 5, this.gameOver, this);
+        this.game.add.tween(this.gameOverBackground, this.game).to( { alpha: 1 }, Phaser.Timer.SECOND * 5, Phaser.Easing.Linear.None, true);
+        this.game.time.events.add(Phaser.Timer.SECOND * 5, this.gameOver, this);
 
         try
         {
@@ -254,7 +245,7 @@ class Play extends GameState
             waveReached: this.waveNumber
         };
 
-        game.state.start('gameOver', true, true, obj);
+        this.game.state.start('gameOver', true, true, obj);
     }
 
     initiateLoops()
@@ -266,7 +257,7 @@ class Play extends GameState
 
         // game.time.events.loop(9000, this.cleanUp, this);
 
-        game.time.events.loop(5000, this.positionCamera, this);
+        this.game.time.events.loop(5000, this.positionCamera, this);
 
         this.loopsInitiated = true;
     }
@@ -315,37 +306,37 @@ class Play extends GameState
                 break;
         }
 
-        this.titlesYCoordinate = game.camera.y + 5;
-        this.valuesYCoordinate = game.camera.y + 21;
-        this.notificationYCoordinate = game.camera.y + 50;
+        this.titlesYCoordinate = this.game.camera.y + 5;
+        this.valuesYCoordinate = this.game.camera.y + 21;
+        this.notificationYCoordinate = this.game.camera.y + 50;
 
-        this.labelCoinsXCoordinate = game.camera.x + 10;
+        this.labelCoinsXCoordinate = this.game.camera.x + 10;
 
-        this.labelCoinsTitle = game.add.bitmapText(this.labelCoinsXCoordinate, this.titlesYCoordinate, this.game.globals.bitmapFontName, 'Coins', 16);
+        this.labelCoinsTitle = this.game.add.bitmapText(this.labelCoinsXCoordinate, this.titlesYCoordinate, this.game.globals.bitmapFontName, 'Coins', 16);
         this.labelCoinsTitle.tint = titleTint;
 
-        this.labelCoins = game.add.bitmapText(this.labelCoinsXCoordinate, this.valuesYCoordinate, this.game.globals.bitmapFontName, this.coins, 28);
+        this.labelCoins = this.game.add.bitmapText(this.labelCoinsXCoordinate, this.valuesYCoordinate, this.game.globals.bitmapFontName, this.coins, 28);
         this.labelCoins.tint = valueTint;
         this.labelCoinsNotifications = [];
 
         // Begin lives
-        this.labelLivesXCoordinate = game.camera.x + 75;
+        this.labelLivesXCoordinate = this.game.camera.x + 75;
 
-        this.labelLivesTitle = game.add.bitmapText(this.labelLivesXCoordinate, this.titlesYCoordinate, this.game.globals.bitmapFontName, 'Lives', 16);
+        this.labelLivesTitle = this.game.add.bitmapText(this.labelLivesXCoordinate, this.titlesYCoordinate, this.game.globals.bitmapFontName, 'Lives', 16);
         this.labelLivesTitle.tint = titleTint;
 
-        this.labelLives = game.add.bitmapText(this.labelLivesXCoordinate + 12, this.valuesYCoordinate, this.game.globals.bitmapFontName, this.lives, 28);
+        this.labelLives = this.game.add.bitmapText(this.labelLivesXCoordinate + 12, this.valuesYCoordinate, this.game.globals.bitmapFontName, this.lives, 28);
         this.labelLives.tint = valueTint;
         this.labelLivesNotifications = [];
         // End lives
 
         // Begin score
-        this.labelScoreXCoordinate = game.camera.width - 60;
+        this.labelScoreXCoordinate = this.game.camera.width - 60;
 
-        this.labelScoreTitle = game.add.bitmapText(this.labelScoreXCoordinate, this.titlesYCoordinate, this.game.globals.bitmapFontName, 'Score', 16);
+        this.labelScoreTitle = this.game.add.bitmapText(this.labelScoreXCoordinate, this.titlesYCoordinate, this.game.globals.bitmapFontName, 'Score', 16);
         this.labelScoreTitle.tint = titleTint;
 
-        this.labelScore = game.add.bitmapText(this.labelScoreXCoordinate + 12, this.valuesYCoordinate, this.game.globals.bitmapFontName, this.score, 28);
+        this.labelScore = this.game.add.bitmapText(this.labelScoreXCoordinate + 12, this.valuesYCoordinate, this.game.globals.bitmapFontName, this.score, 28);
         this.labelScore.tint = valueTint;
         this.labelScoreNotifications = [];
         // End score
@@ -354,26 +345,26 @@ class Play extends GameState
         // Begin current wave
         this.labelCurrentWaveXCoordinate = this.labelScoreXCoordinate - 70;
 
-        this.labelCurrentWaveTitle = game.add.bitmapText(this.labelCurrentWaveXCoordinate, this.titlesYCoordinate, this.game.globals.bitmapFontName, 'Wave', 16);
+        this.labelCurrentWaveTitle = this.game.add.bitmapText(this.labelCurrentWaveXCoordinate, this.titlesYCoordinate, this.game.globals.bitmapFontName, 'Wave', 16);
         this.labelCurrentWaveTitle.tint = titleTint;
 
-        this.labelCurrentWave = game.add.bitmapText(this.labelCurrentWaveXCoordinate, this.valuesYCoordinate, this.game.globals.bitmapFontName, this.waveNumber, 28);
+        this.labelCurrentWave = this.game.add.bitmapText(this.labelCurrentWaveXCoordinate, this.valuesYCoordinate, this.game.globals.bitmapFontName, this.waveNumber, 28);
         this.labelCurrentWave.tint = valueTint;
 
         this.updateCurrentWaveLabel();
         // End current wave
 
         this.messageXCoordinate = 10;
-        this.messageYCoordinate = game.height - 33;
+        this.messageYCoordinate = this.game.height - 33;
 
-        this.labelMessage = game.add.bitmapText(this.messageXCoordinate, this.messageYCoordinate, this.game.globals.bitmapFontName, '', 24);
+        this.labelMessage = this.game.add.bitmapText(this.messageXCoordinate, this.messageYCoordinate, this.game.globals.bitmapFontName, '', 24);
         this.labelMessage.tint = valueTint;
         this.labelMessage.fixedToCamera = true;
 
-        this.indicatorMessageXCoordinate = game.width * .6;
-        this.indicatorMessageYCoordinate = game.height - 27;
+        this.indicatorMessageXCoordinate = this.game.width * .6;
+        this.indicatorMessageYCoordinate = this.game.height - 27;
 
-        this.labelIndicatorMessage = game.add.bitmapText(this.indicatorMessageXCoordinate, this.indicatorMessageYCoordinate, this.game.globals.bitmapFontName, '', 18);
+        this.labelIndicatorMessage = this.game.add.bitmapText(this.indicatorMessageXCoordinate, this.indicatorMessageYCoordinate, this.game.globals.bitmapFontName, '', 18);
         this.labelIndicatorMessage.tint = valueTint;
         this.labelIndicatorMessage.fixedToCamera = true;
     }
@@ -574,7 +565,7 @@ class Play extends GameState
 
         let x = this[xCoordinateName] + 11;
 
-        this[textName] = game.add.bitmapText(x, y, this.game.globals.bitmapFontName, changeText, 16);
+        this[textName] = this.game.add.bitmapText(x, y, this.game.globals.bitmapFontName, changeText, 16);
 
         this[textName].alpha = 0;
 
@@ -593,10 +584,10 @@ class Play extends GameState
 
         this[notificationsArrayName].push(textName);
 
-        game.add.tween(this[textName]).to({alpha: 1}, 100, Phaser.Easing.Linear.None, true);
-        game.add.tween(this[textName]).from( { x: spawnX, y: spawnY }, 500, Phaser.Easing.Linear.None, true);
+        this.game.add.tween(this[textName]).to({alpha: 1}, 100, Phaser.Easing.Linear.None, true);
+        this.game.add.tween(this[textName]).from( { x: spawnX, y: spawnY }, 500, Phaser.Easing.Linear.None, true);
 
-        game.time.events.add(
+        this.game.time.events.add(
             Phaser.Timer.SECOND * 2.25,
             function() {
                 game.add.tween(this[textName]).to({alpha: 0}, 750, Phaser.Easing.Linear.None, true);
@@ -604,7 +595,7 @@ class Play extends GameState
             this
         ).autoDestroy = true;
 
-        game.time.events.add(
+        this.game.time.events.add(
             Phaser.Timer.SECOND * 3,
             function() {
                 this[textName].destroy()
@@ -612,7 +603,7 @@ class Play extends GameState
             this
         ).autoDestroy = true;
 
-        game.time.events.add(
+        this.game.time.events.add(
             Phaser.Timer.SECOND * 2.5,
             function() {
                 this.removeNotification(notificationsArrayName, textName)
@@ -650,7 +641,7 @@ class Play extends GameState
 
     togglePause()
     {
-        if (game.paused)
+        if (this.game.paused)
         {
             this.unpause();
         }
@@ -662,17 +653,22 @@ class Play extends GameState
 
     pause(showText)
     {
-        game.paused = true;
+        this.game.paused = true;
 
         if (showText) {
-            this.pausedText = game.add.text(game.width * 0.5, game.height * 0.5, '-Paused-', this.healthStyle);
+            this.pausedText = this.game.add.text(
+                this.game.width * 0.5,
+                this.game.height * 0.5,
+                '-Paused-',
+                this.healthStyle
+            );
             this.pausedText.anchor.set(0.5, 0.5);
         }
     }
 
     unpause()
     {
-        game.paused = false;
+        this.game.paused = false;
 
         if (this.pausedText)
         {
@@ -725,7 +721,7 @@ class Play extends GameState
         }
 
         timerEvents.push(
-            game.time.events.add(
+            this.game.time.events.add(
                 Phaser.Timer.SECOND * seconds,
                 this.spawnAttacker,
                 this,
@@ -770,24 +766,24 @@ class Play extends GameState
 
                 break;
             default:
-                this.map.createFromObjects('objects', 51, 'rock', 0, true, false, this.obstacles, Rock, true);
-                this.map.createFromObjects('objects', 63, 'bigBush', 0, true, false, this.obstacles, BigBush, true);
-                this.map.createFromObjects('objects', 5, 'bigBushAutumn', 0, true, false, this.obstacles, BigBushAutumn, true);
-                this.map.createFromObjects('objects', 64, 'smallBush', 0, true, false, this.obstacles, SmallBush, true);
-                this.map.createFromObjects('objects', 76, 'snowman', 0, true, false, this.obstacles, Snowman, true);
-                this.map.createFromObjects('objects', 78, 'bulrush', 0, true, false, this.obstacles, Bulrush, true);
-                this.map.createFromObjects('objects', 94, 'snowyPine', 0, true, false, this.obstacles, SnowyPine, true);
-                this.map.createFromObjects('objects', 130, 'create', 0, true, false, this.obstacles, Crate, true);
+                this.map.createFromObjects('objects', 51, 'Rock', 0, true, false, this.obstacles, Rock, true);
+                this.map.createFromObjects('objects', 63, 'BigBush', 0, true, false, this.obstacles, BigBush, true);
+                this.map.createFromObjects('objects', 5, 'BigBushAutumn', 0, true, false, this.obstacles, BigBushAutumn, true);
+                this.map.createFromObjects('objects', 64, 'SmallBush', 0, true, false, this.obstacles, SmallBush, true);
+                this.map.createFromObjects('objects', 76, 'Snowman', 0, true, false, this.obstacles, Snowman, true);
+                this.map.createFromObjects('objects', 78, 'Bulrush', 0, true, false, this.obstacles, Bulrush, true);
+                this.map.createFromObjects('objects', 94, 'SnowyPine', 0, true, false, this.obstacles, SnowyPine, true);
+                this.map.createFromObjects('objects', 130, 'Crate', 0, true, false, this.obstacles, Crate, true);
                 this.map.createFromObjects('objects', 59, 'PurpleRock', 0, true, false, this.obstacles, PurpleRock, true);
 
-                this.map.createFromObjects('objects', 60, 'pumpkin', 0, true, false, this.obstacles, Pumpkin, true);
-                this.map.createFromObjects('objects', 105, 'tallBrownMushroom', 0, true, false, this.obstacles, TallBrownMushroom, true);
-                this.map.createFromObjects('objects', 106, 'tallRedMushroom', 0, true, false, this.obstacles, TallRedMushroom, true);
-                this.map.createFromObjects('objects', 107, 'tallGreyMushroom', 0, true, false, this.obstacles, TallGreyMushroom, true);
-                this.map.createFromObjects('objects', 118, 'pinkCrystal', 0, true, false, this.obstacles, PinkCrystal, true);
+                this.map.createFromObjects('objects', 60, 'Pumpkin', 0, true, false, this.obstacles, Pumpkin, true);
+                this.map.createFromObjects('objects', 105, 'TallBrownMushroom', 0, true, false, this.obstacles, TallBrownMushroom, true);
+                this.map.createFromObjects('objects', 106, 'TallRedMushroom', 0, true, false, this.obstacles, TallRedMushroom, true);
+                this.map.createFromObjects('objects', 107, 'TallGreyMushroom', 0, true, false, this.obstacles, TallGreyMushroom, true);
+                this.map.createFromObjects('objects', 118, 'PinkCrystal', 0, true, false, this.obstacles, PinkCrystal, true);
                 this.map.createFromObjects('objects', 55, 'Puffball', 0, true, false, this.obstacles, Puffball, true);
 
-                this.map.createFromObjects('objects', 108, 'nathan', 0, true, false, this.characters, Nathan, true);
+                this.map.createFromObjects('objects', 108, 'Nathan', 0, true, false, this.characters, Nathan, true);
 
                 this.nathan = this.characters.getFirstAlive();
 
@@ -795,10 +791,10 @@ class Play extends GameState
                     this.nathan.drawForceFields();
                 }
 
-                this.map.createFromObjects('objects', 120, 'bully', 0, true, false, this.characters, Bully, true);
+                this.map.createFromObjects('objects', 120, 'Bully', 0, true, false, this.characters, Bully, true);
                 this.bully = this.getBully();
 
-                this.map.createFromObjects('objects', 72, 'ghost', 0, true, false, this.characters, Ghost, true);
+                this.map.createFromObjects('objects', 72, 'Ghost', 0, true, false, this.characters, Ghost, true);
         }
     }
 
@@ -1013,7 +1009,7 @@ class Play extends GameState
 
         this.handleScore();
 
-        game.time.events.add(Phaser.Timer.SECOND * 5, this.levelCompletedScreen, this).autoDestroy = true;
+        this.game.time.events.add(Phaser.Timer.SECOND * 5, this.levelCompletedScreen, this).autoDestroy = true;
     }
 
     handleScore()
@@ -1052,21 +1048,21 @@ class Play extends GameState
 
         this.gameOverBackground.alpha = .5;
 
-        this.levelCompleteText = game.add.bitmapText(
-            game.camera.width * .5,
-            game.height * .13,
+        this.levelCompleteText = this.game.add.bitmapText(
+            this.game.camera.width * .5,
+            this.game.height * .13,
             this.game.globals.bitmapFontName,
             'Level ' + this.levelId + ' complete!',
             58
         );
-        this.levelCompleteText.x = (game.camera.width * .5) - (this.levelCompleteText.width * .5);
+        this.levelCompleteText.x = (this.game.camera.width * .5) - (this.levelCompleteText.width * .5);
         this.levelCompleteText.fixedToCamera = true;
 
         // Begin stars
         let completionStars = this.calculateCompletionStars();
 
-        let x = (game.camera.width * .5) - 180;
-        let y = (game.height * .32);
+        let x = (this.game.camera.width * .5) - 180;
+        let y = (this.game.height * .32);
 
         let starSpriteName;
 
@@ -1081,7 +1077,7 @@ class Play extends GameState
                 starSpriteName = 'starCharcoal';
             }
 
-            let star = game.add.sprite(x, y, starSpriteName);
+            let star = this.game.add.sprite(x, y, starSpriteName);
             star.fixedToCamera = true;
 
             this.finishedItems.add(star);
@@ -1095,14 +1091,14 @@ class Play extends GameState
         if (!this.hasCheated)
         {
             this.scoreText = game.add.bitmapText(
-                game.camera.width * .5,
-                game.height * .61,
+                this.game.camera.width * .5,
+                this.game.height * .61,
                 this.game.globals.bitmapFontName,
                 'Score: ' + this.score,
                 24
             );
             this.scoreText.tint = 0xCCCCCC;
-            this.scoreText.x = (game.camera.width * .5) - (this.scoreText.width * .5);
+            this.scoreText.x = (this.game.camera.width * .5) - (this.scoreText.width * .5);
             this.scoreText.fixedToCamera = true;
         }
         // End score text
@@ -1124,7 +1120,7 @@ class Play extends GameState
             mode: this.mode
         };
 
-        game.state.start('play', true, true, obj);
+        this.game.state.start('play', true, true, obj);
 
         return true;
     }
@@ -1178,8 +1174,8 @@ class Play extends GameState
 
             }
 
-            let x = Math.floor((game.input.x + game.camera.x) / this.squareWidth) * this.squareWidth + this.halfSquareWidth;
-            let y = Math.floor((game.input.y + game.camera.y) / this.squareWidth) * this.squareWidth + this.halfSquareWidth;
+            let x = Math.floor((this.game.input.x + this.game.camera.x) / this.squareWidth) * this.squareWidth + this.halfSquareWidth;
+            let y = Math.floor((this.game.input.y + this.game.camera.y) / this.squareWidth) * this.squareWidth + this.halfSquareWidth;
 
             if (x === 0)
             {
@@ -1327,11 +1323,11 @@ class Play extends GameState
 
     isPositionOnScreen(x, y)
     {
-        if (x < game.camera.x || x >= game.width + game.camera.x)
+        if (x < this.game.camera.x || x >= this.game.width + this.game.camera.x)
         {
             return false;
         }
-        if (y < game.camera.y || y >= game.height + game.camera.y)
+        if (y < this.game.camera.y || y >= this.game.height + this.game.camera.y)
         {
             return false;
         }
@@ -1533,7 +1529,7 @@ class Play extends GameState
         if (this.level.distinctWaves)
         {
             timerEvents.push(
-                game.time.events.add(
+                this.game.time.events.add(
                     Phaser.Timer.SECOND * 1.5,
                     this.startWave,
                     this,
@@ -1548,7 +1544,7 @@ class Play extends GameState
                 waveNumber ++;
 
                 timerEvents.push(
-                    game.time.events.add(
+                    this.game.time.events.add(
                         Phaser.Timer.SECOND * s,
                         this.startWave,
                         this,
@@ -1558,7 +1554,13 @@ class Play extends GameState
 
                 s += this.level.waveInfo[wave].duration;
             }
-            timerEvents.push(game.time.events.add(Phaser.Timer.SECOND * s, this.lastWaveDispatched, this));
+            timerEvents.push(
+                this.game.time.events.add(
+                    Phaser.Timer.SECOND * s,
+                    this.lastWaveDispatched,
+                    this
+                )
+            );
         }
         // End level wave scheduling
 
@@ -1586,10 +1588,10 @@ class Play extends GameState
         if (!this.distinctWaves)
         {
             timerEvents.push(
-                game.time.events.add(
+                this.game.time.events.add(
                     Phaser.Timer.SECOND * s,
-                    mainState.startWave,
-                    mainState,
+                    this.startWave,
+                    this,
                     waveNumber
                 ).autoDestroy = true
             );
@@ -1624,11 +1626,23 @@ class Play extends GameState
             }, this);
         }
 
-        timerEvents.push(game.time.events.add(Phaser.Timer.SECOND * (s+lastAttackerOfWaveSeconds), this.lastWaveAttackerDispatched, this));
+        timerEvents.push(
+            this.game.time.events.add(
+                Phaser.Timer.SECOND * (s+lastAttackerOfWaveSeconds),
+                this.lastWaveAttackerDispatched,
+                this
+            )
+        );
 
         if (this.totalWaves === waveNumber)
         {
-            timerEvents.push(game.time.events.add(Phaser.Timer.SECOND * (s+lastAttackerOfWaveSeconds), this.lastWaveDispatched, this));
+            timerEvents.push(
+                this.game.time.events.add(
+                    Phaser.Timer.SECOND * (s+lastAttackerOfWaveSeconds),
+                    this.lastWaveDispatched,
+                    this
+                )
+            );
         }
     }
 
@@ -1802,10 +1816,10 @@ class Play extends GameState
             return;
         }
 
-        this.graphics = game.add.graphics(0, 0);
+        this.graphics = this.game.add.graphics(0, 0);
 
-        let x = Math.floor((game.input.x + game.camera.x) / this.squareWidth) * this.squareWidth;
-        let y = Math.floor((game.input.y + game.camera.y) / this.squareWidth) * this.squareWidth;
+        let x = Math.floor((this.game.input.x + game.camera.x) / this.squareWidth) * this.squareWidth;
+        let y = Math.floor((this.game.input.y + game.camera.y) / this.squareWidth) * this.squareWidth;
 
         let inappropriateColor = 0xFF8888;
         let notEnoughCoinsColor = 0xFFFF88;
@@ -1907,7 +1921,7 @@ class Play extends GameState
             this.forceFieldGraphics.destroy();
         }
 
-        this.forceFieldGraphics = game.add.graphics(0, 0);
+        this.forceFieldGraphics = this.game.add.graphics(0, 0);
 
         if (number >= 5)
         {
@@ -2057,7 +2071,7 @@ class Play extends GameState
         {
             let nextWaveNumber = waveNumber + 1;
             timerEvents.push(
-                game.time.events.add(
+                this.game.time.events.add(
                     Phaser.Timer.SECOND * 1.5,
                     this.startWave,
                     this,
@@ -2077,7 +2091,7 @@ class Play extends GameState
     displayMessage(message)
     {
         this.labelMessage.setText(message);
-        game.time.events.add(Phaser.Timer.SECOND * 6, this.clearMessage, this).autoDestroy = true;
+        this.game.time.events.add(Phaser.Timer.SECOND * 6, this.clearMessage, this).autoDestroy = true;
     }
 
     clearMessage()
@@ -2106,7 +2120,7 @@ class Play extends GameState
             throw 'Level mapName not found';
         }
 
-        this.map = game.add.tilemap(this.level.mapName);
+        this.map = this.game.add.tilemap(this.level.mapName);
 
         this.squareWidth = this.map.tileWidth || 35;
         this.halfSquareWidth = this.squareWidth * .5;
@@ -2156,7 +2170,7 @@ class Play extends GameState
         this.collisionLayer = this.map.createLayer('collision');
         this.backgrounds.add(this.collisionLayer);
 
-        game.physics.arcade.enable(this.collisionLayer);
+        this.game.physics.arcade.enable(this.collisionLayer);
 
         if (this.layers.hasOwnProperty('lava'))
         {
@@ -2273,15 +2287,15 @@ class Play extends GameState
 
     goFullScreen()
     {
-        game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
-        game.scale.startFullScreen(false);
+        this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
+        this.game.scale.startFullScreen(false);
     }
 
     toggleFullScreen()
     {
-        if (game.scale.isFullScreen)
+        if (this.game.scale.isFullScreen)
         {
-            game.scale.stopFullScreen();
+            this.game.scale.stopFullScreen();
         }
         else
         {
@@ -2313,11 +2327,11 @@ class Play extends GameState
             throw 'Map not initiated.';
         }
 
-        let x = (this.map.widthInPixels - game.width) * .5;
-        let y = (this.map.heightInPixels - game.height) * .5;
+        let x = (this.map.widthInPixels - this.game.width) * .5;
+        let y = (this.map.heightInPixels - this.game.height) * .5;
 
-        game.camera.x = x;
-        game.camera.y = y;
+        this.game.camera.x = x;
+        this.game.camera.y = y;
     }
 
     generateSpawnAttackerPixelCoordinates()
@@ -2552,7 +2566,7 @@ class Play extends GameState
 
     addUserInterfaceButtons()
     {
-        this.pauseButton = game.add.button(game.camera.width - 42, 7, 'pauseDark', this.openPauseScreen, this);
+        this.pauseButton = this.game.add.button(this.game.camera.width - 42, 7, 'pauseDark', this.openPauseScreen, this);
         this.pauseButton.fixedToCamera = true;
         this.pauseButton.inputEnabled = true;
         this.pauseButton.alpha = .5;
@@ -2601,11 +2615,11 @@ class Play extends GameState
 
         this.gameOverBackground.alpha = .5;
 
-        this.addButtonTextLink('resume', 'Resume', 46, 'forestGreen', 0, game.height * .21, 'center', 'closePauseScreen');
+        this.addButtonTextLink('resume', 'Resume', 46, 'forestGreen', 0, this.game.height * .21, 'center', 'closePauseScreen');
 
-        this.addButtonTextLink('restart', 'Restart Level', 46, 'forestGreen', 0, game.height * .46, 'center', 'restartLevel');
+        this.addButtonTextLink('restart', 'Restart Level', 46, 'forestGreen', 0, this.game.height * .46, 'center', 'restartLevel');
 
-        this.addButtonTextLink('exit', 'Exit', 46, 'forestGreen', 0, game.height * .71, 'center', 'goToTitleScreen');
+        this.addButtonTextLink('exit', 'Exit', 46, 'forestGreen', 0, this.game.height * .71, 'center', 'goToTitleScreen');
 
         return true;
     }
@@ -2684,14 +2698,14 @@ class Play extends GameState
 
         if (tower.sellable())
         {
-            this.sellTowerButton = game.add.button(tower.x , tower.y, 'poundDark', this.sellCurrentTower, this);
+            this.sellTowerButton = this.game.add.button(tower.x , tower.y, 'poundDark', this.sellCurrentTower, this);
             this.sellTowerButton.inputEnabled = true;
             this.sellTowerButton.alpha = .5;
             this.sellTowerButton.anchor.set(0.5, 0.5);
             this.sellTowerButton.scale.setTo(1.5, 1.5);
             this.sellTowerButton.x = tower.x - 39;
 
-            this.sellTowerText = game.add.bitmapText(this.sellTowerButton.x, this.sellTowerButton.y, this.game.globals.bitmapFontName, '£' + this.currentTower.getSellValue(), 16);
+            this.sellTowerText = this.game.add.bitmapText(this.sellTowerButton.x, this.sellTowerButton.y, this.game.globals.bitmapFontName, '£' + this.currentTower.getSellValue(), 16);
             this.sellTowerText.x = this.sellTowerButton.x - (this.sellTowerText.width * .5);
             this.sellTowerText.y = this.sellTowerButton.y + (this.sellTowerButton.height * .5);
         }
@@ -2700,7 +2714,7 @@ class Play extends GameState
 
         if (tower.upgradable())
         {
-            this.upgradeTowerButton = game.add.button(tower.x, tower.y, 'upDark', this.upgradeCurrentTower, this);
+            this.upgradeTowerButton = this.game.add.button(tower.x, tower.y, 'upDark', this.upgradeCurrentTower, this);
 
             if (this.coinsSufficientToUpgradeCurrentTower()) {
                 this.upgradeTowerButton.inputEnabled = true;
@@ -2720,7 +2734,7 @@ class Play extends GameState
         }
         else
         {
-            this.upgradeTowerButton = game.add.button(tower.x, tower.y, 'maxDark', this.notPossible, this);
+            this.upgradeTowerButton = this.game.add.button(tower.x, tower.y, 'maxDark', this.notPossible, this);
             this.upgradeTowerButton.inputEnabled = false;
             this.upgradeTowerButton.alpha = .5;
             this.upgradeTowerButton.anchor.set(0.5, 0.5);
@@ -2729,7 +2743,7 @@ class Play extends GameState
             this.labelIndicatorMessage.setText('Tower is at maximum grade.');
         }
         this.upgradeTowerButton.x = tower.x + 39;
-        this.upgradeTowerText = game.add.bitmapText(this.upgradeTowerButton.x, this.upgradeTowerButton.y, this.game.globals.bitmapFontName, upgradeTowerTextString, 16);
+        this.upgradeTowerText = this.game.add.bitmapText(this.upgradeTowerButton.x, this.upgradeTowerButton.y, this.game.globals.bitmapFontName, upgradeTowerTextString, 16);
 
         if (this.upgradeTowerText)
         {
@@ -2740,7 +2754,7 @@ class Play extends GameState
         if (tower.weapon1)
         {
 
-            this.towerInfoOpenRangeGraphics = game.add.graphics(0, 0);
+            this.towerInfoOpenRangeGraphics = this.game.add.graphics(0, 0);
 
             this.towerInfoOpenRangeGraphics.lineStyle(2, 0x88FF88, 0.5);
             this.towerInfoOpenRangeGraphics.beginFill(0x88FF88, 0.2);
@@ -2850,7 +2864,7 @@ class Play extends GameState
             gridY: gridY
         };
 
-        this.towerPlacementViewGraphics = game.add.graphics(0, 0);
+        this.towerPlacementViewGraphics = this.game.add.graphics(0, 0);
 
         this.towerPlacementViewGraphics.lineStyle(2, 0x00FF00, 1);
         this.towerPlacementViewGraphics.drawRect(x - this.squareWidth*.5, y - this.squareWidth*.5, this.squareWidth, this.squareWidth);
@@ -2872,11 +2886,11 @@ class Play extends GameState
         let xOffset = -(towerClassNames.length-1) * (halfBackdropButtonWidth + (buttonGap * .5));
         let yOffset = -halfBackdropButtonWidth;
 
-        if (this.currentGridPosition.x + xOffset < game.camera.x)
+        if (this.currentGridPosition.x + xOffset < this.game.camera.x)
         {
-            xOffset = -this.currentGridPosition.x + game.camera.x + halfBackdropButtonWidth;
+            xOffset = -this.currentGridPosition.x + this.game.camera.x + halfBackdropButtonWidth;
         }
-        if (this.currentGridPosition.x + (halfBackdropButtonWidth * towerClassNames.length) > (game.camera.x + game.camera.width + 5))
+        if (this.currentGridPosition.x + (halfBackdropButtonWidth * towerClassNames.length) > (this.game.camera.x + this.game.camera.width + 5))
         {
             xOffset = -(backdropButtonWidth+buttonGap) * (towerClassNames.length-1);
         }
@@ -2890,7 +2904,7 @@ class Play extends GameState
             let functionName = 'place' + towerClassName + 'TowerAtCost';
 
             // Backdrop button start
-            this[backdropButtonName] = game.add.button(
+            this[backdropButtonName] = this.game.add.button(
                 this.currentGridPosition.x + xOffset,
                 this.currentGridPosition.y + yOffset,
                 'blankDark',
@@ -2904,7 +2918,7 @@ class Play extends GameState
             // Backdrop button end
 
             // Sprite-based button start
-            this[buttonName] = game.add.button(
+            this[buttonName] = this.game.add.button(
                 this.currentGridPosition.x + xOffset,
                 this.currentGridPosition.y + yOffset,
                 towerClassName + 'SpriteSheet',
@@ -2919,7 +2933,7 @@ class Play extends GameState
 
             let cost = window[towerClassName].cost;
 
-            this[textInfoName] = game.add.bitmapText(
+            this[textInfoName] = this.game.add.bitmapText(
                 this[buttonName].x,
                 this[buttonName].y  + yOffset + (this[buttonName].height * .7),
                 this.game.globals.bitmapFontName,
@@ -3095,11 +3109,9 @@ class Play extends GameState
 
     getMidPointBetweenSprites(spriteA, spriteB)
     {
-
         let x = Math.round((spriteA.body.x + spriteB.body.x) / 2);
         let y = Math.round((spriteA.body.y + spriteB.body.y) / 2);
         let angle = Math.atan2(spriteB.body.y - spriteA.body.y, spriteB.body.x - spriteA.body.x ) * (180/Math.PI);
-
         return {
             x: x,
             y: y,
@@ -3171,7 +3183,6 @@ class Play extends GameState
     getBulletsAlive()
     {
         let bullets = [];
-
         this.towers.forEach(function(tower)
         {
             if (tower.weapon1)
@@ -3182,7 +3193,6 @@ class Play extends GameState
                 });
             }
         }, this);
-
         return bullets;
     }
 

@@ -2,10 +2,10 @@ class TitleScreen extends GameState
 {
     preload()
     {
-        this.backgrounds = game.add.group();
+        this.backgrounds = this.game.add.group();
 
-        this.linkBackgrounds = game.add.group();
-        this.texts = game.add.group();
+        this.linkBackgrounds = this.game.add.group();
+        this.texts = this.game.add.group();
 
         this.loadMainFiles();
     }
@@ -15,31 +15,23 @@ class TitleScreen extends GameState
         this.loadUser();
         this.checkUser();
 
-        game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
+        this.handleScaling();
 
-        if (game.device.desktop === false)
-        {
-            game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
-            game.scale.setMinMax(game.width/2, game.height/2, game.width, game.height);
-        }
-        game.scale.pageAlignHorizontally = true;
-        game.scale.pageAlignVertically = true;
-
-        game.canvas.oncontextmenu = function (e) { e.preventDefault(); }
+        this.game.canvas.oncontextmenu = function (e) { e.preventDefault(); }
 
         // game.stage.backgroundColor = "#112c06";
 
-        this.titleScreenBackground = game.add.tileSprite(0, 0, game.camera.width, game.camera.height, 'touchMushroomBackground');
+        this.titleScreenBackground = this.game.add.tileSprite(0, 0, this.game.camera.width, this.game.camera.height, 'touchMushroomBackground');
         this.titleScreenBackground.fixedToCamera = true;
         this.backgrounds.add(this.titleScreenBackground);
 
-        this.addButtonTextLink('playGameLink', 'Play the Game', 46, 'forestGreen', 0, game.height * .68, 'center', 'goToZone');
+        this.addButtonTextLink('playGameLink', 'Play the Game', 46, 'forestGreen', 0, this.game.height * .68, 'center', 'goToZone');
 
-        this.titleText = game.add.bitmapText(500, game.height * .12, this.game.globals.bitmapFontName, this.game.globals.applicationTitle, 64);
-        this.titleText.x = (game.width * .5) - (this.titleText.width * .5);
+        this.titleText = this.game.add.bitmapText(500, this.game.height * .12, this.game.globals.bitmapFontName, this.game.globals.applicationTitle, 64);
+        this.titleText.x = (this.game.width * .5) - (this.titleText.width * .5);
 
-        this.captionText = game.add.bitmapText(500, game.height * .36, this.game.globals.bitmapFontName, 'An extra-terrestrial tower defence game', 32);
-        this.captionText.x = (game.width * .5) - (this.captionText.width * .5);
+        this.captionText = this.game.add.bitmapText(500, this.game.height * .36, this.game.globals.bitmapFontName, 'An extra-terrestrial tower defence game', 32);
+        this.captionText.x = (this.game.width * .5) - (this.captionText.width * .5);
         this.captionText.tint = 0xFFCCCC;
 
         let tips = [
@@ -48,13 +40,13 @@ class TitleScreen extends GameState
 
         let tipTextContent = tips[Math.floor(Math.random() * tips.length)];
 
-        this.tipText = game.add.bitmapText(500, game.height * .53, this.game.globals.bitmapFontName, tipTextContent, 20);
-        this.tipText.x = (game.width * .5) - (this.tipText.width * .5);
+        this.tipText = this.game.add.bitmapText(500, this.game.height * .53, this.game.globals.bitmapFontName, tipTextContent, 20);
+        this.tipText.x = (this.game.width * .5) - (this.tipText.width * .5);
         this.tipText.tint = 0xCCFFCC;
 
-        this.addButtonTextLink('downloadSaveLink', 'Download Save File', 20, 'smallWideDark', 10, game.camera.height - 40, 'left', 'downloadSave');
+        this.addButtonTextLink('downloadSaveLink', 'Download Save File', 20, 'smallWideDark', 10, this.game.camera.height - 40, 'left', 'downloadSave');
 
-        this.addButtonTextLink('achievementsLink', 'View Achievements', 20, 'smallWideDark', 10, game.camera.height - 40, 'right', 'showAchievements');
+        this.addButtonTextLink('achievementsLink', 'View Achievements', 20, 'smallWideDark', 10, this.game.camera.height - 40, 'right', 'showAchievements');
 
         // this.addButtonTextLink('creditsLink', 'Credits', 20, 'smallWideDark', 10, game.camera.height - 40, 'left', 'showCredits');
     }
@@ -76,6 +68,6 @@ class TitleScreen extends GameState
             zoneName = 'EAST_ANGLIA';
         }
 
-        game.state.start('zone', true, true, zoneName);
+        this.game.state.start('zone', true, true, zoneName);
     }
 }
