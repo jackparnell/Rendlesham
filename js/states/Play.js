@@ -1,5 +1,3 @@
-var wouldObstaclePlacementBlockPathResult;
-
 class Play extends GameState
 {
     preload()
@@ -2537,12 +2535,13 @@ class Play extends GameState
 
         this.removeGlobalImpassablePoint(x, y);
 
-        return (wouldObstaclePlacementBlockPathResult === null);
+        return (this.game.wouldObstaclePlacementBlockPathResult === null);
     }
 
     wouldObstaclePlacementBlockPathCallbackHandler(path)
     {
-        wouldObstaclePlacementBlockPathResult = path;
+        // Just game, not this.game
+        game.wouldObstaclePlacementBlockPathResult = path;
     }
 
     getEntryXGrid()
