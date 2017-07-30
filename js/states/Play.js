@@ -63,8 +63,8 @@ class Play extends GameState
         this.towerSelected = 'Gun';
         this.hasCheated = false;
         this.keyInput = '';
-        this.buttonTweenInMs = 200;
-        this.buttonTweenInFromScale = .1;
+        this.quickTweenMs = 200;
+        this.quickTweenFromScale = .1;
 
         window.onkeydown = function()
         {
@@ -2807,10 +2807,10 @@ class Play extends GameState
 
         if (useTween)
         {
-            this.upgradeTowerButton.scale.setTo(this.buttonTweenInFromScale, this.buttonTweenInFromScale);
-            this.game.add.tween(this.upgradeTowerButton.scale).to({ x: buttonDisplayScale, y: buttonDisplayScale }, this.buttonTweenInMs, Phaser.Easing.Back.Out, true, 0);
-            this.sellTowerButton.scale.setTo(this.buttonTweenInFromScale, this.buttonTweenInFromScale);
-            this.game.add.tween(this.sellTowerButton.scale).to({ x: buttonDisplayScale, y: buttonDisplayScale }, this.buttonTweenInMs, Phaser.Easing.Back.Out, true, 0);
+            this.upgradeTowerButton.scale.setTo(this.quickTweenFromScale, this.quickTweenFromScale);
+            this.game.add.tween(this.upgradeTowerButton.scale).to({ x: buttonDisplayScale, y: buttonDisplayScale }, this.quickTweenMs, Phaser.Easing.Back.Out, true, 0);
+            this.sellTowerButton.scale.setTo(this.quickTweenFromScale, this.quickTweenFromScale);
+            this.game.add.tween(this.sellTowerButton.scale).to({ x: buttonDisplayScale, y: buttonDisplayScale }, this.quickTweenMs, Phaser.Easing.Back.Out, true, 0);
         }
         else
         {
@@ -2829,27 +2829,7 @@ class Play extends GameState
 
         if (useTween)
         {
-            buttonsToDestroy.forEach(function(buttonName)
-            {
-                // Tween to zero scale
-                this.game.add.tween(
-                    this[buttonName].scale).to({ x: 0, y: 0 },
-                    this.buttonTweenInMs,
-                    Phaser.Easing.Back.Out,
-                    true,
-                    0
-                );
-
-                // Destroy at same time tween ends
-                this.game.time.events.add(
-                    this.buttonTweenInMs,
-                    function() {
-                        this[buttonName].destroy()
-                    },
-                    this
-                ).autoDestroy = true;
-
-            }, this);
+            this.tweenOutAndDestroy(buttonsToDestroy);
         }
         else
         {
@@ -2997,8 +2977,8 @@ class Play extends GameState
 
             if (useTween)
             {
-                this[backdropButtonName].scale.setTo(this.buttonTweenInFromScale, this.buttonTweenInFromScale);
-                this.game.add.tween(this[backdropButtonName].scale).to({ x: 1.5, y: 1.5 }, this.buttonTweenInMs, Phaser.Easing.Back.Out, true, 0);
+                this[backdropButtonName].scale.setTo(this.quickTweenFromScale, this.quickTweenFromScale);
+                this.game.add.tween(this[backdropButtonName].scale).to({ x: 1.5, y: 1.5 }, this.quickTweenMs, Phaser.Easing.Back.Out, true, 0);
             }
             else
             {
@@ -3020,7 +3000,7 @@ class Play extends GameState
             this[buttonName].anchor.set(.5, .5);
 
             // Scale to .75 initially to allow positioning of textInfoName based on intended size.
-            // Will rescale to this.buttonTweenInFromScale, then tween to .75 a few lines down from here
+            // Will rescale to this.quickTweenFromScale, then tween to .75 a few lines down from here
             this[buttonName].scale.setTo(.75, .75);
 
             let cost = window[towerClassName].cost;
@@ -3037,8 +3017,8 @@ class Play extends GameState
 
             if (useTween)
             {
-                this[buttonName].scale.setTo(this.buttonTweenInFromScale, this.buttonTweenInFromScale);
-                this.game.add.tween(this[buttonName].scale).to({ x: .75, y: .75 }, this.buttonTweenInMs, Phaser.Easing.Back.Out, true, 0);
+                this[buttonName].scale.setTo(this.quickTweenFromScale, this.quickTweenFromScale);
+                this.game.add.tween(this[buttonName].scale).to({ x: .75, y: .75 }, this.quickTweenMs, Phaser.Easing.Back.Out, true, 0);
             }
             else
             {
@@ -3060,7 +3040,7 @@ class Play extends GameState
         this.labelIndicatorMessage.setText('Select tower to place here.');
     }
 
-    closeTowerPlacementView()
+    closeTowerPlacementView(useTween = true)
     {
         this.currentGridPosition = {};
 
@@ -3074,12 +3054,20 @@ class Play extends GameState
             buttonsToDestroy.push(towerClassName + 'TowerButton');
         });
 
-        buttonsToDestroy.forEach(function(buttonName)
+        if (useTween)
         {
-            if (this[buttonName]) {
-                this[buttonName].destroy();
-            }
-        }, this);
+            this.tweenOutAndDestroy(buttonsToDestroy);
+        }
+        else
+        {
+            buttonsToDestroy.forEach(function(buttonName)
+            {
+                if (this[buttonName])
+                {
+                    this[buttonName].destroy();
+                }
+            }, this);
+        }
 
         let textToDestroy = [];
 
@@ -3145,6 +3133,36 @@ class Play extends GameState
             {
                 this[backdropButtonName].alpha = .5;
             }
+        }, this);
+    }
+
+    /**
+     * Tween to zero scale and then destroy each element in an array of supplied objects.
+     *
+     * @param {Array} objects
+     */
+    tweenOutAndDestroy(objects)
+    {
+        objects.forEach(function(objectName)
+        {
+            // Tween to zero scale
+            this.game.add.tween(
+                this[objectName].scale).to({ x: 0, y: 0 },
+                this.quickTweenMs,
+                Phaser.Easing.Back.Out,
+                true,
+                0
+            );
+
+            // Destroy at same time tween ends
+            this.game.time.events.add(
+                this.quickTweenMs,
+                function() {
+                    this[objectName].destroy()
+                },
+                this
+            ).autoDestroy = true;
+
         }, this);
     }
 
