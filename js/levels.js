@@ -2118,16 +2118,23 @@ var peddarsWay = {
     dragMap: true,
     introduction: function()
     {
-        this.game.state.states.play.nathan.x = 200;
-        this.game.state.states.play.nathan.y = 50;
-        this.game.camera.follow(this.game.state.states.play.nathan);
-
         let coordinates = this.game.state.states.play.translateGridCoordinatesToPixelCoordinates(
-            this.goalXGrid,
-            this.goalYGrid
+            this.entryXGrid,
+            this.entryYGrid
         );
         let x = coordinates[0] + this.game.state.states.play.halfSquareWidth;
         let y = coordinates[1] + this.game.state.states.play.halfSquareWidth;
+
+        this.game.state.states.play.nathan.x = x;
+        this.game.state.states.play.nathan.y = y;
+        this.game.camera.follow(this.game.state.states.play.nathan);
+
+        coordinates = this.game.state.states.play.translateGridCoordinatesToPixelCoordinates(
+            this.goalXGrid,
+            this.goalYGrid
+        );
+        x = coordinates[0] + this.game.state.states.play.halfSquareWidth;
+        y = coordinates[1] + this.game.state.states.play.halfSquareWidth;
 
         this.game.add.tween(this.game.state.states.play.nathan).to({x: x, y: y}, 3000, Phaser.Easing.Linear.None, true);
 
