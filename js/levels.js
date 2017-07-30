@@ -2115,7 +2115,9 @@ var peddarsWay = {
     canPlaceTowerOnPathway: false,
     distinctWaves: true,
     previousLevelName: 'thetfordForest',
-    dragMap: true,
+    mapScroll: true,
+    verticalScroll: true,
+    horizontalScroll: false,
     introduction: function()
     {
         let coordinates = this.game.state.states.play.translateGridCoordinatesToPixelCoordinates(

@@ -15,7 +15,8 @@ class Achievements extends GameState
         this.game.kineticScrolling.configure({
             kineticMovement: false,
             verticalScroll: true,
-            verticalWheel: true
+            verticalWheel: true,
+            horizontalWheel: false
         });
     }
 

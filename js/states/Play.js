@@ -101,9 +101,25 @@ class Play extends GameState
 
         this.initiateLoops();
 
-        if (this.shouldDrag())
+        if (this.canScroll())
         {
-            this.game.input.onUp.add(this.userInput, this);
+
+            this.game.kineticScrolling = this.game.plugins.add(Phaser.Plugin.KineticScrolling);
+
+            let verticalWheel = this.level.verticalScroll;
+            let horizontalWheel = this.level.horizontalScroll;
+
+            this.game.kineticScrolling.configure({
+                kineticMovement: false,
+                verticalScroll: true,
+                verticalWheel: verticalWheel,
+                horizontalWheel: horizontalWheel
+            });
+
+            this.game.kineticScrolling.start();
+
+            // this.game.input.onUp.add(this.userInput, this);
+            this.game.input.onDown.add(this.userInput, this);
         }
         else
         {
@@ -206,8 +222,6 @@ class Play extends GameState
             {
                 this.updateTowerPlacementView();
             }
-
-            this.handleDrag();
 
         }
         catch (err)
@@ -1165,11 +1179,6 @@ class Play extends GameState
 
         try
         {
-            if (this.isDrag())
-            {
-                return false;
-            }
-
             if (this.pauseButton.input.pointerOver())
             {
                 return;
@@ -3479,14 +3488,15 @@ class Play extends GameState
         this.save();
     }
 
-    shouldDrag()
+    canScroll()
     {
-        return (this.level.hasOwnProperty('dragMap') && this.level.dragMap === true) ;
+        return (this.level.hasOwnProperty('mapScroll') && this.level.mapScroll === true) ;
     }
 
+    /*
     handleDrag()
     {
-        if (!this.shouldDrag())
+        if (!this.canScroll())
         {
             return false;
         }
@@ -3521,6 +3531,7 @@ class Play extends GameState
         );
         return (distanceFromLastUp !== 0);
     }
+    */
 
     introductionComplete()
     {

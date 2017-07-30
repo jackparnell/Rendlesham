@@ -20,7 +20,8 @@ class Zone extends GameState
         this.game.kineticScrolling.configure({
             kineticMovement: false,
             verticalScroll: true,
-            verticalWheel: true
+            verticalWheel: false,
+            horizontalWheel: false
         });
 
         this.keyInput = '';
