@@ -693,6 +693,8 @@ class Play extends GameState
             );
             this.pausedText.anchor.set(0.5, 0.5);
         }
+
+        this.closeTowerPlacementView(false);
     }
 
     unpause()
@@ -2640,8 +2642,8 @@ class Play extends GameState
         {
             this.graphics.destroy();
         }
-        this.closeTowerInfo();
-        this.closeTowerPlacementView();
+        this.closeTowerInfo(false);
+        this.closeTowerPlacementView(false);
 
         this.pause(false);
 
@@ -3042,6 +3044,8 @@ class Play extends GameState
 
     closeTowerPlacementView(useTween = true)
     {
+        console.log(useTween);
+
         this.currentGridPosition = {};
 
         let buttonsToDestroy = [];
