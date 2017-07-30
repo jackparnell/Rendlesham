@@ -591,7 +591,7 @@ class Play extends GameState
 
         y += this[notificationsArrayName].length * 15;
 
-        let x = this[xCoordinateName] + 10 + this.game.camera.x;
+        let x = this[xCoordinateName] + 11 + this.game.camera.x;
 
         this[textName] = this.game.add.bitmapText(x, y, this.game.globals.bitmapFontName, changeText, 16);
 
@@ -2710,7 +2710,7 @@ class Play extends GameState
 
     }
 
-    openTowerInfo(tower)
+    openTowerInfo(tower, useTween = true)
     {
 
         if (this.towerInfoOpen)
@@ -2804,11 +2804,19 @@ class Play extends GameState
             }
         }
 
-        this.upgradeTowerButton.scale.setTo(.1, .1);
-        this.game.add.tween(this.upgradeTowerButton.scale).to({ x: buttonDisplayScale, y: buttonDisplayScale }, this.buttonTweenInMs, Phaser.Easing.Back.Out, true, 0);
+        if (useTween)
+        {
+            this.upgradeTowerButton.scale.setTo(.1, .1);
+            this.game.add.tween(this.upgradeTowerButton.scale).to({ x: buttonDisplayScale, y: buttonDisplayScale }, this.buttonTweenInMs, Phaser.Easing.Back.Out, true, 0);
+            this.sellTowerButton.scale.setTo(.1, .1);
+            this.game.add.tween(this.sellTowerButton.scale).to({ x: buttonDisplayScale, y: buttonDisplayScale }, this.buttonTweenInMs, Phaser.Easing.Back.Out, true, 0);
+        }
+        else
+        {
+            this.upgradeTowerButton.scale.setTo(buttonDisplayScale, buttonDisplayScale);
+            this.sellTowerButton.scale.setTo(buttonDisplayScale, buttonDisplayScale);
+        }
 
-        this.sellTowerButton.scale.setTo(.1, .1);
-        this.game.add.tween(this.sellTowerButton.scale).to({ x: buttonDisplayScale, y: buttonDisplayScale }, this.buttonTweenInMs, Phaser.Easing.Back.Out, true, 0);
 
     }
 
@@ -2859,22 +2867,22 @@ class Play extends GameState
         this.refreshTowerInfo();
     }
 
-    refreshTowerInfo()
+    refreshTowerInfo(useTween = true)
     {
         let tower = this.currentTower;
         this.closeTowerInfo();
-        this.openTowerInfo(tower);
+        this.openTowerInfo(tower, useTween);
     }
 
     refreshTowerInfoIfOpen()
     {
         if (this.towerInfoOpen)
         {
-            this.refreshTowerInfo();
+            this.refreshTowerInfo(false);
         }
     }
 
-    openTowerPlacementView(x, y, coordinateType)
+    openTowerPlacementView(x, y, coordinateType, useTween = true)
     {
         if (this.towerPlacementViewOpen)
         {
@@ -2956,9 +2964,16 @@ class Play extends GameState
             this[backdropButtonName].inputEnabled = true;
             this[backdropButtonName].alpha = .5;
             this[backdropButtonName].anchor.set(0.5, 0.5);
-            this[backdropButtonName].scale.setTo(.1, .1);
 
-            this.game.add.tween(this[backdropButtonName].scale).to({ x: 1.5, y: 1.5 }, this.buttonTweenInMs, Phaser.Easing.Back.Out, true, 0);
+            if (useTween)
+            {
+                this[backdropButtonName].scale.setTo(.1, .1);
+                this.game.add.tween(this[backdropButtonName].scale).to({ x: 1.5, y: 1.5 }, this.buttonTweenInMs, Phaser.Easing.Back.Out, true, 0);
+            }
+            else
+            {
+                this[backdropButtonName].scale.setTo(1.5, 1.5);
+            }
 
             // Backdrop button end
 
@@ -2990,9 +3005,15 @@ class Play extends GameState
 
             this[textInfoName].x = this[textInfoName].x - (this[textInfoName].width * .5);
 
-            this[buttonName].scale.setTo(.1, .1);
-            this.game.add.tween(this[buttonName].scale).to({ x: .75, y: .75 }, this.buttonTweenInMs, Phaser.Easing.Back.Out, true, 0);
-
+            if (useTween)
+            {
+                this[buttonName].scale.setTo(.1, .1);
+                this.game.add.tween(this[buttonName].scale).to({ x: .75, y: .75 }, this.buttonTweenInMs, Phaser.Easing.Back.Out, true, 0);
+            }
+            else
+            {
+                this[buttonName].scale.setTo(.75, .75);
+            }
             // Sprite-based button and cost text end
 
             if (this.coins < cost)
@@ -3054,7 +3075,7 @@ class Play extends GameState
         this.towerPlacementViewOpen = false;
     }
 
-    refreshTowerPlacementView()
+    refreshTowerPlacementView(useTween = true)
     {
         if (!this.currentGridPosition || !this.currentGridPosition.x || !this.currentGridPosition.y)
         {
@@ -3065,7 +3086,7 @@ class Play extends GameState
         let y = this.currentGridPosition.y;
 
         this.closeTowerPlacementView();
-        this.openTowerPlacementView(x, y, 'pixels');
+        this.openTowerPlacementView(x, y, 'pixels', useTween);
 
         return true;
     }
@@ -3074,7 +3095,7 @@ class Play extends GameState
     {
         if (this.towerPlacementViewOpen)
         {
-            this.refreshTowerPlacementView();
+            this.refreshTowerPlacementView(false);
         }
     }
 
