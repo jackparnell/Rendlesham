@@ -106,14 +106,11 @@ class Zone extends GameState
             16: {
                 x: this.game.width * .85,
                 y: this.game.height * 1.05
+            },
+            17: {
+                x: this.game.width * .925,
+                y: this.game.height * 1.3
             }
-            /*
-             ,
-             17: {
-             x: game.width * .925,
-             y: game.height * 1.3
-             }
-             */
         };
 
         this.lastLevel = Object.keys(this.zone.LEVEL_ORDERING).length;

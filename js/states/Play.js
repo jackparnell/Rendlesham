@@ -1531,6 +1531,36 @@ class Play extends GameState
         this.addUserInterfaceButtons();
 
 
+        if (typeof this.level.begin === 'function')
+        {
+            this.level.begin();
+        }
+
+        // Set coins to the startingCoins value from the level
+        this.coins = this.level.startingCoins;
+        this.updateCoins();
+
+        // Set lives to the startingLives value from the level
+        this.lives = this.level.startingLives;
+        this.updateLives();
+
+        this.score = 0;
+        this.updateScore();
+
+        this.startingObstaclesWithCoinsValue = this.countObstaclesWithCoinsValue();
+
+        if (typeof this.level.introduction === 'function')
+        {
+            this.level.introduction();
+        }
+        else
+        {
+            this.scheduleLevelEvents();
+        }
+    }
+
+    scheduleLevelEvents()
+    {
         // Begin level wave scheduling
         let s = 0;
         let waveNumber = 0;
@@ -1599,24 +1629,6 @@ class Play extends GameState
             );
         }
         // End level wave scheduling
-
-        if (typeof this.level.begin === 'function')
-        {
-            this.level.begin();
-        }
-
-        // Set coins to the startingCoins value from the level
-        this.coins = this.level.startingCoins;
-        this.updateCoins();
-
-        // Set lives to the startingLives value from the level
-        this.lives = this.level.startingLives;
-        this.updateLives();
-
-        this.score = 0;
-        this.updateScore();
-
-        this.startingObstaclesWithCoinsValue = this.countObstaclesWithCoinsValue();
     }
 
     scheduleWaveEvents(wave, waveNumber, s)
@@ -3044,8 +3056,6 @@ class Play extends GameState
 
     closeTowerPlacementView(useTween = true)
     {
-        console.log(useTween);
-
         this.currentGridPosition = {};
 
         let buttonsToDestroy = [];
@@ -3510,5 +3520,10 @@ class Play extends GameState
             this.game.input.activePointer.y
         );
         return (distanceFromLastUp !== 0);
+    }
+
+    introductionComplete()
+    {
+        this.scheduleLevelEvents();
     }
 }

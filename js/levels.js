@@ -17,7 +17,8 @@ const ZONE_INFO = {
             13: 'kingsLynn',
             14: 'pumpkinPatch',
             15: 'shouldhamWarren',
-            16: 'thetfordForest'
+            16: 'thetfordForest',
+            17: 'peddarsWay'
         },
         ZONE_BACKGROUND_FILENAME: 'eastAnglia',
         LEVEL_BUTTON_GRAPHIC: 'ufo',
@@ -1996,6 +1997,154 @@ var thetfordForest = {
     canPlaceTowerOnPathway: true,
     distinctWaves: true,
     previousLevelName: 'shouldhamWarren'
+};
+
+var peddarsWay = {
+    name: 'peddarsWay',
+    mapName: 'peddarsWay',
+    title: 'Peddars Way',
+    waveInfo: {
+        wave1: {
+            duration: 25,
+            attacks: [
+                {
+                    className: 'Aquila',
+                    duration: 20,
+                    gap: 1.25,
+                    delay: 1
+                }
+            ]
+        },
+        wave2: {
+            duration: 24,
+            attacks: [
+                {
+                    className: 'Aquila',
+                    duration: 10,
+                    gap: 1,
+                    delay: 0
+                },
+                {
+                    className: 'Roger',
+                    duration: 5,
+                    gap: 1,
+                    delay: 10
+                },
+                {
+                    className: 'Aquila',
+                    duration: 5,
+                    gap: 1,
+                    delay: 15
+                }
+            ]
+        },
+        wave3: {
+            duration: 19,
+            attacks: [
+                {
+                    className: 'Dibley',
+                    duration: 14,
+                    gap: 2,
+                    delay: 0
+                },
+                {
+                    className: 'Mib',
+                    duration: 14,
+                    gap: 2,
+                    delay: 1
+                }
+            ]
+        },
+        wave4: {
+            duration: 24,
+            attacks: [
+                {
+                    className: 'Aquila',
+                    duration: 10,
+                    gap: 1,
+                    delay: 0
+                },
+                {
+                    className: 'Mib',
+                    duration: 10,
+                    gap: 1.25,
+                    delay: 10
+                }
+            ]
+        },
+        wave5: {
+            duration: 28,
+            attacks: [
+                {
+                    className: 'Roger',
+                    duration: 10,
+                    gap: 1.2,
+                    delay: 0
+                },
+                {
+                    className: 'Aquila',
+                    duration: 15,
+                    gap: 1,
+                    delay: 10
+                }
+            ]
+        },
+        wave6: {
+            duration: 32,
+            attacks: [
+                {
+                    className: 'Mib',
+                    duration: 30,
+                    gap: 1,
+                    delay: 0
+                }
+            ]
+        }
+
+    },
+    startingCoins: 200,
+    startingLives: 5,
+    entryXGrid: 11,
+    entryYGrid: 0,
+    goalXGrid: 11,
+    goalYGrid: 29,
+    waveHealthCubicA: .03,
+    waveHealthCubicB: .05,
+    waveHealthCubicC: .32,
+    canPlaceTowerOnPathway: false,
+    distinctWaves: true,
+    previousLevelName: 'thetfordForest',
+    dragMap: true,
+    introduction: function()
+    {
+        game.state.states.play.nathan.x = 200;
+        game.state.states.play.nathan.y = 50;
+        game.camera.follow(game.state.states.play.nathan);
+
+        let coordinates = game.state.states.play.translateGridCoordinatesToPixelCoordinates(
+            this.goalXGrid,
+            this.goalYGrid
+        );
+        let x = coordinates[0] + game.state.states.play.halfSquareWidth;
+        let y = coordinates[1] + game.state.states.play.halfSquareWidth;
+
+        game.add.tween(game.state.states.play.nathan).to({x: x, y: y}, 3000, Phaser.Easing.Linear.None, true);
+
+        game.time.events.add(
+            3000,
+            function() {
+                game.camera.follow(null)
+            },
+            this
+        ).autoDestroy = true;
+
+        game.time.events.add(
+            3000,
+            game.state.states.play.introductionComplete,
+            game.state.states.play
+        ).autoDestroy = true;
+
+    }
 };
 
 /*
