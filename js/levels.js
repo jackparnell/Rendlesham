@@ -761,20 +761,20 @@ var worthamLing = {
         }
 
     },
-    pathAdditionalCostTiles: function(attacker) {
-
-        var additionalCostTiles = [];
-
-        if (attacker.incrementalId % 2) {
+    pathAdditionalCostTiles: function(attacker)
+    {
+        let additionalCostTiles = [];
+        if (attacker.incrementalId % 2)
+        {
             additionalCostTiles.push([16, 2, 20]);
             additionalCostTiles.push([5, 2, 20]);
-        } else {
+        }
+        else
+        {
             additionalCostTiles.push([16, 2, 0]);
             additionalCostTiles.push([5, 2, 0]);
         }
-
         return additionalCostTiles;
-
     },
     startingCoins: 200,
     startingLives: 5,
@@ -786,7 +786,8 @@ var worthamLing = {
     waveHealthCubicB: .03,
     waveHealthCubicC: .27,
     towerPlacementForbiddenRows: [0, 11],
-    previousLevelName: 'bartonMills'
+    previousLevelName: 'bartonMills',
+    dragMap: true
 };
 
 var waveneyCrossing = {
@@ -898,20 +899,19 @@ var waveneyCrossing = {
         }
 
     },
-    pathAdditionalCostTiles: function(attacker) {
-
-        var additionalCostTiles = [];
-
+    pathAdditionalCostTiles: function(attacker)
+    {
+        let additionalCostTiles = [];
         if (attacker.incrementalId % 2) {
             additionalCostTiles.push([17, 2, 20]);
             additionalCostTiles.push([4, 2, 20]);
-        } else {
+        }
+        else
+        {
             additionalCostTiles.push([17, 2, 0]);
             additionalCostTiles.push([4, 2, 0]);
         }
-
         return additionalCostTiles;
-
     },
     startingCoins: 200,
     startingLives: 5,
@@ -1042,7 +1042,8 @@ var frozenFen = {
     canPlaceTowerOnPathway: true,
     theme: 'snow',
     distinctWaves: true,
-    previousLevelName: 'waveneyCrossing'
+    previousLevelName: 'waveneyCrossing',
+    dragMap: false
 };
 
 var sandringhamWoods = {

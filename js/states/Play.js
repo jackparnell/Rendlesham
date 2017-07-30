@@ -100,7 +100,14 @@ class Play extends GameState
 
         this.initiateLoops();
 
-        this.game.input.onDown.add(this.userInput, this);
+        if (this.shouldDrag())
+        {
+            this.game.input.onUp.add(this.userInput, this);
+        }
+        else
+        {
+            this.game.input.onDown.add(this.userInput, this);
+        }
 
         this.gameOverBackground = this.game.add.tileSprite(0, 0, this.game.camera.width, this.game.camera.height, 'gameOverBackground');
         this.gameOverBackground.fixedToCamera = true;
@@ -198,6 +205,8 @@ class Play extends GameState
             {
                 this.updateTowerPlacementView();
             }
+
+            this.handleDrag();
 
         }
         catch (err)
@@ -307,50 +316,58 @@ class Play extends GameState
                 break;
         }
 
-        this.titlesYCoordinate = this.game.camera.y + 5;
-        this.valuesYCoordinate = this.game.camera.y + 21;
-        this.notificationYCoordinate = this.game.camera.y + 50;
+        this.titlesYCoordinate = 5;
+        this.valuesYCoordinate = 21;
+        this.notificationYCoordinate = 50;
 
-        this.labelCoinsXCoordinate = this.game.camera.x + 10;
+        this.labelCoinsXCoordinate = 10;
 
         this.labelCoinsTitle = this.game.add.bitmapText(this.labelCoinsXCoordinate, this.titlesYCoordinate, this.game.globals.bitmapFontName, 'Coins', 16);
         this.labelCoinsTitle.tint = titleTint;
+        this.labelCoinsTitle.fixedToCamera = true;
 
         this.labelCoins = this.game.add.bitmapText(this.labelCoinsXCoordinate, this.valuesYCoordinate, this.game.globals.bitmapFontName, this.coins, 28);
         this.labelCoins.tint = valueTint;
+        this.labelCoins.fixedToCamera = true;
         this.labelCoinsNotifications = [];
 
         // Begin lives
-        this.labelLivesXCoordinate = this.game.camera.x + 75;
+        this.labelLivesXCoordinate = 75;
 
         this.labelLivesTitle = this.game.add.bitmapText(this.labelLivesXCoordinate, this.titlesYCoordinate, this.game.globals.bitmapFontName, 'Lives', 16);
         this.labelLivesTitle.tint = titleTint;
+        this.labelLivesTitle.fixedToCamera = true;
 
         this.labelLives = this.game.add.bitmapText(this.labelLivesXCoordinate + 12, this.valuesYCoordinate, this.game.globals.bitmapFontName, this.lives, 28);
         this.labelLives.tint = valueTint;
+        this.labelLives.fixedToCamera = true;
         this.labelLivesNotifications = [];
         // End lives
 
         // Begin score
-        this.labelScoreXCoordinate = this.game.camera.width - 60;
+        this.labelScoreXCoordinate = 600;
 
         this.labelScoreTitle = this.game.add.bitmapText(this.labelScoreXCoordinate, this.titlesYCoordinate, this.game.globals.bitmapFontName, 'Score', 16);
         this.labelScoreTitle.tint = titleTint;
+        this.labelScoreTitle.fixedToCamera = true;
 
         this.labelScore = this.game.add.bitmapText(this.labelScoreXCoordinate + 12, this.valuesYCoordinate, this.game.globals.bitmapFontName, this.score, 28);
         this.labelScore.tint = valueTint;
+        this.labelScore.fixedToCamera = true;
         this.labelScoreNotifications = [];
         // End score
 
 
         // Begin current wave
-        this.labelCurrentWaveXCoordinate = this.labelScoreXCoordinate - 70;
+        this.labelCurrentWaveXCoordinate = this.labelScoreXCoordinate - 60;
 
         this.labelCurrentWaveTitle = this.game.add.bitmapText(this.labelCurrentWaveXCoordinate, this.titlesYCoordinate, this.game.globals.bitmapFontName, 'Wave', 16);
         this.labelCurrentWaveTitle.tint = titleTint;
+        this.labelCurrentWaveTitle.fixedToCamera = true;
 
-        this.labelCurrentWave = this.game.add.bitmapText(this.labelCurrentWaveXCoordinate, this.valuesYCoordinate, this.game.globals.bitmapFontName, this.waveNumber, 28);
+        this.labelCurrentWave = this.game.add.bitmapText(this.labelCurrentWaveXCoordinate - 5, this.valuesYCoordinate, this.game.globals.bitmapFontName, this.waveNumber, 28);
         this.labelCurrentWave.tint = valueTint;
+        this.labelCurrentWave.fixedToCamera = true;
 
         this.updateCurrentWaveLabel();
         // End current wave
@@ -560,11 +577,11 @@ class Play extends GameState
 
         let textName = guid();
 
-        let y = this.notificationYCoordinate;
+        let y = this.notificationYCoordinate + this.game.camera.y;
 
         y += this[notificationsArrayName].length * 15;
 
-        let x = this[xCoordinateName] + 11;
+        let x = this[xCoordinateName] + 11 + this.game.camera.x;
 
         this[textName] = this.game.add.bitmapText(x, y, this.game.globals.bitmapFontName, changeText, 16);
 
@@ -1105,10 +1122,10 @@ class Play extends GameState
         // End score text
 
 
-        this.addButtonTextLink('nextLevelLink', 'Play Next Level', 40, 'forestGreen', 0, game.height * .7, 'center', 'nextLevel');
+        this.addButtonTextLink('nextLevelLink', 'Play Next Level', 40, 'forestGreen', 0, this.game.height * .7, 'center', 'nextLevel');
 
-        this.addButtonTextLink('exitToTitle', 'Exit to Title', 20, 'smallWideDark', 10, game.camera.height - 42, 'left', 'goToTitleScreen');
-        this.addButtonTextLink('replayLevel', 'Replay Level', 20, 'smallWideDark', 10, game.camera.height - 42, 'right', 'restartLevel');
+        this.addButtonTextLink('exitToTitle', 'Exit to Title', 20, 'smallWideDark', 10, this.game.camera.height - 42, 'left', 'goToTitleScreen');
+        this.addButtonTextLink('replayLevel', 'Replay Level', 20, 'smallWideDark', 10, this.game.camera.height - 42, 'right', 'restartLevel');
     }
 
     nextLevel()
@@ -1135,6 +1152,11 @@ class Play extends GameState
 
         try
         {
+            if (this.isDrag())
+            {
+                return false;
+            }
+
             if (this.pauseButton.input.pointerOver())
             {
                 return;
@@ -3364,4 +3386,46 @@ class Play extends GameState
         this.save();
     }
 
+    shouldDrag()
+    {
+        return (this.level.hasOwnProperty('dragMap') && this.level.dragMap === true) ;
+    }
+
+    handleDrag()
+    {
+        if (!this.shouldDrag())
+        {
+            return false;
+        }
+
+        // Based on forum post at http://www.html5gamedevs.com/topic/9814-move-camera-by-dragging-the-world-floor/
+        if (this.game.input.activePointer.isDown)
+        {
+            if (this.game.origDragPoint)
+            {
+                // move the camera by the amount the mouse has moved since last update
+                this.game.camera.x += this.game.origDragPoint.x - this.game.input.activePointer.position.x;
+                this.game.camera.y += this.game.origDragPoint.y - this.game.input.activePointer.position.y;
+            }
+            // set new drag origin to current position
+            this.game.origDragPoint = this.game.input.activePointer.position.clone();
+        }
+        else
+        {
+            this.game.origDragPoint = null;
+        }
+
+        return true;
+    }
+
+    isDrag() {
+        // Based on forum post at http://www.html5gamedevs.com/topic/7879-how-to-differentiate-between-click-and-drag/
+        let distanceFromLastUp = Phaser.Math.distance(
+            this.game.input.activePointer.positionDown.x,
+            this.game.input.activePointer.positionDown.y,
+            this.game.input.activePointer.x,
+            this.game.input.activePointer.y
+        );
+        return (distanceFromLastUp !== 0);
+    }
 }
