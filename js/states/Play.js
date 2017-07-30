@@ -318,7 +318,7 @@ class Play extends GameState
 
         this.titlesYCoordinate = 5;
         this.valuesYCoordinate = 21;
-        this.notificationYCoordinate = 50;
+        this.notificationYCoordinate = 63;
 
         this.labelCoinsXCoordinate = 10;
 
@@ -394,8 +394,7 @@ class Play extends GameState
             return false;
         }
 
-        let previousCoins = this.coins;
-
+        this.previousCoins = this.coins;
         this.coins += amount;
 
         let displayAmount = amount;
@@ -408,11 +407,11 @@ class Play extends GameState
         this.notification('coins', displayAmount, notificationSpawnX, notificationSpawnY);
 
         if (
-            previousCoins < 50 && this.coins >= 50
+            this.previousCoins < 50 && this.coins >= 50
             ||
-            previousCoins < 100 && this.coins >= 100
+            this.previousCoins < 100 && this.coins >= 100
             ||
-            previousCoins < 150 && this.coins >= 150
+            this.previousCoins < 150 && this.coins >= 150
         ) {
             this.refreshTowerInfoIfOpen();
             this.refreshTowerPlacementViewIfOpen();
@@ -422,19 +421,24 @@ class Play extends GameState
 
     updateCoins()
     {
-        if (this.coins >= 100)
+        if (this.hasOwnProperty('previousCoins') && this.previousCoins.toString().length !== this.coins.toString().length)
         {
-            this.labelCoins.x = this.labelCoinsXCoordinate;
+            this.labelCoins.fixedToCamera = false;
+            if (this.coins >= 100)
+            {
+                this.labelCoins.x = this.labelCoinsXCoordinate;
+            }
+            else if (this.coins >= 10)
+            {
+                this.labelCoins.x = this.labelCoinsXCoordinate + 6;
+            }
+            else
+            {
+                this.labelCoins.x = this.labelCoinsXCoordinate + 12;
+            }
+            this.labelCoins.y = this.valuesYCoordinate;
+            this.labelCoins.fixedToCamera = true;
         }
-        else if (this.coins >= 10)
-        {
-            this.labelCoins.x = this.labelCoinsXCoordinate + 6;
-        }
-        else
-        {
-            this.labelCoins.x = this.labelCoinsXCoordinate + 12;
-        }
-
         this.labelCoins.setText(this.coins);
     }
 
@@ -445,23 +449,28 @@ class Play extends GameState
 
     updateScore()
     {
-        if (this.score >= 1000)
+        if (this.hasOwnProperty('previousScore') && this.previousScore.toString().length !== this.score.toString().length)
         {
-            this.labelScore.x = this.labelScoreXCoordinate - 6;
+            this.labelScore.fixedToCamera = false;
+            if (this.score >= 1000)
+            {
+                this.labelScore.x = this.labelScoreXCoordinate - 6;
+            }
+            else if (this.score >= 100)
+            {
+                this.labelScore.x = this.labelScoreXCoordinate;
+            }
+            else if (this.score >= 10)
+            {
+                this.labelScore.x = this.labelScoreXCoordinate + 6;
+            }
+            else
+            {
+                this.labelScore.x = this.labelScoreXCoordinate + 12;
+            }
+            this.labelScore.y = this.valuesYCoordinate;
+            this.labelScore.fixedToCamera = true;
         }
-        else if (this.score >= 100)
-        {
-            this.labelScore.x = this.labelScoreXCoordinate;
-        }
-        else if (this.score >= 10)
-        {
-            this.labelScore.x = this.labelScoreXCoordinate + 6;
-        }
-        else
-        {
-            this.labelScore.x = this.labelScoreXCoordinate + 12;
-        }
-
         this.labelScore.setText(this.score);
     }
 
@@ -540,6 +549,7 @@ class Play extends GameState
         {
             return false;
         }
+        this.previousScore = this.score;
         this.score += amount;
 
         let displayAmount = amount;
@@ -581,7 +591,7 @@ class Play extends GameState
 
         y += this[notificationsArrayName].length * 15;
 
-        let x = this[xCoordinateName] + 11 + this.game.camera.x;
+        let x = this[xCoordinateName] + 10 + this.game.camera.x;
 
         this[textName] = this.game.add.bitmapText(x, y, this.game.globals.bitmapFontName, changeText, 16);
 
