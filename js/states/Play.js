@@ -106,14 +106,15 @@ class Play extends GameState
 
             this.game.kineticScrolling = this.game.plugins.add(Phaser.Plugin.KineticScrolling);
 
-            let verticalWheel = this.level.verticalScroll;
-            let horizontalWheel = this.level.horizontalScroll;
+            let verticalScroll = this.level.verticalScroll;
+            let horizontalScroll = this.level.horizontalScroll;
 
             this.game.kineticScrolling.configure({
                 kineticMovement: false,
-                verticalScroll: true,
-                verticalWheel: verticalWheel,
-                horizontalWheel: horizontalWheel
+                verticalScroll: verticalScroll,
+                horizontalMovement: horizontalScroll,
+                verticalWheel: verticalScroll,
+                horizontalWheel: horizontalScroll
             });
 
             this.game.kineticScrolling.start();
