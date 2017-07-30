@@ -3122,7 +3122,7 @@ class Play extends GameState
         let x = this.currentGridPosition.x;
         let y = this.currentGridPosition.y;
 
-        this.closeTowerPlacementView();
+        this.closeTowerPlacementView(false);
         this.openTowerPlacementView(x, y, 'pixels', useTween);
 
         return true;
