@@ -2000,6 +2000,7 @@ var thetfordForest = {
 };
 
 var peddarsWay = {
+    game,
     name: 'peddarsWay',
     mapName: 'peddarsWay',
     title: 'Peddars Way',
@@ -2117,31 +2118,31 @@ var peddarsWay = {
     dragMap: true,
     introduction: function()
     {
-        game.state.states.play.nathan.x = 200;
-        game.state.states.play.nathan.y = 50;
-        game.camera.follow(game.state.states.play.nathan);
+        this.game.state.states.play.nathan.x = 200;
+        this.game.state.states.play.nathan.y = 50;
+        this.game.camera.follow(this.game.state.states.play.nathan);
 
-        let coordinates = game.state.states.play.translateGridCoordinatesToPixelCoordinates(
+        let coordinates = this.game.state.states.play.translateGridCoordinatesToPixelCoordinates(
             this.goalXGrid,
             this.goalYGrid
         );
-        let x = coordinates[0] + game.state.states.play.halfSquareWidth;
-        let y = coordinates[1] + game.state.states.play.halfSquareWidth;
+        let x = coordinates[0] + this.game.state.states.play.halfSquareWidth;
+        let y = coordinates[1] + this.game.state.states.play.halfSquareWidth;
 
-        game.add.tween(game.state.states.play.nathan).to({x: x, y: y}, 3000, Phaser.Easing.Linear.None, true);
+        this.game.add.tween(this.game.state.states.play.nathan).to({x: x, y: y}, 3000, Phaser.Easing.Linear.None, true);
 
-        game.time.events.add(
+        this.game.time.events.add(
             3000,
             function() {
-                game.camera.follow(null)
+                this.game.camera.follow(null)
             },
             this
         ).autoDestroy = true;
 
-        game.time.events.add(
+        this.game.time.events.add(
             3000,
-            game.state.states.play.introductionComplete,
-            game.state.states.play
+            this.game.state.states.play.introductionComplete,
+            this.game.state.states.play
         ).autoDestroy = true;
 
     }
