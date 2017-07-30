@@ -206,7 +206,7 @@ class Attacker extends GameSprite
         this.fadeOutTween = this.game.add.tween(this).to( { alpha: 0 }, 200, Phaser.Easing.Linear.None, true, 0, 1000, true);
 
         // Die in 200 ms
-        timerEvents.push(this.game.time.events.add(Phaser.Timer.SECOND * .2, this.die, this));
+        this.game.timerEvents.push(this.game.time.events.add(Phaser.Timer.SECOND * .2, this.die, this));
 
         this.reachedGoalProcessed = true;
     }

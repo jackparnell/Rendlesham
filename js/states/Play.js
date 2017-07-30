@@ -1,6 +1,3 @@
-var map;
-var layer;
-var timerEvents = [];
 var wouldObstaclePlacementBlockPathResult;
 
 class Play extends GameState
@@ -65,6 +62,8 @@ class Play extends GameState
         this.keyInput = '';
         this.quickTweenMs = 200;
         this.quickTweenFromScale = .1;
+
+        this.game.timerEvents = [];
 
         window.onkeydown = function()
         {
@@ -766,7 +765,7 @@ class Play extends GameState
             seconds = 0.05;
         }
 
-        timerEvents.push(
+        this.game.timerEvents.push(
             this.game.time.events.add(
                 Phaser.Timer.SECOND * seconds,
                 this.spawnAttacker,
@@ -1604,7 +1603,7 @@ class Play extends GameState
 
         if (this.level.distinctWaves)
         {
-            timerEvents.push(
+            this.game.timerEvents.push(
                 this.game.time.events.add(
                     Phaser.Timer.SECOND * 1.5,
                     this.startWave,
@@ -1619,7 +1618,7 @@ class Play extends GameState
             {
                 waveNumber ++;
 
-                timerEvents.push(
+                this.game.timerEvents.push(
                     this.game.time.events.add(
                         Phaser.Timer.SECOND * s,
                         this.startWave,
@@ -1630,7 +1629,7 @@ class Play extends GameState
 
                 s += this.level.waveInfo[wave].duration;
             }
-            timerEvents.push(
+            this.game.timerEvents.push(
                 this.game.time.events.add(
                     Phaser.Timer.SECOND * s,
                     this.lastWaveDispatched,
@@ -1645,7 +1644,7 @@ class Play extends GameState
     {
         if (!this.distinctWaves)
         {
-            timerEvents.push(
+            this.game.timerEvents.push(
                 this.game.time.events.add(
                     Phaser.Timer.SECOND * s,
                     this.startWave,
@@ -1684,7 +1683,7 @@ class Play extends GameState
             }, this);
         }
 
-        timerEvents.push(
+        this.game.timerEvents.push(
             this.game.time.events.add(
                 Phaser.Timer.SECOND * (s+lastAttackerOfWaveSeconds),
                 this.lastWaveAttackerDispatched,
@@ -1694,7 +1693,7 @@ class Play extends GameState
 
         if (this.totalWaves === waveNumber)
         {
-            timerEvents.push(
+            this.game.timerEvents.push(
                 this.game.time.events.add(
                     Phaser.Timer.SECOND * (s+lastAttackerOfWaveSeconds),
                     this.lastWaveDispatched,
@@ -1803,12 +1802,6 @@ class Play extends GameState
 
     clearTimedEvents()
     {
-        /*
-        for (let i = 0; i < timerEvents.length; i++)
-        {
-            game.time.events.remove(timerEvents[i]);
-        }
-        */
         this.game.time.removeAll();
     }
 
@@ -2128,7 +2121,7 @@ class Play extends GameState
         if (this.level.distinctWaves)
         {
             let nextWaveNumber = waveNumber + 1;
-            timerEvents.push(
+            this.game.timerEvents.push(
                 this.game.time.events.add(
                     Phaser.Timer.SECOND * 1.5,
                     this.startWave,
