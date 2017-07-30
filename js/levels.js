@@ -17,8 +17,7 @@ const ZONE_INFO = {
             13: 'kingsLynn',
             14: 'pumpkinPatch',
             15: 'shouldhamWarren',
-            16: 'thetfordForest',
-            17: 'peddarsWay'
+            16: 'thetfordForest'
         },
         ZONE_BACKGROUND_FILENAME: 'eastAnglia',
         LEVEL_BUTTON_GRAPHIC: 'ufo',
@@ -1999,6 +1998,7 @@ var thetfordForest = {
     previousLevelName: 'shouldhamWarren'
 };
 
+/*
 var peddarsWay = {
     game,
     name: 'peddarsWay',
@@ -2157,7 +2157,7 @@ var peddarsWay = {
     }
 };
 
-/*
+
 var helhoughton = {
     name: 'helhoughton',
     mapName: 'helhoughton',
