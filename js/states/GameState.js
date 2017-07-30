@@ -107,7 +107,7 @@ class GameState extends Phaser.State
     {
         let buttonName = name + 'Button';
 
-        this[buttonName] = game.add.button(
+        this[buttonName] = this.game.add.button(
             0,
             y,
             buttonImage,
@@ -116,11 +116,16 @@ class GameState extends Phaser.State
         );
         this.linkBackgrounds.add(this[buttonName]);
 
-        if (horizontal === 'right') {
-            x = game.camera.width - this[buttonName].width - x;
-        } else if (horizontal === 'center') {
-            x = (game.camera.width * .5) - (this[buttonName].width * .5);
-        } else if (horizontal === 'left') {
+        if (horizontal === 'right')
+        {
+            x = this.game.width - this[buttonName].width - x;
+        }
+        else if (horizontal === 'center')
+        {
+            x = (this.game.width * .5) - (this[buttonName].width * .5);
+        }
+        else if (horizontal === 'left')
+        {
             // Do nothing
         }
 
@@ -128,7 +133,7 @@ class GameState extends Phaser.State
 
         this[buttonName].fixedToCamera = true;
 
-        this[name] = game.add.bitmapText(
+        this[name] = this.game.add.bitmapText(
             0,
             0,
             this.game.globals.bitmapFontName,

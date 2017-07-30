@@ -2665,6 +2665,7 @@ class Play extends GameState
         }
         this.closeTowerInfo(false);
         this.closeTowerPlacementView(false);
+        this.game.kineticScrolling.stop();
 
         this.pause(false);
 
@@ -2698,6 +2699,8 @@ class Play extends GameState
 
         this.pauseScreenOpen = false;
 
+        this.game.kineticScrolling.start();
+
         this.unpause();
     }
 
@@ -2709,7 +2712,7 @@ class Play extends GameState
             levelNumber: this.levelId,
             mode: this.mode
         };
-        game.state.start('play', true, true, obj);
+        this.game.state.start('play', true, true, obj);
     }
 
     goToTitleScreen()
@@ -2863,7 +2866,6 @@ class Play extends GameState
                 }
             }, this);
         }
-
 
         let textToDestroy = ['upgradeTowerText', 'sellTowerText'];
 
