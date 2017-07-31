@@ -2644,8 +2644,6 @@ class Play extends GameState
         this.closeTowerPlacementView(false);
         this.game.kineticScrolling.stop();
 
-        this.pause(false);
-
         this.pauseScreenOpen = true;
 
         this.gameOverBackground.alpha = .5;
@@ -2655,6 +2653,16 @@ class Play extends GameState
         this.addButtonTextLink('restart', 'Restart Level', 46, 'forestGreen', 0, this.game.height * .46, 'center', 'restartLevel');
 
         this.addButtonTextLink('exit', 'Exit', 46, 'forestGreen', 0, this.game.height * .71, 'center', 'goToTitleScreen');
+
+        // Slightly delay actual pausing as the fixedToCamera/cameraOffset stuff in addButtonTextLink() doesn't work when paused.
+        this.game.timerEvents.push(
+            this.game.time.events.add(
+                Phaser.Timer.SECOND * 0.05,
+                this.pause,
+                this,
+                false
+            ).autoDestroy = true
+        );
 
         return true;
     }

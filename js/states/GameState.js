@@ -105,11 +105,12 @@ class GameState extends Phaser.State
 
     addButtonTextLink(name, text, fontSize, buttonImage, x, y, horizontal, clickFunctionName, textColor = 0xFFFFFF)
     {
+        // Begin button
         let buttonName = name + 'Button';
 
         this[buttonName] = this.game.add.button(
             0,
-            y,
+            0,
             buttonImage,
             this[clickFunctionName],
             this
@@ -124,15 +125,12 @@ class GameState extends Phaser.State
         {
             x = (this.game.width * .5) - (this[buttonName].width * .5);
         }
-        else if (horizontal === 'left')
-        {
-            // Do nothing
-        }
-
-        this[buttonName].x = x;
 
         this[buttonName].fixedToCamera = true;
+        this[buttonName].cameraOffset.setTo(x, y);
+        // End button
 
+        // Begin text
         this[name] = this.game.add.bitmapText(
             0,
             0,
@@ -144,12 +142,15 @@ class GameState extends Phaser.State
         this[name].tint = textColor;
 
         let xOffset = (this[buttonName].width - this[name].width) * .5;
-        this[name].x = this[buttonName].x + xOffset;
+        x = this[buttonName].cameraOffset.x + xOffset;
 
         let yOffset = (this[buttonName].height - this[name].height) * .38;
-        this[name].y = this[buttonName].y + yOffset;
+        y = this[buttonName].cameraOffset.y + yOffset;
 
         this[name].fixedToCamera = true;
+        this[name].cameraOffset.setTo(x, y);
+        // End text
+
     }
 
     goToTitleScreen()
@@ -416,7 +417,6 @@ class GameState extends Phaser.State
         if (this.user.objectsSeen.indexOf(className) === -1)
         {
             this.user.objectsSeen.push(className);
-            console.log(className);
         }
     }
 
