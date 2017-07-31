@@ -387,13 +387,16 @@ class Attacker extends GameSprite
 
     untarget()
     {
-        this.targeted = false;
+        if (!this.targeted)
+        {
+            return;
+        }
 
+        this.targeted = false;
         if (this.game.target.guid && this.guid === this.game.target.guid)
         {
             this.game.state.states.play.noTarget();
         }
-
         if (this.crosshair)
         {
             this.crosshair.kill();

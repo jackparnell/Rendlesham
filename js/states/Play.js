@@ -288,7 +288,6 @@ class Play extends GameState
     removeNotification(containerArrayName, guid)
     {
         let index = this[containerArrayName].indexOf(guid);
-
         if (index > -1)
         {
             this[containerArrayName].splice(index, 1);
@@ -370,7 +369,6 @@ class Play extends GameState
         this.labelScoreNotifications = [];
         // End score
 
-
         // Begin current wave
         this.labelCurrentWaveXCoordinate = this.labelScoreXCoordinate - 60;
 
@@ -429,7 +427,6 @@ class Play extends GameState
             this.refreshTowerInfoIfOpen();
             this.refreshTowerPlacementViewIfOpen();
         }
-
     }
 
     updateCoins()
@@ -521,7 +518,6 @@ class Play extends GameState
         }
 
         this.labelCurrentWave.setText(currentWaveText);
-
     }
 
     changeLives(amount, notificationSpawnX, notificationSpawnY)
@@ -843,7 +839,6 @@ class Play extends GameState
 
     spawnCharacter(className, x, y, coordinateType)
     {
-
         if (coordinateType && coordinateType === 'grid')
         {
             let coordinates = this.translateGridCoordinatesToPixelCoordinates(x, y);
@@ -890,7 +885,6 @@ class Play extends GameState
 
     spawnExplosion(x, y, tint, angle)
     {
-
         let obj;
         let group = this.explosions;
 
@@ -994,18 +988,15 @@ class Play extends GameState
 
     checkLevelCompleted()
     {
-        if (typeof this.level.completed === 'function') {
+        if (typeof this.level.completed === 'function')
+        {
             return this.level.completed();
         }
-
-        if (!this.allAttackersDispatched) {
+        if (!this.allAttackersDispatched)
+        {
             return false;
         }
-        if (this.attackers.countLiving() >= 1) {
-            return false;
-        }
-
-        return true;
+        return !(this.attackers.countLiving() >= 1);
     }
 
     levelCompleted()
@@ -1018,10 +1009,12 @@ class Play extends GameState
         this.user.levelsComplete[this.levelId] = true;
         this.user.levelsComplete[this.level.name] = true;
 
-        if (!this.user.levelCompletions) {
+        if (!this.user.levelCompletions)
+        {
             this.user.levelCompletions = {};
         }
-        if (!this.user.levelCompletions[this.mode]) {
+        if (!this.user.levelCompletions[this.mode])
+        {
             this.user.levelCompletions[this.mode] = {};
         }
         this.user.levelCompletions[this.mode][this.level.name] = true;
@@ -1343,13 +1336,7 @@ class Play extends GameState
             }
         }
 
-
-        if (this.wouldObstaclePlacementBlockPath(x, y, 'pixels'))
-        {
-            return false;
-        }
-
-        return true;
+        return !(this.wouldObstaclePlacementBlockPath(x, y, 'pixels'));
     }
 
     isTowerUpgradeAppropriateAtPosition(x, y)
@@ -1370,12 +1357,7 @@ class Play extends GameState
         {
             return false;
         }
-        if (y < this.game.camera.y || y >= this.game.height + this.game.camera.y)
-        {
-            return false;
-        }
-
-        return true;
+        return !(y < this.game.camera.y || y >= this.game.height + this.game.camera.y);
     }
 
     isPositionOnGrid(x, y)
@@ -1383,17 +1365,11 @@ class Play extends GameState
         let gridCoordinates = this.translatePixelCoordinatesToGridCoordinates(x, y);
         let gridX = gridCoordinates[0];
         let gridY = gridCoordinates[1];
-
         if (gridX > (this.map.width-1))
         {
             return false;
         }
-        if (gridY > (this.map.height-1))
-        {
-            return false;
-        }
-
-        return true;
+        return !(gridY > (this.map.height-1));
     }
 
     /**
@@ -1482,11 +1458,26 @@ class Play extends GameState
         return attackerAtPosition;
     }
 
+    /**
+     * Checks whether a supplied position is on the pathway or not.
+     *
+     * @param x
+     * @param y
+     * @returns {boolean}
+     */
     isPositionOnPathway(x, y)
     {
         return !(this.isPositionOnLayer(x, y, 'collision'));
     }
 
+    /**
+     * Checks whether a supplied position is on a supplied layer or not.
+     *
+     * @param x
+     * @param y
+     * @param {string} layerName
+     * @returns {boolean}
+     */
     isPositionOnLayer(x, y, layerName)
     {
         if (!this.layers[layerName])
@@ -1512,6 +1503,7 @@ class Play extends GameState
     {
         let level = window[ZONE_INFO[this.zoneName].LEVEL_ORDERING[this.levelId]];
         this.initialWavesCount = Object.keys(level.waveInfo).length;
+        // Line below uses jQuery. TODO find a way to do it neatly in vanilla JavaScript.
         this.level = $.extend(true, {}, level);
         return this.level;
     }
@@ -1536,7 +1528,6 @@ class Play extends GameState
         this.positionCamera();
         this.initiateLabels();
         this.addUserInterfaceButtons();
-
 
         if (typeof this.level.begin === 'function')
         {
@@ -1963,6 +1954,12 @@ class Play extends GameState
         }
     }
 
+    /**
+     * Draw a force field with a supplied number of layers around a supplied sprite.
+     *
+     * @param {GameSprite} sprite
+     * @param {int} number
+     */
     drawForceFields(sprite, number)
     {
         if (this.forceFieldGraphics)
@@ -2016,13 +2013,7 @@ class Play extends GameState
         {
             return false;
         }
-
-        if (this.coins < this.currentTower.getUpgradeCost())
-        {
-            return false;
-        }
-
-        return true;
+        return !(this.coins < this.currentTower.getUpgradeCost());
     }
 
     cleanUp()
@@ -2316,21 +2307,13 @@ class Play extends GameState
         return collisionLayer;
     }
 
+    /**
+     * Untarget all sprites.
+     */
     untargetAll()
     {
-        this.attackers.forEachAlive(function(item) {
-            if (item.targeted)
-            {
-                item.untarget();
-            }
-        });
-        this.obstacles.forEachAlive(function(item) {
-            if (item.targeted)
-            {
-                item.untarget();
-            }
-        });
-
+        this.attackers.callAll('untarget');
+        this.obstacles.callAll('untarget');
         this.noTarget();
     }
 
@@ -2372,7 +2355,8 @@ class Play extends GameState
 
     positionCamera()
     {
-        if (!this.map) {
+        if (!this.map)
+        {
             throw 'Map not initiated.';
         }
 
@@ -2771,9 +2755,12 @@ class Play extends GameState
         {
             this.upgradeTowerButton = this.game.add.button(tower.x, tower.y, 'upDark', this.upgradeCurrentTower, this);
 
-            if (this.coinsSufficientToUpgradeCurrentTower()) {
+            if (this.coinsSufficientToUpgradeCurrentTower())
+            {
                 this.upgradeTowerButton.inputEnabled = true;
-            } else {
+            }
+            else
+            {
                 this.upgradeTowerButton.inputEnabled = false;
                 this.upgradeTowerButton.tint = 0x880000;
             }
@@ -2785,7 +2772,6 @@ class Play extends GameState
             this.labelIndicatorMessage.setText('Upgrade or sell tower.');
 
             upgradeTowerTextString = '£' + this.currentTower.getUpgradeCost();
-
         }
         else
         {
@@ -2836,8 +2822,6 @@ class Play extends GameState
             this.upgradeTowerButton.scale.setTo(buttonDisplayScale, buttonDisplayScale);
             this.sellTowerButton.scale.setTo(buttonDisplayScale, buttonDisplayScale);
         }
-
-
     }
 
     closeTowerInfo(useTween = true)
@@ -3475,7 +3459,6 @@ class Play extends GameState
 
         // The fireRate property of weapons needs updating for all towers.
         this.towers.callAll('calculateSpecs');
-
     }
 
     shutdown()
