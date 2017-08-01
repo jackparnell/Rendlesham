@@ -17,7 +17,8 @@ const ZONE_INFO = {
             13: 'kingsLynn',
             14: 'pumpkinPatch',
             15: 'shouldhamWarren',
-            16: 'thetfordForest'
+            16: 'thetfordForest',
+            17: 'peddarsWay'
         },
         ZONE_BACKGROUND_FILENAME: 'eastAnglia',
         LEVEL_BUTTON_GRAPHIC: 'ufo',
@@ -1998,7 +1999,7 @@ var thetfordForest = {
     previousLevelName: 'shouldhamWarren'
 };
 
-/*
+
 var peddarsWay = {
     game,
     name: 'peddarsWay',
@@ -2141,7 +2142,7 @@ var peddarsWay = {
         this.game.add.tween(this.game.state.states.play.nathan).to({x: x, y: y}, 3000, Phaser.Easing.Linear.None, true);
 
         this.game.time.events.add(
-            3000,
+            3500,
             function() {
                 this.game.camera.follow(null)
             },
@@ -2149,7 +2150,7 @@ var peddarsWay = {
         ).autoDestroy = true;
 
         this.game.time.events.add(
-            3000,
+            4000,
             this.game.state.states.play.introductionComplete,
             this.game.state.states.play
         ).autoDestroy = true;
@@ -2157,6 +2158,7 @@ var peddarsWay = {
     }
 };
 
+/*
 
 var helhoughton = {
     name: 'helhoughton',

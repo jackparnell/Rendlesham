@@ -1168,7 +1168,7 @@ class Play extends GameState
 
     userInput()
     {
-        if (this.pauseScreenOpen || this.levelCompletedScreenOpen)
+        if (this.pauseScreenOpen || this.levelCompletedScreenOpen || this.introductionRunning)
         {
             return false;
         }
@@ -1554,6 +1554,7 @@ class Play extends GameState
 
         if (typeof this.level.introduction === 'function')
         {
+            this.introductionRunning = true;
             this.level.introduction();
         }
         else
@@ -1812,6 +1813,11 @@ class Play extends GameState
         }
 
         if (this.pendingLevelCompleted)
+        {
+            return;
+        }
+
+        if (this.introductionRunning)
         {
             return;
         }
@@ -3526,6 +3532,7 @@ class Play extends GameState
 
     introductionComplete()
     {
+        this.introductionRunning = false;
         this.scheduleLevelEvents();
     }
 }
