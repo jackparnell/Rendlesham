@@ -42,6 +42,7 @@ class GameOver extends GameState
         );
         this.capturedText.align = 'center';
         this.capturedText.x = (this.game.width * .5) - (this.capturedText.width * .5);
+        this.capturedText.fixedToCamera = true;
 
         let replayText = 'Try Again';
         let details = 'You were captured by the humans in wave ' + this.waveReached + '.';
@@ -60,6 +61,7 @@ class GameOver extends GameState
         );
         this.detailsText.align = 'center';
         this.detailsText.x = (this.game.width * .5) - (this.detailsText.width * .5);
+        this.detailsText.fixedToCamera = true;
 
         this.addButtonTextLink('retry', replayText, 46, 'forestGreen', 0, this.game.height * .5, 'center', 'tryAgain');
 
