@@ -330,7 +330,7 @@ class Play extends GameState
 
         this.titlesYCoordinate = 5;
         this.valuesYCoordinate = 21;
-        this.notificationYCoordinate = 61;
+        this.notificationYCoordinate = 49;
 
         this.labelCoinsXCoordinate = 10;
 
@@ -593,17 +593,22 @@ class Play extends GameState
             spawnX = this[xCoordinateName];
             spawnY = this.notificationYCoordinate + 100;
         }
+        else
+        {
+            spawnY -= this.game.camera.y;
+        }
 
         let textName = guid();
 
-        let y = this.notificationYCoordinate + this.game.camera.y;
+        let y = this.notificationYCoordinate;
 
         y += this[notificationsArrayName].length * 15;
 
-        let x = this[xCoordinateName] + 11 + this.game.camera.x;
+        let x = this[xCoordinateName] + 10;
 
         this[textName] = this.game.add.bitmapText(x, y, this.game.globals.bitmapFontName, changeText, 16);
 
+        this[textName].fixedToCamera = true;
         this[textName].alpha = 0;
 
         if (changeText >= 1)
@@ -622,7 +627,7 @@ class Play extends GameState
         this[notificationsArrayName].push(textName);
 
         this.game.add.tween(this[textName]).to({alpha: 1}, 100, Phaser.Easing.Linear.None, true);
-        this.game.add.tween(this[textName]).from( { x: spawnX, y: spawnY }, 500, Phaser.Easing.Linear.None, true);
+        this.game.add.tween(this[textName].cameraOffset).from( { x: spawnX, y: spawnY }, 500, Phaser.Easing.Linear.None, true);
 
         this.game.time.events.add(
             Phaser.Timer.SECOND * 2.25,
@@ -667,9 +672,9 @@ class Play extends GameState
                 {
                     let y = Math.round(this.notificationYCoordinate + (i * 15));
                     let text = this[this[notificationArrayName][i]];
-                    if (text.y > y)
+                    if (text.cameraOffset.y > y)
                     {
-                        text.y -= .5;
+                        text.cameraOffset.y -= .5;
                     }
                 }
             }
