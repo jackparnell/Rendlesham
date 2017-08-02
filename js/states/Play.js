@@ -2651,6 +2651,9 @@ class Play extends GameState
         {
             this.graphics.destroy();
         }
+
+        this.destroyAllForceFieldGraphics();
+
         this.closeTowerInfo(false);
         this.closeTowerPlacementView(false);
         this.game.kineticScrolling.stop();
@@ -2696,6 +2699,8 @@ class Play extends GameState
         this.pauseScreenOpen = false;
 
         this.game.kineticScrolling.start();
+
+        this.drawAllForceFieldGraphics();
 
         this.unpause();
     }
@@ -3534,5 +3539,21 @@ class Play extends GameState
     {
         this.introductionRunning = false;
         this.scheduleLevelEvents();
+    }
+
+    destroyAllForceFieldGraphics()
+    {
+        if (this.forceFieldGraphics)
+        {
+            this.forceFieldGraphics.destroy();
+        }
+    }
+
+    drawAllForceFieldGraphics()
+    {
+        if (this.nathan)
+        {
+            this.nathan.drawForceFields();
+        }
     }
 }
