@@ -2104,7 +2104,7 @@ var peddarsWay = {
         }
 
     },
-    startingCoins: 200,
+    startingCoins: 400,
     startingLives: 5,
     entryXGrid: 11,
     entryYGrid: 0,

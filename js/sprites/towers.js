@@ -154,7 +154,7 @@ class Tower extends GameSprite
 
         if (this.game.target.guid)
         {
-            let distanceBetween = game.physics.arcade.distanceBetween(this, this.game.target);
+            let distanceBetween = this.game.physics.arcade.distanceBetween(this, this.game.target);
             if (distanceBetween < this.weapon1.rangeInPixels)
             {
                 target = this.game.target;
@@ -170,13 +170,13 @@ class Tower extends GameSprite
 
         this.game.state.states.play.attackers.forEachAlive(function(item)
         {
-            // If not in camera, don't target
-            if (!item.inCamera)
+            // If not in camera, and level map is not scrollable, don't target
+            if (!item.inCamera && !this.game.state.states.play.canScroll())
             {
                 return;
             }
 
-            let distanceBetween = game.physics.arcade.distanceBetween(this, item);
+            let distanceBetween = this.game.physics.arcade.distanceBetween(this, item);
 
             if (distanceBetween < this.weapon1.rangeInPixels)
             {
