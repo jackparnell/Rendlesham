@@ -497,6 +497,7 @@ class Play extends GameState
             currentWaveText += '/' + this.totalWaves;
         }
 
+        this.labelCurrentWave.fixedToCamera = false;
         if (currentWaveText.length >= 5) {
             this.labelCurrentWave.x = this.labelCurrentWaveXCoordinate - 18;
         }
@@ -516,6 +517,8 @@ class Play extends GameState
         {
             this.labelCurrentWave.x = this.labelCurrentWaveXCoordinate + 8;
         }
+        this.labelCurrentWave.y = this.valuesYCoordinate;
+        this.labelCurrentWave.fixedToCamera = true;
 
         this.labelCurrentWave.setText(currentWaveText);
     }
