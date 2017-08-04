@@ -595,6 +595,7 @@ class Play extends GameState
         }
         else
         {
+            spawnX -= this.game.camera.x;
             spawnY -= this.game.camera.y;
         }
 
