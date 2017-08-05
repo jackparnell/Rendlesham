@@ -135,6 +135,13 @@ class Zone extends GameState
 
             this['level' + i + 'Button'].onDownSound = this.sounds.metalClick;
 
+            this['level' + i + 'Button'].onInputDown.add(
+                this.levelButtonClickEffect,
+                this,
+                0,
+                'level' + i + 'Button'
+            );
+
             if (!this.isLevelUnlocked(i))
             {
                 this['level' + i + 'Button'].tint = 0x333333;
@@ -187,6 +194,13 @@ class Zone extends GameState
 
         this.flashIntoState();
 
+    }
+
+    levelButtonClickEffect(levelButton)
+    {
+        levelButton.x += 2;
+        levelButton.y += 2;
+        levelButton.scale.setTo(.9, .9);
     }
 
     shutdown()
