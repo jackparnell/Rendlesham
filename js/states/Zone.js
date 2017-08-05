@@ -198,9 +198,38 @@ class Zone extends GameState
 
     levelButtonClickEffect(levelButton)
     {
-        levelButton.x += 2;
-        levelButton.y += 2;
-        levelButton.scale.setTo(.9, .9);
+        let scale = .8;
+
+        let originalButtonWidth = levelButton.width;
+        let originalButtonHeight = levelButton.height;
+        let changedButtonWidth = originalButtonWidth * scale;
+        let changedButtonHeight = originalButtonHeight * scale;
+
+        // Tween button scale
+        this.game.add.tween(levelButton.scale).to(
+            {
+                x: scale,
+                y: scale
+            },
+            this.game.globals.fadeOutOfStateMs,
+            Phaser.Easing.Back.Out,
+            true,
+            0
+        );
+
+        // Tween button location
+        let toX = levelButton.x + ((originalButtonWidth - changedButtonWidth) * .5);
+        let toY = levelButton.y + ((originalButtonHeight - changedButtonHeight) * .5);
+        this.game.add.tween(levelButton).to(
+            {
+                x: toX,
+                y: toY
+            },
+            this.game.globals.fadeOutOfStateMs,
+            Phaser.Easing.Back.Out,
+            true,
+            0
+        );
     }
 
     shutdown()
