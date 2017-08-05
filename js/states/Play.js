@@ -280,7 +280,10 @@ class Play extends GameState
 
         // game.time.events.loop(9000, this.cleanUp, this);
 
-        this.game.time.events.loop(5000, this.positionCamera, this);
+        if (!this.canScroll())
+        {
+            this.game.time.events.loop(6000, this.positionCamera, this);
+        }
 
         this.loopsInitiated = true;
     }
