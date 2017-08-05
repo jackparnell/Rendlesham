@@ -205,6 +205,12 @@ class GameState extends Phaser.State
         this[name].fixedToCamera = true;
     }
 
+    buttonTextLinkAddProperty(name, key, value)
+    {
+        this[name][key] = value;
+        this[name + 'Button'][key] = value;
+    }
+
     goToTitleScreen()
     {
         this.game.camera.onFadeComplete.removeAll(this);

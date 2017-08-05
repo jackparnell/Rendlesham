@@ -36,7 +36,8 @@ class LevelOptions extends GameState
         );
         this.titleText.x = (this.game.width * .5) - (this.titleText.width * .5);
 
-        this.addButtonTextLink('playClassicLink', 'Play Classic Mode', 36, 'forestGreen', 0, this.game.height * .27, 'center', 'playClassic');
+        this.addButtonTextLink('playClassicLink', 'Play Classic Mode', 36, 'forestGreen', 0, this.game.height * .27, 'center', 'clickMode');
+        this.buttonTextLinkAddProperty('playClassicLink', 'modeName', 'classic');
 
         let modes = ['classic', 'epic', 'endless'];
         let highScoreInfo;
@@ -86,7 +87,8 @@ class LevelOptions extends GameState
 
         if (this.isLevelUnlocked(this.levelNumber, 'epic'))
         {
-            this.addButtonTextLink('playEpicLink', 'Play Epic Mode', 36, 'forestGreen', 0, this.game.height * .515, 'center', 'playEpic');
+            this.addButtonTextLink('playEpicLink', 'Play Epic Mode', 36, 'forestGreen', 0, this.game.height * .515, 'center', 'clickMode');
+            this.buttonTextLinkAddProperty('playEpicLink', 'modeName', 'epic');
         }
         else
         {
@@ -95,7 +97,8 @@ class LevelOptions extends GameState
 
         if (this.isLevelUnlocked(this.levelNumber, 'endless'))
         {
-            this.addButtonTextLink('playEndlessLink', 'Play Endless Mode', 36, 'forestGreen', 0, this.game.height * .76, 'center', 'playEndless');
+            this.addButtonTextLink('playEndlessLink', 'Play Endless Mode', 36, 'forestGreen', 0, this.game.height * .76, 'center', 'clickMode');
+            this.buttonTextLinkAddProperty('playEndlessLink', 'modeName', 'endless');
         }
         else
         {
@@ -121,12 +124,12 @@ class LevelOptions extends GameState
         this.game.state.start('zone', true, true, this.zoneName);
     }
 
-    playClassic(button)
+    play(mode)
     {
         let obj = {
             zoneName: this.zoneName,
             levelNumber: this.levelNumber,
-            mode: 'classic'
+            mode: mode
         };
 
         let goToState = 'play';
@@ -137,35 +140,18 @@ class LevelOptions extends GameState
         this.game.state.start(goToState, true, true, obj);
     }
 
-    playEpic(button)
+    clickMode(button)
     {
-        let obj = {
-            zoneName: this.zoneName,
-            levelNumber: this.levelNumber,
-            mode: 'epic'
-        };
+        let modeName = button.modeName || 'classic';
 
-        let goToState = 'play';
-        if (this.level.story) {
-            goToState = 'story';
-        }
-
-        this.game.state.start(goToState, true, true, obj);
+        this.game.camera.onFadeComplete.removeAll(this);
+        this.game.camera.fade(this.game.globals.interStateBackgroundColor, this.game.globals.fadeOutOfStateMs, true);
+        this.game.camera.onFadeComplete.add(
+            this.play,
+            this,
+            0,
+            modeName
+        );
     }
 
-    playEndless(button)
-    {
-        let obj = {
-            zoneName: this.zoneName,
-            levelNumber: this.levelNumber,
-            mode: 'endless'
-        };
-
-        let goToState = 'play';
-        if (this.level.story) {
-            goToState = 'story';
-        }
-
-        this.game.state.start(goToState, true, true, obj);
-    }
 }
