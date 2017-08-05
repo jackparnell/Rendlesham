@@ -2,11 +2,7 @@ class Zone extends GameState
 {
     preload()
     {
-        this.backgrounds = this.game.add.group();
-        this.linkBackgrounds = this.game.add.group();
-        this.texts = this.game.add.group();
-
-        this.loadMainFiles();
+        super.preload();
     }
 
     init(zoneName)
@@ -31,7 +27,7 @@ class Zone extends GameState
     {
         super.create();
         this.zoneMap = this.game.add.tileSprite(0, 0, 1400, 700, this.zone.ZONE_BACKGROUND_FILENAME);
-        this.backgrounds.add(this.zoneMap);
+        this.game.backgrounds.add(this.zoneMap);
 
         this.game.world.setBounds(0, 0, this.zoneMap.width, this.zoneMap.height);
 

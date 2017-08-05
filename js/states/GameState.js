@@ -10,6 +10,9 @@ class GameState extends Phaser.State
         this.game.canvas.oncontextmenu = function (e) { e.preventDefault(); }
         this.handleScaling();
         this.setupSounds();
+        this.game.backgrounds = this.game.add.group();
+        this.game.linkBackgrounds = this.game.add.group();
+        this.game.texts = this.game.add.group();
     }
 
     loadUser()
@@ -119,7 +122,7 @@ class GameState extends Phaser.State
             this[clickFunctionName],
             this
         );
-        this.linkBackgrounds.add(this[buttonName]);
+        this.game.linkBackgrounds.add(this[buttonName]);
 
         this[buttonName].name = name;
 
@@ -153,6 +156,7 @@ class GameState extends Phaser.State
             text,
             fontSize
         );
+        this.game.texts.add(this[name]);
 
         this[name].tint = textColor;
 

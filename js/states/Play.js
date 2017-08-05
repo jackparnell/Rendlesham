@@ -2,8 +2,8 @@ class Play extends GameState
 {
     preload()
     {
+        super.preload();
         this.guid = guid();
-        this.loadMainFiles();
         this.loadTransylvanianFiles();
     }
 
@@ -77,8 +77,7 @@ class Play extends GameState
             }
         };
 
-        this.backgrounds = this.game.add.group();
-
+        // Create groups. Some have already been created in super.create();
         this.towers = this.game.add.group();
         this.obstacles = this.game.add.group();
         this.characters = this.game.add.group();
@@ -91,9 +90,10 @@ class Play extends GameState
         this.game.bullets = this.game.add.group();
         this.game.overlays = this.game.add.group();
         this.finishedItems = this.game.add.group();
-
-        this.linkBackgrounds = this.game.add.group();
-        this.texts = this.game.add.group();
+        // Groups below are setup in GameState.create(), however add them again here as in this state they
+        // should have a higher z-index than groups above.
+        this.game.linkBackgrounds = this.game.add.group();
+        this.game.texts = this.game.add.group();
 
         this.initiateLoops();
 
@@ -2206,7 +2206,7 @@ class Play extends GameState
         {
             this.layers[layer.name] = this.map.createLayer(layer.name);
 
-            this.backgrounds.add(this.layers[layer.name]);
+            this.game.backgrounds.add(this.layers[layer.name]);
 
             if (layer.properties.collision) { // collision layer
                 let collision_tiles = [];
@@ -2226,22 +2226,22 @@ class Play extends GameState
         this.layers[this.map.layer.name].resizeWorld();
 
         this.backgroundLayer = this.map.createLayer('background');
-        this.backgrounds.add(this.backgroundLayer);
+        this.game.backgrounds.add(this.backgroundLayer);
 
         if (this.layers.hasOwnProperty('walkable')) {
             this.walkableLayer = this.map.createLayer('walkable');
-            this.backgrounds.add(this.walkableLayer);
+            this.game.backgrounds.add(this.walkableLayer);
         }
 
         this.collisionLayer = this.map.createLayer('collision');
-        this.backgrounds.add(this.collisionLayer);
+        this.game.backgrounds.add(this.collisionLayer);
 
         this.game.physics.arcade.enable(this.collisionLayer);
 
         if (this.layers.hasOwnProperty('lava'))
         {
             this.lavaLayer = this.map.createLayer('lava');
-            this.backgrounds.add(this.lavaLayer);
+            this.game.backgrounds.add(this.lavaLayer);
         }
 
         let impassableTiles = [];
@@ -2249,7 +2249,7 @@ class Play extends GameState
         if (this.layers.hasOwnProperty('impassable'))
         {
             this.impassableLayer = this.map.createLayer('impassable');
-            this.backgrounds.add(this.impassableLayer);
+            this.game.backgrounds.add(this.impassableLayer);
 
             this.impassableLayer.layer.data.forEach(function (data_row) {
                 data_row.forEach(function (tile) {
@@ -2263,7 +2263,7 @@ class Play extends GameState
         if (this.layers.hasOwnProperty('impassable2'))
         {
             this.impassable2Layer = this.map.createLayer('impassable2');
-            this.backgrounds.add(this.impassable2Layer);
+            this.game.backgrounds.add(this.impassable2Layer);
 
             this.impassable2Layer.layer.data.forEach(function (data_row) {
                 data_row.forEach(function (tile) {

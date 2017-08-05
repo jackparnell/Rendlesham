@@ -2,12 +2,7 @@ class TitleScreen extends GameState
 {
     preload()
     {
-        this.backgrounds = this.game.add.group();
-
-        this.linkBackgrounds = this.game.add.group();
-        this.texts = this.game.add.group();
-
-        this.loadMainFiles();
+        super.preload();
     }
 
     create()
@@ -19,7 +14,7 @@ class TitleScreen extends GameState
 
         this.titleScreenBackground = this.game.add.tileSprite(0, 0, this.game.camera.width, this.game.camera.height, 'touchMushroomBackground');
         this.titleScreenBackground.fixedToCamera = true;
-        this.backgrounds.add(this.titleScreenBackground);
+        this.game.backgrounds.add(this.titleScreenBackground);
 
         this.addButtonTextLink('playGameLink', 'Play the Game', 46, 'forestGreen', 0, this.game.height * .68, 'center', 'playTheGame');
 

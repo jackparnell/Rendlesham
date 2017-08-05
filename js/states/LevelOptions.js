@@ -2,9 +2,7 @@ class LevelOptions extends GameState
 {
     preload()
     {
-        this.backgrounds = this.game.add.group();
-        this.linkBackgrounds = this.game.add.group();
-        this.loadMainFiles();
+        super.preload();
     }
 
     init(obj)

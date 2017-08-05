@@ -2,8 +2,7 @@ class Story extends GameState
 {
     preload()
     {
-        this.backgrounds = this.game.add.group();
-        this.loadMainFiles();
+        super.preload();
     }
 
     init(obj)
@@ -38,7 +37,7 @@ class Story extends GameState
                 );
                 this['image' + i].fixedToCamera = true;
                 this['image' + i].alpha = 0;
-                this.backgrounds.add(this['image' + i]);
+                this.game.backgrounds.add(this['image' + i]);
             }
         }
 
