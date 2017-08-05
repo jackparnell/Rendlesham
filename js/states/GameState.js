@@ -114,6 +114,15 @@ class GameState extends Phaser.State
         );
         this.linkBackgrounds.add(this[buttonName]);
 
+        this[buttonName].name = name;
+
+        this[buttonName].onInputDown.add(
+            this.buttonTextLinkClickEffect,
+            this,
+            0,
+            name
+        );
+
         if (horizontal === 'right')
         {
             x = this.game.width - this[buttonName].width - x;
@@ -148,6 +157,45 @@ class GameState extends Phaser.State
         this[name].cameraOffset.setTo(x, y);
         // End text
 
+    }
+
+    buttonTextLinkClickEffect(name)
+    {
+        if (typeof name === 'object' && name.hasOwnProperty('name'))
+        {
+            name = name.name;
+        }
+        if (!name)
+        {
+            throw {
+                'code': 78402,
+                'description': 'Name not found in buttonTextLinkClickEffect().'
+            };
+        }
+
+        let scale = .9;
+        let originalButtonWidth = this[name + 'Button'].width;
+        let originalButtonHeight = this[name + 'Button'].height;
+        let originalTextWidth = this[name].width;
+        let originalTextHeight = this[name].height;
+
+        this[name].scale.setTo(scale, scale);
+        this[name + 'Button'].scale.setTo(scale, scale);
+
+        let changedButtonWidth = this[name + 'Button'].width;
+        let changedButtonHeight = this[name + 'Button'].height;
+        let changedTextWidth = this[name].width;
+        let changedTextHeight = this[name].height;
+
+        this[name + 'Button'].fixedToCamera = false;
+        this[name + 'Button'].x += (originalButtonWidth - changedButtonWidth) * .5;
+        this[name + 'Button'].y += (originalButtonHeight - changedButtonHeight) * .5;
+        this[name + 'Button'].fixedToCamera = true;
+
+        this[name].fixedToCamera = false;
+        this[name].x += (originalTextWidth - changedTextWidth) * .5;
+        this[name].y += (originalTextHeight - changedTextHeight) * .5;
+        this[name].fixedToCamera = true;
     }
 
     goToTitleScreen()
