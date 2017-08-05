@@ -7,11 +7,11 @@ class LevelOptions extends GameState
         this.loadMainFiles();
     }
 
-    init(levelNumber, zoneName)
+    init(obj)
     {
-        this.levelNumber = levelNumber;
-        this.level = window[ZONE_INFO[zoneName].LEVEL_ORDERING[levelNumber]];
-        this.zoneName = zoneName;
+        this.zoneName = obj.zoneName;
+        this.levelNumber = obj.levelNumber;
+        this.level = window[ZONE_INFO[this.zoneName].LEVEL_ORDERING[this.levelNumber]];
     }
 
     create()
@@ -25,7 +25,7 @@ class LevelOptions extends GameState
 
         this.game.canvas.oncontextmenu = function (e) { e.preventDefault(); };
 
-        this.addButtonTextLink('backLink', 'Back', 20, 'smallDark', 10, 10, 'right', 'goToZone');
+        this.addButtonTextLink('backLink', 'Back', 20, 'smallDark', 10, 10, 'right', 'clickBack');
 
         this.titleText = this.game.add.bitmapText(
             500,
@@ -103,6 +103,17 @@ class LevelOptions extends GameState
         }
 
         this.flashIntoState();
+    }
+
+    clickBack()
+    {
+        this.game.camera.onFadeComplete.removeAll(this);
+        this.game.camera.fade(this.game.globals.interStateBackgroundColor, this.game.globals.fadeOutOfStateMs, true);
+        this.game.camera.onFadeComplete.add(
+            this.goToZone,
+            this,
+            0
+        );
     }
 
     goToZone()

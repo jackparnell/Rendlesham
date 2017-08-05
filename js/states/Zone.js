@@ -219,7 +219,23 @@ class Zone extends GameState
             return false;
         }
 
-        this.game.state.start('levelOptions', true, true, levelNumber, this.zoneName);
+        this.game.camera.onFadeComplete.removeAll(this);
+        this.game.camera.fade(this.game.globals.interStateBackgroundColor, this.game.globals.fadeOutOfStateMs, true);
+        this.game.camera.onFadeComplete.add(
+            this.goToLevelOptions,
+            this,
+            0,
+            levelNumber
+        );
+    }
+
+    goToLevelOptions(levelNumber)
+    {
+        let obj = {
+            zoneName: this.zoneName,
+            levelNumber
+        };
+        this.game.state.start('levelOptions', true, true, obj);
     }
 
     writeLevelText(levelNumber)

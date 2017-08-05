@@ -2731,6 +2731,7 @@ class Play extends GameState
     goToTitleScreen()
     {
         this.closePauseScreen();
+        this.game.camera.onFadeComplete.removeAll(this);
         this.game.camera.fade(this.game.globals.interStateBackgroundColor, this.game.globals.fadeOutOfStateMs, true);
         this.game.camera.onFadeComplete.add(this.changeGameState, this, 0, 'titleScreen');
     }
