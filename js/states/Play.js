@@ -243,6 +243,7 @@ class Play extends GameState
             this.handleScore();
         }
 
+        this.game.camera.onFadeComplete.removeAll(this);
         this.game.camera.fade(0x000000, 4000, false);
         this.game.camera.onFadeComplete.add(this.gameOver, this);
 

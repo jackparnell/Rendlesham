@@ -17,8 +17,9 @@ class GameOver extends GameState
         this.waveReached = obj.waveReached || 0;
     }
 
-    tryAgain()
+    tryAgainButtonClick()
     {
+        this.game.camera.onFadeComplete.removeAll(this);
         this.game.camera.fade(this.game.globals.interStateBackgroundColor, this.game.globals.fadeOutOfStateMs, true);
         this.game.camera.onFadeComplete.add(this.restartLevel, this);
     }
@@ -38,8 +39,6 @@ class GameOver extends GameState
         super.create();
 
         this.handleScaling();
-
-        this.game.stage.backgroundColor = "#112c06";
 
         this.capturedText = this.game.add.bitmapText(
             500,
@@ -71,7 +70,7 @@ class GameOver extends GameState
         this.detailsText.x = (this.game.width * .5) - (this.detailsText.width * .5);
         this.detailsText.fixedToCamera = true;
 
-        this.addButtonTextLink('retry', replayText, 46, 'forestGreen', 0, this.game.height * .5, 'center', 'tryAgain');
+        this.addButtonTextLink('retry', replayText, 46, 'forestGreen', 0, this.game.height * .5, 'center', 'tryAgainButtonClick');
 
         this.addButtonTextLink('exit', 'Exit', 46, 'forestGreen', 0, this.game.height * .725, 'center', 'goToTitleScreen');
     }

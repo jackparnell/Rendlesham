@@ -12,12 +12,12 @@ class TitleScreen extends GameState
 
     create()
     {
+        super.create();
+
         this.loadUser();
         this.checkUser();
 
         this.handleScaling();
-
-        this.setupSounds();
 
         this.game.canvas.oncontextmenu = function (e) { e.preventDefault(); }
 
