@@ -40,8 +40,6 @@ class Play extends GameState
         this.game.time.desiredFps = 60;
         this.game.forceSingleUpdate = false;
 
-        this.handleScaling();
-
         // Set the physics system
         this.game.physics.startSystem(Phaser.Physics.ARCADE);
 

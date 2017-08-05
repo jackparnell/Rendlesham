@@ -26,8 +26,6 @@ class Achievements extends GameState
 
         this.loadUser();
 
-        this.handleScaling();
-
         let level;
         let userLevelHighScore;
 

@@ -30,11 +30,6 @@ class Zone extends GameState
     create()
     {
         super.create();
-
-        this.handleScaling();
-
-        this.game.canvas.oncontextmenu = function (e) { e.preventDefault(); }
-
         this.zoneMap = this.game.add.tileSprite(0, 0, 1400, 700, this.zone.ZONE_BACKGROUND_FILENAME);
         this.backgrounds.add(this.zoneMap);
 

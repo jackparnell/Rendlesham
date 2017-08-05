@@ -21,10 +21,6 @@ class LevelOptions extends GameState
         this.loadUser();
         this.checkUser();
 
-        this.handleScaling();
-
-        this.game.canvas.oncontextmenu = function (e) { e.preventDefault(); };
-
         this.addButtonTextLink('backLink', 'Back', 20, 'smallDark', 10, 10, 'right', 'clickBack');
 
         this.titleText = this.game.add.bitmapText(

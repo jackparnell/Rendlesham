@@ -38,8 +38,6 @@ class GameOver extends GameState
     {
         super.create();
 
-        this.handleScaling();
-
         this.capturedText = this.game.add.bitmapText(
             500,
             this.game.height * .125,
