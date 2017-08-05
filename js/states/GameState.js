@@ -95,11 +95,8 @@ class GameState extends Phaser.State
     }
 
 
-    changeGameState(stateName)
+    changeGameState(stateName = 'titleScreen')
     {
-        if (!stateName) {
-            stateName = 'titleScreen';
-        }
         this.game.state.start(stateName);
     }
 
@@ -155,7 +152,9 @@ class GameState extends Phaser.State
 
     goToTitleScreen()
     {
-        this.changeGameState('titleScreen');
+        this.game.camera.onFadeComplete.removeAll(this);
+        this.game.camera.fade(this.game.globals.interStateBackgroundColor, this.game.globals.fadeOutOfStateMs, true);
+        this.game.camera.onFadeComplete.add(this.changeGameState, this, 0, 'titleScreen');
     }
 
     loadMainFiles()
@@ -437,5 +436,10 @@ class GameState extends Phaser.State
         }
         this.game.scale.pageAlignHorizontally = true;
         this.game.scale.pageAlignVertically = true;
+    }
+
+    flashIntoState()
+    {
+        this.game.camera.flash(this.game.globals.interStateBackgroundColor, this.game.globals.flastIntoStateMs, true);
     }
 }

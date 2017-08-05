@@ -71,6 +71,8 @@ class Achievements extends GameState
                 y += 20;
             }
         }
+
+        this.flashIntoState();
     }
 
     getLevelByName(levelName)

@@ -19,6 +19,12 @@ class GameOver extends GameState
 
     tryAgain()
     {
+        this.game.camera.fade(this.game.globals.interStateBackgroundColor, this.game.globals.fadeOutOfStateMs, true);
+        this.game.camera.onFadeComplete.add(this.restartLevel, this);
+    }
+
+    restartLevel()
+    {
         let obj = {
             zoneName: this.zoneName,
             levelNumber: this.levelId,

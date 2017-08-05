@@ -2,7 +2,7 @@ class Preloader extends GameState
 {
     preload()
     {
-        this.game.stage.backgroundColor = '#112c06';
+        this.game.stage.backgroundColor = this.game.globals.interStateBackgroundColor;
 
         let loadingBar = this.add.sprite(((this.game.width * .5) - 200), 200, 'loadingBar');
         loadingBar.x = (this.game.width * .5) - (loadingBar.width) * .5;

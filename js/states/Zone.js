@@ -180,6 +180,9 @@ class Zone extends GameState
         this.setupSounds();
 
         this.game.kineticScrolling.start();
+
+        this.flashIntoState();
+
     }
 
     shutdown()

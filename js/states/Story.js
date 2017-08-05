@@ -47,6 +47,8 @@ class Story extends GameState
         this['image' + this.currentImage].alpha = 1;
 
         this.game.input.onDown.add(this.nextImage, this);
+
+        this.flashIntoState();
     }
 
     nextImage()

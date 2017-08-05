@@ -19,13 +19,11 @@ class TitleScreen extends GameState
 
         this.game.canvas.oncontextmenu = function (e) { e.preventDefault(); }
 
-        // game.stage.backgroundColor = "#112c06";
-
         this.titleScreenBackground = this.game.add.tileSprite(0, 0, this.game.camera.width, this.game.camera.height, 'touchMushroomBackground');
         this.titleScreenBackground.fixedToCamera = true;
         this.backgrounds.add(this.titleScreenBackground);
 
-        this.addButtonTextLink('playGameLink', 'Play the Game', 46, 'forestGreen', 0, this.game.height * .68, 'center', 'goToZone');
+        this.addButtonTextLink('playGameLink', 'Play the Game', 46, 'forestGreen', 0, this.game.height * .68, 'center', 'playTheGame');
 
         this.titleText = this.game.add.bitmapText(500, this.game.height * .12, this.game.globals.bitmapFontName, this.game.globals.applicationTitle, 64);
         this.titleText.x = (this.game.width * .5) - (this.titleText.width * .5);
@@ -49,11 +47,22 @@ class TitleScreen extends GameState
         this.addButtonTextLink('achievementsLink', 'View Achievements', 20, 'smallWideDark', 10, this.game.camera.height - 40, 'right', 'showAchievements');
 
         // this.addButtonTextLink('creditsLink', 'Credits', 20, 'smallWideDark', 10, game.camera.height - 40, 'left', 'showCredits');
+
+        this.flashIntoState();
     }
 
     showAchievements()
     {
-        this.changeGameState('achievements');
+        this.game.camera.onFadeComplete.removeAll(this);
+        this.game.camera.fade(this.game.globals.interStateBackgroundColor, this.game.globals.fadeOutOfStateMs, true);
+        this.game.camera.onFadeComplete.add(this.changeGameState, this, 0, 'achievements');
+    }
+
+    playTheGame()
+    {
+        this.game.camera.onFadeComplete.removeAll(this);
+        this.game.camera.fade(this.game.globals.interStateBackgroundColor, this.game.globals.fadeOutOfStateMs, true);
+        this.game.camera.onFadeComplete.add(this.goToZone, this);
     }
 
     goToZone(zoneButton)
@@ -67,7 +76,6 @@ class TitleScreen extends GameState
         {
             zoneName = 'EAST_ANGLIA';
         }
-
         this.game.state.start('zone', true, true, zoneName);
     }
 }

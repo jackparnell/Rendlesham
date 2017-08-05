@@ -143,6 +143,7 @@ class Play extends GameState
 
         this.game.fastForwardMode = false;
 
+        this.flashIntoState();
     }
 
     bulletHitImpassable(bullet, impassable)
@@ -242,8 +243,8 @@ class Play extends GameState
             this.handleScore();
         }
 
-        this.game.add.tween(this.gameOverBackground, this.game).to( { alpha: 1 }, Phaser.Timer.SECOND * 5, Phaser.Easing.Linear.None, true);
-        this.game.time.events.add(Phaser.Timer.SECOND * 5, this.gameOver, this);
+        this.game.camera.fade(0x000000, 4000, false);
+        this.game.camera.onFadeComplete.add(this.gameOver, this);
 
         try
         {
@@ -2726,7 +2727,8 @@ class Play extends GameState
     goToTitleScreen()
     {
         this.closePauseScreen();
-        this.changeGameState('titleScreen');
+        this.game.camera.fade(this.game.globals.interStateBackgroundColor, this.game.globals.fadeOutOfStateMs, true);
+        this.game.camera.onFadeComplete.add(this.changeGameState, this, 0, 'titleScreen');
     }
 
     getBully()

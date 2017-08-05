@@ -23,8 +23,6 @@ class LevelOptions extends GameState
 
         this.game.canvas.oncontextmenu = function (e) { e.preventDefault(); };
 
-        this.game.stage.backgroundColor = "#112c06";
-
         this.addButtonTextLink('backLink', 'Back', 20, 'smallDark', 10, 10, 'right', 'goToZone');
 
         this.titleText = this.game.add.bitmapText(
@@ -102,6 +100,7 @@ class LevelOptions extends GameState
             this.addButtonTextLink('playEndlessLink', 'Play Endless Mode', 36, 'locked', 0, this.game.height * .76, 'center', 'notPossible', 0x666666);
         }
 
+        this.flashIntoState();
     }
 
     goToZone()
