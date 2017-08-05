@@ -186,23 +186,63 @@ class GameState extends Phaser.State
         let originalTextWidth = this[name].width;
         let originalTextHeight = this[name].height;
 
-        this[name].scale.setTo(scale, scale);
-        this[name + 'Button'].scale.setTo(scale, scale);
+        let changedButtonWidth = originalButtonWidth * scale;
+        let changedButtonHeight = originalButtonHeight * scale;
+        let changedTextWidth = originalTextWidth * scale;
+        let changedTextHeight = originalTextHeight * scale;
 
-        let changedButtonWidth = this[name + 'Button'].width;
-        let changedButtonHeight = this[name + 'Button'].height;
-        let changedTextWidth = this[name].width;
-        let changedTextHeight = this[name].height;
+        // Tween text scale
+        this.game.add.tween(this[name].scale).to(
+            {
+                x: scale,
+                y: scale
+            },
+            this.game.globals.fadeOutOfStateMs,
+            Phaser.Easing.Back.Out,
+            true,
+            0
+        );
 
-        this[name + 'Button'].fixedToCamera = false;
-        this[name + 'Button'].x += (originalButtonWidth - changedButtonWidth) * .5;
-        this[name + 'Button'].y += (originalButtonHeight - changedButtonHeight) * .5;
-        this[name + 'Button'].fixedToCamera = true;
+        // Tween text camera offset
+        let textToX = this[name].cameraOffset.x + ((originalTextWidth - changedTextWidth) * .5);
+        let textToY = this[name].cameraOffset.y + ((originalTextHeight - changedTextHeight) * .5);
+        this.game.add.tween(this[name].cameraOffset).to(
+            {
+                x: textToX,
+                y: textToY
+            },
+            this.game.globals.fadeOutOfStateMs,
+            Phaser.Easing.Back.Out,
+            true,
+            0
+        );
 
-        this[name].fixedToCamera = false;
-        this[name].x += (originalTextWidth - changedTextWidth) * .5;
-        this[name].y += (originalTextHeight - changedTextHeight) * .5;
-        this[name].fixedToCamera = true;
+        // Tween button scale
+        this.game.add.tween(this[name + 'Button'].scale).to(
+            {
+                x: scale,
+                y: scale
+            },
+            this.game.globals.fadeOutOfStateMs,
+            Phaser.Easing.Back.Out,
+            true,
+            0
+        );
+
+        // Tween button camera offset
+        let buttonToX = this[name + 'Button'].cameraOffset.x + ((originalButtonWidth - changedButtonWidth) * .5);
+        let buttonToY = this[name + 'Button'].cameraOffset.y + ((originalButtonHeight - changedButtonHeight) * .5);
+        this.game.add.tween(this[name + 'Button'].cameraOffset).to(
+            {
+                x: buttonToX,
+                y: buttonToY
+            },
+            this.game.globals.fadeOutOfStateMs,
+            Phaser.Easing.Back.Out,
+            true,
+            0
+        );
+
     }
 
     buttonTextLinkAddProperty(name, key, value)
