@@ -141,6 +141,7 @@ class Play extends GameState
         this.attackersSpawnedCount = 0;
 
         this.game.fastForwardMode = false;
+        this.pauseScreenOpen = false;
 
         this.flashIntoState();
     }
@@ -1152,10 +1153,18 @@ class Play extends GameState
         // End score text
 
 
-        this.addButtonTextLink('nextLevelLink', 'Play Next Level', 40, 'forestGreen', 0, this.game.height * .7, 'center', 'nextLevel');
+        this.addButtonTextLink('nextLevelLink', 'Play Next Level', 40, 'forestGreen', 0, this.game.height * .7, 'center', 'nextLevelLinkButtonClick');
 
-        this.addButtonTextLink('exitToTitle', 'Exit to Title', 20, 'smallWideDark', 10, this.game.camera.height - 42, 'left', 'goToTitleScreen');
-        this.addButtonTextLink('replayLevel', 'Replay Level', 20, 'smallWideDark', 10, this.game.camera.height - 42, 'right', 'restartLevel');
+        this.addButtonTextLink('exitToTitle', 'Exit to Title', 20, 'smallWideDark', 10, this.game.camera.height - 42, 'left', 'goToTitleScreenButtonClick');
+
+        this.addButtonTextLink('replayLevel', 'Replay Level', 20, 'smallWideDark', 10, this.game.camera.height - 42, 'right', 'restartLevelButtonClick');
+    }
+
+    nextLevelLinkButtonClick()
+    {
+        this.game.camera.onFadeComplete.removeAll(this);
+        this.game.camera.fade(this.game.globals.interStateBackgroundColor, this.game.globals.fadeOutOfStateMs, true);
+        this.game.camera.onFadeComplete.add(this.nextLevel, this);
     }
 
     nextLevel()
@@ -2672,9 +2681,9 @@ class Play extends GameState
 
         this.addButtonTextLink('resume', 'Resume', 46, 'forestGreen', 0, this.game.height * .21, 'center', 'closePauseScreen');
 
-        this.addButtonTextLink('restart', 'Restart Level', 46, 'forestGreen', 0, this.game.height * .46, 'center', 'restartLevel');
+        this.addButtonTextLink('restart', 'Restart Level', 46, 'forestGreen', 0, this.game.height * .46, 'center', 'restartLevelButtonClick');
 
-        this.addButtonTextLink('exit', 'Exit', 46, 'forestGreen', 0, this.game.height * .71, 'center', 'goToTitleScreen');
+        this.addButtonTextLink('exit', 'Exit', 46, 'forestGreen', 0, this.game.height * .71, 'center', 'goToTitleScreenButtonClick');
 
         this.destroyUserInterfaceButtons();
 
@@ -2717,6 +2726,14 @@ class Play extends GameState
         this.unpause();
     }
 
+    restartLevelButtonClick()
+    {
+        this.unpause();
+        this.game.camera.onFadeComplete.removeAll(this);
+        this.game.camera.fade(this.game.globals.interStateBackgroundColor, this.game.globals.fadeOutOfStateMs, true);
+        this.game.camera.onFadeComplete.add(this.restartLevel, this);
+    }
+
     restartLevel()
     {
         this.closePauseScreen();
@@ -2728,12 +2745,17 @@ class Play extends GameState
         this.game.state.start('play', true, true, obj);
     }
 
-    goToTitleScreen()
+    goToTitleScreenButtonClick()
     {
-        this.closePauseScreen();
+        this.unpause();
         this.game.camera.onFadeComplete.removeAll(this);
         this.game.camera.fade(this.game.globals.interStateBackgroundColor, this.game.globals.fadeOutOfStateMs, true);
-        this.game.camera.onFadeComplete.add(this.changeGameState, this, 0, 'titleScreen');
+        this.game.camera.onFadeComplete.add(this.changeGameState, this, 0);
+    }
+
+    goToTitleScreen()
+    {
+        this.changeGameState('titleScreen');
     }
 
     getBully()
