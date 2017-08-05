@@ -2676,6 +2676,8 @@ class Play extends GameState
 
         this.addButtonTextLink('exit', 'Exit', 46, 'forestGreen', 0, this.game.height * .71, 'center', 'goToTitleScreen');
 
+        this.destroyUserInterfaceButtons();
+
         // Slightly delay actual pausing as the fixedToCamera/cameraOffset stuff in addButtonTextLink() doesn't work when paused.
         this.game.timerEvents.push(
             this.game.time.events.add(
@@ -2709,6 +2711,8 @@ class Play extends GameState
         this.game.kineticScrolling.start();
 
         this.drawAllForceFieldGraphics();
+
+        this.addUserInterfaceButtons();
 
         this.unpause();
     }
