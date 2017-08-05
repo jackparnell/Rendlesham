@@ -16,6 +16,8 @@ class Story extends GameState
 
     create()
     {
+        super.create();
+
         this.handleScaling();
 
         this.level = window[ZONE_INFO[this.zoneName].LEVEL_ORDERING[this.levelNumber]];

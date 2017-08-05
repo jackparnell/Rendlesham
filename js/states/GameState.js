@@ -5,6 +5,11 @@ class GameState extends Phaser.State
         this.loadMainFiles();
     }
 
+    create()
+    {
+        this.setupSounds();
+    }
+
     loadUser()
     {
         if (localStorage.getItem(this.game.globals.applicationName))
@@ -100,7 +105,7 @@ class GameState extends Phaser.State
         this.game.state.start(stateName);
     }
 
-    addButtonTextLink(name, text, fontSize, buttonImage, x, y, horizontal, clickFunctionName, textColor = 0xFFFFFF)
+    addButtonTextLink(name, text, fontSize, buttonImage, x, y, horizontal, clickFunctionName, textColor = 0xFFFFFF, soundName = 'metalClick')
     {
         // Begin button
         let buttonName = name + 'Button';
@@ -122,6 +127,8 @@ class GameState extends Phaser.State
             0,
             name
         );
+
+        this[buttonName].onDownSound = this.sounds[soundName];
 
         if (horizontal === 'right')
         {

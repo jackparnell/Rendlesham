@@ -22,6 +22,8 @@ class Achievements extends GameState
 
     create()
     {
+        super.create();
+
         this.loadUser();
 
         this.handleScaling();

@@ -29,6 +29,8 @@ class Zone extends GameState
 
     create()
     {
+        super.create();
+
         this.handleScaling();
 
         this.game.canvas.oncontextmenu = function (e) { e.preventDefault(); }
@@ -130,6 +132,8 @@ class Zone extends GameState
 
             this['level' + i + 'Button'].levelNumber = i;
             this['level' + i + 'Button'].levelName = ZONE_INFO[this.zoneName].LEVEL_ORDERING[i];
+
+            this['level' + i + 'Button'].onDownSound = this.sounds.metalClick;
 
             if (!this.isLevelUnlocked(i))
             {

@@ -35,6 +35,8 @@ class GameOver extends GameState
 
     create()
     {
+        super.create();
+
         this.handleScaling();
 
         this.game.stage.backgroundColor = "#112c06";

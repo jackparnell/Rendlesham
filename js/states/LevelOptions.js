@@ -16,6 +16,8 @@ class LevelOptions extends GameState
 
     create()
     {
+        super.create();
+
         this.loadUser();
         this.checkUser();
 

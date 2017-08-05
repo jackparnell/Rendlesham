@@ -31,6 +31,7 @@ class Play extends GameState
 
     create()
     {
+        super.create();
 
         /*
          this.game.time.advancedTiming = true;
@@ -134,8 +135,6 @@ class Play extends GameState
 
         // Listen for keyboard presses
         this.game.input.keyboard.onPressCallback = function (input) { this.keyPress(input); }.bind(this);
-
-        this.setupSounds();
 
         this.startLevel();
 
@@ -2623,6 +2622,7 @@ class Play extends GameState
         this.pauseButton.fixedToCamera = true;
         this.pauseButton.inputEnabled = true;
         this.pauseButton.alpha = .5;
+        this.pauseButton.onDownSound = this.sounds.metalClick;
     }
 
     destroyUserInterfaceButtons()

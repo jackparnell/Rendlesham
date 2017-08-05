@@ -7,5 +7,5 @@ game.globals.applicationName = 'rendlesham';
 game.globals.applicationVersion = '0.1.2';
 game.globals.bitmapFontName = 'gem';
 game.globals.interStateBackgroundColor = 0x1D241D;
-game.globals.fadeOutOfStateMs = 125;
-game.globals.flastIntoStateMs = 125;
+game.globals.fadeOutOfStateMs = 175;
+game.globals.flastIntoStateMs = 100;

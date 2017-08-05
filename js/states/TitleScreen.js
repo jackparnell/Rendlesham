@@ -17,6 +17,8 @@ class TitleScreen extends GameState
 
         this.handleScaling();
 
+        this.setupSounds();
+
         this.game.canvas.oncontextmenu = function (e) { e.preventDefault(); }
 
         this.titleScreenBackground = this.game.add.tileSprite(0, 0, this.game.camera.width, this.game.camera.height, 'touchMushroomBackground');
