@@ -2747,14 +2747,7 @@ class Play extends GameState
     goToTitleScreenButtonClick()
     {
         this.unpause();
-        this.game.camera.onFadeComplete.removeAll(this);
-        this.game.camera.fade(this.game.globals.interStateBackgroundColor, this.game.globals.fadeOutOfStateMs, true);
-        this.game.camera.onFadeComplete.add(this.changeGameState, this, 0);
-    }
-
-    goToTitleScreen()
-    {
-        this.changeGameState('titleScreen');
+        this.fadeOutToState('titleScreen');
     }
 
     getBully()

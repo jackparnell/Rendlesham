@@ -5,11 +5,19 @@ class Zone extends GameState
         super.preload();
     }
 
-    init(zoneName)
+    init(zoneName = 'EAST_ANGLIA')
     {
-        this.zoneName = zoneName || 'EAST_ANGLIA';
-
-        this.zone = ZONE_INFO[zoneName];
+        if (ZONE_INFO.hasOwnProperty(zoneName))
+        {
+            this.zone = ZONE_INFO[zoneName];
+        }
+        else
+        {
+            throw {
+                'code': 85001,
+                'description': 'Zone ' + zoneName + ' invalid. '
+            };
+        }
 
         this.game.kineticScrolling = this.game.plugins.add(Phaser.Plugin.KineticScrolling);
 
@@ -122,7 +130,7 @@ class Zone extends GameState
             );
 
             this['level' + i + 'Button'].levelNumber = i;
-            this['level' + i + 'Button'].levelName = ZONE_INFO[this.zoneName].LEVEL_ORDERING[i];
+            this['level' + i + 'Button'].levelName = ZONE_INFO[this.zone.NAME].LEVEL_ORDERING[i];
 
             this['level' + i + 'Button'].onDownSound = this.sounds.metalClick;
 
@@ -155,10 +163,10 @@ class Zone extends GameState
         this.titleText.x = (this.game.width * .5) - (this.titleText.width * .5);
         this.titleText.alpha = .5;
 
-        if (this.user.zones && this.user.zones[this.zoneName])
+        if (this.user.zones && this.user.zones[this.zone.NAME])
         {
-            this.game.camera.x = this.user.zones[this.zoneName].cameraX || 0;
-            this.game.camera.y = this.user.zones[this.zoneName].cameraY || 0;
+            this.game.camera.x = this.user.zones[this.zone.NAME].cameraX || 0;
+            this.game.camera.y = this.user.zones[this.zone.NAME].cameraY || 0;
         }
         else
         {
@@ -166,9 +174,9 @@ class Zone extends GameState
             {
                 this.user.zones = {};
             }
-            if (!this.user.zones[this.zoneName])
+            if (!this.user.zones[this.zone.NAME])
             {
-                this.user.zones[this.zoneName] = {};
+                this.user.zones[this.zone.NAME] = {};
             }
         }
 
@@ -225,8 +233,8 @@ class Zone extends GameState
 
     shutdown()
     {
-        this.user.zones[this.zoneName].cameraX = this.game.camera.x;
-        this.user.zones[this.zoneName].cameraY = this.game.camera.y;
+        this.user.zones[this.zone.NAME].cameraX = this.game.camera.x;
+        this.user.zones[this.zone.NAME].cameraY = this.game.camera.y;
         this.save();
     }
 
@@ -252,7 +260,7 @@ class Zone extends GameState
     goToLevelOptions(levelNumber)
     {
         let obj = {
-            zoneName: this.zoneName,
+            zoneName: this.zone.NAME,
             levelNumber
         };
         this.game.state.start('levelOptions', true, true, obj);
@@ -279,7 +287,7 @@ class Zone extends GameState
             return;
         }
 
-        let levelName = ZONE_INFO[this.zoneName].LEVEL_ORDERING[levelNumber];
+        let levelName = ZONE_INFO[this.zone.NAME].LEVEL_ORDERING[levelNumber];
 
         let stars = this.user.levelStars[levelName] || 0;
 
@@ -315,11 +323,11 @@ class Zone extends GameState
 
         for (let i = 1; i <= this.lastLevel; i++)
         {
-            let level = this.getLevelFromZoneAndNumber(this.zoneName, i);
+            let level = this.getLevelFromZoneAndNumber(this.zone.NAME, i);
 
             if (level && level.hasOwnProperty('previousLevelName'))
             {
-                let previousLevelNumber = this.getLevelNumberFromZoneAndName(this.zoneName, level.previousLevelName);
+                let previousLevelNumber = this.getLevelNumberFromZoneAndName(this.zone.NAME, level.previousLevelName);
 
                 if (previousLevelNumber)
                 {
@@ -418,6 +426,6 @@ class Zone extends GameState
 
     restartState()
     {
-        this.game.state.start('zone', true, true, this.zoneName);
+        this.game.state.start('zone', true, true, this.zone.NAME);
     }
 }

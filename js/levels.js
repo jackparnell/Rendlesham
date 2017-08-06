@@ -1,5 +1,6 @@
 const ZONE_INFO = {
     EAST_ANGLIA: {
+        NAME: 'EAST_ANGLIA',
         TITLE: 'East Anglia',
         LEVEL_ORDERING: {
             1: 'fridayStreet',
@@ -25,6 +26,7 @@ const ZONE_INFO = {
         NEXT_ZONE_NAME: 'TRANSYLVANIA'
     },
     TRANSYLVANIA: {
+        NAME: 'TRANSYLVANIA',
         TITLE: 'Transylvania',
         LEVEL_ORDERING: {
             1: 'iclandu',

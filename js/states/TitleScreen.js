@@ -46,9 +46,7 @@ class TitleScreen extends GameState
 
     showAchievements()
     {
-        this.game.camera.onFadeComplete.removeAll(this);
-        this.game.camera.fade(this.game.globals.interStateBackgroundColor, this.game.globals.fadeOutOfStateMs, true);
-        this.game.camera.onFadeComplete.add(this.changeGameState, this, 0, 'achievements');
+        this.fadeOutToState('achievements');
     }
 
     playTheGame()
@@ -71,4 +69,5 @@ class TitleScreen extends GameState
         }
         this.game.state.start('zone', true, true, zoneName);
     }
+
 }

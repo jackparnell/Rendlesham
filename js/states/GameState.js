@@ -259,9 +259,7 @@ class GameState extends Phaser.State
 
     goToTitleScreen()
     {
-        this.game.camera.onFadeComplete.removeAll(this);
-        this.game.camera.fade(this.game.globals.interStateBackgroundColor, this.game.globals.fadeOutOfStateMs, true);
-        this.game.camera.onFadeComplete.add(this.changeGameState, this, 0, 'titleScreen');
+        this.fadeOutToState('titleScreen');
     }
 
     loadMainFiles()
@@ -548,5 +546,12 @@ class GameState extends Phaser.State
     flashIntoState()
     {
         this.game.camera.flash(this.game.globals.interStateBackgroundColor, this.game.globals.flastIntoStateMs, true);
+    }
+
+    fadeOutToState(stateName)
+    {
+        this.game.camera.onFadeComplete.removeAll(this);
+        this.game.camera.fade(this.game.globals.interStateBackgroundColor, this.game.globals.fadeOutOfStateMs, true);
+        this.game.camera.onFadeComplete.add(this.changeGameState, this, 0, stateName);
     }
 }
