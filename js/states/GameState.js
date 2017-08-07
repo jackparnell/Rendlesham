@@ -311,6 +311,7 @@ class GameState extends Phaser.State
         this.game.load.spritesheet('Nathan', 'assets/sprites/characters/Nathan.png', 35, 35, 1);
         this.game.load.spritesheet('Bully', 'assets/sprites/characters/Bully.png', 35, 35, 1);
         this.game.load.spritesheet('Ghost', 'assets/sprites/characters/Ghost.png', 35, 35, 1);
+        this.game.load.spritesheet('Reco', 'assets/sprites/characters/Reco.png', 35, 35, 1);
 
         this.game.load.spritesheet('Gun', 'assets/sprites/towers/Gun.png', 64, 64, 3);
         this.game.load.spritesheet('Freezer', 'assets/sprites/towers/Freezer.png', 64, 64, 3);

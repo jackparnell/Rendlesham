@@ -3142,6 +3142,7 @@ var lapusna = {
 };
 
 var rogojel = {
+    game,
     name: 'rogojel',
     mapName: 'rogojel',
     title: 'Rogojel',
@@ -3306,5 +3307,55 @@ var rogojel = {
     previousLevelName: 'lapusna',
     mapScroll: true,
     verticalScroll: false,
-    horizontalScroll: true
+    horizontalScroll: true,
+    introduction: function()
+    {
+        let offset = this.game.camera.width * .3;
+        let reco = new Reco(
+            game,
+            offset,
+            (this.game.state.states.play.map.heightInPixels * .5) - this.game.state.states.play.halfSquareWidth
+        );
+        this.game.state.states.play.reco = reco;
+        this.game.state.states.play.characters.add(reco);
+
+        this.game.camera.follow(reco);
+
+        let leftToRightTween = this.game.add.tween(reco).to(
+            {
+                x: this.game.world.width - offset
+            },
+            3000,
+            Phaser.Easing.Linear.None
+        );
+        let rightToLeftTween = this.game.add.tween(reco).to(
+            {
+                x: offset
+            },
+            3000,
+            Phaser.Easing.Linear.None
+        );
+        leftToRightTween.chain(rightToLeftTween);
+        leftToRightTween.start();
+
+        this.game.time.events.add(
+            6500,
+            function() {
+                this.game.camera.follow(null)
+            },
+            this
+        ).autoDestroy = true;
+
+        this.game.time.events.add(
+            66100,
+            reco.die,
+            reco
+        ).autoDestroy = true;
+
+        this.game.time.events.add(
+            7000,
+            this.game.state.states.play.introductionComplete,
+            this.game.state.states.play
+        ).autoDestroy = true;
+    }
 };

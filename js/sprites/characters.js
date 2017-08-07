@@ -167,3 +167,21 @@ Ghost.prototype.constructor = Nathan;
 Ghost.defaultScale = 1;
 Ghost.spriteName = 'Ghost';
 Ghost.spriteSheetGid = 72;
+
+
+// Reco is an invisible sprite the camera follows during level introductions.
+window.Reco = class Reco extends Character
+{
+    constructor(game, x, y)
+    {
+        super(game, x, y, 'Reco');
+        this.width = 1;
+        this.height = 1;
+    }
+
+    die()
+    {
+        console.log(this);
+        this.destroy();
+    }
+};

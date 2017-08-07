@@ -220,6 +220,15 @@ class Play extends GameState
                 this.updateTowerPlacementView();
             }
 
+
+            if (this.canScroll() && this.introductionRunning)
+            {
+                if (this.level.horizontalScroll && !this.level.verticalScroll)
+                {
+                    this.positionCameraY();
+                }
+            }
+
         }
         catch (err)
         {
@@ -954,6 +963,8 @@ class Play extends GameState
     render()
     {
         // game.debug.body(this.test);
+
+        this.game.debug.body(this.reco);
 
         /*
          this.game.bullets.forEachAlive(function(item){
@@ -2385,11 +2396,19 @@ class Play extends GameState
         {
             throw 'Map not initiated.';
         }
+        this.positionCameraX();
+        this.positionCameraY();
+    }
 
+    positionCameraX()
+    {
         let x = (this.map.widthInPixels - this.game.width) * .5;
-        let y = (this.map.heightInPixels - this.game.height) * .5;
-
         this.game.camera.x = x;
+    }
+
+    positionCameraY()
+    {
+        let y = (this.map.heightInPixels - this.game.height) * .5;
         this.game.camera.y = y;
     }
 
