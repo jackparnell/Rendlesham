@@ -408,6 +408,18 @@ class Play extends GameState
         this.labelIndicatorMessage = this.game.add.bitmapText(this.indicatorMessageXCoordinate, this.indicatorMessageYCoordinate, this.game.globals.bitmapFontName, '', 18);
         this.labelIndicatorMessage.tint = valueTint;
         this.labelIndicatorMessage.fixedToCamera = true;
+
+
+        // Set coins to the startingCoins value from the level
+        this.coins = this.level.startingCoins;
+        this.updateCoins();
+
+        // Set lives to the startingLives value from the level
+        this.lives = this.level.startingLives;
+        this.updateLives();
+
+        this.score = 0;
+        this.updateScore();
     }
 
     changeCoins(amount, notificationSpawnX, notificationSpawnY)
@@ -443,6 +455,10 @@ class Play extends GameState
 
     updateCoins()
     {
+        if (!this.hasOwnProperty('labelCoins'))
+        {
+            return false;
+        }
         if (this.hasOwnProperty('previousCoins') && this.previousCoins.toString().length !== this.coins.toString().length)
         {
             this.labelCoins.fixedToCamera = false;
@@ -462,6 +478,7 @@ class Play extends GameState
             this.labelCoins.fixedToCamera = true;
         }
         this.labelCoins.setText(this.coins);
+        return true;
     }
 
     updateLives()
@@ -1557,24 +1574,11 @@ class Play extends GameState
         this.setupMap();
         this.spawnLevelObstacles();
         this.positionCamera();
-        this.initiateLabels();
-        this.addUserInterfaceButtons();
 
         if (typeof this.level.begin === 'function')
         {
             this.level.begin();
         }
-
-        // Set coins to the startingCoins value from the level
-        this.coins = this.level.startingCoins;
-        this.updateCoins();
-
-        // Set lives to the startingLives value from the level
-        this.lives = this.level.startingLives;
-        this.updateLives();
-
-        this.score = 0;
-        this.updateScore();
 
         this.startingObstaclesWithCoinsValue = this.countObstaclesWithCoinsValue();
 
@@ -1585,6 +1589,8 @@ class Play extends GameState
         }
         else
         {
+            this.initiateLabels();
+            this.addUserInterfaceButtons();
             this.scheduleLevelEvents();
         }
     }
@@ -3585,6 +3591,8 @@ class Play extends GameState
     introductionComplete()
     {
         this.introductionRunning = false;
+        this.initiateLabels();
+        this.addUserInterfaceButtons();
         this.scheduleLevelEvents();
     }
 
@@ -3602,5 +3610,55 @@ class Play extends GameState
         {
             this.nathan.drawForceFields();
         }
+    }
+
+    levelToRightAndBackIntroduction()
+    {
+        let offset = this.game.camera.width * .25;
+        this.reco = new Reco(
+            game,
+            offset,
+            (this.map.heightInPixels * .5) - this.halfSquareWidth
+        );
+        this.characters.add(this.reco);
+
+        this.game.camera.follow(this.reco, Phaser.Camera.FOLLOW_LOCKON, 1, 0);
+
+        let leftToRightTween = this.game.add.tween(this.reco).to(
+            {
+                x: this.game.world.width - offset
+            },
+            3000,
+            Phaser.Easing.Linear.None
+        );
+        let rightToLeftTween = this.game.add.tween(this.reco).to(
+            {
+                x: offset
+            },
+            3000,
+            Phaser.Easing.Linear.None
+        );
+        leftToRightTween.chain(rightToLeftTween);
+        leftToRightTween.start();
+
+        this.game.time.events.add(
+            6500,
+            function() {
+                this.game.camera.follow(null)
+            },
+            this
+        ).autoDestroy = true;
+
+        this.game.time.events.add(
+            6600,
+            this.reco.die,
+            this.reco
+        ).autoDestroy = true;
+
+        this.game.time.events.add(
+            6700,
+            this.introductionComplete,
+            this
+        ).autoDestroy = true;
     }
 }
