@@ -3590,6 +3590,11 @@ class Play extends GameState
 
     introductionComplete()
     {
+        this.game.camera.follow(null);
+        if (this.reco)
+        {
+            this.reco.die();
+        }
         this.introductionRunning = false;
         this.initiateLabels();
         this.addUserInterfaceButtons();
@@ -3622,7 +3627,7 @@ class Play extends GameState
         );
         this.characters.add(this.reco);
 
-        this.game.camera.follow(this.reco, Phaser.Camera.FOLLOW_LOCKON, 1, 0);
+        this.game.camera.follow(this.reco, Phaser.Camera.FOLLOW_LOCKON, .1, 0);
 
         let leftToRightTween = this.game.add.tween(this.reco).to(
             {
@@ -3638,27 +3643,11 @@ class Play extends GameState
             3000,
             Phaser.Easing.Linear.None
         );
-        leftToRightTween.chain(rightToLeftTween);
-        leftToRightTween.start();
-
-        this.game.time.events.add(
-            6500,
-            function() {
-                this.game.camera.follow(null)
-            },
-            this
-        ).autoDestroy = true;
-
-        this.game.time.events.add(
-            6600,
-            this.reco.die,
-            this.reco
-        ).autoDestroy = true;
-
-        this.game.time.events.add(
-            6700,
+        rightToLeftTween.onComplete.add(
             this.introductionComplete,
             this
-        ).autoDestroy = true;
+        );
+        leftToRightTween.chain(rightToLeftTween);
+        leftToRightTween.start();
     }
 }
