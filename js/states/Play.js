@@ -981,7 +981,7 @@ class Play extends GameState
     {
         // game.debug.body(this.test);
 
-        this.game.debug.body(this.reco);
+        // this.game.debug.body(this.reco);
 
         /*
          this.game.bullets.forEachAlive(function(item){
