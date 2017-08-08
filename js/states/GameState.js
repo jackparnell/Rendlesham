@@ -494,7 +494,8 @@ class GameState extends Phaser.State
 
         let modes = ['classic', 'epic', 'endless'];
 
-        for (let i = 0; i < modes.length; i++) {
+        for (let i = 0; i < modes.length; i++)
+        {
             if (
                 (mode === 'any' || mode === modes[i])
                 &&

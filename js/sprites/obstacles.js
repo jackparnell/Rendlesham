@@ -101,17 +101,19 @@ class Obstacle extends GameSprite
         }
 
         this.game.bullets.forEachAlive(function(bullet) {
-            game.physics.arcade.overlap(this, bullet, this.hit, null, this);
+            this.game.physics.arcade.overlap(this, bullet, this.hit, null, this);
         }, this);
 
         this.updateHealthBar();
         this.updateCrosshair();
 
-        if (this.health <= 0) {
+        if (this.health <= 0)
+        {
             this.health = 0;
             this.die();
         }
-        if (isNaN(this.health)) {
+        if (isNaN(this.health))
+        {
             throw {
                 'code': 10001,
                 'description': 'Health of ' + this.constructor.name + ' is not a number.'
@@ -127,25 +129,28 @@ class Obstacle extends GameSprite
 
     die()
     {
-        if (this.health <= 0) {
+        if (this.health <= 0)
+        {
             this.game.state.states.play.changeCoins(this.coinsValue, this.x, this.y);
             this.game.state.states.play.changeScore(this.scoreValue, this.x, this.y);
             this.game.state.states.play.sounds.nes08.play();
         }
-        if (this.healthBar) {
+        if (this.healthBar)
+        {
             this.healthBar.kill();
         }
-        if (this.crosshair) {
+        if (this.crosshair)
+        {
             this.crosshair.kill();
         }
-        if (this.targeted) {
+        if (this.targeted)
+        {
             this.game.state.states.play.noTarget();
         }
 
         this.game.state.states.play.removeGlobalImpassablePoint(this.gridX, this.gridY, 'grid');
 
         this.kill();
-
     }
 
     /**
@@ -160,7 +165,8 @@ class Obstacle extends GameSprite
             return false;
         }
 
-        if (!this.alive) {
+        if (!this.alive)
+        {
             return false;
         }
 
@@ -245,7 +251,7 @@ class Obstacle extends GameSprite
         this.targeted = true;
 
         this.crosshair = game.add.sprite(this.x, this.y, 'crosshair');
-        game.physics.arcade.enable(this.crosshair);
+        this.game.physics.arcade.enable(this.crosshair);
 
         this.game.state.states.play.crosshairs.add(this.crosshair);
     }

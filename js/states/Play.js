@@ -1166,7 +1166,7 @@ class Play extends GameState
         // Begin score text
         if (!this.hasCheated)
         {
-            this.scoreText = game.add.bitmapText(
+            this.scoreText = this.game.add.bitmapText(
                 this.game.camera.width * .5,
                 this.game.height * .61,
                 this.game.globals.bitmapFontName,
@@ -1463,7 +1463,6 @@ class Play extends GameState
 
     getObstacleAtPosition(x, y)
     {
-
         let obstacleAtPosition;
 
         let gridCoordinates = this.translatePixelCoordinatesToGridCoordinates(x, y);
@@ -1901,8 +1900,8 @@ class Play extends GameState
 
         this.graphics = this.game.add.graphics(0, 0);
 
-        let x = Math.floor((this.game.input.x + game.camera.x) / this.squareWidth) * this.squareWidth;
-        let y = Math.floor((this.game.input.y + game.camera.y) / this.squareWidth) * this.squareWidth;
+        let x = Math.floor((this.game.input.x + this.game.camera.x) / this.squareWidth) * this.squareWidth;
+        let y = Math.floor((this.game.input.y + this.game.camera.y) / this.squareWidth) * this.squareWidth;
 
         let inappropriateColor = 0xFF8888;
         let notEnoughCoinsColor = 0xFFFF88;
@@ -1912,7 +1911,6 @@ class Play extends GameState
 
         if (this.lives < 1)
         {
-
             borderColor = 0x000000;
 
             if (this.nathan) {
@@ -1920,11 +1918,9 @@ class Play extends GameState
             } else {
                 indicatorMessage = 'You were defeated.';
             }
-
         }
         else if (this.isTowerPlacementAppropriateAtPosition(x, y))
         {
-
             let cheapestTowerCost = this.getCheapestTowerCost();
 
             if (this.coins >= this.getCheapestTowerCost())
@@ -1937,30 +1933,25 @@ class Play extends GameState
                 borderColor = notEnoughCoinsColor;
                 indicatorMessage = 'Need £' + cheapestTowerCost + ' for a tower.';
             }
-
         }
         else if (this.isTowerUpgradeAppropriateAtPosition(x, y))
         {
-
             if (this.coinsSufficientToUpgradeCurrentTower()) {
                 borderColor = upgradeColor;
             } else {
                 borderColor = notEnoughCoinsColor;
             }
             indicatorMessage = 'Click tower for options.';
-
         }
         else if (this.doesAttackerExistAtPosition(x, y))
         {
             borderColor = 0xFF8800;
             indicatorMessage = 'Target this attacker.';
-
         }
         else if (this.doesObstacleExistAtPosition(x, y))
         {
             borderColor = 0xFF8800;
             indicatorMessage = 'Target this obstacle.';
-
         }
         else
         {
@@ -2119,8 +2110,9 @@ class Play extends GameState
             {
                 return false;
             }
-        } else {
-
+        }
+        else
+        {
             let anyLivingAttackersInWave = false;
             this.attackers.forEachAlive(function(attacker) {
                 if (attacker.waveNumber === waveNumber)
@@ -2319,9 +2311,11 @@ class Play extends GameState
         this.grid_dimensions = {row: world_grid.length, column: world_grid[0].length};
 
         let grid_indices = [];
-        for (let grid_row = 0; grid_row < world_grid.length; grid_row += 1) {
+        for (let grid_row = 0; grid_row < world_grid.length; grid_row += 1)
+        {
             grid_indices[grid_row] = [];
-            for (let grid_column = 0; grid_column < world_grid[grid_row].length; grid_column += 1) {
+            for (let grid_column = 0; grid_column < world_grid[grid_row].length; grid_column += 1)
+            {
                 grid_indices[grid_row][grid_column] = world_grid[grid_row][grid_column].index;
             }
         }
@@ -2420,7 +2414,6 @@ class Play extends GameState
 
     generateSpawnAttackerPixelCoordinates()
     {
-
         let coordinates = this.translateGridCoordinatesToPixelCoordinates(
             this.level.entryXGrid,
             this.level.entryYGrid
@@ -2786,14 +2779,8 @@ class Play extends GameState
         return bully;
     }
 
-    notPossible()
-    {
-
-    }
-
     openTowerInfo(tower, useTween = true)
     {
-
         if (this.towerInfoOpen)
         {
             this.closeTowerInfo();

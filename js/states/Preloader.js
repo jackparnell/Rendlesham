@@ -20,7 +20,7 @@ class Preloader extends GameState
 
         let text = this.game.add.text(0, 0, 'Loading ' + this.game.globals.applicationTitle, style);
         text.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
-        text.setTextBounds(0, 100, game.width, 100);
+        text.setTextBounds(0, 100, this.game.width, 100);
 
         this.loadMainFiles();
         this.loadTransylvanianFiles();
