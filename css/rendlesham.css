@@ -1,23 +1,10 @@
-@import 'https://fonts.googleapis.com/css?family=Ubuntu';
-
-* {
-    margin: 0;
-    padding: 0;
-}
-fb:login-button, #status {
-    position: absolute;
-    top: 0;
-    right: 0;
-    height: 50px;
-    width: 50px;
-    border: 2px solid #888888;
-    background-color: #FFFFFF;
-}
 body {
     background-color: #28411c;
     font-family: 'Ubuntu', Arial, sans-serif;
     font-size: 1.1em;
     letter-spacing: 1px;
+    margin: 0;
+    padding: 0;
 }
 @media only screen and (min-width: 820px) {
     canvas {
@@ -25,77 +12,24 @@ body {
         border-radius: 5px;
     }
 }
-#legal {
-    z-index: 100;
-    padding: 3px;
-    margin: 5px;
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    background-color: #2b669a;
-    border-radius: 3px;
-}
-#legal a {
-    color: #FFFFFF;
-    text-decoration: none;
-}
-#legal ul {
-    display: inline;
-    list-style: none;
-}
-#legal ul li {
-    display: inline;
-}
-#legal li:after {
-    content: " | ";
-}
-#legal li:last-child:after {
-    content: "";
-}
-#foot {
-    width: 100%;
-    background-color: #FFFFFF;
-    position: absolute;
-    bottom: 0;
-    padding: 3px;
-}
 
-
-#orientationWarning {
-    color: #000000;
-    font-weight: bold;
-    text-align: center;
-    padding: 5px;
-    border-top: 2px solid #000000;
-    background-color: coral;
-    display: none;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    font-size: 130%;
-    z-index: 200;
-}
-@media only screen and (orientation:portrait) {
-    #container {
-        display:none;
-    }
-    #orientationWarning {
-        display:block;
-    }
-}
-@media only screen and (orientation:landscape) {
-    #orientationWarning {
-        display:none;
-    }
-}
-p {
-    text-align: center;
-    color: #FFFFFF;
-    font-weight: bold;
-    font-size: 60%;
+h1, h2, h3 {
+    margin-top: 0;
 }
 
 a {
-    color: aquamarine;
+    color: #88DD88;
+}
+
+li {
+    margin-bottom: 10px;
+}
+
+.state {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: #FFFFFF;
+    padding: 10px;
 }

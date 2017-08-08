@@ -556,4 +556,21 @@ class GameState extends Phaser.State
         this.game.camera.fade(this.game.globals.interStateBackgroundColor, this.game.globals.fadeOutOfStateMs, true);
         this.game.camera.onFadeComplete.add(this.changeGameState, this, 0, stateName);
     }
+
+    showDomElement(id)
+    {
+        $('#' + id).css(
+            {
+                top: '50%',
+                left: '50%',
+                margin: '-'+($('#' + id).height() / 2)+'px 0 0 -'+($('#' + id).width() / 2)+'px'
+            }
+        );
+        $('#' + id).show();
+    }
+
+    hideDomElement(id)
+    {
+        $('#' + id).hide();
+    }
 }
