@@ -3,8 +3,6 @@
 <head>
     <meta name="viewport" content="initial-scale=1.0">
 
-    <link rel="stylesheet" type="text/css" href="css/rendlesham.css">
-
     <script type="text/javascript" src="js/phaser.js"></script>
     <!--
     <script type="text/javascript" src="js/plugins/phaser-debug.js"></script>
@@ -21,6 +19,11 @@
     <script type="text/javascript" src="js/plugins/phaser-kinetic-scrolling-plugin.js"></script>
 
     <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/rendlesham.css">
 
     <meta charset="utf-8">
     <meta name="author" content="Jack Parnell, Starsol Ltd">
@@ -54,50 +57,77 @@
 
     <script type="text/javascript" src="js/start.js"></script>
 
+    <script type="text/javascript" src="js/onReady.js"></script>
+
 </head>
 
 <body>
 
-    <div id="container">
-    </div>
-
-    <div id="credits" class="state">
-        <h2>Credits</h2>
-
-        <p>
-            Rendlesham Forest is made by <a href="https://linkedin.com/in/jackparnell/">Jack Parnell</a> of Starsol using the following tools and resources:
-        </p>
-
-        <h3>JavaScript libraries and frameworks</h3>
-
-        <ul>
-            <li><a href="http://phaser.io/" target="_blank">Phaser</a></li>
-            <li><a href="http://jquery.com/" target="_blank">jQuery</a></li>
-        </ul>
-
-        <h3>Graphics</h3>
-
-        <ul>
-            <li><a href="http://www.paintshoppro.com/" target="_blank">PaintShop Pro</a></li>
-            <li><a href="http://www.piskelapp.com/" target="_blank">Piskel</a></li>
-        </ul>
-
-        <h3>Sounds</h3>
-
-        <ul>
-            <li>
-                <a href="http://soundbible.com/" target="_blank">Sound Bible</a>
-                <ul>
-                    <li>Mark DiAngelo</li>
-                    <li>Mike Koenig</li>
-                    <li>PsychoBird</li>
-                    <li>Tony Phillips</li>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand navbar-left titleScreenLink" href="#play">
+                    <img src="assets/sprites/characters/Nathan.png" alt="Nathan the Alien" style="display: inline-block;">
+                    <span style="display: inline-block;">Rendlesham Forest</span>
+                </a>
+            </div>
+            <div id="navbar" class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li class="titleScreenLink"><a href="#play">Play the Game!</a></li>
+                    <li class="achievementsLink"><a href="#achievements">Achievements</a></li>
+                    <li class="creditsLink"><a href="#credits">Credits</a></li>
                 </ul>
-            </li>
-        </ul>
+            </div><!--/.nav-collapse -->
+        </div>
+    </nav>
 
-        <button class="back">Back</button>
-    </div>
+    <div class="container">
+
+        <div id="credits" class="state">
+            <h2>Credits</h2>
+
+            <p>
+                Rendlesham Forest is made by <a href="https://linkedin.com/in/jackparnell/">Jack Parnell</a> of Starsol using the following tools and resources:
+            </p>
+
+            <h3>JavaScript libraries and frameworks</h3>
+
+            <ul>
+                <li><a href="http://phaser.io/" target="_blank">Phaser</a></li>
+                <li><a href="http://jquery.com/" target="_blank">jQuery</a></li>
+            </ul>
+
+            <h3>Graphics</h3>
+
+            <ul>
+                <li><a href="http://www.paintshoppro.com/" target="_blank">PaintShop Pro</a></li>
+                <li><a href="http://www.piskelapp.com/" target="_blank">Piskel</a></li>
+            </ul>
+
+            <h3>Sounds</h3>
+
+            <ul>
+                <li>
+                    <a href="http://soundbible.com/" target="_blank">Sound Bible</a>
+                    <ul>
+                        <li>Mark DiAngelo</li>
+                        <li>Mike Koenig</li>
+                        <li>PsychoBird</li>
+                        <li>Tony Phillips</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    </div><!-- /.container -->
+
+
 
 </body>
 </html>

@@ -13,6 +13,8 @@ class GameState extends Phaser.State
         this.game.backgrounds = this.game.add.group();
         this.game.linkBackgrounds = this.game.add.group();
         this.game.texts = this.game.add.group();
+
+        this.manageDom();
     }
 
     loadUser()
@@ -559,18 +561,26 @@ class GameState extends Phaser.State
 
     showDomElement(id)
     {
-        $('#' + id).css(
-            {
-                top: '50%',
-                left: '50%',
-                margin: '-'+($('#' + id).height() / 2)+'px 0 0 -'+($('#' + id).width() / 2)+'px'
-            }
-        );
         $('#' + id).show();
     }
 
     hideDomElement(id)
     {
         $('#' + id).hide();
+    }
+
+    manageDom()
+    {
+        $('.active').removeClass('active');
+        $('.' + this.game.state.current + 'Link').addClass('active');
+
+        if (this.game.state.current === 'play')
+        {
+            $('body').addClass('play');
+        }
+        else
+        {
+            $('body').removeClass('play');
+        }
     }
 }
