@@ -396,6 +396,15 @@ class GameState extends Phaser.State
 
     getLevelFromZoneAndNumber(zoneName, levelNumber)
     {
+        if (!ZONE_INFO.hasOwnProperty(zoneName)) {
+            return false;
+        }
+        if (!ZONE_INFO[zoneName].hasOwnProperty('LEVEL_ORDERING')) {
+            return false;
+        }
+        if (!ZONE_INFO[zoneName].LEVEL_ORDERING.hasOwnProperty(levelNumber)) {
+            return false;
+        }
         return window[ZONE_INFO[zoneName].LEVEL_ORDERING[levelNumber]];
     }
 
