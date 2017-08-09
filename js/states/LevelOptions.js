@@ -7,9 +7,20 @@ class LevelOptions extends GameState
 
     init(obj)
     {
-        this.zoneName = obj.zoneName;
+        if (ZONE_INFO.hasOwnProperty(obj.zoneName))
+        {
+            this.zone = ZONE_INFO[obj.zoneName];
+        }
+        else
+        {
+            throw {
+                'code': 85701,
+                'description': 'Zone ' + obj.zoneName + ' invalid. '
+            };
+        }
+
         this.levelNumber = obj.levelNumber;
-        this.level = window[ZONE_INFO[this.zoneName].LEVEL_ORDERING[this.levelNumber]];
+        this.level = window[ZONE_INFO[this.zone.NAME].LEVEL_ORDERING[this.levelNumber]];
     }
 
     create()
@@ -115,13 +126,13 @@ class LevelOptions extends GameState
 
     goToZone()
     {
-        this.game.state.start('zone', true, true, this.zoneName);
+        this.game.state.start('zone', true, true, this.zone.NAME);
     }
 
     play(mode)
     {
         let obj = {
-            zoneName: this.zoneName,
+            zoneName: this.zone.NAME,
             levelNumber: this.levelNumber,
             mode: mode
         };

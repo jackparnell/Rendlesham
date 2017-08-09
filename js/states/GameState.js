@@ -470,7 +470,7 @@ class GameState extends Phaser.State
         {
             return true;
         }
-        let level = this.getLevelFromZoneAndNumber(this.zoneName, levelNumber);
+        let level = this.getLevelFromZoneAndNumber(this.zone.NAME, levelNumber);
 
         switch (mode)
         {
