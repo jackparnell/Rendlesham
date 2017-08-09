@@ -580,13 +580,7 @@ class GameState extends Phaser.State
         $('.active').removeClass('active');
         $('.' + this.game.state.current + 'Link').addClass('active');
 
-        if (this.game.state.current === 'play')
-        {
-            $('body').addClass('play');
-        }
-        else
-        {
-            $('body').removeClass('play');
-        }
+        $('body').removeClass();
+        $('body').addClass(this.game.state.current);
     }
 }

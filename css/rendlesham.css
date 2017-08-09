@@ -49,6 +49,14 @@ a.active {
         padding: 0;
     }
 
+    body.credits {
+        padding-top: 65px;
+    }
+
+    body.credits nav {
+        display: block;
+    }
+
     canvas {
         border: 0;
         border-radius: 0;
