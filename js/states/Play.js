@@ -2354,12 +2354,6 @@ class Play extends GameState
         this.noTarget();
     }
 
-    goFullScreen()
-    {
-        this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
-        this.game.scale.startFullScreen(false);
-    }
-
     toggleFullScreen()
     {
         if (this.game.scale.isFullScreen)

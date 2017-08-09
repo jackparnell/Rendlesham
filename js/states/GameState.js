@@ -547,6 +547,12 @@ class GameState extends Phaser.State
         this.game.scale.pageAlignVertically = true;
     }
 
+    goFullScreen()
+    {
+        this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
+        this.game.scale.startFullScreen(false);
+    }
+
     flashIntoState()
     {
         this.game.camera.flash(this.game.globals.interStateBackgroundColor, this.game.globals.flastIntoStateMs, true);
