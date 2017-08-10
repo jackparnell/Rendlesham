@@ -2423,7 +2423,7 @@ var iclandu = {
                 {
                     className: 'Ogre',
                     duration: 25,
-                    gap: 1,
+                    gap: 1.1,
                     delay: 0
                 }
             ]
