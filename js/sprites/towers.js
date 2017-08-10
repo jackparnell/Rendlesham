@@ -406,7 +406,7 @@ window.Laser = class Laser extends Tower
     }
 };
 Laser.defaultScale = .5;
-Laser.defaultDamageValue = 200;
+Laser.defaultDamageValue = 250;
 Laser.defaultFireRate = 500;
 Laser.range = 3.7;
 Laser.cost = 150;
