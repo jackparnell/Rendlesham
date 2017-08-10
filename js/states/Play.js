@@ -3022,7 +3022,7 @@ class Play extends GameState
             let buttonName = towerClassName + 'TowerButton';
             let textInfoName = towerClassName + 'TowerButtonInfo';
 
-            let functionName = 'place' + towerClassName + 'TowerAtCost';
+            let functionName = 'placeTowerAtCost';
 
             // Backdrop button start
             this[backdropButtonName] = this.game.add.button(
@@ -3032,6 +3032,7 @@ class Play extends GameState
                 this[functionName],
                 this
             );
+            this[backdropButtonName].towerClassName = towerClassName;
             this[backdropButtonName].inputEnabled = true;
             this[backdropButtonName].alpha = .5;
             this[backdropButtonName].anchor.set(0.5, 0.5);
@@ -3056,6 +3057,7 @@ class Play extends GameState
                 this[functionName],
                 this
             );
+            this[buttonName].towerClassName = towerClassName;
             this[buttonName].inputEnabled = true;
             this[buttonName].alpha = .6;
             this[buttonName].anchor.set(.5, .5);
@@ -3248,24 +3250,43 @@ class Play extends GameState
         }, this);
     }
 
-    placeGunTowerAtCost()
+    /**
+     * Place a tower at the currently selected grid position, at cost.
+     *
+     * @param {Phaser.Button} buttonClicked
+     * @returns {boolean}
+     */
+    placeTowerAtCost(buttonClicked)
     {
-        this.placeTowerAtCost('Gun');
-    }
+        if (typeof buttonClicked !== 'object')
+        {
+            throw {
+                'code': 20003,
+                'description': 'Type of buttonClicked is not an object. '
+            };
+        }
 
-    placeFreezerTowerAtCost()
-    {
-        this.placeTowerAtCost('Freezer');
-    }
+        if (!buttonClicked.hasOwnProperty('towerClassName'))
+        {
+            throw {
+                'code': 20004,
+                'description': 'Button clicked missing towerClassName property. '
+            };
+        }
 
-    placeLaserTowerAtCost()
-    {
-        this.placeTowerAtCost('Laser');
-    }
+        let towerClassName = buttonClicked.towerClassName;
 
-    placeTowerAtCost(className)
-    {
-        this.towerSelected = className;
+        let availableTowerClassNames = this.getTowerClassNames();
+
+        if (availableTowerClassNames.indexOf(towerClassName) === -1)
+        {
+            throw {
+                'code': 20005,
+                'description': 'The towerClassName ' + towerClassName + ' is not available. '
+            };
+        }
+
+        this.towerSelected = towerClassName;
 
         let cost = window[this.towerSelected].cost;
 
@@ -3277,13 +3298,20 @@ class Play extends GameState
         let x = this.currentGridPosition.x;
         let y = this.currentGridPosition.y;
 
+        if (!this.isTowerPlacementAppropriateAtPosition(x, y))
+        {
+            return false;
+        }
+
         if (this.spawnTower(this.towerSelected, x, y))
         {
             this.changeCoins(-cost, x, y);
-            this.addTowerClassUsed(className, x, y);
+            this.addTowerClassUsed(towerClassName, x, y);
         }
 
         this.closeTowerPlacementView();
+
+        return true;
     }
 
     getCheapestTowerCost()
