@@ -3205,9 +3205,30 @@ class Play extends GameState
     {
         objects.forEach(function(objectName)
         {
+            if (!this.hasOwnProperty(objectName))
+            {
+                throw {
+                    'code': 20001,
+                    'description': 'Object ' + objectName + ' not found. '
+                };
+            }
+
+            if (!this[objectName].hasOwnProperty('scale'))
+            {
+                throw {
+                    'code': 20002,
+                    'description': 'Object ' + objectName + ' does not have scale property. '
+                };
+            }
+
             // Tween to zero scale
             this.game.add.tween(
-                this[objectName].scale).to({ x: 0, y: 0 },
+                this[objectName].scale
+            ).to(
+                {
+                    x: 0,
+                    y: 0
+                },
                 this.quickTweenMs,
                 Phaser.Easing.Back.Out,
                 true,
@@ -3217,7 +3238,7 @@ class Play extends GameState
             // Destroy at same time tween ends
             this.game.time.events.add(
                 this.quickTweenMs,
-                function() {
+                function () {
                     this[objectName].destroy()
                 },
                 this
