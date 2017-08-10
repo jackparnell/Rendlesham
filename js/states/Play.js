@@ -1290,6 +1290,7 @@ class Play extends GameState
             }
             else
             {
+                this.notPossible();
                 return false;
             }
 

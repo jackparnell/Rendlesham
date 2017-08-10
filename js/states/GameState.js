@@ -128,14 +128,16 @@ class GameState extends Phaser.State
 
         this[buttonName].name = name;
 
-        this[buttonName].onInputDown.add(
-            this.buttonTextLinkClickEffect,
-            this,
-            0,
-            name
-        );
-
-        this[buttonName].onDownSound = this.sounds[soundName];
+        if (clickFunctionName !== 'notPossible')
+        {
+            this[buttonName].onInputDown.add(
+                this.buttonTextLinkClickEffect,
+                this,
+                0,
+                name
+            );
+            this[buttonName].onDownSound = this.sounds[soundName];
+        }
 
         if (horizontal === 'right')
         {
@@ -368,6 +370,7 @@ class GameState extends Phaser.State
         this.game.load.bitmapFont('passionOne', 'assets/fonts/bitmapFonts/passionOne.png', 'assets/fonts/bitmapFonts/passionOne.fnt');
 
         this.game.load.audio('bookOpen', 'assets/audio/bookOpen.ogg');
+        this.game.load.audio('computerErrorAlert', 'assets/audio/computerErrorAlert.ogg');
         this.game.load.audio('footstep02', 'assets/audio/footstep02.ogg');
         this.game.load.audio('handleCoins', 'assets/audio/handleCoins.ogg');
         this.game.load.audio('metalClick', 'assets/audio/metalClick.ogg');
@@ -453,6 +456,10 @@ class GameState extends Phaser.State
         this.sounds.nes15 = this.game.add.audio('nes15');
         this.sounds.nes15.allowMultiple = true;
         this.sounds.nes15.volume = .3;
+
+        this.sounds.computerErrorAlert = this.game.add.audio('computerErrorAlert');
+        this.sounds.computerErrorAlert.allowMultiple = true;
+        this.sounds.computerErrorAlert.volume = 1;
     }
 
     playSound(soundName)
@@ -521,6 +528,7 @@ class GameState extends Phaser.State
 
     notPossible()
     {
+        this.playSound('computerErrorAlert');
         return;
     }
 

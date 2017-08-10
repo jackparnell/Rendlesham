@@ -132,16 +132,18 @@ class Zone extends GameState
             this['level' + i + 'Button'].levelNumber = i;
             this['level' + i + 'Button'].levelName = ZONE_INFO[this.zone.NAME].LEVEL_ORDERING[i];
 
-            this['level' + i + 'Button'].onDownSound = this.sounds.metalClick;
+            if (this.isLevelUnlocked(i))
+            {
+                this['level' + i + 'Button'].onInputDown.add(
+                    this.levelButtonClickEffect,
+                    this,
+                    0,
+                    'level' + i + 'Button'
+                );
 
-            this['level' + i + 'Button'].onInputDown.add(
-                this.levelButtonClickEffect,
-                this,
-                0,
-                'level' + i + 'Button'
-            );
-
-            if (!this.isLevelUnlocked(i))
+                this['level' + i + 'Button'].onDownSound = this.sounds.metalClick;
+            }
+            else
             {
                 this['level' + i + 'Button'].tint = 0x333333;
                 this['level' + i + 'Button'].input.useHandCursor = false;
@@ -244,6 +246,7 @@ class Zone extends GameState
 
         if (!this.isLevelUnlocked(levelNumber))
         {
+            this.notPossible();
             return false;
         }
 
