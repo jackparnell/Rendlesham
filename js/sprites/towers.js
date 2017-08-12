@@ -235,7 +235,15 @@ class Tower extends GameSprite
 
     calculateSpecs()
     {
-        this.bulletDamageValue = window[this.constructor.name].defaultDamageValue * this.grade;
+        // Damage value at grade 1 should be defaultDamageValue.
+        // For each upgrade, damage value should increase by defaultDamageValue * gradeDamageValueMultiplier
+        let defaultDamageValue = window[this.constructor.name].defaultDamageValue;
+        let gradeDamageValueMultiplier = window[this.constructor.name].gradeDamageValueMultipler;
+        this.bulletDamageValue = defaultDamageValue + ((this.grade-1) * defaultDamageValue * gradeDamageValueMultiplier);
+
+        console.log(this.constructor.name + ' / ' + gradeDamageValueMultiplier + ' / ' + this.bulletDamageValue);
+
+
         this.weapon1.fireRate = window[this.constructor.name].defaultFireRate * 1.1 - (this.grade / 8);
         if (this.game.time.slowMotion !== 1)
         {
@@ -367,6 +375,7 @@ Gun.spriteName = 'Gun';
 Gun.bulletSpriteName = 'Bullet';
 Gun.bulletPace = 14;
 Gun.bulletHitDecorationClassName = 'Explosion';
+Gun.gradeDamageValueMultipler = .8;
 
 
 window.Freezer = class Freezer extends Tower
@@ -392,10 +401,11 @@ Freezer.bulletSpriteName = 'IceLance';
 Freezer.bulletPace = 14;
 Freezer.bulletHitDecorationClassName = 'Zap';
 Freezer.bulletHitDecorationTint = 0x0000FF;
+Freezer.gradeDamageValueMultipler = 1;
 
 window.Laser = class Laser extends Tower
 {
-    static get DESCRIPTION() { return 'The Laser tower is a fast firing tower with a long range.'; }
+    static get DESCRIPTION() { return 'The Laser tower is a fast firing tower with a long range. It works best fully upgraded.'; }
     static get DEFAULT_SCALE() { return .5; }
 
     constructor(game, x, y)
@@ -406,8 +416,8 @@ window.Laser = class Laser extends Tower
     }
 };
 Laser.defaultScale = .5;
-Laser.defaultDamageValue = 250;
-Laser.defaultFireRate = 500;
+Laser.defaultDamageValue = 200;
+Laser.defaultFireRate = 400;
 Laser.range = 3.7;
 Laser.cost = 150;
 Laser.maximumGrade = 3;
@@ -416,3 +426,4 @@ Laser.bulletSpriteName = 'RedLaser';
 Laser.bulletPace = 23;
 Laser.bulletHitDecorationClassName = 'Zap';
 Laser.bulletHitDecorationTint = 0xFF0000;
+Laser.gradeDamageValueMultipler = 1.4;

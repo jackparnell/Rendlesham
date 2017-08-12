@@ -2661,7 +2661,7 @@ var draculeaBandului = {
                 {
                     className: 'Goblin',
                     duration: 10,
-                    gap: 1,
+                    gap: 1.1,
                     delay: 10
                 }
             ]
