@@ -36,7 +36,7 @@ class Tower extends GameSprite
 
         this.frame = this.grade - 1;
 
-        if (this.width !== this.game.state.states.play.map.tileWidth)
+        if (this.width !== this.getTileWidth())
         {
             this.scaleToTile();
         }
@@ -49,7 +49,7 @@ class Tower extends GameSprite
 
         this.bulletDamageValue = window[this.constructor.name].defaultDamageValue;
 
-        if (this.game.state.states.play.level.canPlaceTowerOnPathway)
+        if (this.game.state.current === 'play' && this.game.state.states.play.level.canPlaceTowerOnPathway)
         {
             this.game.state.states.play.addGlobalImpassablePoint(this.gridX, this.gridY, 'grid');
         }
@@ -241,10 +241,7 @@ class Tower extends GameSprite
         let gradeDamageValueMultiplier = window[this.constructor.name].gradeDamageValueMultipler;
         this.bulletDamageValue = defaultDamageValue + ((this.grade-1) * defaultDamageValue * gradeDamageValueMultiplier);
 
-        console.log(this.constructor.name + ' / ' + gradeDamageValueMultiplier + ' / ' + this.bulletDamageValue);
-
-
-        this.weapon1.fireRate = window[this.constructor.name].defaultFireRate * 1.1 - (this.grade / 8);
+        this.weapon1.fireRate = window[this.constructor.name].defaultFireRate * (1.1 - (this.grade / 10));
         if (this.game.time.slowMotion !== 1)
         {
             this.weapon1.fireRate *= this.game.time.slowMotion;
@@ -255,16 +252,21 @@ class Tower extends GameSprite
 
     calculateRangeInPixels(grade)
     {
-        let rangeInPixels = window[this.constructor.name].range * this.game.state.states.play.map.tileWidth;
+        let rangeInPixels = window[this.constructor.name].range * this.getTileWidth();
         rangeInPixels *= (1 + ((grade - 1) * .3));
         this.rangeInPixels = rangeInPixels;
         return rangeInPixels;
     }
 
+    getRangeInTiles()
+    {
+        return this.rangeInPixels / this.getTileWidth();
+    }
+
     calculateBulletKillDistance(grade)
     {
         let bulletKillDistance = this.calculateRangeInPixels(grade);
-        if (this.game.state.states.play.level.bulletsCanOnlyHitTarget)
+        if (this.game.state.current === 'play' && this.game.state.states.play.level.bulletsCanOnlyHitTarget)
         {
             bulletKillDistance *= 1.6;
         }
@@ -331,7 +333,7 @@ class Tower extends GameSprite
 
     scaleToTile()
     {
-        let scale = 1 / (this.width / this.game.state.states.play.map.tileWidth);
+        let scale = 1 / (this.width / this.getTileWidth());
         this.scale.setTo(scale, scale);
     }
 
@@ -342,7 +344,7 @@ class Tower extends GameSprite
         // pace is tiles per second
         if (window[this.constructor.name].bulletPace)
         {
-            bulletSpeed = this.game.state.states.play.map.tileWidth * window[this.constructor.name].bulletPace;
+            bulletSpeed = this.getTileWidth() * window[this.constructor.name].bulletPace;
         }
         else if (window[this.constructor.name].defaultBulletSpeed)
         {
@@ -350,6 +352,21 @@ class Tower extends GameSprite
         }
 
         return bulletSpeed;
+    }
+
+    /**
+     * Get the width in pixels of a tile.
+     *
+     * @returns {number}
+     */
+    getTileWidth()
+    {
+        let tileWidth = 35; // Default is 35
+        if (this.game.state.current === 'play')
+        {
+            tileWidth = this.game.state.states.play.map.tileWidth;
+        }
+        return tileWidth;
     }
 }
 

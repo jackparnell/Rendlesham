@@ -3335,15 +3335,6 @@ class Play extends GameState
         return cheapestTowerCost;
     }
 
-    getTowerClassNames()
-    {
-        if (this.level.towersAvailable)
-        {
-            return this.level.towersAvailable;
-        }
-        return ['Gun', 'Freezer', 'Laser'];
-    }
-
     getMidPointBetweenSprites(spriteA, spriteB)
     {
         let x = Math.round((spriteA.body.x + spriteB.body.x) / 2);

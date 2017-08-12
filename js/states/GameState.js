@@ -600,4 +600,18 @@ class GameState extends Phaser.State
         $('body').removeClass();
         $('body').addClass(this.game.state.current);
     }
+
+    /**
+     * Retrieve an array containing strings of relevant tower class names.
+     *
+     * @returns {Array}
+     */
+    getTowerClassNames()
+    {
+        if (this.hasOwnProperty('level') && this.level.towersAvailable)
+        {
+            return this.level.towersAvailable;
+        }
+        return ['Gun', 'Freezer', 'Laser'];
+    }
 }

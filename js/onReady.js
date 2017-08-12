@@ -8,4 +8,7 @@ $(function() {
     $('.achievementsLink').click(function() {
         game.state.start('achievements');
     });
+    $('.towerInfoLink').click(function() {
+        game.state.start('towerInfo');
+    });
 });

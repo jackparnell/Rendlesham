@@ -5,7 +5,10 @@ class GameSprite extends Phaser.Sprite
     constructor (game, x, y, spriteName)
     {
         super(game, x, y, spriteName);
-        this.game.state.states.play.userSeesObject(this.constructor.name);
+        if (this.game.state.current === 'play')
+        {
+            this.game.state.states.play.userSeesObject(this.constructor.name);
+        }
     }
 
     getScale()
