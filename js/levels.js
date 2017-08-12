@@ -2458,7 +2458,7 @@ var ludus = {
                 {
                     className: 'Bogeyman',
                     duration: 20,
-                    gap: 1.25,
+                    gap: 1.2,
                     delay: 1
                 }
             ]
@@ -2515,7 +2515,7 @@ var ludus = {
                 {
                     className: 'Goblin',
                     duration: 10,
-                    gap: 1.25,
+                    gap: 1.2,
                     delay: 10
                 }
             ]
@@ -2532,7 +2532,7 @@ var ludus = {
                 {
                     className: 'Goblin',
                     duration: 15,
-                    gap: .9,
+                    gap: .8,
                     delay: 10
                 }
             ]
@@ -2587,16 +2587,16 @@ var ludus = {
                 {
                     className: 'Ogre',
                     duration: 25,
-                    gap: 1.1,
+                    gap: 1.2,
                     delay: 0
                 }
             ]
         }
 
     },
-    pathAdditionalCostTiles: function(attacker) {
-
-        var additionalCostTiles = [];
+    pathAdditionalCostTiles: function(attacker)
+    {
+        let additionalCostTiles = [];
 
         if (attacker.incrementalId % 2) {
             additionalCostTiles.push([17, 2, 20]);
@@ -2607,7 +2607,6 @@ var ludus = {
         }
 
         return additionalCostTiles;
-
     },
     startingCoins: 200,
     startingLives: 5,
@@ -2775,9 +2774,9 @@ var draculeaBandului = {
         }
 
     },
-    pathAdditionalCostTiles: function(attacker) {
-
-        var additionalCostTiles = [];
+    pathAdditionalCostTiles: function(attacker)
+    {
+        let additionalCostTiles = [];
 
         if (attacker.incrementalId % 2) {
             additionalCostTiles.push([15, 5, 20]);
@@ -2788,7 +2787,6 @@ var draculeaBandului = {
         }
 
         return additionalCostTiles;
-
     },
     startingCoins: 200,
     startingLives: 5,
@@ -3043,7 +3041,7 @@ var lapusna = {
                 {
                     className: 'Goblin',
                     duration: 10,
-                    gap: 1.25,
+                    gap: 1.2,
                     delay: 10
                 }
             ]
@@ -3071,7 +3069,7 @@ var lapusna = {
                 {
                     className: 'Cyclops',
                     duration: 25,
-                    gap: 1.5,
+                    gap: 1.4,
                     delay: 0
                 }
             ]
@@ -3115,7 +3113,7 @@ var lapusna = {
                 {
                     className: 'Ogre',
                     duration: 25,
-                    gap: 1.1,
+                    gap: 1.2,
                     delay: 0
                 }
             ]
