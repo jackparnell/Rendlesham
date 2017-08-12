@@ -1927,12 +1927,12 @@ class Play extends GameState
             if (this.coins >= this.getCheapestTowerCost())
             {
                 borderColor = 0x00FF00;
-                indicatorMessage = 'Place tower here from £' + cheapestTowerCost;
+                indicatorMessage = 'Place tower here from ' + this.game.globals.currencyString + cheapestTowerCost;
             }
             else
             {
                 borderColor = notEnoughCoinsColor;
-                indicatorMessage = 'Need £' + cheapestTowerCost + ' for a tower.';
+                indicatorMessage = 'Need ' + this.game.globals.currencyString + cheapestTowerCost + ' for a tower.';
             }
         }
         else if (this.isTowerUpgradeAppropriateAtPosition(x, y))
@@ -2809,7 +2809,7 @@ class Play extends GameState
             this.sellTowerButton.scale.setTo(buttonDisplayScale, buttonDisplayScale);
             this.sellTowerButton.x = tower.x - 39;
 
-            this.sellTowerText = this.game.add.bitmapText(this.sellTowerButton.x, this.sellTowerButton.y, this.game.globals.bitmapFontName, '£' + this.currentTower.getSellValue(), 16);
+            this.sellTowerText = this.game.add.bitmapText(this.sellTowerButton.x, this.sellTowerButton.y, this.game.globals.bitmapFontName, this.game.globals.currencyString + this.currentTower.getSellValue(), 16);
             this.sellTowerText.x = this.sellTowerButton.x - (this.sellTowerText.width * .5);
             this.sellTowerText.y = this.sellTowerButton.y + (this.sellTowerButton.height * .5);
         }
@@ -2836,7 +2836,7 @@ class Play extends GameState
 
             this.labelIndicatorMessage.setText('Upgrade or sell tower.');
 
-            upgradeTowerTextString = '£' + this.currentTower.getUpgradeCost();
+            upgradeTowerTextString = this.game.globals.currencyString + this.currentTower.getUpgradeCost();
         }
         else
         {
@@ -3078,7 +3078,7 @@ class Play extends GameState
                 this[buttonName].x,
                 this[buttonName].y  + yOffset + (this[buttonName].height * .7),
                 this.game.globals.bitmapFontName,
-                '£' + cost,
+                this.game.globals.currencyString + cost,
                 16
             );
 

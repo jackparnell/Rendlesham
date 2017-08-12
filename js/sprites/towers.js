@@ -283,6 +283,11 @@ class Tower extends GameSprite
         return window[this.constructor.name].cost;
     }
 
+    getCostSoFar()
+    {
+        return window[this.constructor.name].cost * this.grade;
+    }
+
     getSellValue()
     {
         return Math.round((window[this.constructor.name].cost * this.grade) * .6);

@@ -32,11 +32,11 @@ class TowerInfo extends GameState
 
             $('#towerInfoContent').append('<table id="' + tableId + '" class="stats"></table>');
 
-            $('#' + tableId).append('<tr><th>Grade</th><th>Sprite</th><th>Damage Value</th><th>Fire Rate (ms)</th><th>Range</th></tr>');
+            $('#' + tableId).append('<tr><th>Grade</th><th>Sprite</th><th>Cost</th></tg><th>Damage Value</th><th>Fire Rate (ms)</th><th>Range</th></tr>');
 
             for (let j = 1; j <= 3; j++)
             {
-                $('#' + tableId).append('<tr><td>' + towers[i].grade + '</td><td><div style="background-image: url(assets/sprites/towers/' + towers[i].constructor.name + '.png);" class="sprite grade' + towers[i].grade + '"></div></td><td>' + towers[i].bulletDamageValue + '</td><td>' + Math.round(towers[i].weapon1.fireRate) + '</td><td>' + towers[i].getRangeInTiles().toFixed(1) + '</td></tr>');
+                $('#' + tableId).append('<tr><td>' + towers[i].grade + '</td><td><div style="background-image: url(assets/sprites/towers/' + towers[i].constructor.name + '.png);" class="sprite grade' + towers[i].grade + '"></div></td><td>' + this.game.globals.currencyString + towers[i].getCostSoFar() + '</td><td>' + towers[i].bulletDamageValue + '</td><td>' + Math.round(towers[i].weapon1.fireRate) + '</td><td>' + towers[i].getRangeInTiles().toFixed(1) + '</td></tr>');
                 towers[i].upgrade();
             }
 
