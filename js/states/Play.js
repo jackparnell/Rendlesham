@@ -2004,35 +2004,41 @@ class Play extends GameState
 
         this.forceFieldGraphics = this.game.add.graphics(0, 0);
 
+        let minimumDiameter = 32;
+        let diameterGap = 10;
+
+        let lineAlpha = .4;
+        let fillAlpha = .08;
+
         if (number >= 5)
         {
-            this.forceFieldGraphics.lineStyle(2, 0xBBBBFF, 0.5);
-            this.forceFieldGraphics.beginFill(0xCCCCFF, 0.1);
-            this.forceFieldGraphics.drawCircle(sprite.x, sprite.y, 80);
+            this.forceFieldGraphics.lineStyle(2, 0xBBBBFF, lineAlpha);
+            this.forceFieldGraphics.beginFill(0xCCCCFF, fillAlpha);
+            this.forceFieldGraphics.drawCircle(sprite.x, sprite.y, minimumDiameter + (diameterGap * 3));
             this.forceFieldGraphics.endFill();
         }
 
         if (number >= 4)
         {
-            this.forceFieldGraphics.lineStyle(2, 0x9999FF, 0.5);
-            this.forceFieldGraphics.beginFill(0xBBBBFF, 0.1);
-            this.forceFieldGraphics.drawCircle(sprite.x, sprite.y, 65);
+            this.forceFieldGraphics.lineStyle(2, 0x9999FF, lineAlpha);
+            this.forceFieldGraphics.beginFill(0xBBBBFF, fillAlpha);
+            this.forceFieldGraphics.drawCircle(sprite.x, sprite.y, minimumDiameter + (diameterGap * 2));
             this.forceFieldGraphics.endFill();
         }
 
         if (number >= 3)
         {
-            this.forceFieldGraphics.lineStyle(2, 0x7777FF, 0.5);
-            this.forceFieldGraphics.beginFill(0xBBBBFF, 0.1);
-            this.forceFieldGraphics.drawCircle(sprite.x, sprite.y, 50);
+            this.forceFieldGraphics.lineStyle(2, 0x7777FF, lineAlpha);
+            this.forceFieldGraphics.beginFill(0xBBBBFF, fillAlpha);
+            this.forceFieldGraphics.drawCircle(sprite.x, sprite.y, minimumDiameter + diameterGap);
             this.forceFieldGraphics.endFill();
         }
 
         if (number >= 2)
         {
-            this.forceFieldGraphics.lineStyle(2, 0x5555FF, 0.5);
-            this.forceFieldGraphics.beginFill(0xBBBBFF, 0.1);
-            this.forceFieldGraphics.drawCircle(sprite.x, sprite.y, 35);
+            this.forceFieldGraphics.lineStyle(2, 0x5555FF, lineAlpha);
+            this.forceFieldGraphics.beginFill(0xBBBBFF, fillAlpha);
+            this.forceFieldGraphics.drawCircle(sprite.x, sprite.y, minimumDiameter);
             this.forceFieldGraphics.endFill();
         }
     }
