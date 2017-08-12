@@ -397,7 +397,7 @@ Gun.spriteName = 'Gun';
 Gun.bulletSpriteName = 'Bullet';
 Gun.bulletPace = 14;
 Gun.bulletHitDecorationClassName = 'Explosion';
-Gun.gradeDamageValueMultipler = .8;
+Gun.gradeDamageValueMultipler = .7;
 
 
 window.Freezer = class Freezer extends Tower
@@ -413,7 +413,7 @@ window.Freezer = class Freezer extends Tower
     }
 };
 Freezer.defaultScale = .5;
-Freezer.defaultDamageValue = 200;
+Freezer.defaultDamageValue = 250;
 Freezer.defaultFireRate = 1500;
 Freezer.range = 2.7;
 Freezer.cost = 100;
@@ -438,7 +438,7 @@ window.Laser = class Laser extends Tower
     }
 };
 Laser.defaultScale = .5;
-Laser.defaultDamageValue = 200;
+Laser.defaultDamageValue = 250;
 Laser.defaultFireRate = 400;
 Laser.range = 3.7;
 Laser.cost = 150;
