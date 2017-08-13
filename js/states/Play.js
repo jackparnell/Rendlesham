@@ -1620,12 +1620,18 @@ class Play extends GameState
             result: 'inProgress'
         };
 
+        this.statsDefaults = {
+            lives: 0,
+            lowestStepsToGoal: 999,
+            furthestAirAdvancement: 999999
+        };
+
         for (let i = 1; i <= this.totalWaves; i++)
         {
             this.stats['wave' + i] = {
-                lives: 0,
-                lowestStepsToGoal: 999,
-                furthestAirAdvancement: 999999
+                lives: this.statsDefaults.lives,
+                lowestStepsToGoal: this.statsDefaults.lowestStepsToGoal,
+                furthestAirAdvancement: this.statsDefaults.furthestAirAdvancement
             };
         }
     }
@@ -2198,8 +2204,6 @@ class Play extends GameState
         }
 
         this.obstacles.callAll('onWaveBeaten');
-
-        console.log(this.stats);
     }
 
     lastWaveDispatched()
@@ -2791,7 +2795,10 @@ class Play extends GameState
 
     restartLevel()
     {
-        this.stats.result = 'restart';
+        if (this.stats.result !== 'completed')
+        {
+            this.stats.result = 'restart';
+        }
         this.closePauseScreen();
         let obj = {
             zoneName: this.zoneName,
@@ -2803,7 +2810,10 @@ class Play extends GameState
 
     goToTitleScreenButtonClick()
     {
-        this.stats.result = 'exit';
+        if (this.stats.result !== 'completed')
+        {
+            this.stats.result = 'exit';
+        }
         this.unpause();
         this.fadeOutToState('titleScreen');
     }
@@ -3727,6 +3737,29 @@ class Play extends GameState
             return false;
         }
 
+        // Remove waves not reached and values unchanged from default
+        for (let i = 1; i <= this.totalWaves; i++)
+        {
+            if (i > this.waveNumber)
+            {
+                delete this.stats['wave' + i];
+                continue;
+            }
+
+            if (this.stats['wave' + i].lives === this.statsDefaults.lives)
+            {
+                delete this.stats['wave' + i].lives;
+            }
+            if (this.stats['wave' + i].lowestStepsToGoal === this.statsDefaults.lowestStepsToGoal)
+            {
+                delete this.stats['wave' + i].lowestStepsToGoal;
+            }
+            if (this.stats['wave' + i].furthestAirAdvancement === this.statsDefaults.furthestAirAdvancement)
+            {
+                delete this.stats['wave' + i].furthestAirAdvancement;
+            }
+        }
+
         // AJAX request to API which records stats. Fire and forget.
         $.ajax({
             url: this.game.globals.apiUrl + 'api.php',
@@ -3734,15 +3767,7 @@ class Play extends GameState
             data: {
                 stats: this.stats
             },
-            dataType: "json",
-            complete: function(e) {
-                if (e.status === 200){
-                    // Success
-                } else {
-                    console.log('Stats sending error.');
-                }
-            }
-
+            dataType: 'jsonp'
         });
 
     }
