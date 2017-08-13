@@ -11,4 +11,8 @@ $(function() {
     $('.towerInfoLink').click(function() {
         game.state.start('towerInfo');
     });
+    $('.privacyPolicyLink').click(function() {
+        game.state.start('privacyPolicy');
+    });
+    $('.applicationDomain').html(game.globals.applicationDomain);
 });
