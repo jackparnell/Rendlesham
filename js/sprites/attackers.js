@@ -540,12 +540,22 @@ class Attacker extends GameSprite
             case 'air':
                 let distanceToGoal = this.game.physics.arcade.distanceBetween(this, this.game.state.states.play.nathan);
                 advancement = 100000 - (distanceToGoal * (100 / this.game.state.states.play.squareWidth));
+                // Record air advancement stats
+                if (this.advancement < this.game.state.states.play.stats['wave' + this.game.state.states.play.waveNumber].furthestAirAdvancement)
+                {
+                    this.game.state.states.play.stats['wave' + this.game.state.states.play.waveNumber].furthestAirAdvancement = this.advancement;
+                }
                 break;
             default:
                 let stepsToGoal = this.getStepsToGoal();
                 if (stepsToGoal)
                 {
                     advancement = 100000 - (stepsToGoal * 100);
+                }
+                // Record stepsToGoal stats
+                if (stepsToGoal < this.game.state.states.play.stats['wave' + this.game.state.states.play.waveNumber].lowestStepsToGoal)
+                {
+                    this.game.state.states.play.stats['wave' + this.game.state.states.play.waveNumber].lowestStepsToGoal = stepsToGoal;
                 }
         }
         this.advancement = advancement;

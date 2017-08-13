@@ -43,6 +43,11 @@ class GameState extends Phaser.State
 
     checkUser()
     {
+        if (!this.user.hasOwnProperty('guid'))
+        {
+            this.user.guid = guid();
+        }
+
         // Array
         if (!this.user.levelsComplete)
         {

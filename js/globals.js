@@ -10,3 +10,4 @@ game.globals.interStateBackgroundColor = 0x1D241D;
 game.globals.fadeOutOfStateMs = 175;
 game.globals.flastIntoStateMs = 100;
 game.globals.currencyString = '£';
+game.globals.apiUrl = 'http://starsol.com/tower/'

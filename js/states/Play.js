@@ -269,6 +269,7 @@ class Play extends GameState
 
     gameOver()
     {
+        this.stats.result = 'gameOver';
         let obj = {
             zoneName: this.zoneName,
             levelNumber: this.levelId,
@@ -276,7 +277,6 @@ class Play extends GameState
             score: this.score,
             waveReached: this.waveNumber
         };
-
         this.game.state.start('gameOver', true, true, obj);
     }
 
@@ -568,6 +568,9 @@ class Play extends GameState
 
         this.updateLives();
         this.notification('lives', displayAmount, notificationSpawnX, notificationSpawnY);
+
+        // Record in stats
+        this.stats['wave' + this.waveNumber].lives += amount;
 
         if (this.lives === 0)
         {
@@ -1042,6 +1045,7 @@ class Play extends GameState
     levelCompleted()
     {
         this.pendingLevelCompleted = true;
+        this.stats.result = 'completed';
 
         this.displayMessage('Level ' + this.levelId + ' completed!');
         this.labelIndicatorMessage.setText('');
@@ -1592,6 +1596,34 @@ class Play extends GameState
             this.initiateLabels();
             this.addUserInterfaceButtons();
             this.scheduleLevelEvents();
+        }
+
+        this.initiateStats();
+    }
+
+    initiateStats()
+    {
+        if (!this.totalWaves)
+        {
+            throw {
+                'code': 20006,
+                'description': 'Property totalWaves missing or invalid. '
+            };
+        }
+
+        this.stats = {
+            userGuid: this.user.guid,
+            zoneName: this.zoneName,
+            levelName: this.level.name,
+            result: 'inProgress'
+        };
+        for (let i = 1; i <= this.totalWaves; i++)
+        {
+            this.stats['wave' + i] = {
+                lives: 0,
+                lowestStepsToGoal: 999,
+                furthestAirAdvancement: 999999
+            };
         }
     }
 
@@ -2163,6 +2195,8 @@ class Play extends GameState
         }
 
         this.obstacles.callAll('onWaveBeaten');
+
+        console.log(this.stats);
     }
 
     lastWaveDispatched()
@@ -2754,6 +2788,7 @@ class Play extends GameState
 
     restartLevel()
     {
+        this.stats.result = 'restart';
         this.closePauseScreen();
         let obj = {
             zoneName: this.zoneName,
@@ -3568,6 +3603,7 @@ class Play extends GameState
 
     shutdown()
     {
+        this.handleStats();
         this.save();
     }
 
@@ -3677,5 +3713,34 @@ class Play extends GameState
         );
         leftToRightTween.chain(rightToLeftTween);
         leftToRightTween.start();
+    }
+
+    handleStats()
+    {
+        // Do nothing with stats if cheated
+        if (this.hasCheated)
+        {
+            return false;
+        }
+
+        // AJAX request to API which records stats. Fire and forget.
+        $.ajax({
+            url: this.game.globals.apiUrl + '/api.php',
+            method: 'POST',
+            data: {
+                score: this.stats
+            },
+            dataType: "json",
+            complete: function(e, xhr, settings) {
+                if (e.status === 200){
+                    // Success
+                    // console.log('Score sent.');
+                } else {
+                    console.log('Score sending error.');
+                }
+            }
+
+        });
+
     }
 }
