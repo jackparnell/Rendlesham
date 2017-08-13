@@ -1615,8 +1615,11 @@ class Play extends GameState
             userGuid: this.user.guid,
             zoneName: this.zoneName,
             levelName: this.level.name,
+            version: this.game.globals.version,
+            mode: this.mode,
             result: 'inProgress'
         };
+
         for (let i = 1; i <= this.totalWaves; i++)
         {
             this.stats['wave' + i] = {
@@ -2800,6 +2803,7 @@ class Play extends GameState
 
     goToTitleScreenButtonClick()
     {
+        this.stats.result = 'exit';
         this.unpause();
         this.fadeOutToState('titleScreen');
     }
