@@ -3725,18 +3725,17 @@ class Play extends GameState
 
         // AJAX request to API which records stats. Fire and forget.
         $.ajax({
-            url: this.game.globals.apiUrl + '/api.php',
+            url: this.game.globals.apiUrl + 'api.php',
             method: 'POST',
             data: {
-                score: this.stats
+                stats: this.stats
             },
             dataType: "json",
-            complete: function(e, xhr, settings) {
+            complete: function(e) {
                 if (e.status === 200){
                     // Success
-                    // console.log('Score sent.');
                 } else {
-                    console.log('Score sending error.');
+                    console.log('Stats sending error.');
                 }
             }
 
