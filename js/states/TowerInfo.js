@@ -30,7 +30,7 @@ class TowerInfo extends GameState
 
             let tableId = towers[i].constructor.name + '_stats';
 
-            $('#towerInfoContent').append('<table id="' + tableId + '" class="stats"></table>');
+            $('#towerInfoContent').append('<table id="' + tableId + '" class="towers"></table>');
 
             $('#' + tableId).append('<tr><th>Grade</th><th>Sprite</th><th>Cost</th></tg><th>Damage Value</th><th>Fire Rate (ms)</th><th>Range</th></tr>');
 
@@ -49,6 +49,5 @@ class TowerInfo extends GameState
     {
         this.hideDomElement('towerInfo');
         $('canvas').show();
-
     }
 }

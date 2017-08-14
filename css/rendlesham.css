@@ -55,11 +55,20 @@ a.active {
 }
 
 
-table.stats {
+table.stats, table.towers {
     margin-bottom: 15px;
 }
 
 table.stats td, table.stats th {
+    padding: 5px;
+    text-align: center;
+}
+
+table.stats td.levelName, table.stats th.levelName, table.stats th.zoneName {
+    text-align: left;
+}
+
+table.towers td, table.towers th {
     padding: 5px;
     text-align: center;
 }
