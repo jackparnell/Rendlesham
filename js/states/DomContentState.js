@@ -4,10 +4,11 @@ class DomContentState extends GameState
     {
         super.create();
         $('canvas').hide();
+        $('#' + this.constructor.name).show();
     }
 
     shutdown()
     {
-        // this.hideDomElement('towerInfo');
+        $('.state').hide();
     }
 }

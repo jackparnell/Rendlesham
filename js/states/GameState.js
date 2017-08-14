@@ -592,11 +592,6 @@ class GameState extends Phaser.State
         $('#' + id).show();
     }
 
-    hideDomElement(id)
-    {
-        $('#' + id).hide();
-    }
-
     manageDom()
     {
         $('.active').removeClass('active');

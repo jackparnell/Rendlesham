@@ -8,8 +8,6 @@ class Achievements extends DomContentState
 
         $('#achievementsContent').html('');
 
-        this.showDomElement('achievements');
-
         $('#achievementsContent').append('<h3>Your High Scores</h3>');
 
         $('#achievementsContent').append('<table class="stats"><tr><th class="levelName">Level</th><th>Classic</th><th>Epic</th><th>Endless</th></tr></table>');
@@ -73,10 +71,5 @@ class Achievements extends DomContentState
                 }        
             }
         }
-    }
-
-    shutdown()
-    {
-        this.hideDomElement('achievements');
     }
 }

@@ -6,8 +6,6 @@ class TowerInfo extends DomContentState
 
         $('#towerInfoContent').html('');
 
-        this.showDomElement('towerInfo');
-
         $('.back').click(function() {
             game.state.states.towerInfo.goToTitleScreen();
         });
@@ -39,10 +37,5 @@ class TowerInfo extends DomContentState
             }
 
         }
-    }
-
-    shutdown()
-    {
-        this.hideDomElement('towerInfo');
     }
 }
