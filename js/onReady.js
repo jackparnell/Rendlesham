@@ -1,18 +1,37 @@
 $(function() {
     $('.titleScreenLink').click(function() {
-        game.state.start('titleScreen');
+        window.location.hash = '#titleScreen';
     });
     $('.creditsLink').click(function() {
-        game.state.start('credits');
+        window.location.hash = '#credits';
     });
     $('.achievementsLink').click(function() {
-        game.state.start('achievements');
+        window.location.hash = '#achievements';
     });
     $('.towerInfoLink').click(function() {
-        game.state.start('towerInfo');
+        window.location.hash = '#towerInfo';
     });
     $('.privacyPolicyLink').click(function() {
-        game.state.start('privacyPolicy');
+        window.location.hash = '#privacyPolicy';
     });
     $('.applicationDomain').html(game.globals.applicationDomain);
+    $(window).hashchange( function(){
+        let stateName = location.hash;
+        stateName = stateName.replace('#', '');
+        if (!stateName)
+        {
+            stateName = 'titleScreen';
+        }
+        if (game.state.states.hasOwnProperty(stateName))
+        {
+            game.state.start(stateName);
+        }
+        else
+        {
+            throw {
+                'code': 30006,
+                'description': 'stateName ' + stateName + ' invalid. '
+            };
+        }
+    });
 });

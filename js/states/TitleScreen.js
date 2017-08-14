@@ -34,7 +34,7 @@ class TitleScreen extends CanvasGameState
 
         this.addButtonTextLink('achievementsLink', 'View Achievements', 20, 'smallWideDark', 10, this.game.camera.height - 40, 'right', 'showAchievements');
 
-        this.addButtonTextLink('creditsLink', 'Credits', 20, 'smallWideDark', 10, game.camera.height - 40, 'left', 'showCredits');
+        this.addButtonTextLink('creditsLink', 'Credits', 20, 'smallWideDark', 10, this.game.camera.height - 40, 'left', 'showCredits');
 
         this.flashIntoState();
     }
@@ -42,11 +42,13 @@ class TitleScreen extends CanvasGameState
     showAchievements()
     {
         this.fadeOutToState('achievements');
+        window.location.hash = '#achievements';
     }
 
     showCredits()
     {
         this.fadeOutToState('credits');
+        window.location.hash = '#credits';
     }
 
     playTheGame()
