@@ -21,6 +21,12 @@ class Achievements extends DomContentState
         {
             if (ZONE_INFO.hasOwnProperty(zoneName))
             {
+                // If user has not completed any levels in the zone, continue.
+                if (!this.hasUserCompletedAnyLevelInZone(zoneName))
+                {
+                    continue;
+                }
+
                 $('#achievementsContent table').append('<tr><th class="zoneName" colspan="4">' + ZONE_INFO[zoneName].TITLE + '</th></tr>');
                 
                 for (let levelNumber in ZONE_INFO[zoneName].LEVEL_ORDERING)
@@ -31,7 +37,7 @@ class Achievements extends DomContentState
 
                         if (this.user.levelHighScores.classic.hasOwnProperty(level.name))
                         {
-                            classicHighScore = this.user.levelHighScores[level.name];
+                            classicHighScore = this.user.levelHighScores.classic[level.name];
                         }
                         else
                         {
@@ -40,7 +46,7 @@ class Achievements extends DomContentState
 
                         if (this.user.levelHighScores.epic.hasOwnProperty(level.name))
                         {
-                            epicHighScore = this.user.levelHighScores[level.name];
+                            epicHighScore = this.user.levelHighScores.epic[level.name];
                         }
                         else
                         {
@@ -49,14 +55,14 @@ class Achievements extends DomContentState
 
                         if (this.user.levelHighScores.endless.hasOwnProperty(level.name))
                         {
-                            endlessHighScore = this.user.levelHighScores[level.name];
+                            endlessHighScore = this.user.levelHighScores.endless[level.name];
                         }
                         else
                         {
                             endlessHighScore = '';
                         }
 
-                        if (classicHighScore)
+                        if (classicHighScore !== '')
                         {
                             $('#achievementsContent table').append(
                                 '<tr>' +

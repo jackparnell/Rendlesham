@@ -531,6 +531,19 @@ class GameState extends Phaser.State
         return completed;
     }
 
+    hasUserCompletedAnyLevelInZone(zoneName, mode='any')
+    {
+        for (let levelNumber in ZONE_INFO[zoneName].LEVEL_ORDERING)
+        {
+            let level = this.getLevelFromZoneAndNumber(zoneName, levelNumber);
+            if (this.hasUserCompletedLevel(level.name, mode))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
     notPossible()
     {
         this.playSound('computerErrorAlert');
