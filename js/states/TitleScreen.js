@@ -1,10 +1,5 @@
-class TitleScreen extends GameState
+class TitleScreen extends CanvasGameState
 {
-    preload()
-    {
-        super.preload();
-    }
-
     create()
     {
         super.create();

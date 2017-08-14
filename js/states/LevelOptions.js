@@ -1,10 +1,5 @@
-class LevelOptions extends GameState
+class LevelOptions extends CanvasGameState
 {
-    preload()
-    {
-        super.preload();
-    }
-
     init(obj)
     {
         if (ZONE_INFO.hasOwnProperty(obj.zoneName))

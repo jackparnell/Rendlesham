@@ -1,4 +1,4 @@
-class Achievements extends GameState
+class Achievements extends DomContentState
 {
     create()
     {
@@ -10,10 +10,7 @@ class Achievements extends GameState
 
         this.showDomElement('achievements');
 
-        $('canvas').hide();
-
         $('#achievementsContent').append('<h3>Your High Scores</h3>');
-
 
         $('#achievementsContent').append('<table class="stats"><tr><th class="levelName">Level</th><th>Classic</th><th>Epic</th><th>Endless</th></tr></table>');
         
@@ -76,13 +73,10 @@ class Achievements extends GameState
                 }        
             }
         }
-
-        this.flashIntoState();
     }
 
     shutdown()
     {
         this.hideDomElement('achievements');
-        $('canvas').show();
     }
 }

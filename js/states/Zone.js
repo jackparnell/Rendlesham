@@ -1,10 +1,5 @@
-class Zone extends GameState
+class Zone extends CanvasGameState
 {
-    preload()
-    {
-        super.preload();
-    }
-
     init(zoneName = 'EAST_ANGLIA')
     {
         if (ZONE_INFO.hasOwnProperty(zoneName))

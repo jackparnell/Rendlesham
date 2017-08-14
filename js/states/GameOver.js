@@ -1,10 +1,5 @@
-class GameOver extends GameState
+class GameOver extends CanvasGameState
 {
-    preload()
-    {
-        super.preload();
-    }
-
     init(obj)
     {
         this.zoneName = obj.zoneName;

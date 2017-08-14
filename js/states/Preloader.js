@@ -1,4 +1,4 @@
-class Preloader extends GameState
+class Preloader extends CanvasGameState
 {
     preload()
     {

@@ -1,20 +1,13 @@
-class PrivacyPolicy extends GameState
+class PrivacyPolicy extends DomContentState
 {
     create()
     {
         super.create();
-
         this.showDomElement('privacyPolicy');
-
-        $('canvas').hide();
-
-        this.flashIntoState();
     }
 
     shutdown()
     {
         this.hideDomElement('privacyPolicy');
-        $('canvas').show();
-
     }
 }

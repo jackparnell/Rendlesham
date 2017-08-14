@@ -1,4 +1,4 @@
-class Play extends GameState
+class Play extends CanvasGameState
 {
     preload()
     {

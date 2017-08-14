@@ -1,10 +1,5 @@
-class Story extends GameState
+class Story extends CanvasGameState
 {
-    preload()
-    {
-        super.preload();
-    }
-
     init(obj)
     {
         this.storyImages = obj.storyImages;

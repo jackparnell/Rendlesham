@@ -1,4 +1,4 @@
-class Credits extends GameState
+class Credits extends DomContentState
 {
     create()
     {
@@ -8,19 +8,13 @@ class Credits extends GameState
 
         // this.addButtonTextLink('backLink', 'Back', 20, 'smallDark', 10, 10, 'right', 'goToTitleScreen');
 
-        $('canvas').hide();
-
         $('.back').click(function() {
             game.state.states.credits.goToTitleScreen();
         });
-
-        this.flashIntoState();
     }
 
     shutdown()
     {
         this.hideDomElement('credits');
-        $('canvas').show();
-
     }
 }

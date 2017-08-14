@@ -1,4 +1,4 @@
-class TowerInfo extends GameState
+class TowerInfo extends DomContentState
 {
     create()
     {
@@ -7,8 +7,6 @@ class TowerInfo extends GameState
         $('#towerInfoContent').html('');
 
         this.showDomElement('towerInfo');
-
-        $('canvas').hide();
 
         $('.back').click(function() {
             game.state.states.towerInfo.goToTitleScreen();
@@ -41,13 +39,10 @@ class TowerInfo extends GameState
             }
 
         }
-
-        this.flashIntoState();
     }
 
     shutdown()
     {
         this.hideDomElement('towerInfo');
-        $('canvas').show();
     }
 }
