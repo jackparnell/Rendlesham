@@ -251,10 +251,8 @@ class Attacker extends GameSprite
         }
 
         // Set position to spawn point, and when reused it will already be there.
-        // This prevents a flash of the reused attacker in its location at death.
-        let coordinates = this.game.state.states[this.game.state.current].generateSpawnAttackerPixelCoordinates();
-        this.x = coordinates[0];
-        this.y = coordinates[1];
+        // This is an attempt to prevent a flash of the reused attacker in its location at death.
+        this.moveToSpawnPoint();
 
         this.kill();
     }
@@ -273,7 +271,15 @@ class Attacker extends GameSprite
         {
             this.game.state.states.play.noTarget();
         }
+        this.moveToSpawnPoint();
         this.kill();
+    }
+
+    moveToSpawnPoint()
+    {
+        let coordinates = this.game.state.states[this.game.state.current].generateSpawnAttackerPixelCoordinates();
+        this.body.x = coordinates[0];
+        this.body.y = coordinates[1];
     }
 
     /**
