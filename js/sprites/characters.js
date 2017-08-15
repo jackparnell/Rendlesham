@@ -48,7 +48,10 @@ window.Nathan = class Nathan extends Character
 {
     drawForceFields()
     {
-        this.game.state.states.play.drawForceFields(this, this.game.state.states.play.lives);
+        if (this.game.state.current === 'play')
+        {
+            this.game.state.states.play.drawForceFields(this, this.game.state.states.play.lives);
+        }
     }
 };
 Nathan.defaultScale = 1;

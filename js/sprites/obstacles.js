@@ -19,12 +19,12 @@ class Obstacle extends GameSprite
 
         this.game.physics.arcade.enable(this);
 
-        this.roundedCoordinates = this.game.state.states.play.pixelsNearestTileTopLeftCoordinates(x, y);
+        this.roundedCoordinates = this.game.state.states[this.game.state.current].pixelsNearestTileTopLeftCoordinates(x, y);
         x = this.roundedCoordinates[0];
         y = this.roundedCoordinates[1];
 
-        this.x = x + this.game.state.states.play.halfSquareWidth;
-        this.y = y + this.game.state.states.play.halfSquareWidth;
+        this.x = x + this.game.state.states[this.game.state.current].halfSquareWidth;
+        this.y = y + this.game.state.states[this.game.state.current].halfSquareWidth;
 
         this.anchor.setTo(0.5, 0.5);
 
@@ -33,7 +33,8 @@ class Obstacle extends GameSprite
         this.outOfBoundsKill = false;
 
         let scale = this.constructor.DEFAULT_SCALE || 1;
-        if (scale !== 1) {
+        if (scale !== 1)
+        {
             this.scale.setTo(scale, scale);
         }
 
@@ -52,8 +53,10 @@ class Obstacle extends GameSprite
     firstUpdate()
     {
         this.generateGridCoordinates();
-        this.game.state.states.play.addGlobalImpassablePoint(this.gridX, this.gridY, 'grid');
-
+        if (this.game.state.current === 'play')
+        {
+            this.game.state.states.play.addGlobalImpassablePoint(this.gridX, this.gridY, 'grid');
+        }
         this.firstUpdateRun = true;
     }
 
@@ -88,15 +91,18 @@ class Obstacle extends GameSprite
 
     update()
     {
-        if (!this.alive) {
+        if (!this.alive)
+        {
             return;
         }
 
-        if (!this.firstUpdateRun) {
+        if (!this.firstUpdateRun)
+        {
             this.firstUpdate();
         }
 
-        if (!this.gridX || !this.gridY) {
+        if (!this.gridX || !this.gridY)
+        {
             this.generateGridCoordinates();
         }
 

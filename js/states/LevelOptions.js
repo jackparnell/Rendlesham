@@ -1,29 +1,15 @@
-class LevelOptions extends CanvasGameState
+class LevelOptions extends LevelGameState
 {
-    init(obj)
-    {
-        if (ZONE_INFO.hasOwnProperty(obj.zoneName))
-        {
-            this.zone = ZONE_INFO[obj.zoneName];
-        }
-        else
-        {
-            throw {
-                'code': 85701,
-                'description': 'Zone ' + obj.zoneName + ' invalid. '
-            };
-        }
-
-        this.levelNumber = obj.levelNumber;
-        this.level = window[ZONE_INFO[this.zone.NAME].LEVEL_ORDERING[this.levelNumber]];
-    }
-
     create()
     {
         super.create();
 
         this.loadUser();
         this.checkUser();
+
+        this.setupLevelGroups();
+
+        this.setDarkOverlay(.7);
 
         this.addButtonTextLink('backLink', 'Back', 20, 'smallDark', 10, 10, 'right', 'clickBack');
 
@@ -35,6 +21,7 @@ class LevelOptions extends CanvasGameState
             64
         );
         this.titleText.x = (this.game.width * .5) - (this.titleText.width * .5);
+        this.titleText.fixedToCamera = true;
 
         this.addButtonTextLink('playClassicLink', 'Play Classic Mode', 36, 'forestGreen', 0, this.game.height * .27, 'center', 'clickMode');
         this.buttonTextLinkAddProperty('playClassicLink', 'modeName', 'classic');
@@ -82,6 +69,7 @@ class LevelOptions extends CanvasGameState
                 16
             );
             this[modes[i] + 'HighScoreText'].x = (this.game.width * .5) - (this[modes[i] + 'HighScoreText'].width * .5);
+            this[modes[i] + 'HighScoreText'].fixedToCamera = true;
             this[modes[i] + 'HighScoreText'].tint = textTint;
         }
 
@@ -104,6 +92,10 @@ class LevelOptions extends CanvasGameState
         {
             this.addButtonTextLink('playEndlessLink', 'Play Endless Mode', 36, 'locked', 0, this.game.height * .76, 'center', 'notPossible', 0x666666);
         }
+
+        this.setupMap();
+        this.spawnLevelObstacles();
+        this.positionCamera();
 
         this.flashIntoState();
     }
