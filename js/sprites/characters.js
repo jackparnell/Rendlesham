@@ -184,7 +184,6 @@ window.Reco = class Reco extends Character
 
     die()
     {
-        console.log(this);
         this.destroy();
     }
 };

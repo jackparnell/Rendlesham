@@ -16,12 +16,14 @@ window.onerror = function (message, url, lineNumber, columnNumber, error)
             'Error object: ' + JSON.stringify(error)
         ].join(' - ');
 
+        let user = this.game.state.states[this.game.state.current].user;
+
         $.ajax({
             url: this.game.globals.apiUrl + 'api.php',
             method: 'POST',
             data: {
                 action: 'javaScriptError',
-                userGuid: this.user.guid,
+                userGuid: user.guid,
                 message,
                 url,
                 lineNumber,
