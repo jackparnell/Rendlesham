@@ -3,6 +3,7 @@ class DomContentState extends GameState
     create()
     {
         super.create();
+        $('body').addClass('domContentState');
         $('canvas').hide();
         $('#' + this.constructor.name).show();
     }
@@ -10,5 +11,6 @@ class DomContentState extends GameState
     shutdown()
     {
         $('.state').hide();
+        $('body').removeClass('domContentState');
     }
 }

@@ -79,20 +79,20 @@ table.towers td, table.towers th {
         padding: 0;
     }
 
-    body.credits {
+    nav {
+        display: none;
+    }
+
+    body.domContentState {
         padding-top: 65px;
     }
 
-    body.credits nav {
+    body.domContentState nav {
         display: block;
     }
 
     canvas {
         border: 0;
         border-radius: 0;
-    }
-
-    nav {
-        display: none;
     }
 }
