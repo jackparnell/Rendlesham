@@ -32,7 +32,7 @@ class Tower extends GameSprite
     initialise(x, y)
     {
         this.grade = 1;
-        this.calculateSpecs();
+        this.incrementalId = this.currentState.towersSpawnedCount || 0;
 
         this.frame = this.grade - 1;
 
@@ -59,6 +59,8 @@ class Tower extends GameSprite
 
         this.body.immovable = true;
         this.body.moves = false;
+
+        this.calculateSpecs();
 
         this.weapon1.trackSprite(this);
     }
@@ -246,6 +248,20 @@ class Tower extends GameSprite
         let defaultDamageValue = window[this.constructor.name].defaultDamageValue;
         let gradeDamageValueMultiplier = window[this.constructor.name].gradeDamageValueMultipler;
         this.bulletDamageValue = defaultDamageValue + ((this.grade-1) * defaultDamageValue * gradeDamageValueMultiplier);
+
+        // Slight extra damage value for first towers in level
+        if (this.incrementalId === 1)
+        {
+            this.bulletDamageValue *= 1.2;
+        }
+        else if (this.incrementalId === 2)
+        {
+            this.bulletDamageValue *= 1.1;
+        }
+        else if (this.incrementalId === 3)
+        {
+            this.bulletDamageValue *= 1.05;
+        }
 
         this.weapon1.fireRate = window[this.constructor.name].defaultFireRate * (1.1 - (this.grade / 10));
         if (this.game.time.slowMotion !== 1)

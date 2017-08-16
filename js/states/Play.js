@@ -99,6 +99,7 @@ class Play extends LevelGameState
         this.startLevel();
 
         this.attackersSpawnedCount = 0;
+        this.towersSpawnedCount = 0;
 
         this.game.fastForwardMode = false;
         this.pauseScreenOpen = false;
@@ -802,6 +803,9 @@ class Play extends LevelGameState
 
     spawnTower(className, x, y)
     {
+
+        this.towersSpawnedCount ++;
+
         let reusable = {};
 
         this.towers.forEachDead(function(tower) {
