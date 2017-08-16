@@ -1,6 +1,6 @@
-window.onerror = function (msg, url, lineNo, columnNo, error)
+window.onerror = function (message, url, lineNumber, columnNumber, error)
 {
-    let string = msg.toLowerCase();
+    let string = message.toLowerCase();
     let substring = "script error";
     if (string.indexOf(substring) > -1)
     {
@@ -8,15 +8,30 @@ window.onerror = function (msg, url, lineNo, columnNo, error)
     }
     else
     {
-        let message = [
-            'Message: ' + msg,
+        let output = [
+            'Message: ' + message,
             'URL: ' + url,
-            'Line: ' + lineNo,
-            'Column: ' + columnNo,
+            'Line: ' + lineNumber,
+            'Column: ' + columnNumber,
             'Error object: ' + JSON.stringify(error)
         ].join(' - ');
 
-        alert(message);
+        $.ajax({
+            url: this.game.globals.apiUrl + 'api.php',
+            method: 'POST',
+            data: {
+                action: 'javaScriptError',
+                userGuid: this.user.guid,
+                message,
+                url,
+                lineNumber,
+                columnNumber,
+                error: JSON.stringify(error)
+            },
+            dataType: 'jsonp'
+        });
+
+        alert(output);
     }
     return false;
 };
