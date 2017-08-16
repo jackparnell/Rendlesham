@@ -4,7 +4,7 @@ window.onerror = function (message, url, lineNumber, columnNumber, error)
     let substring = "script error";
     if (string.indexOf(substring) > -1)
     {
-        alert('Script Error: See Browser Console for Detail');
+        // alert('Script Error: See Browser Console for Detail');
     }
     else
     {
@@ -33,7 +33,7 @@ window.onerror = function (message, url, lineNumber, columnNumber, error)
             dataType: 'jsonp'
         });
 
-        alert(output);
+        // alert(output);
     }
     return false;
 };
