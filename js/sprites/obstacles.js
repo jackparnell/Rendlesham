@@ -55,7 +55,7 @@ class Obstacle extends GameSprite
         this.generateGridCoordinates();
         if (this.game.state.current === 'play')
         {
-            this.game.state.states.play.addGlobalImpassablePoint(this.gridX, this.gridY, 'grid');
+            this.currentState.addGlobalImpassablePoint(this.gridX, this.gridY, 'grid');
         }
         this.firstUpdateRun = true;
     }
@@ -73,8 +73,8 @@ class Obstacle extends GameSprite
         let decorationClassName = window[bullet.towerClass].bulletHitDecorationClassName || 'Explosion';
         let decorationTint = window[bullet.towerClass].bulletHitDecorationTint || '0xFFFFFF';
         let spawnFunctionName = 'spawn' + decorationClassName;
-        let midPoint = this.game.state.states.play.getMidPointBetweenSprites(obstacle, bullet);
-        this.game.state.states.play[spawnFunctionName](midPoint.x, midPoint.y, decorationTint, midPoint.angle);
+        let midPoint = this.currentState.getMidPointBetweenSprites(obstacle, bullet);
+        this.currentState[spawnFunctionName](midPoint.x, midPoint.y, decorationTint, midPoint.angle);
 
         delete bullet.target;
         bullet.kill();
@@ -84,7 +84,7 @@ class Obstacle extends GameSprite
 
     generateGridCoordinates()
     {
-        let gridCoordinates = this.game.state.states.play.translatePixelCoordinatesToGridCoordinates(this.x, this.y);
+        let gridCoordinates = this.currentState.translatePixelCoordinatesToGridCoordinates(this.x, this.y);
         this.gridX = gridCoordinates[0];
         this.gridY = gridCoordinates[1];
     }
@@ -137,9 +137,9 @@ class Obstacle extends GameSprite
     {
         if (this.health <= 0)
         {
-            this.game.state.states.play.changeCoins(this.coinsValue, this.x, this.y);
-            this.game.state.states.play.changeScore(this.scoreValue, this.x, this.y);
-            this.game.state.states.play.sounds.nes08.play();
+            this.currentState.changeCoins(this.coinsValue, this.x, this.y);
+            this.currentState.changeScore(this.scoreValue, this.x, this.y);
+            this.currentState.sounds.nes08.play();
         }
         if (this.healthBar)
         {
@@ -151,10 +151,10 @@ class Obstacle extends GameSprite
         }
         if (this.targeted)
         {
-            this.game.state.states.play.noTarget();
+            this.currentState.noTarget();
         }
 
-        this.game.state.states.play.removeGlobalImpassablePoint(this.gridX, this.gridY, 'grid');
+        this.currentState.removeGlobalImpassablePoint(this.gridX, this.gridY, 'grid');
 
         this.kill();
     }
@@ -251,15 +251,15 @@ class Obstacle extends GameSprite
     target()
     {
         // Un-target all other obstacles and attackers
-        this.game.state.states.play.untargetAll();
-        this.game.state.states.play.setTarget(this);
+        this.currentState.untargetAll();
+        this.currentState.setTarget(this);
 
         this.targeted = true;
 
         this.crosshair = game.add.sprite(this.x, this.y, 'crosshair');
         this.game.physics.arcade.enable(this.crosshair);
 
-        this.game.state.states.play.crosshairs.add(this.crosshair);
+        this.currentState.crosshairs.add(this.crosshair);
     }
 
     untarget()
@@ -267,7 +267,7 @@ class Obstacle extends GameSprite
         this.targeted = false;
         if (this.game.target.guid && this.guid === this.game.target.guid)
         {
-            this.game.state.states.play.noTarget();
+            this.currentState.noTarget();
         }
         if (this.crosshair)
         {
@@ -281,8 +281,8 @@ class Obstacle extends GameSprite
         {
             return false;
         }
-        this.crosshair.x = this.x - this.game.state.states.play.halfSquareWidth - 2 ;
-        this.crosshair.y = this.y - this.game.state.states.play.halfSquareWidth - 2;
+        this.crosshair.x = this.x - this.currentState.halfSquareWidth - 2 ;
+        this.crosshair.y = this.y - this.currentState.halfSquareWidth - 2;
     }
 
     onWaveBeaten()
@@ -352,8 +352,8 @@ class TallGreyMushroom extends Obstacle
     {
         super.die();
 
-        if (!this.game.state.states.play.hasItem('greyMushroomSpore')) {
-            this.game.state.states.play.addItem('greyMushroomSpore');
+        if (!this.currentState.hasItem('greyMushroomSpore')) {
+            this.currentState.addItem('greyMushroomSpore');
         }
     }
 }
@@ -487,9 +487,9 @@ class Bulrush extends Obstacle
     die()
     {
         super.die();
-        if (!this.game.state.states.play.hasItem('bulrushSeed'))
+        if (!this.currentState.hasItem('bulrushSeed'))
         {
-            this.game.state.states.play.addItem('bulrushSeed');
+            this.currentState.addItem('bulrushSeed');
         }
     }
 }
@@ -512,9 +512,9 @@ class Snowman extends Obstacle
     die()
     {
         super.die();
-        if (!this.game.state.states.play.hasItem('carrot'))
+        if (!this.currentState.hasItem('carrot'))
         {
-            this.game.state.states.play.addItem('carrot');
+            this.currentState.addItem('carrot');
         }
     }
 }
@@ -537,9 +537,9 @@ class Pumpkin extends Obstacle
     die()
     {
         super.die();
-        if (!this.game.state.states.play.hasItem('pumpkin'))
+        if (!this.currentState.hasItem('pumpkin'))
         {
-            this.game.state.states.play.addItem('pumpkin');
+            this.currentState.addItem('pumpkin');
         }
     }
 }
@@ -562,9 +562,9 @@ class PinkCrystal extends Obstacle
     die()
     {
         super.die();
-        if (!this.game.state.states.play.hasItem('pinkCrystal'))
+        if (!this.currentState.hasItem('pinkCrystal'))
         {
-            this.game.state.states.play.addItem('pinkCrystal');
+            this.currentState.addItem('pinkCrystal');
         }
     }
 }

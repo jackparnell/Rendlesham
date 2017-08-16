@@ -41,17 +41,20 @@ class Tower extends GameSprite
             this.scaleToTile();
         }
 
-        let gridCoordinates = this.game.state.states.play.translatePixelCoordinatesToGridCoordinates(x, y);
-        this.gridX = gridCoordinates[0];
-        this.gridY = gridCoordinates[1];
+        if (typeof this.currentState.translatePixelCoordinatesToGridCoordinates === 'function')
+        {
+            let gridCoordinates = this.currentState.translatePixelCoordinatesToGridCoordinates(x, y);
+            this.gridX = gridCoordinates[0];
+            this.gridY = gridCoordinates[1];
+        }
 
         this.target = {};
 
         this.bulletDamageValue = window[this.constructor.name].defaultDamageValue;
 
-        if (this.game.state.current === 'play' && this.game.state.states.play.level.canPlaceTowerOnPathway)
+        if (this.game.state.current === 'play' && this.currentState.level.canPlaceTowerOnPathway)
         {
-            this.game.state.states.play.addGlobalImpassablePoint(this.gridX, this.gridY, 'grid');
+            this.currentState.addGlobalImpassablePoint(this.gridX, this.gridY, 'grid');
         }
 
         this.body.immovable = true;
@@ -68,7 +71,7 @@ class Tower extends GameSprite
         }
 
         // If pendingLevelCompleted, do nothing
-        if (this.game.state.states.play.pendingLevelCompleted)
+        if (this.currentState.pendingLevelCompleted)
         {
             return;
         }
@@ -104,7 +107,7 @@ class Tower extends GameSprite
 
         if (bullet)
         {
-            this.game.state.states.play.sounds.footstep02.play();
+            this.currentState.sounds.footstep02.play();
 
             bullet.angle = this.angleToTarget();
             bullet.damageValue = this.bulletDamageValue;
@@ -116,7 +119,7 @@ class Tower extends GameSprite
             bullet.target = this.target;
             bullet.speed = this.weapon1.bulletSpeed;
 
-            if (this.game.state.states.play.level.bulletsCanOnlyHitTarget)
+            if (this.currentState.level.bulletsCanOnlyHitTarget)
             {
                 bullet.canOnlyHitTarget = true;
             }
@@ -142,7 +145,10 @@ class Tower extends GameSprite
 
         // this.weapon1.destroy();
 
-        this.game.state.states.play.removeGlobalImpassablePoint(this.gridX, this.gridY);
+        if (typeof this.currentState.removeGlobalImpassablePoint === 'function')
+        {
+            this.currentState.removeGlobalImpassablePoint(this.gridX, this.gridY);
+        }
 
         this.kill();
     }
@@ -168,10 +174,10 @@ class Tower extends GameSprite
             return;
         }
 
-        this.game.state.states.play.attackers.forEachAlive(function(item)
+        this.currentState.attackers.forEachAlive(function(item)
         {
             // If not in camera, and level map is not scrollable, don't target
-            if (!item.inCamera && !this.game.state.states.play.canScroll())
+            if (!item.inCamera && !this.currentState.canScroll())
             {
                 return;
             }
@@ -266,7 +272,7 @@ class Tower extends GameSprite
     calculateBulletKillDistance(grade)
     {
         let bulletKillDistance = this.calculateRangeInPixels(grade);
-        if (this.game.state.current === 'play' && this.game.state.states.play.level.bulletsCanOnlyHitTarget)
+        if (this.game.state.current === 'play' && this.currentState.level.bulletsCanOnlyHitTarget)
         {
             bulletKillDistance *= 1.6;
         }
@@ -295,7 +301,7 @@ class Tower extends GameSprite
 
     sell()
     {
-        this.game.state.states.play.changeCoins(this.getSellValue(), this.x, this.y);
+        this.currentState.changeCoins(this.getSellValue(), this.x, this.y);
         this.die();
     }
 
@@ -322,7 +328,7 @@ class Tower extends GameSprite
     {
         this.upgrade();
         let cost = this.getUpgradeCost();
-        this.game.state.states.play.changeCoins(-cost, this.x, this.y);
+        this.currentState.changeCoins(-cost, this.x, this.y);
     }
 
     getUpgradeCost()
@@ -369,7 +375,7 @@ class Tower extends GameSprite
         let tileWidth = 35; // Default is 35
         if (this.game.state.current === 'play')
         {
-            tileWidth = this.game.state.states.play.map.tileWidth;
+            tileWidth = this.currentState.map.tileWidth;
         }
         return tileWidth;
     }

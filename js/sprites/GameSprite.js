@@ -9,6 +9,7 @@ class GameSprite extends Phaser.Sprite
         {
             this.game.state.states.play.userSeesObject(this.constructor.name);
         }
+        this.currentState = this.game.state.states[this.game.state.current];
     }
 
     getScale()

@@ -2119,20 +2119,6 @@ class Play extends LevelGameState
         this.labelMessage.setText('');
     }
 
-    translatePixelCoordinatesToGridCoordinates(x, y)
-    {
-        x = Math.floor(x / this.squareWidth);
-        y = Math.floor(y / this.squareWidth);
-        return [x, y];
-    }
-
-    translateGridCoordinatesToPixelCoordinates(x, y)
-    {
-        x = Math.floor(x * this.squareWidth);
-        y = Math.floor(y * this.squareWidth);
-        return [x, y];
-    }
-
     initiateEasyStar()
     {
         let collisionLayer = this.getCollisionLayer();

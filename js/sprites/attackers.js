@@ -43,7 +43,7 @@ class Attacker extends GameSprite
         this.scoreValue = window[this.constructor.name].scoreValue || 5;
         this.domain = window[this.constructor.name].domain || 'land';
         this.invulnerable = false;
-        this.incrementalId = this.game.state.states.play.attackersSpawnedCount;
+        this.incrementalId = this.currentState.attackersSpawnedCount;
 
         this.speed = this.calculateSpeed();
         this.path = [];
@@ -89,8 +89,8 @@ class Attacker extends GameSprite
         let decorationTint = window[bullet.towerClass].bulletHitDecorationTint || '0xFFFFFF';
         let spawnFunctionName = 'spawn' + decorationClassName;
 
-        let midPoint = this.game.state.states.play.getMidPointBetweenSprites(attacker, bullet);
-        this.game.state.states.play[spawnFunctionName](midPoint.x, midPoint.y, decorationTint, midPoint.angle);
+        let midPoint = this.currentState.getMidPointBetweenSprites(attacker, bullet);
+        this.currentState[spawnFunctionName](midPoint.x, midPoint.y, decorationTint, midPoint.angle);
 
         delete bullet.target;
         bullet.kill();
@@ -157,8 +157,8 @@ class Attacker extends GameSprite
     moveToGoal()
     {
         this.moveToCoordinates(
-            this.game.state.states.play.getGoalXGrid(),
-            this.game.state.states.play.getGoalYGrid()
+            this.currentState.getGoalXGrid(),
+            this.currentState.getGoalYGrid()
         );
     }
 
@@ -169,24 +169,24 @@ class Attacker extends GameSprite
      */
     hasReachedGoal()
     {
-        if (this.game.state.states.play.level.goalX <= 1 && this.x > 100)
+        if (this.currentState.level.goalX <= 1 && this.x > 100)
         {
             return false;
         }
 
-        if (this.game.state.states.play.level.goalY <= 1 && this.y > 100)
+        if (this.currentState.level.goalY <= 1 && this.y > 100)
         {
             return false;
         }
 
-        if (this.game.state.states.play.nathan)
+        if (this.currentState.nathan)
         {
-            let distanceToGoal = this.game.physics.arcade.distanceBetween(this, this.game.state.states.play.nathan);
-            let distanceNeeded = 26 + (this.game.state.states.play.lives-1) * 7.5;
+            let distanceToGoal = this.game.physics.arcade.distanceBetween(this, this.currentState.nathan);
+            let distanceNeeded = 26 + (this.currentState.lives-1) * 7.5;
             return (distanceToGoal <= distanceNeeded);
         }
 
-        return (this.gridX === this.game.state.states.play.level.goalXGrid && this.gridY === this.game.state.states.play.level.goalYGrid);
+        return (this.gridX === this.currentState.level.goalXGrid && this.gridY === this.currentState.level.goalYGrid);
     }
 
     reachedGoal()
@@ -200,7 +200,7 @@ class Attacker extends GameSprite
 
         this.invulnerable = true;
 
-        this.game.state.states.play.spawnExplosion(this.x - 10, this.y, 0x8888ff);
+        this.currentState.spawnExplosion(this.x - 10, this.y, 0x8888ff);
 
         // Fade out over 200 ms
         this.fadeOutTween = this.game.add.tween(this).to( { alpha: 0 }, 200, Phaser.Easing.Linear.None, true, 0, 1000, true);
@@ -223,19 +223,19 @@ class Attacker extends GameSprite
 
     die()
     {
-        if (!this.alive || this.game.state.states.play.lives < 1)
+        if (!this.alive || this.currentState.lives < 1)
         {
             return false;
         }
         if (this.health <= 0)
         {
-            this.game.state.states.play.changeCoins(this.coinsValue, this.x, this.y);
-            this.game.state.states.play.changeScore(this.scoreValue, this.x, this.y);
-            this.game.state.states.play.sounds.nes09.play();
+            this.currentState.changeCoins(this.coinsValue, this.x, this.y);
+            this.currentState.changeScore(this.scoreValue, this.x, this.y);
+            this.currentState.sounds.nes09.play();
         }
-        else if (this.game.state.states.play.lives >= 1)
+        else if (this.currentState.lives >= 1)
         {
-            this.game.state.states.play.changeLives(-1, this.x, this.y);
+            this.currentState.changeLives(-1, this.x, this.y);
         }
         if (this.healthBar)
         {
@@ -247,7 +247,7 @@ class Attacker extends GameSprite
         }
         if (this.targeted)
         {
-            this.game.state.states.play.noTarget();
+            this.currentState.noTarget();
         }
 
         // Set position to spawn point, and when reused it will already be there.
@@ -269,7 +269,7 @@ class Attacker extends GameSprite
         }
         if (this.targeted)
         {
-            this.game.state.states.play.noTarget();
+            this.currentState.noTarget();
         }
         this.moveToSpawnPoint();
         this.kill();
@@ -277,7 +277,7 @@ class Attacker extends GameSprite
 
     moveToSpawnPoint()
     {
-        let coordinates = this.game.state.states[this.game.state.current].generateSpawnAttackerPixelCoordinates();
+        let coordinates = this.currentState.generateSpawnAttackerPixelCoordinates();
         this.body.x = coordinates[0];
         this.body.y = coordinates[1];
     }
@@ -385,8 +385,8 @@ class Attacker extends GameSprite
 
     target()
     {
-        this.game.state.states.play.untargetAll();
-        this.game.state.states.play.setTarget(this);
+        this.currentState.untargetAll();
+        this.currentState.setTarget(this);
 
         this.targeted = true;
 
@@ -395,7 +395,7 @@ class Attacker extends GameSprite
 
         this.crosshair.anchor.setTo(0.5, 0.75);
 
-        this.game.state.states.play.crosshairs.add(this.crosshair);
+        this.currentState.crosshairs.add(this.crosshair);
     }
 
     untarget()
@@ -408,7 +408,7 @@ class Attacker extends GameSprite
         this.targeted = false;
         if (this.game.target.guid && this.guid === this.game.target.guid)
         {
-            this.game.state.states.play.noTarget();
+            this.currentState.noTarget();
         }
         if (this.crosshair)
         {
@@ -429,7 +429,7 @@ class Attacker extends GameSprite
 
     calculateHealthModifier()
     {
-        return this.game.state.states.play.calculateWaveHealthModifier(this.game.state.states.play.waveNumber);
+        return this.currentState.calculateWaveHealthModifier(this.currentState.waveNumber);
     }
 
     freeze(bulletGrade)
@@ -461,7 +461,7 @@ class Attacker extends GameSprite
 
     reuse()
     {
-        let coordinates = this.game.state.states[this.game.state.current].generateSpawnAttackerPixelCoordinates();
+        let coordinates = this.currentState.generateSpawnAttackerPixelCoordinates();
         let x = coordinates[0];
         let y = coordinates[1];
 
@@ -472,7 +472,7 @@ class Attacker extends GameSprite
             this.healthBar.reset();
         }
 
-        this.initialise(this.game.state.states.play.waveNumber);
+        this.initialise(this.currentState.waveNumber);
     }
 
     calculateSpeed()
@@ -482,7 +482,7 @@ class Attacker extends GameSprite
         // pace is tiles per second
         if (window[this.constructor.name].pace)
         {
-            speed = this.game.state.states.play.map.tileWidth * window[this.constructor.name].pace;
+            speed = this.currentState.map.tileWidth * window[this.constructor.name].pace;
         }
         else if (window[this.constructor.name].defaultSpeed)
         {
@@ -493,7 +493,7 @@ class Attacker extends GameSprite
 
     calculateProjectedHealth()
     {
-        if (!this.game.state.states.play.level.calculateAttackerProjectedHealth)
+        if (!this.currentState.level.calculateAttackerProjectedHealth)
         {
             this.projectedHealth = this.health;
             return;
@@ -501,7 +501,7 @@ class Attacker extends GameSprite
 
         let projectedHealth = this.health;
 
-        let bullets = this.game.state.states.play.getBulletsAlive();
+        let bullets = this.currentState.getBulletsAlive();
 
         for (let i = 0; i < bullets.length; i++)
         {
@@ -550,12 +550,12 @@ class Attacker extends GameSprite
         switch (this.domain)
         {
             case 'air':
-                let distanceToGoal = this.game.physics.arcade.distanceBetween(this, this.game.state.states.play.nathan);
-                advancement = 100000 - (distanceToGoal * (100 / this.game.state.states.play.squareWidth));
+                let distanceToGoal = this.game.physics.arcade.distanceBetween(this, this.currentState.nathan);
+                advancement = 100000 - (distanceToGoal * (100 / this.currentState.squareWidth));
                 // Record air advancement stats
-                if (this.advancement < this.game.state.states.play.stats['wave' + this.game.state.states.play.waveNumber].furthestAirAdvancement)
+                if (this.advancement < this.currentState.stats['wave' + this.currentState.waveNumber].furthestAirAdvancement)
                 {
-                    this.game.state.states.play.stats['wave' + this.game.state.states.play.waveNumber].furthestAirAdvancement = this.advancement;
+                    this.currentState.stats['wave' + this.currentState.waveNumber].furthestAirAdvancement = this.advancement;
                 }
                 break;
             default:
@@ -565,9 +565,9 @@ class Attacker extends GameSprite
                     advancement = 100000 - (stepsToGoal * 100);
                 }
                 // Record stepsToGoal stats
-                if (stepsToGoal < this.game.state.states.play.stats['wave' + this.game.state.states.play.waveNumber].lowestStepsToGoal)
+                if (stepsToGoal < this.currentState.stats['wave' + this.currentState.waveNumber].lowestStepsToGoal)
                 {
-                    this.game.state.states.play.stats['wave' + this.game.state.states.play.waveNumber].lowestStepsToGoal = stepsToGoal;
+                    this.currentState.stats['wave' + this.currentState.waveNumber].lowestStepsToGoal = stepsToGoal;
                 }
         }
         this.advancement = advancement;

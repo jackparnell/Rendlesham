@@ -256,4 +256,18 @@ class LevelGameState extends CanvasGameState
         let y = (this.map.heightInPixels - this.game.height) * .5;
         this.game.camera.y = y;
     }
+
+    translatePixelCoordinatesToGridCoordinates(x, y)
+    {
+        x = Math.floor(x / this.squareWidth);
+        y = Math.floor(y / this.squareWidth);
+        return [x, y];
+    }
+
+    translateGridCoordinatesToPixelCoordinates(x, y)
+    {
+        x = Math.floor(x * this.squareWidth);
+        y = Math.floor(y * this.squareWidth);
+        return [x, y];
+    }
 }
