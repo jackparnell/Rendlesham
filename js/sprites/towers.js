@@ -32,7 +32,14 @@ class Tower extends GameSprite
     initialise(x, y)
     {
         this.grade = 1;
-        this.incrementalId = this.currentState.towersSpawnedCount || 0;
+        if (this.currentState.hasOwnProperty('towersSpawnedCount'))
+        {
+            this.incrementalId = this.currentState.towersSpawnedCount;
+        }
+        else
+        {
+            this.incrementalId = 0;
+        }
 
         this.frame = this.grade - 1;
 
