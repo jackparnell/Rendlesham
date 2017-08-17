@@ -719,8 +719,21 @@ class Play extends LevelGameState
         }
     }
 
+    /**
+     * Spawn an attacker of a supplied className.
+     *
+     * @param {string} className
+     * @param {int} x
+     * @param {int} y
+     * @returns {boolean}
+     */
     spawnAttacker(className, x, y)
     {
+        if (this.preparingForGameOver)
+        {
+            return false;
+        }
+
         if (!x || !y) {
             let coordinates = this.generateSpawnAttackerPixelCoordinates();
             x = coordinates[0];
@@ -751,6 +764,8 @@ class Play extends LevelGameState
             let item = new window[className](this.game, x, y);
             this.attackers.add(item);
         }
+
+        return true;
     }
 
     spawnAttackerDelayed(className, seconds, waveNumber, x, y)
@@ -801,8 +816,20 @@ class Play extends LevelGameState
         return item;
     }
 
+    /**
+     * Spawn a tower of a supplied className.
+     *
+     * @param {string} className
+     * @param {int} x
+     * @param {int} y
+     * @returns {boolean}
+     */
     spawnTower(className, x, y)
     {
+        if (this.preparingForGameOver)
+        {
+            return false;
+        }
 
         this.towersSpawnedCount ++;
 
@@ -818,7 +845,6 @@ class Play extends LevelGameState
                 reusable = tower;
             }
         }, this);
-
 
         if (typeof reusable.reuse === 'function')
         {
