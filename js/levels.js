@@ -1229,7 +1229,7 @@ var holkhamBeach = {
                 {
                     className: 'Roger',
                     duration: 10,
-                    gap: .75,
+                    gap: .7,
                     delay: 0
                 },
                 {
@@ -1246,13 +1246,13 @@ var holkhamBeach = {
                 {
                     className: 'Aquila',
                     duration: 10,
-                    gap: .8,
+                    gap: .75,
                     delay: 0
                 },
                 {
                     className: 'Aquila',
                     duration: 15,
-                    gap: .6,
+                    gap: .55,
                     delay: 10
                 }
             ]
