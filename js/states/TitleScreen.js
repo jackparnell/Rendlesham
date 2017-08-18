@@ -37,6 +37,14 @@ class TitleScreen extends CanvasGameState
         this.addButtonTextLink('creditsLink', 'Credits', 20, 'smallWideDark', 10, this.game.camera.height - 40, 'left', 'showCredits');
 
         this.flashIntoState();
+
+        // Commented out code below would play nightWindsLooping background music. But isPlaying is always false.
+        /*
+        if (!this.game.sounds.nightWindsLooping.isPlaying)
+        {
+            this.game.sounds.nightWindsLooping.play();
+        }
+        */
     }
 
     showAchievements()
@@ -70,6 +78,11 @@ class TitleScreen extends CanvasGameState
             zoneName = 'EAST_ANGLIA';
         }
         this.game.state.start('zone', true, false, zoneName);
+    }
+
+    shutdown()
+    {
+        this.game.sounds.nightWindsLooping.fadeOut();
     }
 
 }
