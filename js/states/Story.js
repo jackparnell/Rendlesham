@@ -67,6 +67,6 @@ class Story extends CanvasGameState
             levelNumber: this.levelNumber,
             mode: this.mode
         };
-        this.game.state.start('play', true, true, obj);
+        this.game.state.start('play', true, false, obj);
     }
 }

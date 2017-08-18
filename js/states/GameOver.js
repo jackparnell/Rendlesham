@@ -23,7 +23,7 @@ class GameOver extends CanvasGameState
             levelNumber: this.levelId,
             mode: this.mode
         };
-        this.game.state.start('play', true, true, obj);
+        this.game.state.start('play', true, false, obj);
     }
 
     create()

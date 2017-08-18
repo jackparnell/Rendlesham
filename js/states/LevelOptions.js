@@ -113,7 +113,7 @@ class LevelOptions extends LevelGameState
 
     goToZone()
     {
-        this.game.state.start('zone', true, true, this.zone.NAME);
+        this.game.state.start('zone', true, false, this.zone.NAME);
     }
 
     play(mode)
@@ -129,7 +129,7 @@ class LevelOptions extends LevelGameState
             goToState = 'story';
         }
 
-        this.game.state.start(goToState, true, true, obj);
+        this.game.state.start(goToState, true, false, obj);
     }
 
     clickMode(button)

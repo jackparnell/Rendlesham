@@ -69,7 +69,7 @@ class TitleScreen extends CanvasGameState
         {
             zoneName = 'EAST_ANGLIA';
         }
-        this.game.state.start('zone', true, true, zoneName);
+        this.game.state.start('zone', true, false, zoneName);
     }
 
 }

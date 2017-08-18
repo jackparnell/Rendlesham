@@ -240,7 +240,7 @@ class Play extends LevelGameState
             score: this.score,
             waveReached: this.waveNumber
         };
-        this.game.state.start('gameOver', true, true, obj);
+        this.game.state.start('gameOver', true, false, obj);
     }
 
     initiateLoops()
@@ -1145,7 +1145,7 @@ class Play extends LevelGameState
             mode: this.mode
         };
 
-        this.game.state.start('play', true, true, obj);
+        this.game.state.start('play', true, false, obj);
 
         return true;
     }
@@ -2587,7 +2587,7 @@ class Play extends LevelGameState
             levelNumber: this.levelId,
             mode: this.mode
         };
-        this.game.state.start('play', true, true, obj);
+        this.game.state.start('play', true, false, obj);
     }
 
     goToTitleScreenButtonClick()

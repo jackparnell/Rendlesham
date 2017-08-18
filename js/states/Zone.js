@@ -261,7 +261,7 @@ class Zone extends CanvasGameState
             zoneName: this.zone.NAME,
             levelNumber
         };
-        this.game.state.start('levelOptions', true, true, obj);
+        this.game.state.start('levelOptions', true, false, obj);
     }
 
     writeLevelText(levelNumber)
@@ -350,7 +350,7 @@ class Zone extends CanvasGameState
 
     nextZone()
     {
-        this.game.state.start('zone', true, true, this.zone.NEXT_ZONE_NAME);
+        this.game.state.start('zone', true, false, this.zone.NEXT_ZONE_NAME);
     }
 
     keyPress(character)
@@ -423,6 +423,6 @@ class Zone extends CanvasGameState
 
     restartState()
     {
-        this.game.state.start('zone', true, true, this.zone.NAME);
+        this.game.state.start('zone', true, false, this.zone.NAME);
     }
 }
