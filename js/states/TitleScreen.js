@@ -7,7 +7,7 @@ class TitleScreen extends CanvasGameState
         this.loadUser();
         this.checkUser();
 
-        this.titleScreenBackground = this.game.add.tileSprite(0, 0, this.game.camera.width, this.game.camera.height, 'touchMushroomBackground');
+        this.titleScreenBackground = this.game.add.tileSprite(0, 0, this.game.camera.width, this.game.camera.height, 'touchMushroom');
         this.titleScreenBackground.fixedToCamera = true;
         this.game.backgrounds.add(this.titleScreenBackground);
 

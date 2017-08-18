@@ -271,8 +271,12 @@ class GameState extends Phaser.State
         this.fadeOutToState('titleScreen');
     }
 
-    loadMainFiles()
+    loadMainFiles(forceReload = false)
     {
+        if (!forceReload && this.game.cache.checkImageKey('gameOverBackground'))
+        {
+            return;
+        }
 
         for (let zoneName in ZONE_INFO)
         {
@@ -280,10 +284,11 @@ class GameState extends Phaser.State
         }
 
         this.game.load.image('gameOverBackground', 'assets/backgrounds/gameOverBackground.png');
+
         this.game.load.image('flyToEarth', 'assets/backgrounds/flyToEarth.jpg');
         this.game.load.image('navigateToEarth', 'assets/backgrounds/navigateToEarth.jpg');
         this.game.load.image('shipBreaking', 'assets/backgrounds/shipBreaking.jpg');
-        this.game.load.image('touchMushroomBackground', 'assets/backgrounds/touchMushroom.png');
+        this.game.load.image('touchMushroom', 'assets/backgrounds/touchMushroom.png');
 
         this.game.load.image('forestGreen', 'assets/buttons/forestGreen.png');
         this.game.load.image('locked', 'assets/buttons/locked.png');
@@ -384,10 +389,18 @@ class GameState extends Phaser.State
         this.game.load.audio('nes09', 'assets/audio/nes09.ogg');
         this.game.load.audio('nes13', 'assets/audio/nes13.ogg');
         this.game.load.audio('nes15', 'assets/audio/nes15.ogg');
+
+        this.game.load.audio('nightWindsLooping', 'assets/audio/tracks/nightWindsLooping.ogg');
+
     }
 
-    loadTransylvanianFiles()
+    loadTransylvanianFiles(forceReload = false)
     {
+        if (!forceReload && this.game.cache.checkImageKey('gameOverBackground'))
+        {
+            return;
+        }
+
         let transylvanianAttackerNames = [
             'betty', 'bogeyman', 'bruce', 'cyclops', 'farmer', 'goblin', 'imp', 'kappa', 'nic', 'ogre', 'purp', 'skull', 'skuller', 'villager', 'woodcutter'
         ];
@@ -428,6 +441,10 @@ class GameState extends Phaser.State
         {
             this.sounds = {};
         }
+        if (!this.game.sounds)
+        {
+            this.game.sounds = {};
+        }
 
         this.sounds.bookOpen = this.game.add.audio('bookOpen');
         this.sounds.bookOpen.allowMultiple = true;
@@ -465,6 +482,10 @@ class GameState extends Phaser.State
         this.sounds.computerErrorAlert = this.game.add.audio('computerErrorAlert');
         this.sounds.computerErrorAlert.allowMultiple = true;
         this.sounds.computerErrorAlert.volume = 1;
+
+        this.game.sounds.nightWindsLooping = this.game.add.audio('nightWindsLooping');
+        this.game.sounds.nightWindsLooping.allowMultiple = false;
+        this.game.sounds.nightWindsLooping.volume = .4;
     }
 
     playSound(soundName)
