@@ -1551,9 +1551,9 @@ class Play extends LevelGameState
             this.initiateLabels();
             this.addUserInterfaceButtons();
             this.scheduleLevelEvents();
+            this.initiateStats();
         }
 
-        this.initiateStats();
     }
 
     initiateStats()
