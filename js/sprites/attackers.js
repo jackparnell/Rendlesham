@@ -75,9 +75,29 @@ class Attacker extends GameSprite
             return false;
         }
 
+        let tilesTraversedDamageModifier;
+        switch (parseInt(attacker.tilesTraversed))
+        {
+            case 0:
+            case 1:
+                tilesTraversedDamageModifier = 0;
+                break;
+            case 2:
+                tilesTraversedDamageModifier = .25;
+                break;
+            case 3:
+                tilesTraversedDamageModifier = .5;
+                break;
+            case 4:
+                tilesTraversedDamageModifier = .75;
+                break;
+            default:
+                tilesTraversedDamageModifier = 1;
+        }
+
         if (!this.invulnerable)
         {
-            attacker.health -= bullet.damageValue;
+            attacker.health -= (bullet.damageValue * tilesTraversedDamageModifier);
         }
 
         if (bullet.towerClass === 'Freezer')
