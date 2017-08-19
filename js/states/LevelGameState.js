@@ -45,6 +45,7 @@ class LevelGameState extends CanvasGameState
         this.weapons = this.game.add.group();
         this.explosions = this.game.add.group();
         this.ZapGroup = this.game.add.group();
+        this.game.CrossGroup = this.game.add.group();
         this.crosshairs = this.game.add.group();
         this.game.healthBars = this.game.add.group();
         this.game.bullets = this.game.add.group();

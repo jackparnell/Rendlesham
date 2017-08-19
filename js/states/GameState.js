@@ -310,6 +310,7 @@ class GameState extends Phaser.State
         this.game.load.spritesheet('crosshair', 'assets/sprites/decorations/Crosshair.png', 42, 42, 1);
         this.game.load.spritesheet('healthBar', 'assets/sprites/decorations/HealthBar.png', 20, 5, 21);
         this.game.load.spritesheet('Zap', 'assets/sprites/decorations/Zap.png', 32, 32, 3);
+        this.game.load.spritesheet('Cross', 'assets/sprites/decorations/Cross.png', 32, 32, 1);
 
         this.game.load.spritesheet('Bullet', 'assets/sprites/weapons/Bullet.png', 64, 64, 3);
         this.game.load.spritesheet('IceLance', 'assets/sprites/weapons/IceLance.png', 32, 32, 3);
@@ -568,7 +569,6 @@ class GameState extends Phaser.State
     notPossible()
     {
         this.playSound('computerErrorAlert');
-        return;
     }
 
     /**

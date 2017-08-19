@@ -96,3 +96,26 @@ window.Zap = class Zap extends Decoration
         this.initialise();
     }
 };
+
+window.Cross = class Cross extends Decoration
+{
+    constructor(game, x, y)
+    {
+        super(game, x, y, 'Cross');
+        this.initialise();
+    }
+
+    initialise()
+    {
+        super.initialise();
+        this.unTint();
+        this.lifespan = 250;
+        this.alpha = .5;
+    }
+
+    reuse(x, y)
+    {
+        this.reset(x, y);
+        this.initialise();
+    }
+};

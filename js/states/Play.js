@@ -917,6 +917,34 @@ class Play extends LevelGameState
         }
     }
 
+    spawnCross(x, y, tint, angle)
+    {
+        let obj;
+        let group = this.game.CrossGroup;
+
+        obj = group.getFirstDead();
+
+        if (obj)
+        {
+            obj.reuse(x, y);
+        }
+        else
+        {
+            obj = new Cross(this.game, x, y);
+            group.add(obj);
+        }
+
+        if (tint)
+        {
+            obj.setTint(tint);
+        }
+
+        if (angle)
+        {
+            obj.setAngle(angle);
+        }
+    }
+
     render()
     {
         // game.debug.body(this.test);
@@ -1231,7 +1259,7 @@ class Play extends LevelGameState
             }
             else
             {
-                this.notPossible();
+                this.notPossible(x, y);
                 return false;
             }
 
@@ -3553,5 +3581,11 @@ class Play extends LevelGameState
             dataType: 'jsonp'
         });
 
+    }
+
+    notPossible(x, y)
+    {
+        super.notPossible();
+        this.spawnCross(x, y, 0xCC0000);
     }
 }
