@@ -3540,10 +3540,21 @@ class Play extends LevelGameState
         leftToRightTween.start();
     }
 
+    /**
+     * If appropriate, send stats about the game to a API.
+     *
+     * @returns {boolean}
+     */
     handleStats()
     {
         // Do nothing with stats if cheated
         if (this.hasCheated)
+        {
+            return false;
+        }
+
+        // Do nothing with stats if no score
+        if (this.score === 0)
         {
             return false;
         }
@@ -3581,6 +3592,7 @@ class Play extends LevelGameState
             dataType: 'jsonp'
         });
 
+        return true;
     }
 
     notPossible(x, y)
