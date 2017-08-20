@@ -494,7 +494,7 @@ var westletonHeath = {
                 {
                     className: 'Mib',
                     duration: 30,
-                    gap: .95,
+                    gap: .9,
                     delay: 0
                 }
             ]
@@ -506,7 +506,7 @@ var westletonHeath = {
     entryYGrid: 5,
     goalXGrid: 1,
     goalYGrid: 5,
-    waveHealthCubicA: .02,
+    waveHealthCubicA: .03,
     waveHealthCubicB: .03,
     waveHealthCubicC: .33,
     towerPlacementForbiddenRows: [0, 11],
