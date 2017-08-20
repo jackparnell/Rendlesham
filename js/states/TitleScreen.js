@@ -80,9 +80,4 @@ class TitleScreen extends CanvasGameState
         this.game.state.start('zone', true, false, zoneName);
     }
 
-    shutdown()
-    {
-        this.game.sounds.nightWindsLooping.fadeOut();
-    }
-
 }

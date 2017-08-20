@@ -13,7 +13,6 @@ class GameState extends Phaser.State
         this.game.backgrounds = this.game.add.group();
         this.game.linkBackgrounds = this.game.add.group();
         this.game.texts = this.game.add.group();
-
         this.manageDom();
     }
 
@@ -91,7 +90,6 @@ class GameState extends Phaser.State
         this.save();
     }
 
-
     downloadSave()
     {
         let filename = this.game.globals.applicationName + '.sav';
@@ -110,7 +108,6 @@ class GameState extends Phaser.State
             document.body.removeChild(elem);
         }
     }
-
 
     changeGameState(stateName = 'titleScreen')
     {
@@ -260,6 +257,13 @@ class GameState extends Phaser.State
 
     }
 
+    /**
+     * Add a property to a buttonTextLink.
+     *
+     * @param {string} name
+     * @param {string} key
+     * @param {string} value
+     */
     buttonTextLinkAddProperty(name, key, value)
     {
         this[name][key] = value;
@@ -280,15 +284,20 @@ class GameState extends Phaser.State
 
         for (let zoneName in ZONE_INFO)
         {
-            this.game.load.image(ZONE_INFO[zoneName].ZONE_BACKGROUND_FILENAME, 'assets/backgrounds/' + ZONE_INFO[zoneName].ZONE_BACKGROUND_FILENAME + '.png');
+            if (ZONE_INFO.hasOwnProperty(zoneName))
+            {
+                this.game.load.image(ZONE_INFO[zoneName].ZONE_BACKGROUND_FILENAME, 'assets/backgrounds/' + ZONE_INFO[zoneName].ZONE_BACKGROUND_FILENAME + '.png');
+            }
         }
 
-        this.game.load.image('gameOverBackground', 'assets/backgrounds/gameOverBackground.png');
-
-        this.game.load.image('flyToEarth', 'assets/backgrounds/flyToEarth.jpg');
-        this.game.load.image('navigateToEarth', 'assets/backgrounds/navigateToEarth.jpg');
-        this.game.load.image('shipBreaking', 'assets/backgrounds/shipBreaking.jpg');
-        this.game.load.image('touchMushroom', 'assets/backgrounds/touchMushroom.png');
+        // Background files
+        let backgroundFiles = [
+            'gameOverBackground', 'flyToEarth', 'navigateToEarth', 'shipBreaking', 'touchMushroom'
+        ];
+        for (let i = 0; i < backgroundFiles.length; i++)
+        {
+            this.game.load.image(backgroundFiles[i], 'assets/backgrounds/' + backgroundFiles[i] + '.png');
+        }
 
         this.game.load.image('forestGreen', 'assets/buttons/forestGreen.png');
         this.game.load.image('locked', 'assets/buttons/locked.png');
@@ -347,7 +356,7 @@ class GameState extends Phaser.State
         this.game.load.spritesheet('PinkCrystal', 'assets/sprites/obstacles/PinkCrystal.png', 35, 35, 1);
         this.game.load.spritesheet('PurpleRock', 'assets/sprites/obstacles/PurpleRock.png', 35, 35, 1);
 
-        this.game.load.spritesheet('TallBrownMushroom', 'assets/sprites/obstacles/TallBrownMushroom.png', 35, 35, 1);
+        this.game.load.spritesheet('TallBrownMushroom', 'assets/sprites/obstacles/TallBrownMushroom.png', 35, 35, 2);
         this.game.load.spritesheet('TallGreyMushroom', 'assets/sprites/obstacles/TallGreyMushroom.png', 35, 35, 1);
         this.game.load.spritesheet('TallRedMushroom', 'assets/sprites/obstacles/TallRedMushroom.png', 35, 35, 1);
         this.game.load.spritesheet('Pumpkin', 'assets/sprites/obstacles/Pumpkin.png', 35, 35, 1);
@@ -380,18 +389,18 @@ class GameState extends Phaser.State
         this.game.load.bitmapFont('gem', 'assets/fonts/bitmapFonts/gem.png', 'assets/fonts/bitmapFonts/gem.xml');
         this.game.load.bitmapFont('passionOne', 'assets/fonts/bitmapFonts/passionOne.png', 'assets/fonts/bitmapFonts/passionOne.fnt');
 
-        this.game.load.audio('bookOpen', 'assets/audio/bookOpen.ogg');
-        this.game.load.audio('computerErrorAlert', 'assets/audio/computerErrorAlert.ogg');
-        this.game.load.audio('footstep02', 'assets/audio/footstep02.ogg');
-        this.game.load.audio('handleCoins', 'assets/audio/handleCoins.ogg');
-        this.game.load.audio('metalClick', 'assets/audio/metalClick.ogg');
-        this.game.load.audio('metalLatch', 'assets/audio/metalLatch.ogg');
-        this.game.load.audio('nes08', 'assets/audio/nes08.ogg');
-        this.game.load.audio('nes09', 'assets/audio/nes09.ogg');
-        this.game.load.audio('nes13', 'assets/audio/nes13.ogg');
-        this.game.load.audio('nes15', 'assets/audio/nes15.ogg');
+        // Audio files
+        let audioFiles = [
+            'bookOpen', 'computerErrorAlert', 'footstep02', 'handleCoins', 'metalClick', 'metalLatch', 'nes08',
+            'nes09', 'nes13', 'nes15'
+        ];
+        for (let i = 0; i < audioFiles.length; i++)
+        {
+            this.game.load.audio(audioFiles[i], 'assets/audio/' + audioFiles[i] + '.ogg');
+        }
 
-        this.game.load.audio('nightWindsLooping', 'assets/audio/tracks/nightWindsLooping.ogg');
+        // File size is pretty big and play is buggy. Leave out for now.
+        // this.game.load.audio('nightWindsLooping', 'assets/audio/tracks/nightWindsLooping.ogg');
 
     }
 
@@ -484,9 +493,11 @@ class GameState extends Phaser.State
         this.sounds.computerErrorAlert.allowMultiple = true;
         this.sounds.computerErrorAlert.volume = 1;
 
+        /*
         this.game.sounds.nightWindsLooping = this.game.add.audio('nightWindsLooping');
         this.game.sounds.nightWindsLooping.allowMultiple = false;
         this.game.sounds.nightWindsLooping.volume = .4;
+        */
     }
 
     playSound(soundName)
@@ -533,6 +544,13 @@ class GameState extends Phaser.State
 
     }
 
+    /**
+     * Has the user completed a supplied levelName and mode.
+     *
+     * @param {string} levelName
+     * @param {string} mode
+     * @returns {boolean}
+     */
     hasUserCompletedLevel(levelName, mode='any')
     {
         let completed = false;
@@ -553,6 +571,13 @@ class GameState extends Phaser.State
         return completed;
     }
 
+    /**
+     * Has the user completed any level in a supplied zoneName and mode.
+     *
+     * @param {string} zoneName
+     * @param {string} mode
+     * @returns {boolean}
+     */
     hasUserCompletedAnyLevelInZone(zoneName, mode='any')
     {
         for (let levelNumber in ZONE_INFO[zoneName].LEVEL_ORDERING)
@@ -566,6 +591,9 @@ class GameState extends Phaser.State
         return false;
     }
 
+    /**
+     * Code to be run when the user tries to do something not possible.
+     */
     notPossible()
     {
         this.playSound('computerErrorAlert');
@@ -621,11 +649,9 @@ class GameState extends Phaser.State
         this.game.camera.onFadeComplete.add(this.changeGameState, this, 0, stateName);
     }
 
-    showDomElement(id)
-    {
-        $('#' + id).show();
-    }
-
+    /**
+     * Make needed changes ti the DOM based on the current state.
+     */
     manageDom()
     {
         $('.active').removeClass('active');

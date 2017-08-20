@@ -10,6 +10,15 @@ class GameSprite extends Phaser.Sprite
             this.game.state.states.play.userSeesObject(this.constructor.name);
         }
         this.currentState = this.game.state.states[this.game.state.current];
+
+        if (
+            this.currentState.level.hasOwnProperty('spriteFrameOverrides')
+            &&
+            this.currentState.level.spriteFrameOverrides.hasOwnProperty(this.constructor.name)
+        )
+        {
+            this.frame = this.currentState.level.spriteFrameOverrides[this.constructor.name];
+        }
     }
 
     getScale()
