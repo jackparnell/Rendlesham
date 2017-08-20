@@ -523,7 +523,7 @@ class Pumpkin extends Obstacle
 {
     static get DESCRIPTION() { return 'The Pumpkin is a plant you can target. Destroy it to earn coins.'; }
     static get DEFAULT_SCALE() { return 1; }
-    static get DEFAULT_HEALTH() { return 10000; }
+    static get DEFAULT_HEALTH() { return 15000; }
     static get DEFAULT_COINS_VALUE() { return 50; }
     static get DEFAULT_SCORE_VALUE() { return 50; }
     static get SPRITE_SHEET_GID() { return 60; }
@@ -537,10 +537,7 @@ class Pumpkin extends Obstacle
     die()
     {
         super.die();
-        if (!this.currentState.hasItem('pumpkin'))
-        {
-            this.currentState.addItem('pumpkin');
-        }
+        this.currentState.addItem('Pumpkin');
     }
 }
 

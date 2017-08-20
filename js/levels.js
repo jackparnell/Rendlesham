@@ -1645,6 +1645,7 @@ var kingsLynn = {
 };
 
 var pumpkinPatch = {
+    game,
     name: 'pumpkinPatch',
     mapName: 'pumpkinPatch',
     title: 'Pumpkin Patch',
@@ -1740,12 +1741,12 @@ var pumpkinPatch = {
                 {
                     className: 'Mib',
                     duration: 30,
-                    gap: .75,
+                    gap: .8,
                     delay: 0
                 },
                 {
                     className: 'Drone',
-                    duration: 28,
+                    duration: 30,
                     gap: 14,
                     delay: 14
                 }
@@ -1764,6 +1765,7 @@ var pumpkinPatch = {
     waveHealthCubicC: .4,
     towerPlacementForbiddenRows: [0, 11],
     canPlaceTowerOnPathway: false,
+    distinctWaves: true,
     previousLevelName: 'kingsLynn'
 };
 
