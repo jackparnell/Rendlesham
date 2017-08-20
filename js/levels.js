@@ -241,7 +241,7 @@ var orfordRoad = {
             ]
         },
         wave6: {
-            duration: 17,
+            duration: 19,
             attacks: [
                 {
                     className: 'Aquila',
@@ -251,7 +251,7 @@ var orfordRoad = {
                 },
                 {
                     className: 'Mib',
-                    duration: 10,
+                    duration: 12,
                     gap: .8,
                     delay: 5
                 }
@@ -266,7 +266,7 @@ var orfordRoad = {
     goalYGrid: 5,
     waveHealthCubicA: .05,
     waveHealthCubicB: .1,
-    waveHealthCubicC: .2,
+    waveHealthCubicC: .22,
     towerPlacementForbiddenRows: [0, 11],
     towersAvailable: ['Gun', 'Freezer'],
     distinctWaves: true,
