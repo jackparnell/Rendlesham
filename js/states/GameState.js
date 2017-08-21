@@ -355,7 +355,8 @@ class GameState extends Phaser.State
         this.game.load.spritesheet('SnowyPine', 'assets/sprites/obstacles/SnowyPine.png', 35, 35, 1);
         this.game.load.spritesheet('PinkCrystal', 'assets/sprites/obstacles/PinkCrystal.png', 35, 35, 1);
         this.game.load.spritesheet('PurpleRock', 'assets/sprites/obstacles/PurpleRock.png', 35, 35, 1);
-        this.game.load.spritesheet('PurpleRock', 'assets/sprites/obstacles/Tombstone.png', 35, 35, 1);
+        this.game.load.spritesheet('TombstoneLeft', 'assets/sprites/obstacles/TombstoneLeft.png', 35, 35, 1);
+        this.game.load.spritesheet('TombstoneRight', 'assets/sprites/obstacles/TombstoneRight.png', 35, 35, 1);
 
         this.game.load.spritesheet('TallBrownMushroom', 'assets/sprites/obstacles/TallBrownMushroom.png', 35, 35, 2);
         this.game.load.spritesheet('TallGreyMushroom', 'assets/sprites/obstacles/TallGreyMushroom.png', 35, 35, 1);

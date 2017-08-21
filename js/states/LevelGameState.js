@@ -125,6 +125,12 @@ class LevelGameState extends CanvasGameState
             this.game.backgrounds.add(this.lavaLayer);
         }
 
+        if (this.layers.hasOwnProperty('unplaceable'))
+        {
+            this.unplaceableLayer = this.map.createLayer('unplaceable');
+            this.game.backgrounds.add(this.unplaceableLayer);
+        }
+
         let impassableTiles = [];
 
         if (this.layers.hasOwnProperty('impassable'))
@@ -206,7 +212,8 @@ class LevelGameState extends CanvasGameState
                 this.map.createFromObjects('objects', 107, 'TallGreyMushroom', 0, true, false, this.obstacles, TallGreyMushroom, true);
                 this.map.createFromObjects('objects', 118, 'PinkCrystal', 0, true, false, this.obstacles, PinkCrystal, true);
                 this.map.createFromObjects('objects', 55, 'Puffball', 0, true, false, this.obstacles, Puffball, true);
-                this.map.createFromObjects('objects', 9, 'Puffball', 0, true, false, this.obstacles, Tombstone, true);
+                this.map.createFromObjects('objects', 9, 'TombstoneLeft', 0, true, false, this.obstacles, TombstoneLeft, true);
+                this.map.createFromObjects('objects', 10, 'TombstoneRight', 0, true, false, this.obstacles, TombstoneRight, true);
 
                 this.map.createFromObjects('objects', 108, 'Nathan', 0, true, false, this.characters, Nathan, true);
 

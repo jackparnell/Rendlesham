@@ -34,7 +34,8 @@ const ZONE_INFO = {
             3: 'draculeaBandului',
             4: 'sacadat',
             5: 'lapusna',
-            6: 'rogojel'
+            6: 'rogojel',
+            7: 'valeaDraganului'
         },
         ZONE_BACKGROUND_FILENAME: 'transylvania',
         LEVEL_BUTTON_GRAPHIC: 'PurpleRock',
@@ -3305,6 +3306,179 @@ var rogojel = {
     calculateAttackerProjectedHealth: true,
     packs: ['transylvanian'],
     previousLevelName: 'lapusna',
+    mapScroll: true,
+    verticalScroll: false,
+    horizontalScroll: true,
+    introduction: function()
+    {
+        this.game.state.states.play.levelToRightAndBackIntroduction();
+    }
+};
+
+var valeaDraganului = {
+    game,
+    name: 'valeaDraganului',
+    mapName: 'valeaDraganului',
+    title: 'Valea Draganului',
+    waveInfo: {
+        wave1: {
+            duration: 26,
+            attacks: [
+                {
+                    className: 'Villager',
+                    duration: 20,
+                    gap: 1.25,
+                    delay: 1
+                }
+            ]
+        },
+        wave2: {
+            duration: 23,
+            attacks: [
+                {
+                    className: 'Kappa',
+                    duration: 5,
+                    gap: 1,
+                    delay: 0
+                },
+                {
+                    className: 'Imp',
+                    duration: 5,
+                    gap: 1,
+                    delay: 5
+                },
+                {
+                    className: 'Goblin',
+                    duration: 10,
+                    gap: 1,
+                    delay: 10
+                }
+            ]
+        },
+        wave3: {
+            duration: 18,
+            attacks: [
+                {
+                    className: 'Goblin',
+                    duration: 14,
+                    gap: 2,
+                    delay: 0
+                },
+                {
+                    className: 'Bogeyman',
+                    duration: 14,
+                    gap: 2,
+                    delay: 1
+                }
+            ]
+        },
+        wave4: {
+            duration: 23,
+            attacks: [
+                {
+                    className: 'Imp',
+                    duration: 10,
+                    gap: 1,
+                    delay: 0
+                },
+                {
+                    className: 'Goblin',
+                    duration: 10,
+                    gap: 1.25,
+                    delay: 10
+                }
+            ]
+        },
+        wave5: {
+            duration: 28,
+            attacks: [
+                {
+                    className: 'Kappa',
+                    duration: 10,
+                    gap: .7,
+                    delay: 0
+                },
+                {
+                    className: 'Goblin',
+                    duration: 15,
+                    gap: .9,
+                    delay: 10
+                }
+            ]
+        },
+        wave6: {
+            duration: 27,
+            attacks: [
+                {
+                    className: 'Cyclops',
+                    duration: 25,
+                    gap: 1.5,
+                    delay: 0
+                }
+            ]
+        },
+        wave7: {
+            duration: 30,
+            attacks: [
+                {
+                    className: 'Skull',
+                    duration: 28,
+                    gap: .8,
+                    delay: 0
+                }
+            ]
+        },
+        wave8: {
+            duration: 27,
+            attacks: [
+                {
+                    className: 'Cyclops',
+                    duration: 25,
+                    gap: 1,
+                    delay: 0
+                }
+            ]
+        },
+        wave9: {
+            duration: 27,
+            attacks: [
+                {
+                    className: 'Skuller',
+                    duration: 25,
+                    gap: .85,
+                    delay: 0
+                }
+            ]
+        },
+        wave10: {
+            duration: 27,
+            attacks: [
+                {
+                    className: 'Ogre',
+                    duration: 25,
+                    gap: 1.1,
+                    delay: 0
+                }
+            ]
+        }
+
+    },
+    startingCoins: 200,
+    startingLives: 5,
+    entryXGrid: 29,
+    entryYGrid: 4,
+    goalXGrid: 2,
+    goalYGrid: 5,
+    waveHealthCubicA: .04,
+    waveHealthCubicB: .08,
+    waveHealthCubicC: .4,
+    towerPlacementForbiddenRows: [0, 11],
+    canPlaceTowerOnPathway: false,
+    distinctWaves: true,
+    bulletsCanOnlyHitTarget: true,
+    calculateAttackerProjectedHealth: true,
+    packs: ['transylvanian'],
+    previousLevelName: 'rogojel',
     mapScroll: true,
     verticalScroll: false,
     horizontalScroll: true,

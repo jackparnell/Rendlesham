@@ -1330,6 +1330,11 @@ class Play extends LevelGameState
             return false;
         }
 
+        if (this.isPositionOnLayer(x, y, 'unplaceable'))
+        {
+            return false;
+        }
+
         if (this.isPositionOnLayer(x, y, 'impassable'))
         {
             return false;

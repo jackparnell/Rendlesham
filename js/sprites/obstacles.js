@@ -597,18 +597,34 @@ class Puffball extends Obstacle
     }
 }
 
-class Tombstone extends Obstacle
+class TombstoneLeft extends Obstacle
 {
     static get DESCRIPTION() { return 'The Tombstone is a targetable obstacle. Destroy it for a coin bonus.'; }
     static get DEFAULT_SCALE() { return 1; }
-    static get DEFAULT_HEALTH() { return 10000; }
+    static get DEFAULT_HEALTH() { return 25000; }
     static get DEFAULT_COINS_VALUE() { return 50; }
     static get DEFAULT_SCORE_VALUE() { return 50; }
     static get SPRITE_SHEET_GID() { return 9; }
 
     constructor(game, x, y)
     {
-        super(game, x, y, 'Tombstone');
+        super(game, x, y, 'TombstoneLeft');
+        this.createCentralCircle(8);
+    }
+}
+
+class TombstoneRight extends Obstacle
+{
+    static get DESCRIPTION() { return 'The Tombstone is a targetable obstacle. Destroy it for a coin bonus.'; }
+    static get DEFAULT_SCALE() { return 1; }
+    static get DEFAULT_HEALTH() { return 25000; }
+    static get DEFAULT_COINS_VALUE() { return 50; }
+    static get DEFAULT_SCORE_VALUE() { return 50; }
+    static get SPRITE_SHEET_GID() { return 10; }
+
+    constructor(game, x, y)
+    {
+        super(game, x, y, 'TombstoneRight');
         this.createCentralCircle(8);
     }
 }
