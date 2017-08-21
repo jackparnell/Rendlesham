@@ -7,11 +7,11 @@ class Character extends GameSprite
         this.moveable = true;
 
         this.guid = guid();
-        this.creationTurn = game.globals.turn;
+        this.creationTurn = this.game.globals.turn;
 
         game.physics.arcade.enable(this);
 
-        this.roundedCoordinates = this.game.state.states.play.pixelsNearestTileTopLeftCoordinates(x, y);
+        this.roundedCoordinates = this.currentState.pixelsNearestTileTopLeftCoordinates(x, y);
         x = this.roundedCoordinates[0];
         y = this.roundedCoordinates[1];
 
@@ -24,7 +24,7 @@ class Character extends GameSprite
         this.collideWorldBounds = false;
         this.outOfBoundsKill = false;
 
-        let gridCoordinates = this.game.state.states.play.translatePixelCoordinatesToGridCoordinates(this.body.x, this.body.y);
+        let gridCoordinates = this.currentState.translatePixelCoordinatesToGridCoordinates(this.body.x, this.body.y);
         this.gridX = gridCoordinates[0];
         this.gridY = gridCoordinates[1];
 
@@ -50,7 +50,7 @@ window.Nathan = class Nathan extends Character
     {
         if (this.game.state.current === 'play')
         {
-            this.game.state.states.play.drawForceFields(this, this.game.state.states.play.lives);
+            this.currentState.drawForceFields(this, this.game.state.states.play.lives);
         }
     }
 };
@@ -68,7 +68,7 @@ window.Bully = class Bully extends Character
 
     drawForceFields()
     {
-        this.game.state.states.play.drawForceFields(this, this.game.state.states.play.lives);
+        this.currentState.drawForceFields(this, this.game.state.states.play.lives);
     }
 
     initialise()
@@ -103,6 +103,11 @@ window.Bully = class Bully extends Character
             this.initialise();
         }
 
+        if (this.game.state.current !== 'play')
+        {
+            return;
+        }
+
         if (this.hasReachedGoal())
         {
             this.generateNewGoal();
@@ -110,9 +115,8 @@ window.Bully = class Bully extends Character
 
         if (this.haveGridCoordinatesChanged())
         {
-            this.game.state.states.play.addGlobalImpassablePoint(this.gridX, this.gridY);
-            this.game.state.states.play.removeGlobalImpassablePoint(this.oldGridX, this.oldGridY);
-
+            this.currentState.addGlobalImpassablePoint(this.gridX, this.gridY);
+            this.currentState.removeGlobalImpassablePoint(this.oldGridX, this.oldGridY);
             if (this.pathNeedsRegenerating)
             {
                 this.moveToCoordinates(this.goalX, this.goalY);
@@ -120,15 +124,24 @@ window.Bully = class Bully extends Character
         }
 
         this.followPath();
-
     }
 
+    /**
+     * Generate a new goal.
+     *
+     * @returns {boolean}
+     */
     generateNewGoal()
     {
-        let goal = this.game.state.states.play.level.bullyGoalCoordinates[Math.floor(Math.random() * this.game.state.states.play.level.bullyGoalCoordinates.length)];
+        if (this.game.state.current !== 'play')
+        {
+            return false;
+        }
+        let goal = this.currentState.level.bullyGoalCoordinates[Math.floor(Math.random() * this.currentState.level.bullyGoalCoordinates.length)];
         this.goalX = goal[0];
         this.goalY = goal[1];
         this.moveToCoordinates(this.goalX, this.goalY);
+        return true;
     }
 
     hasReachedGoal()
