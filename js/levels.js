@@ -788,7 +788,7 @@ var worthamLing = {
     goalYGrid: 5,
     waveHealthCubicA: .02,
     waveHealthCubicB: .03,
-    waveHealthCubicC: .27,
+    waveHealthCubicC: .28,
     towerPlacementForbiddenRows: [0, 11],
     previousLevelName: 'bartonMills',
     dragMap: true
