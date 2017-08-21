@@ -596,3 +596,19 @@ class Puffball extends Obstacle
         this.frame = (this.grade - 1);
     }
 }
+
+class Tombstone extends Obstacle
+{
+    static get DESCRIPTION() { return 'The Tombstone is a targetable obstacle. Destroy it for a coin bonus.'; }
+    static get DEFAULT_SCALE() { return 1; }
+    static get DEFAULT_HEALTH() { return 10000; }
+    static get DEFAULT_COINS_VALUE() { return 50; }
+    static get DEFAULT_SCORE_VALUE() { return 50; }
+    static get SPRITE_SHEET_GID() { return 9; }
+
+    constructor(game, x, y)
+    {
+        super(game, x, y, 'Tombstone');
+        this.createCentralCircle(8);
+    }
+}

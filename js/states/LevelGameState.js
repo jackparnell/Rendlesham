@@ -206,6 +206,7 @@ class LevelGameState extends CanvasGameState
                 this.map.createFromObjects('objects', 107, 'TallGreyMushroom', 0, true, false, this.obstacles, TallGreyMushroom, true);
                 this.map.createFromObjects('objects', 118, 'PinkCrystal', 0, true, false, this.obstacles, PinkCrystal, true);
                 this.map.createFromObjects('objects', 55, 'Puffball', 0, true, false, this.obstacles, Puffball, true);
+                this.map.createFromObjects('objects', 9, 'Puffball', 0, true, false, this.obstacles, Tombstone, true);
 
                 this.map.createFromObjects('objects', 108, 'Nathan', 0, true, false, this.characters, Nathan, true);
 
