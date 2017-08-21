@@ -589,7 +589,7 @@ var bartonMills = {
                 {
                     className: 'Mib',
                     duration: 10,
-                    gap: 1,
+                    gap: .9,
                     delay: 10
                 }
             ]
@@ -635,18 +635,18 @@ var bartonMills = {
             ]
         }
     },
-    pathAdditionalCostTiles: function(attacker) {
-
+    pathAdditionalCostTiles: function(attacker)
+    {
         let additionalCostTiles = [];
-
-        if (attacker.incrementalId % 2) {
+        if (attacker.incrementalId % 2)
+        {
             additionalCostTiles.push([10, 3, 20]);
-        } else {
+        }
+        else
+        {
             additionalCostTiles.push([10, 3, 0]);
         }
-
         return additionalCostTiles;
-
     },
     startingCoins: 200,
     startingLives: 5,
@@ -655,7 +655,7 @@ var bartonMills = {
     goalXGrid: 1,
     goalYGrid: 8,
     waveHealthCubicA: .02,
-    waveHealthCubicB: .03,
+    waveHealthCubicB: .05,
     waveHealthCubicC: .3,
     towerPlacementForbiddenRows: [0, 11],
     previousLevelName: 'westletonHeath',
