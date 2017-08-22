@@ -12,6 +12,8 @@ class GameSprite extends Phaser.Sprite
         this.currentState = this.game.state.states[this.game.state.current];
 
         if (
+            this.currentState.hasOwnProperty('level')
+            &&
             this.currentState.level.hasOwnProperty('spriteFrameOverrides')
             &&
             this.currentState.level.spriteFrameOverrides.hasOwnProperty(this.constructor.name)
