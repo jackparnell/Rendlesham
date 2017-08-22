@@ -1278,8 +1278,8 @@ class Play extends LevelGameState
 
                     let item;
 
-                    if (this.doesAttackerExistAtPosition(x - this.halfSquareWidth, y - this.halfSquareWidth)) {
-                        item = this.getAttackerAtPosition(x - this.halfSquareWidth, y - this.halfSquareWidth);
+                    if (this.doesAttackerExistAtPosition(x, y)) {
+                        item = this.getAttackerAtPosition(x, y);
                     } else if (this.doesObstacleExistAtPosition(x, y)) {
                         item = this.getObstacleAtPosition(x, y);
                     }
@@ -1456,8 +1456,8 @@ class Play extends LevelGameState
     /**
      * Checks whether an attacker exists at supplied x and y coordinates.
      *
-     * @param x
-     * @param y
+     * @param {number} x
+     * @param {number} y
      * @returns {boolean}
      */
     doesAttackerExistAtPosition(x, y)
@@ -1465,18 +1465,25 @@ class Play extends LevelGameState
         return !!this.getAttackerAtPosition(x, y);
     }
 
+    /**
+     * Get an attacker, if one exists, at supplied x and y co-ordinates.
+     *
+     * @param {number} x
+     * @param {number} y
+     * @returns {*}
+     */
     getAttackerAtPosition(x, y)
     {
-        let placementRectangle = new Phaser.Rectangle(x-8, y-8, 16, 16);
-
+        let searchRectangle = new Phaser.Rectangle(x-10, y-10, 20, 20);
         let attackerAtPosition;
-
-        this.attackers.forEachAlive(function(attacker){
-            if (Phaser.Rectangle.intersects(attacker.getBounds(), placementRectangle)) {
+        this.attackers.forEachAlive(function(attacker)
+        {
+            let attackerRectangle = new Phaser.Rectangle(attacker.body.center.x-12, attacker.body.center.y-12, 24, 24);
+            if (Phaser.Rectangle.intersects(attackerRectangle, searchRectangle))
+            {
                 attackerAtPosition = attacker;
             }
         });
-
         return attackerAtPosition;
     }
 
