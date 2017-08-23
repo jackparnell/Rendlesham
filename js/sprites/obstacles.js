@@ -139,7 +139,7 @@ class Obstacle extends GameSprite
         {
             this.currentState.changeCoins(this.coinsValue, this.x, this.y);
             this.currentState.changeScore(this.scoreValue, this.x, this.y);
-            this.currentState.sounds.nes08.play();
+            this.currentState.sounds.robotBlip.play();
         }
         if (this.healthBar)
         {

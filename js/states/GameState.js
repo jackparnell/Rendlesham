@@ -393,8 +393,8 @@ class GameState extends Phaser.State
 
         // Audio files
         let audioFiles = [
-            'bookOpen', 'computerErrorAlert', 'footstep02', 'handleCoins', 'metalClick', 'metalLatch', 'nes08',
-            'nes09', 'nes13', 'nes15'
+            'bookOpen', 'bulletWhizz', 'chamberDecompressing', 'computerErrorAlert', 'footstep02', 'handleCoins',
+            'hockeyPuckSlap', 'metalClick', 'metalLatch', 'robotBlip'
         ];
         for (let i = 0; i < audioFiles.length; i++)
         {
@@ -461,12 +461,23 @@ class GameState extends Phaser.State
         this.sounds.bookOpen = this.game.add.audio('bookOpen');
         this.sounds.bookOpen.allowMultiple = true;
 
+        this.sounds.bulletWhizz = this.game.add.audio('bulletWhizz');
+        this.sounds.bulletWhizz.allowMultiple = true;
+        this.sounds.bulletWhizz.volume = .4;
+
+        this.sounds.chamberDecompressing = this.game.add.audio('chamberDecompressing');
+        this.sounds.chamberDecompressing.allowMultiple = true;
+
         this.sounds.footstep02 = this.game.add.audio('footstep02');
         this.sounds.footstep02.allowMultiple = true;
         this.sounds.footstep02.volume = .8;
 
         this.sounds.handleCoins = this.game.add.audio('handleCoins');
         this.sounds.handleCoins.allowMultiple = true;
+
+        this.sounds.hockeyPuckSlap = this.game.add.audio('hockeyPuckSlap');
+        this.sounds.hockeyPuckSlap.allowMultiple = true;
+        this.sounds.hockeyPuckSlap.volume = .8;
 
         this.sounds.metalClick = this.game.add.audio('metalClick');
         this.sounds.metalClick.allowMultiple = true;
@@ -475,21 +486,9 @@ class GameState extends Phaser.State
         this.sounds.metalLatch.allowMultiple = true;
         this.sounds.metalLatch.volume = .8;
 
-        this.sounds.nes08 = this.game.add.audio('nes08');
-        this.sounds.nes08.allowMultiple = true;
-        this.sounds.nes08.volume = .3;
-
-        this.sounds.nes09 = this.game.add.audio('nes09');
-        this.sounds.nes09.allowMultiple = true;
-        this.sounds.nes09.volume = .3;
-
-        this.sounds.nes13 = this.game.add.audio('nes13');
-        this.sounds.nes13.allowMultiple = true;
-        this.sounds.nes13.volume = .3;
-
-        this.sounds.nes15 = this.game.add.audio('nes15');
-        this.sounds.nes15.allowMultiple = true;
-        this.sounds.nes15.volume = .3;
+        this.sounds.robotBlip = this.game.add.audio('robotBlip');
+        this.sounds.robotBlip.allowMultiple = true;
+        this.sounds.robotBlip.volume = .8;
 
         this.sounds.computerErrorAlert = this.game.add.audio('computerErrorAlert');
         this.sounds.computerErrorAlert.allowMultiple = true;

@@ -389,7 +389,7 @@ class Zone extends CanvasGameState
             this.user.cheats = {};
         }
         this.user.cheats[key] = value;
-        this.playSound('nes13');
+        this.playSound('robotBlip');
         console.log('Cheat: ' + key + ': ' + value + ' ');
 
         this.fadeToRestartState(1.5);

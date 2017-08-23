@@ -1,3 +1,19 @@
+bulletWhizz:
+http://soundbible.com/1875-Bullet-Whizzing-By.html
+License: Attribution 3.0 | Recorded by Mike Koenig
+
+chamberDecompressing:
+http://soundbible.com/1288-Chamber-Decompressing.html
+License: Attribution 3.0 | Recorded by Mike Koenig
+
 computerErrorAlert:
 http://soundbible.com/1540-Computer-Error-Alert.html
 License: Attribution 3.0 | Recorded by Mike Koenig
+
+hockeyPuckSlap:
+http://soundbible.com/1556-Hockey-Puck-Slap.html
+License: Attribution 3.0 | Recorded by jameb32
+
+robotBlip:
+http://soundbible.com/1682-Robot-Blip.html
+License: Attribution 3.0 | Recorded by Marianne Gagnon

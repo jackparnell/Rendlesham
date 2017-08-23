@@ -537,11 +537,11 @@ class Play extends LevelGameState
 
         if (this.lives === 0)
         {
-            this.playSound('nes13');
+            this.playSound('chamberDecompressing');
         }
         else if (amount <= -1)
         {
-            this.playSound('nes15');
+            this.playSound('chamberDecompressing');
         }
 
         if (this.nathan)

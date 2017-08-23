@@ -21,6 +21,7 @@ class Tower extends GameSprite
         this.weapon1.bulletSpeed = this.calculateBulletSpeed();
         this.weapon1.bulletKillDistance = bulletKillDistance;
         this.weapon1.fireRate = window[this.constructor.name].defaultFireRate;
+        this.weapon1.fireSound = window[this.constructor.name].fireSound;
         this.weapon1.angle = this.angleToTarget();
         this.weapon1.rangeInPixels = rangeInPixels;
 
@@ -116,7 +117,7 @@ class Tower extends GameSprite
 
         if (bullet)
         {
-            this.currentState.sounds.footstep02.play();
+            this.currentState.sounds[this.weapon1.fireSound].play();
 
             bullet.angle = this.angleToTarget();
             bullet.damageValue = this.bulletDamageValue;
@@ -427,6 +428,7 @@ Gun.bulletSpriteName = 'Bullet';
 Gun.bulletPace = 14;
 Gun.bulletHitDecorationClassName = 'Explosion';
 Gun.gradeDamageValueMultipler = .7;
+Gun.fireSound = 'footstep02';
 
 
 window.Freezer = class Freezer extends Tower
@@ -453,6 +455,7 @@ Freezer.bulletPace = 14;
 Freezer.bulletHitDecorationClassName = 'Zap';
 Freezer.bulletHitDecorationTint = 0x0000FF;
 Freezer.gradeDamageValueMultipler = 1;
+Freezer.fireSound = 'footstep02';
 
 window.Laser = class Laser extends Tower
 {
@@ -478,3 +481,4 @@ Laser.bulletPace = 23;
 Laser.bulletHitDecorationClassName = 'Zap';
 Laser.bulletHitDecorationTint = 0xFF0000;
 Laser.gradeDamageValueMultipler = 1.4;
+Laser.fireSound = 'bulletWhizz';
