@@ -3467,9 +3467,9 @@ var valeaDraganului = {
     startingLives: 5,
     entryXGrid: 29,
     entryYGrid: 4,
-    goalXGrid: 2,
+    goalXGrid: 1,
     goalYGrid: 5,
-    waveHealthCubicA: .04,
+    waveHealthCubicA: .05,
     waveHealthCubicB: .08,
     waveHealthCubicC: .4,
     towerPlacementForbiddenRows: [0, 11],
@@ -3484,6 +3484,6 @@ var valeaDraganului = {
     horizontalScroll: true,
     introduction: function()
     {
-        this.game.state.states.play.levelToRightAndBackIntroduction();
+        this.game.state.states.play.levelLeftToRightIntroduction();
     }
 };

@@ -3552,6 +3552,32 @@ class Play extends LevelGameState
         leftToRightTween.start();
     }
 
+    levelLeftToRightIntroduction()
+    {
+        let offset = this.game.camera.width * .25;
+        this.reco = new Reco(
+            game,
+            offset,
+            (this.map.heightInPixels * .5) - this.halfSquareWidth
+        );
+        this.characters.add(this.reco);
+
+        this.game.camera.follow(this.reco, Phaser.Camera.FOLLOW_LOCKON, .1, 0);
+
+        let leftToRightTween = this.game.add.tween(this.reco).to(
+            {
+                x: this.game.world.width - offset
+            },
+            3000,
+            Phaser.Easing.Linear.None
+        );
+        leftToRightTween.onComplete.add(
+            this.introductionComplete,
+            this
+        );
+        leftToRightTween.start();
+    }
+
     /**
      * If appropriate, send stats about the game to a API.
      *
