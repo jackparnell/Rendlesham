@@ -115,6 +115,12 @@ class GameSprite extends Phaser.Sprite
             };
         }
 
+        if (!this.navigatingToGoal)
+        {
+            return;
+        }
+
+
         if (this.domain === 'air')
         {
             this.flyToGoal();
@@ -244,5 +250,21 @@ class GameSprite extends Phaser.Sprite
             this.tilesTraversed ++;
         }
         return gridCoordinatesChanges;
+    }
+
+    fadeIn()
+    {
+        this.alpha = 0;
+        this.navigatingToGoal = false;
+        let fadeInTween = this.game.add.tween(this).to({alpha: 1}, 1000, Phaser.Easing.Linear.None, true);
+        fadeInTween.onComplete.add(
+            this.fadeInComplete,
+            this
+        );
+    }
+
+    fadeInComplete()
+    {
+        this.navigatingToGoal = true;
     }
 }

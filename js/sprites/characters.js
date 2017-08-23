@@ -35,7 +35,10 @@ class Character extends GameSprite
         }
     }
 
-    initialise(){}
+    initialise()
+    {
+        this.navigatingToGoal = true;
+    }
 
     prepareForGameOver()
     {

@@ -725,7 +725,7 @@ class Play extends LevelGameState
      * @param {string} className
      * @param {int} x
      * @param {int} y
-     * @returns {boolean}
+     * @returns {Attacker}
      */
     spawnAttacker(className, x, y)
     {
@@ -758,14 +758,14 @@ class Play extends LevelGameState
         if (typeof reusable.reuse === 'function')
         {
             reusable.reuse();
+            return reusable;
         }
         else
         {
             let item = new window[className](this.game, x, y);
             this.attackers.add(item);
+            return item;
         }
-
-        return true;
     }
 
     spawnAttackerDelayed(className, seconds, waveNumber, x, y)
@@ -3681,17 +3681,16 @@ class Play extends LevelGameState
         }
 
         let coordinates = this.translateGridCoordinatesToPixelCoordinates(gridX, gridY);
-        let x = coordinates[0];
-        let y = coordinates[1];
-
-        this.spawnAttacker(attackerClassName, x, y);
+        let x = coordinates[0] + this.halfSquareWidth;
+        let y = coordinates[1] + this.halfSquareWidth;
+        let attacker = this.spawnAttacker(attackerClassName, x, y);
+        attacker.fadeIn();
 
         return true;
     }
 
     obstacleAttackerSpawnDelayed(obstacleClassName, gridX, gridY, attackerClassName, seconds = 0)
     {
-
         // Very slightly delay first attacker, to allow objects which may affect
         // attacker path to be generated first.
         if (seconds === 0)

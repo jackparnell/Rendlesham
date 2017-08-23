@@ -43,6 +43,7 @@ class Attacker extends GameSprite
         this.scoreValue = window[this.constructor.name].scoreValue || 5;
         this.domain = window[this.constructor.name].domain || 'land';
         this.invulnerable = false;
+        this.navigatingToGoal = true;
         this.incrementalId = this.currentState.attackersSpawnedCount;
 
         this.speed = this.calculateSpeed();
