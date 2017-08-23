@@ -191,6 +191,11 @@ class Tower extends GameSprite
             {
                 return;
             }
+            // If item not navigating, fading in, don't target
+            if (!item.navigatingToGoal)
+            {
+                return;
+            }
 
             let distanceBetween = this.game.physics.arcade.distanceBetween(this, item);
 

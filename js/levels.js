@@ -3330,15 +3330,6 @@ var valeaDraganului = {
                     gap: 1.25,
                     delay: 1
                 }
-            ],
-            obstacleAttackerSpawns: [
-                {
-                    obstacleClassName: 'TombstoneLeft',
-                    gridX: 27,
-                    gridY: 5,
-                    attackerClassName: 'Ghost',
-                    delay: 3
-                }
             ]
         },
         wave2: {
@@ -3378,6 +3369,22 @@ var valeaDraganului = {
                     duration: 14,
                     gap: 2,
                     delay: 1
+                }
+            ],
+            obstacleAttackerSpawns: [
+                {
+                    obstacleClassNames: ['TombstoneLeft', 'TombstoneRight'],
+                    gridX: 27,
+                    gridY: 5,
+                    attackerClassName: 'Ghost',
+                    delays: [5, 15]
+                },
+                {
+                    obstacleClassNames: ['TombstoneLeft', 'TombstoneRight'],
+                    gridX: 24,
+                    gridY: 7,
+                    attackerClassName: 'Ghost',
+                    delays: [10]
                 }
             ]
         },
@@ -3424,6 +3431,29 @@ var valeaDraganului = {
                     gap: 1.5,
                     delay: 0
                 }
+            ],
+            obstacleAttackerSpawns: [
+                {
+                    obstacleClassNames: ['TombstoneLeft', 'TombstoneRight'],
+                    gridX: 17,
+                    gridY: 8,
+                    attackerClassName: 'Ghost',
+                    delays: [10]
+                },
+                {
+                    obstacleClassNames: ['TombstoneLeft', 'TombstoneRight'],
+                    gridX: 14,
+                    gridY: 6,
+                    attackerClassName: 'Ghost',
+                    delays: [15]
+                },
+                {
+                    obstacleClassNames: ['TombstoneLeft', 'TombstoneRight'],
+                    gridX: 14,
+                    gridY: 4,
+                    attackerClassName: 'Ghost',
+                    delays: [20]
+                }
             ]
         },
         wave7: {
@@ -3456,6 +3486,36 @@ var valeaDraganului = {
                     duration: 25,
                     gap: .85,
                     delay: 0
+                }
+            ],
+            obstacleAttackerSpawns: [
+                {
+                    obstacleClassNames: ['TombstoneLeft', 'TombstoneRight'],
+                    gridX: 11,
+                    gridY: 9,
+                    attackerClassName: 'Ghost',
+                    delays: [5]
+                },
+                {
+                    obstacleClassNames: ['TombstoneLeft', 'TombstoneRight'],
+                    gridX: 8,
+                    gridY: 6,
+                    attackerClassName: 'Ghost',
+                    delays: [10]
+                },
+                {
+                    obstacleClassNames: ['TombstoneLeft', 'TombstoneRight'],
+                    gridX: 8,
+                    gridY: 4,
+                    attackerClassName: 'Ghost',
+                    delays: [15]
+                },
+                {
+                    obstacleClassNames: ['TombstoneLeft', 'TombstoneRight'],
+                    gridX: 8,
+                    gridY: 2,
+                    attackerClassName: 'Ghost',
+                    delays: [20]
                 }
             ]
         },

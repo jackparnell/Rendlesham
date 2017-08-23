@@ -480,11 +480,14 @@ class Attacker extends GameSprite
         this.tint = 0xffffff;
     }
 
-    reuse()
+    reuse(x, y)
     {
-        let coordinates = this.currentState.generateSpawnAttackerPixelCoordinates();
-        let x = coordinates[0];
-        let y = coordinates[1];
+        if (!x || !y)
+        {
+            let coordinates = this.currentState.generateSpawnAttackerPixelCoordinates();
+            let x = coordinates[0];
+            let y = coordinates[1];
+        }
 
         this.reset(x, y);
 

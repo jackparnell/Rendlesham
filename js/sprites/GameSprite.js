@@ -256,7 +256,7 @@ class GameSprite extends Phaser.Sprite
     {
         this.alpha = 0;
         this.navigatingToGoal = false;
-        let fadeInTween = this.game.add.tween(this).to({alpha: 1}, 1000, Phaser.Easing.Linear.None, true);
+        let fadeInTween = this.game.add.tween(this).to({alpha: 1}, 1500, Phaser.Easing.Linear.None, true);
         fadeInTween.onComplete.add(
             this.fadeInComplete,
             this

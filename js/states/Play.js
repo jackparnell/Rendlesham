@@ -757,7 +757,7 @@ class Play extends LevelGameState
 
         if (typeof reusable.reuse === 'function')
         {
-            reusable.reuse();
+            reusable.reuse(x, y);
             return reusable;
         }
         else
@@ -1747,13 +1747,16 @@ class Play extends LevelGameState
         {
             wave.obstacleAttackerSpawns.forEach(function(obstacleAttackerSpawn)
             {
-                this.obstacleAttackerSpawnDelayed(
-                    obstacleAttackerSpawn.obstacleClassName,
-                    obstacleAttackerSpawn.gridX,
-                    obstacleAttackerSpawn.gridY,
-                    obstacleAttackerSpawn.attackerClassName,
-                    obstacleAttackerSpawn.delay
-                );
+                for (let i = 0; i < obstacleAttackerSpawn.delays.length; i++)
+                {
+                    this.obstacleAttackerSpawnDelayed(
+                        obstacleAttackerSpawn.obstacleClassNames,
+                        obstacleAttackerSpawn.gridX,
+                        obstacleAttackerSpawn.gridY,
+                        obstacleAttackerSpawn.attackerClassName,
+                        obstacleAttackerSpawn.delays[i]
+                    );
+                }
             }, this);
         }
 
@@ -3679,11 +3682,24 @@ class Play extends LevelGameState
         this.spawnCross(x, y, 0xCC0000);
     }
 
-    obstacleAttackerSpawn(obstacleClassName, gridX, gridY, attackerClassName)
+    /**
+     *
+     * @param {Array} obstacleClassNames
+     * @param {number} gridX
+     * @param {number} gridY
+     * @param {String} attackerClassName
+     * @returns {boolean}
+     */
+    obstacleAttackerSpawn(obstacleClassNames, gridX, gridY, attackerClassName)
     {
         let obstacle = this.getObstacleAtPosition(gridX, gridY, 'grid');
 
-        if (!obstacle || obstacle.constructor.name !== obstacleClassName)
+        if (!obstacle)
+        {
+            return false;
+        }
+
+        if (obstacleClassNames.indexOf(obstacle.constructor.name) === -1)
         {
             return false;
         }
@@ -3697,7 +3713,7 @@ class Play extends LevelGameState
         return true;
     }
 
-    obstacleAttackerSpawnDelayed(obstacleClassName, gridX, gridY, attackerClassName, seconds = 0)
+    obstacleAttackerSpawnDelayed(obstacleClassNames, gridX, gridY, attackerClassName, seconds = 0)
     {
         // Very slightly delay first attacker, to allow objects which may affect
         // attacker path to be generated first.
@@ -3711,7 +3727,7 @@ class Play extends LevelGameState
                 Phaser.Timer.SECOND * seconds,
                 this.obstacleAttackerSpawn,
                 this,
-                obstacleClassName,
+                obstacleClassNames,
                 gridX,
                 gridY,
                 attackerClassName
