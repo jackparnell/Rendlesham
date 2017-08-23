@@ -1436,6 +1436,14 @@ class Play extends LevelGameState
         return !!this.getObstacleAtPosition(x, y);
     }
 
+    /**
+     * Get an obstacle, if one exists, at supplied coordinates.
+     *
+     * @param {number} x
+     * @param {number} y
+     * @param {String} coordinateType
+     * @returns {*}
+     */
     getObstacleAtPosition(x, y, coordinateType = 'pixels')
     {
         let obstacleAtPosition;
@@ -1446,7 +1454,7 @@ class Play extends LevelGameState
         {
             let gridCoordinates = this.translatePixelCoordinatesToGridCoordinates(x, y);
             gridX = gridCoordinates[0];
-            gridX = gridCoordinates[1];
+            gridY = gridCoordinates[1];
         }
         else if (coordinateType === 'grid')
         {
