@@ -1436,13 +1436,30 @@ class Play extends LevelGameState
         return !!this.getObstacleAtPosition(x, y);
     }
 
-    getObstacleAtPosition(x, y)
+    getObstacleAtPosition(x, y, coordinateType = 'pixels')
     {
         let obstacleAtPosition;
+        let gridX;
+        let gridY;
 
-        let gridCoordinates = this.translatePixelCoordinatesToGridCoordinates(x, y);
-        let gridX = gridCoordinates[0];
-        let gridY = gridCoordinates[1];
+        if (coordinateType === 'pixels')
+        {
+            let gridCoordinates = this.translatePixelCoordinatesToGridCoordinates(x, y);
+            gridX = gridCoordinates[0];
+            gridX = gridCoordinates[1];
+        }
+        else if (coordinateType === 'grid')
+        {
+            gridX = x;
+            gridY = y;
+        }
+        else
+        {
+            throw {
+                'code': 20007,
+                'description': 'coordinateType missing or invalid. '
+            };
+        }
 
         this.obstacles.forEachAlive(function(obstacles){
             if (gridX === obstacles.gridX && gridY === obstacles.gridY) {
@@ -1717,6 +1734,21 @@ class Play extends LevelGameState
                 }
             }, this);
         }
+
+        if (wave.obstacleAttackerSpawns)
+        {
+            wave.obstacleAttackerSpawns.forEach(function(obstacleAttackerSpawn)
+            {
+                this.obstacleAttackerSpawnDelayed(
+                    obstacleAttackerSpawn.obstacleClassName,
+                    obstacleAttackerSpawn.gridX,
+                    obstacleAttackerSpawn.gridY,
+                    obstacleAttackerSpawn.attackerClassName,
+                    obstacleAttackerSpawn.delay
+                );
+            }, this);
+        }
+
 
         this.game.timerEvents.push(
             this.game.time.events.add(
@@ -3637,5 +3669,46 @@ class Play extends LevelGameState
     {
         super.notPossible();
         this.spawnCross(x, y, 0xCC0000);
+    }
+
+    obstacleAttackerSpawn(obstacleClassName, gridX, gridY, attackerClassName)
+    {
+        let obstacle = this.getObstacleAtPosition(gridX, gridY, 'grid');
+
+        if (!obstacle || obstacle.constructor.name !== obstacleClassName)
+        {
+            return false;
+        }
+
+        let coordinates = this.translateGridCoordinatesToPixelCoordinates(gridX, gridY);
+        let x = coordinates[0];
+        let y = coordinates[1];
+
+        this.spawnAttacker(attackerClassName, x, y);
+
+        return true;
+    }
+
+    obstacleAttackerSpawnDelayed(obstacleClassName, gridX, gridY, attackerClassName, seconds = 0)
+    {
+
+        // Very slightly delay first attacker, to allow objects which may affect
+        // attacker path to be generated first.
+        if (seconds === 0)
+        {
+            seconds = 0.05;
+        }
+
+        this.game.timerEvents.push(
+            this.game.time.events.add(
+                Phaser.Timer.SECOND * seconds,
+                this.obstacleAttackerSpawn,
+                this,
+                obstacleClassName,
+                gridX,
+                gridY,
+                attackerClassName
+            ).autoDestroy = true
+        );
     }
 }

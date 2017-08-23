@@ -229,7 +229,6 @@ class LevelGameState extends CanvasGameState
                     this.bully = this.getBully();
                 }
 
-                this.map.createFromObjects('objects', 72, 'Ghost', 0, true, false, this.characters, Ghost, true);
         }
     }
 

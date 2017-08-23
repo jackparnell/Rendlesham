@@ -3330,6 +3330,15 @@ var valeaDraganului = {
                     gap: 1.25,
                     delay: 1
                 }
+            ],
+            obstacleAttackerSpawns: [
+                {
+                    obstacleClassName: 'TombstoneLeft',
+                    gridX: 27,
+                    gridY: 5,
+                    attackerClassName: 'Ghost',
+                    delay: 3
+                }
             ]
         },
         wave2: {

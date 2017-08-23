@@ -239,3 +239,30 @@ Cyclops.pace = 2.8;
 Cyclops.coinsValue = 20;
 Cyclops.scoreValue = 20;
 Cyclops.spriteHeight = 50;
+
+window.Ghost = class Ghost extends Attacker
+{
+    constructor(game, x, y)
+    {
+        super(game, x, y, 'ghost');
+        this.simpleSetSize();
+        this.animations.add('walk', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17], 15, false, true);
+    }
+
+    update()
+    {
+        super.update();
+        if (!this.alive)
+        {
+            return;
+        }
+        this.simpleAnimate();
+    }
+};
+Ghost.defaultScale = 1;
+Ghost.defaultHealth = 2000;
+Ghost.pace = 2.8;
+Ghost.coinsValue = 10;
+Ghost.scoreValue = 10;
+Ghost.spriteHeight = 50;
+Ghost.domain = 'air';
