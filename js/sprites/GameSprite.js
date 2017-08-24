@@ -267,4 +267,28 @@ class GameSprite extends Phaser.Sprite
     {
         this.navigatingToGoal = true;
     }
+
+    simpleAnimate()
+    {
+        if (this.body.velocity.x <= -5)
+        {
+            this.animations.play('walk');
+            this.scale.x = -1;
+        }
+        else if (this.body.velocity.x >= 5)
+        {
+            this.animations.play('walk');
+            this.scale.x = 1;
+        }
+        this.animations.play('walk');
+    }
+
+    simpleSetSize()
+    {
+        let bodyWidth = 25;
+        let bodyHeight = 30;
+        let offsetX = bodyWidth;
+        let offsetY = 45 - bodyHeight;
+        this.body.setSize(bodyWidth, bodyHeight, bodyWidth, offsetY);
+    }
 }

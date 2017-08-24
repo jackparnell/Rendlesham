@@ -219,17 +219,49 @@ class LevelGameState extends CanvasGameState
 
                 this.nathan = this.characters.getFirstAlive();
 
-                if (this.nathan) {
-                    this.nathan.drawForceFields();
-                }
-
                 this.map.createFromObjects('objects', 120, 'Bully', 0, true, false, this.characters, Bully, true);
                 if (typeof this.getBully === 'function')
                 {
                     this.bully = this.getBully();
                 }
 
+                this.map.createFromObjects('objects', 132, 'Wizard', 0, true, false, this.characters, Wizard, true);
+
+                this.determinateGoalCharacter();
+                this.goalCharacter.drawForceFields();
         }
+    }
+
+    /**
+     * Determine which character is the goal character, and set this.goalCharacter to that character.
+     *
+     * @returns {boolean}
+     */
+    determinateGoalCharacter()
+    {
+        if (this.level.goalCharacterClassName)
+        {
+            this.characters.forEachAlive(function(character) {
+                if (character.constructor.name === this.level.goalCharacterClassName)
+                {
+                    this.goalCharacter = character;
+                }
+            }, this);
+        }
+        else if (this.nathan)
+        {
+            this.goalCharacter = this.nathan;
+        }
+
+        if (!this.goalCharacter)
+        {
+            throw {
+                'code': 20008,
+                'description': 'goalCharacter determination failed. '
+            };
+        }
+
+        return true;
     }
 
     pixelsNearestTileTopLeftCoordinates(x, y)

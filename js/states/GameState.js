@@ -408,6 +408,19 @@ class GameState extends Phaser.State
                 'assets/sprites/attackers/' + transylvanianAttackerNames[i] + '.json'
             );
         }
+
+        let transylvanianCharacterNames = [
+            'wizard'
+        ];
+
+        for (let i = 0; i < transylvanianCharacterNames.length; i++)
+        {
+            this.game.load.atlasJSONHash(
+                transylvanianCharacterNames[i],
+                'assets/sprites/characters/' + transylvanianCharacterNames[i] + '.png',
+                'assets/sprites/characters/' + transylvanianCharacterNames[i] + '.json'
+            );
+        }
     }
 
     getLevelFromZoneAndNumber(zoneName, levelNumber)

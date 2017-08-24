@@ -544,9 +544,9 @@ class Play extends LevelGameState
             this.playSound('chamberDecompressing');
         }
 
-        if (this.nathan)
+        if (this.goalCharacter)
         {
-            this.nathan.drawForceFields();
+            this.goalCharacter.drawForceFields();
         }
     }
 

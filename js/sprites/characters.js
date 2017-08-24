@@ -45,10 +45,6 @@ class Character extends GameSprite
         this.body.enable = false;
     }
 
-}
-
-window.Nathan = class Nathan extends Character
-{
     drawForceFields()
     {
         if (this.game.state.current === 'play')
@@ -56,6 +52,11 @@ window.Nathan = class Nathan extends Character
             this.currentState.drawForceFields(this, this.game.state.states.play.lives);
         }
     }
+}
+
+window.Nathan = class Nathan extends Character
+{
+
 };
 Nathan.defaultScale = 1;
 Nathan.spriteName = 'Nathan';
@@ -173,3 +174,27 @@ window.Reco = class Reco extends Character
         this.destroy();
     }
 };
+
+
+
+window.Wizard = class Wizard extends Character
+{
+    constructor(game, x, y)
+    {
+        super(game, x, y, 'wizard');
+        this.simpleSetSize();
+        this.animations.add('walk', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], 12, false, true);
+    }
+
+    update()
+    {
+        super.update();
+        if (!this.alive)
+        {
+            return;
+        }
+        this.simpleAnimate();
+    }
+};
+Wizard.defaultScale = 1;
+Wizard.spriteName = 'Wizard';

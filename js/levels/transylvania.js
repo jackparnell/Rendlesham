@@ -1250,6 +1250,7 @@ var valeaDraganului = {
     entryYGrid: 4,
     goalXGrid: 1,
     goalYGrid: 5,
+    goalCharacterClassName: 'Wizard',
     waveHealthCubicA: .05,
     waveHealthCubicB: .08,
     waveHealthCubicC: .4,

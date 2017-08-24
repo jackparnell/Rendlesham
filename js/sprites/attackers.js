@@ -200,9 +200,9 @@ class Attacker extends GameSprite
             return false;
         }
 
-        if (this.currentState.nathan)
+        if (this.currentState.goalCharacter)
         {
-            let distanceToGoal = this.game.physics.arcade.distanceBetween(this, this.currentState.nathan);
+            let distanceToGoal = this.game.physics.arcade.distanceBetween(this, this.currentState.goalCharacter);
             let distanceNeeded = 26 + (this.currentState.lives-1) * 7.5;
             return (distanceToGoal <= distanceNeeded);
         }
@@ -533,30 +533,6 @@ class Attacker extends GameSprite
         }
 
         this.projectedHealth = Math.floor(projectedHealth);
-    }
-
-    simpleAnimate()
-    {
-        if (this.body.velocity.x <= -5)
-        {
-            this.animations.play('walk');
-            this.scale.x = -1;
-        }
-        else if (this.body.velocity.x >= 5)
-        {
-            this.animations.play('walk');
-            this.scale.x = 1;
-        }
-        this.animations.play('walk');
-    }
-
-    simpleSetSize()
-    {
-        let bodyWidth = 25;
-        let bodyHeight = 30;
-        let offsetX = bodyWidth;
-        let offsetY = 45 - bodyHeight;
-        this.body.setSize(bodyWidth, bodyHeight, bodyWidth, offsetY);
     }
 
     getStepsToGoal()
