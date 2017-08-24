@@ -286,7 +286,7 @@ class GameState extends Phaser.State
         {
             if (ZONE_INFO.hasOwnProperty(zoneName))
             {
-                this.game.load.image(ZONE_INFO[zoneName].ZONE_BACKGROUND_FILENAME, 'assets/backgrounds/' + ZONE_INFO[zoneName].ZONE_BACKGROUND_FILENAME + '.png');
+                this.game.load.image(ZONE_INFO[zoneName].ZONE_FILENAME, 'assets/backgrounds/' + ZONE_INFO[zoneName].ZONE_FILENAME + '.png');
             }
         }
 
@@ -363,25 +363,8 @@ class GameState extends Phaser.State
         this.game.load.spritesheet('Pumpkin', 'assets/sprites/obstacles/Pumpkin.png', 35, 35, 1);
         this.game.load.spritesheet('Puffball', 'assets/sprites/obstacles/Puffball.png', 32, 32, 3);
 
-        let property;
-        let level;
-        for (property in ZONE_INFO.EAST_ANGLIA.LEVEL_ORDERING)
-        {
-            if (ZONE_INFO.EAST_ANGLIA.LEVEL_ORDERING.hasOwnProperty(property))
-            {
-                level = window[ZONE_INFO.EAST_ANGLIA.LEVEL_ORDERING[property]];
-                this.game.load.tilemap(level.mapName, 'assets/tilemaps/maps/' + level.mapName + '.json', null, Phaser.Tilemap.TILED_JSON);
-            }
-        }
-
-        for (property in ZONE_INFO.TRANSYLVANIA.LEVEL_ORDERING)
-        {
-            if (ZONE_INFO.TRANSYLVANIA.LEVEL_ORDERING.hasOwnProperty(property))
-            {
-                level = window[ZONE_INFO.TRANSYLVANIA.LEVEL_ORDERING[property]];
-                this.game.load.tilemap(level.mapName, 'assets/tilemaps/maps/' + level.mapName + '.json', null, Phaser.Tilemap.TILED_JSON);
-            }
-        }
+        this.loadZoneLevels('EAST_ANGLIA');
+        this.loadZoneLevels('TRANSYLVANIA');
 
         this.game.load.image('tiles_spritesheet', 'assets/tilemaps/tiles/tiles_spritesheet.png');
         this.game.load.image('roguelikeSheet_transparent', 'assets/tilemaps/tiles/roguelikeSheet_transparent.png');
@@ -674,5 +657,26 @@ class GameState extends Phaser.State
             return this.level.towersAvailable;
         }
         return ['Gun', 'Freezer', 'Laser'];
+    }
+
+    /**
+     * Load zone level files for a supplied zoneName.
+     *
+     * @param {string} zoneName
+     * @returns {boolean}
+     */
+    loadZoneLevels(zoneName)
+    {
+        let property;
+        let level;
+        for (property in ZONE_INFO[zoneName].LEVEL_ORDERING)
+        {
+            if (ZONE_INFO[zoneName].LEVEL_ORDERING.hasOwnProperty(property))
+            {
+                level = window[ZONE_INFO[zoneName].LEVEL_ORDERING[property]];
+                this.game.load.tilemap(level.mapName, 'assets/tilemaps/maps/' + level.mapName + '.json', null, Phaser.Tilemap.TILED_JSON);
+            }
+        }
+        return true;
     }
 }

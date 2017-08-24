@@ -29,7 +29,7 @@ class Zone extends CanvasGameState
     create()
     {
         super.create();
-        this.zoneMap = this.game.add.tileSprite(0, 0, 1400, 700, this.zone.ZONE_BACKGROUND_FILENAME);
+        this.zoneMap = this.game.add.tileSprite(0, 0, 1400, 700, this.zone.ZONE_FILENAME);
         this.game.backgrounds.add(this.zoneMap);
 
         this.game.world.setBounds(0, 0, this.zoneMap.width, this.zoneMap.height);
