@@ -32,10 +32,9 @@ class Character extends GameSprite
     initialise()
     {
         this.navigatingToGoal = true;
+        this.overrideSimpleAnimate = false;
 
         let scale = this.getScale();
-
-        console.log(scale);
 
         this.scale.setTo(scale, scale);
 
@@ -54,6 +53,12 @@ class Character extends GameSprite
             this.currentState.drawForceFields(this, this.game.state.states.play.lives);
         }
     }
+
+    action() {}
+
+    defeated() {}
+
+    hurt() {}
 
     update()
     {
@@ -189,10 +194,24 @@ window.Wizard = class Wizard extends Character
     {
         super(game, x, y, 'wizard');
         this.simpleSetSize();
-        this.animations.add('walk', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], 12, false, true);
+        this.animations.add('action', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], 30, false, true);
+        this.animations.add('defeated', [12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26], 12, false, true);
+        this.animations.add('hurt', [27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38], 12, false, true);
+        this.animations.add('idle', [39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50], 12, false, true);
         this.anchor.setTo(0.5, 0.75);
         this.forceFieldCenterXOffset = 2;
         this.forceFieldCenterYOffset = -15;
+    }
+
+    initialise()
+    {
+        super.initialise();
+        if (this.currentState.level.goalCharacterDefaultFacing === 'left')
+        {
+            this.scale.x = -1;
+            this.forceFieldCenterXOffset *= -1;
+            this.forceFieldCenterYOffset *= -1;
+        }
     }
 
     update()
@@ -203,6 +222,24 @@ window.Wizard = class Wizard extends Character
             return;
         }
         this.simpleAnimate();
+    }
+
+    action()
+    {
+        this.overrideSimpleAnimate = true;
+        this.animations.play('action');
+    }
+
+    defeated()
+    {
+        this.overrideSimpleAnimate = true;
+        this.animations.play('defeated');
+    }
+
+    hurt()
+    {
+        this.overrideSimpleAnimate = true;
+        this.animations.play('hurt');
     }
 };
 Wizard.defaultScale = 1;

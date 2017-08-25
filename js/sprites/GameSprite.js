@@ -270,16 +270,36 @@ class GameSprite extends Phaser.Sprite
 
     simpleAnimate()
     {
+        if (this.overrideSimpleAnimate && this.animations.currentAnim && !this.animations.currentAnim.isFinished)
+        {
+            return;
+        }
+
+        if (this.animations.currentAnim && this.animations.currentAnim.name === 'defeated')
+        {
+            return;
+        }
+
         if (this.body.velocity.x <= -5)
         {
             this.animations.play('walk');
             this.scale.x = -1;
+            return;
         }
-        else if (this.body.velocity.x >= 5)
+
+        if (this.body.velocity.x >= 5)
         {
             this.animations.play('walk');
             this.scale.x = 1;
+            return;
         }
+
+        if (this.hasAnimation('idle'))
+        {
+            this.animations.play('idle');
+            return;
+        }
+
         this.animations.play('walk');
     }
 
@@ -290,5 +310,10 @@ class GameSprite extends Phaser.Sprite
         let offsetX = bodyWidth;
         let offsetY = 45 - bodyHeight;
         this.body.setSize(bodyWidth, bodyHeight, bodyWidth, offsetY);
+    }
+
+    hasAnimation(animationName)
+    {
+        return this.animations._anims.hasOwnProperty(animationName);
     }
 }

@@ -547,6 +547,17 @@ class Play extends LevelGameState
         if (this.goalCharacter)
         {
             this.goalCharacter.drawForceFields();
+            if (amount < 0)
+            {
+                if (this.lives === 0)
+                {
+                    this.goalCharacter.defeated();
+                }
+                else if (amount <= -1)
+                {
+                    this.goalCharacter.hurt();
+                }
+            }
         }
     }
 
@@ -3242,6 +3253,8 @@ class Play extends LevelGameState
         }
 
         this.closeTowerPlacementView();
+
+        this.goalCharacter.action();
 
         return true;
     }
