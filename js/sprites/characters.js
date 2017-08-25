@@ -27,17 +27,19 @@ class Character extends GameSprite
         let gridCoordinates = this.currentState.translatePixelCoordinatesToGridCoordinates(this.body.x, this.body.y);
         this.gridX = gridCoordinates[0];
         this.gridY = gridCoordinates[1];
-
-        let scale = this.getScale();
-        if (scale !== 1)
-        {
-            this.scale.setTo(scale, scale);
-        }
     }
 
     initialise()
     {
         this.navigatingToGoal = true;
+
+        let scale = this.getScale();
+
+        console.log(scale);
+
+        this.scale.setTo(scale, scale);
+
+        this.initialised = true;
     }
 
     prepareForGameOver()
@@ -50,6 +52,15 @@ class Character extends GameSprite
         if (this.game.state.current === 'play')
         {
             this.currentState.drawForceFields(this, this.game.state.states.play.lives);
+        }
+    }
+
+    update()
+    {
+        super.update();
+        if (!this.initialised)
+        {
+            this.initialise();
         }
     }
 }
@@ -77,6 +88,8 @@ window.Bully = class Bully extends Character
 
     initialise()
     {
+        super.initialise();
+
         this.creationTurn = game.globals.turn;
 
         this.speed = (window[this.constructor.name].defaultSpeed || 75);
@@ -88,8 +101,6 @@ window.Bully = class Bully extends Character
 
         this.tilesTraversed = 0;
 
-        this.initialised = true;
-
         this.generateNewGoal();
     }
 
@@ -100,11 +111,6 @@ window.Bully = class Bully extends Character
         if (!this.alive)
         {
             return;
-        }
-
-        if (!this.initialised)
-        {
-            this.initialise();
         }
 
         if (this.game.state.current !== 'play')
@@ -184,6 +190,9 @@ window.Wizard = class Wizard extends Character
         super(game, x, y, 'wizard');
         this.simpleSetSize();
         this.animations.add('walk', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], 12, false, true);
+        this.anchor.setTo(0.5, 0.75);
+        this.forceFieldCenterXOffset = 2;
+        this.forceFieldCenterYOffset = -15;
     }
 
     update()

@@ -2061,11 +2061,23 @@ class Play extends LevelGameState
         let lineAlpha = .4;
         let fillAlpha = .08;
 
+        let x = sprite.x;
+        let y = sprite.y;
+
+        if (sprite.forceFieldCenterXOffset)
+        {
+            x += sprite.forceFieldCenterXOffset;
+        }
+        if (sprite.forceFieldCenterYOffset)
+        {
+            y += sprite.forceFieldCenterYOffset;
+        }
+
         if (number >= 5)
         {
             this.forceFieldGraphics.lineStyle(2, 0xBBBBFF, lineAlpha);
             this.forceFieldGraphics.beginFill(0xCCCCFF, fillAlpha);
-            this.forceFieldGraphics.drawCircle(sprite.x, sprite.y, minimumDiameter + (diameterGap * 3));
+            this.forceFieldGraphics.drawCircle(x, y, minimumDiameter + (diameterGap * 3));
             this.forceFieldGraphics.endFill();
         }
 
@@ -2073,7 +2085,7 @@ class Play extends LevelGameState
         {
             this.forceFieldGraphics.lineStyle(2, 0x9999FF, lineAlpha);
             this.forceFieldGraphics.beginFill(0xBBBBFF, fillAlpha);
-            this.forceFieldGraphics.drawCircle(sprite.x, sprite.y, minimumDiameter + (diameterGap * 2));
+            this.forceFieldGraphics.drawCircle(x, y, minimumDiameter + (diameterGap * 2));
             this.forceFieldGraphics.endFill();
         }
 
@@ -2081,7 +2093,7 @@ class Play extends LevelGameState
         {
             this.forceFieldGraphics.lineStyle(2, 0x7777FF, lineAlpha);
             this.forceFieldGraphics.beginFill(0xBBBBFF, fillAlpha);
-            this.forceFieldGraphics.drawCircle(sprite.x, sprite.y, minimumDiameter + diameterGap);
+            this.forceFieldGraphics.drawCircle(x, y, minimumDiameter + diameterGap);
             this.forceFieldGraphics.endFill();
         }
 
@@ -2089,7 +2101,7 @@ class Play extends LevelGameState
         {
             this.forceFieldGraphics.lineStyle(2, 0x5555FF, lineAlpha);
             this.forceFieldGraphics.beginFill(0xBBBBFF, fillAlpha);
-            this.forceFieldGraphics.drawCircle(sprite.x, sprite.y, minimumDiameter);
+            this.forceFieldGraphics.drawCircle(x, y, minimumDiameter);
             this.forceFieldGraphics.endFill();
         }
     }
