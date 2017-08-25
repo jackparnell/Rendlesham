@@ -189,7 +189,7 @@ class GameSprite extends Phaser.Sprite
     {
         this.game.physics.arcade.moveToObject(
             this,
-            this.game.state.states.play.nathan,
+            this.game.state.states.play.goalCharacter,
             this.speed
         );
     }

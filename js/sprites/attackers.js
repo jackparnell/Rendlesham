@@ -552,7 +552,7 @@ class Attacker extends GameSprite
         switch (this.domain)
         {
             case 'air':
-                let distanceToGoal = this.game.physics.arcade.distanceBetween(this, this.currentState.nathan);
+                let distanceToGoal = this.game.physics.arcade.distanceBetween(this, this.currentState.goalCharacter);
                 advancement = 100000 - (distanceToGoal * (100 / this.currentState.squareWidth));
                 // Record air advancement stats
                 if (this.advancement < this.currentState.stats['wave' + this.currentState.waveNumber].furthestAirAdvancement)
