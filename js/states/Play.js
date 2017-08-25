@@ -844,30 +844,35 @@ class Play extends LevelGameState
 
         this.towersSpawnedCount ++;
 
-        let reusable = {};
+        let item = {};
 
         this.towers.forEachDead(function(tower) {
-            if (reusable.guid)
+            if (item.guid)
             {
                 return;
             }
             if (tower.constructor.name === className)
             {
-                reusable = tower;
+                item = tower;
             }
         }, this);
 
-        if (typeof reusable.reuse === 'function')
+        if (typeof item.reuse === 'function')
         {
-            reusable.reuse(x, y);
+            item.reuse(x, y);
         }
         else
         {
-            let item = new window[className](this.game, x, y);
+            item = new window[className](this.game, x, y);
             this.towers.add(item);
         }
 
         this.playSound('metalLatch');
+
+        let scale = window[item.constructor.name].DEFAULT_SCALE;
+
+        item.scale.setTo(this.quickTweenFromScale, this.quickTweenFromScale);
+        this.game.add.tween(item.scale).to({x: scale, y: scale}, 400, Phaser.Easing.Back.Out, true, 0);
 
         return true;
     }
@@ -2869,6 +2874,7 @@ class Play extends LevelGameState
         this.currentTower.sell();
         this.playSound('handleCoins');
         this.closeTowerInfo();
+        this.goalCharacter.action();
     }
 
     upgradeCurrentTower()
@@ -2879,6 +2885,7 @@ class Play extends LevelGameState
             this.playSound('metalClick');
         }
         this.refreshTowerInfo();
+        this.goalCharacter.action();
     }
 
     refreshTowerInfo(useTween = true)
