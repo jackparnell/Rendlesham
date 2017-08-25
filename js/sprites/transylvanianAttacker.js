@@ -266,3 +266,31 @@ Ghost.coinsValue = 10;
 Ghost.scoreValue = 10;
 Ghost.spriteHeight = 50;
 Ghost.domain = 'air';
+
+
+window.Lee = class Lee extends Attacker
+{
+    constructor(game, x, y)
+    {
+        super(game, x, y, 'lee');
+        this.simpleSetSize();
+        this.animations.add('dying', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], 15, false, true);
+        this.animations.add('walk', [15, 16, 17, 18, 19, 20, 21, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31], 15, false, true);
+    }
+
+    update()
+    {
+        super.update();
+        if (!this.alive)
+        {
+            return;
+        }
+        this.simpleAnimate();
+    }
+};
+Lee.defaultScale = 1;
+Lee.defaultHealth = 3000;
+Lee.pace = 1.8;
+Lee.coinsValue = 10;
+Lee.scoreValue = 10;
+Lee.spriteHeight = 50;

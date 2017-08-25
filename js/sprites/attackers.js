@@ -66,6 +66,8 @@ class Attacker extends GameSprite
         this.reachedGoalProcessed = false;
         this.reachedGoalTurn = 0;
 
+        this.dying = false;
+
         this.moveToGoal();
     }
 

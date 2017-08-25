@@ -1045,9 +1045,9 @@ var valeaDraganului = {
             duration: 26,
             attacks: [
                 {
-                    className: 'Villager',
+                    className: 'Lee',
                     duration: 20,
-                    gap: 1.25,
+                    gap: 1.4,
                     delay: 1
                 }
             ]

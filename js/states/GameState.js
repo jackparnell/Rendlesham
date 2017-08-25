@@ -396,8 +396,8 @@ class GameState extends Phaser.State
         }
 
         let transylvanianAttackerNames = [
-            'betty', 'bogeyman', 'bruce', 'cyclops', 'farmer', 'ghost', 'goblin', 'imp', 'kappa', 'nic', 'ogre',
-            'purp', 'skull', 'skuller', 'villager', 'woodcutter'
+            'betty', 'bogeyman', 'bruce', 'cyclops', 'farmer', 'ghost', 'goblin', 'imp', 'kappa', 'lee',
+            'nic', 'ogre', 'purp', 'skull', 'skuller', 'villager', 'woodcutter'
         ];
 
         for (let i = 0; i < transylvanianAttackerNames.length; i++)
