@@ -4,7 +4,9 @@ window.Goblin = class Goblin extends Attacker
     {
         super(game, x, y, 'goblin');
         this.simpleSetSize();
-        this.animations.add('walk', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17], 15, false, true);
+        this.animations.add('attacking', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], 30, false, true);
+        this.animations.add('dying', [12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26], 30, false, true);
+        this.animations.add('walk', [27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43], 15, false, true);
     }
 
     update()
@@ -274,7 +276,7 @@ window.Lee = class Lee extends Attacker
     {
         super(game, x, y, 'lee');
         this.simpleSetSize();
-        this.animations.add('dying', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], 15, false, true);
+        this.animations.add('dying', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], 30, false, true);
         this.animations.add('walk', [15, 16, 17, 18, 19, 20, 21, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31], 15, false, true);
     }
 

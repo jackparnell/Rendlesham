@@ -66,7 +66,7 @@ class Attacker extends GameSprite
         this.reachedGoalProcessed = false;
         this.reachedGoalTurn = 0;
 
-        this.dying = false;
+        this.isDefeated = false;
 
         this.moveToGoal();
     }
@@ -123,7 +123,7 @@ class Attacker extends GameSprite
 
     update()
     {
-        if (!this.alive)
+        if (!this.alive || this.isDefeated)
         {
             return;
         }
@@ -150,7 +150,7 @@ class Attacker extends GameSprite
         if (this.health <= 0)
         {
             this.health = 0;
-            this.die();
+            this.defeated();
             return;
         }
 
@@ -183,6 +183,27 @@ class Attacker extends GameSprite
             this.currentState.getGoalXGrid(),
             this.currentState.getGoalYGrid()
         );
+    }
+
+    /**
+     * Should the attacker begin the attacking animation?
+     *
+     * @returns {boolean}
+     */
+    shouldAttack()
+    {
+        if (!this.currentState.goalCharacter)
+        {
+            return false;
+        }
+        if (!this.hasAnimation('attacking'))
+        {
+            return false;
+        }
+
+        let distanceToGoal = this.game.physics.arcade.distanceBetween(this, this.currentState.goalCharacter);
+        let distanceNeeded = 40 + (this.currentState.lives-1) * 7.5;
+        return (distanceToGoal <= distanceNeeded);
     }
 
     /**
@@ -225,18 +246,30 @@ class Attacker extends GameSprite
 
         this.currentState.spawnExplosion(this.x - 10, this.y, 0x8888ff);
 
-        // Fade out over 200 ms
-        this.fadeOutTween = this.game.add.tween(this).to( { alpha: 0 }, 200, Phaser.Easing.Linear.None, true, 0, 1000, true);
+        this.currentState.changeLives(-1, this.x, this.y);
 
-        // Die in 200 ms
-        this.game.timerEvents.push(this.game.time.events.add(Phaser.Timer.SECOND * .2, this.die, this));
+        if (this.hasAnimation('attacking'))
+        {
+            this.overrideSimpleAnimate = true;
+            this.animations.play('attacking');
+            this.animations.currentAnim.onComplete.add(
+                function () {
+                    this.fadeOutToDeath();
+                },
+                this
+            );
+        }
+        else
+        {
+            this.fadeOutToDeath();
+        }
 
         this.reachedGoalProcessed = true;
     }
 
     prepareForGameOver()
     {
-        if (this.hasOwnProperty('animations'))
+        if (this.hasOwnProperty('animations') && this.animations.name !== 'attacking')
         {
             this.animations.paused = true;
         }
@@ -244,22 +277,38 @@ class Attacker extends GameSprite
         this.invulnerable = true;
     }
 
-    die()
+    defeated()
     {
-        if (!this.alive || this.currentState.lives < 1)
+        this.isDefeated = true;
+
+        this.body.velocity.x = 0;
+        this.body.velocity.y = 0;
+
+        this.currentState.changeCoins(this.coinsValue, this.x, this.y);
+        this.currentState.changeScore(this.scoreValue, this.x, this.y);
+        this.currentState.sounds.hockeyPuckSlap.play();
+
+        this.killRelatedSprites();
+
+        if (this.hasAnimation('dying'))
         {
-            return false;
+            this.overrideSimpleAnimate = true;
+            this.animations.play('dying');
+            this.animations.currentAnim.onComplete.add(
+                function () {
+                    this.fadeOutToDeath();
+                },
+                this
+            );
         }
-        if (this.health <= 0)
+        else
         {
-            this.currentState.changeCoins(this.coinsValue, this.x, this.y);
-            this.currentState.changeScore(this.scoreValue, this.x, this.y);
-            this.currentState.sounds.hockeyPuckSlap.play();
+            this.die();
         }
-        else if (this.currentState.lives >= 1)
-        {
-            this.currentState.changeLives(-1, this.x, this.y);
-        }
+    }
+
+    killRelatedSprites()
+    {
         if (this.healthBar)
         {
             this.healthBar.kill();
@@ -272,6 +321,32 @@ class Attacker extends GameSprite
         {
             this.currentState.noTarget();
         }
+    }
+
+    fadeOutToDeath()
+    {
+        let fadeOutToDeathTween = this.game.add.tween(this).to(
+            {
+                alpha: 0
+            },
+            300,
+            Phaser.Easing.Linear.None
+        );
+        fadeOutToDeathTween.onComplete.add(
+            this.die,
+            this
+        );
+        fadeOutToDeathTween.start();
+    }
+
+    die()
+    {
+        if (!this.alive || this.currentState.lives < 1)
+        {
+            return false;
+        }
+
+        this.killRelatedSprites();
 
         // Set position to spawn point, and when reused it will already be there.
         // This is an attempt to prevent a flash of the reused attacker in its location at death.
@@ -592,6 +667,16 @@ class Attacker extends GameSprite
     reachedTargetPosition()
     {
         this.generateAdvancement();
+    }
+
+    simpleAnimate()
+    {
+        super.simpleAnimate();
+        if (this.shouldAttack())
+        {
+            this.overrideSimpleAnimate = true;
+            this.animations.play('attacking');
+        }
     }
 }
 

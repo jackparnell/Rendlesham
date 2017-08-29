@@ -196,6 +196,11 @@ class Tower extends GameSprite
             {
                 return;
             }
+            // If item defeated (an attacker in the dying animation), do not target
+            if (item.isDefeated)
+            {
+                return;
+            }
 
             let distanceBetween = this.game.physics.arcade.distanceBetween(this, item);
 

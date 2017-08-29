@@ -280,14 +280,19 @@ class GameSprite extends Phaser.Sprite
             return;
         }
 
-        if (this.body.velocity.x <= -5)
+        if (this.isDefeated)
+        {
+            return;
+        }
+
+        if (this.body.velocity.x <= -3)
         {
             this.animations.play('walk');
             this.scale.x = -1;
             return;
         }
 
-        if (this.body.velocity.x >= 5)
+        if (this.body.velocity.x >= 3)
         {
             this.animations.play('walk');
             this.scale.x = 1;

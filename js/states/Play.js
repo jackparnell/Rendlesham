@@ -1938,6 +1938,7 @@ class Play extends LevelGameState
                     cancelIndicators = true;
                 } else {
                     this[name].alpha = .5;
+                    this[name].alpha = .5;
                 }
             }
         }, this);
