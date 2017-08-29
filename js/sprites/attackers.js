@@ -236,7 +236,7 @@ class Attacker extends GameSprite
 
     prepareForGameOver()
     {
-        if (this.hasOwnProperty('animations') && this.animations.hasOwnProperty('paused'))
+        if (this.hasOwnProperty('animations'))
         {
             this.animations.paused = true;
         }
