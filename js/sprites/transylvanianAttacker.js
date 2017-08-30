@@ -4,9 +4,9 @@ window.Goblin = class Goblin extends Attacker
     {
         super(game, x, y, 'goblin');
         this.simpleSetSize();
-        this.animations.add('attacking', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], 30, false, true);
-        this.animations.add('dying', [12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26], 30, false, true);
-        this.animations.add('walk', [27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43], 15, false, true);
+        this.animations.add('attacking', range(0, 11), 30, false, true);
+        this.animations.add('dying', range(12, 14), 30, false, true);
+        this.animations.add('walk', range(27, 18), 15, false, true);
     }
 
     update()
@@ -33,7 +33,9 @@ window.Imp = class Imp extends Attacker
     {
         super(game, x, y, 'imp');
         this.simpleSetSize();
-        this.animations.add('walk', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17], 15, false, true);
+        this.animations.add('attacking', range(0, 12), 30, false, true);
+        this.animations.add('dying', range(12, 15), 30, false, true);
+        this.animations.add('walk', range(27, 18), 20, false, true);
     }
 
     update()
@@ -60,7 +62,9 @@ window.Bogeyman = class Bogeyman extends Attacker
     {
         super(game, x, y, 'bogeyman');
         this.simpleSetSize();
-        this.animations.add('walk', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17], 15, false, true);
+        this.animations.add('attacking', range(0, 12), 30, false, true);
+        this.animations.add('dying', range(12, 15), 30, false, true);
+        this.animations.add('walk', range(27, 18), 15, false, true);
     }
 
     update()
@@ -87,7 +91,9 @@ window.Villager = class Villager extends Attacker
     {
         super(game, x, y, 'villager');
         this.simpleSetSize();
-        this.animations.add('walk', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17], 15, false, true);
+        this.animations.add('attacking', range(0, 12), 30, false, true);
+        this.animations.add('dying', range(12, 15), 30, false, true);
+        this.animations.add('walk', range(28, 12), 15, false, true);
     }
 
     update()
@@ -114,7 +120,9 @@ window.Kappa = class Kappa extends Attacker
     {
         super(game, x, y, 'kappa');
         this.simpleSetSize();
-        this.animations.add('walk', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17], 15, false, true);
+        this.animations.add('attacking', range(0, 12), 30, false, true);
+        this.animations.add('dying', range(12, 15), 30, false, true);
+        this.animations.add('walk', range(28, 12), 30, false, true);
     }
 
     update()
@@ -141,7 +149,9 @@ window.Ogre = class Ogre extends Attacker
     {
         super(game, x, y, 'ogre');
         this.simpleSetSize();
-        this.animations.add('walk', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17], 15, false, true);
+        this.animations.add('attacking', range(0, 12), 30, false, true);
+        this.animations.add('dying', range(12, 15), 30, false, true);
+        this.animations.add('walk', range(27, 18), 15, false, true);
     }
 
     update()
@@ -168,7 +178,9 @@ window.Skull = class Skull extends Attacker
     {
         super(game, x, y, 'skull');
         this.simpleSetSize();
-        this.animations.add('walk', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17], 15, false, true);
+        this.animations.add('attacking', range(0, 12), 30, false, true);
+        this.animations.add('dying', range(12, 15), 30, false, true);
+        this.animations.add('walk', range(27, 18), 15, false, true);
     }
 
     update()
@@ -195,7 +207,9 @@ window.Skuller = class Skuller extends Attacker
     {
         super(game, x, y, 'skuller');
         this.simpleSetSize();
-        this.animations.add('walk', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17], 15, false, true);
+        this.animations.add('attacking', range(0, 12), 30, false, true);
+        this.animations.add('dying', range(12, 15), 30, false, true);
+        this.animations.add('walk', range(27, 18), 15, false, true);
     }
 
     update()
@@ -222,7 +236,9 @@ window.Cyclops = class Cyclops extends Attacker
     {
         super(game, x, y, 'cyclops');
         this.simpleSetSize();
-        this.animations.add('walk', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17], 15, false, true);
+        this.animations.add('attacking', range(0, 12), 30, false, true);
+        this.animations.add('dying', range(12, 15), 30, false, true);
+        this.animations.add('walk', range(27, 18), 15, false, true);
     }
 
     update()
@@ -248,7 +264,7 @@ window.Ghost = class Ghost extends Attacker
     {
         super(game, x, y, 'ghost');
         this.simpleSetSize();
-        this.animations.add('walk', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17], 15, false, true);
+        this.animations.add('walk', range(0, 17), 15, false, true);
     }
 
     update()
@@ -276,8 +292,9 @@ window.Lee = class Lee extends Attacker
     {
         super(game, x, y, 'lee');
         this.simpleSetSize();
-        this.animations.add('dying', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], 30, false, true);
-        this.animations.add('walk', [15, 16, 17, 18, 19, 20, 21, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31], 15, false, true);
+        this.animations.add('attacking', range(0, 12), 30, false, true);
+        this.animations.add('dying', range(12, 15), 30, false, true);
+        this.animations.add('walk', range(27, 18), 15, false, true);
     }
 
     update()
