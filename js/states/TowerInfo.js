@@ -4,7 +4,9 @@ class TowerInfo extends DomContentState
     {
         super.create();
 
-        $('#towerInfoContent').html('');
+        let towerInfoContent = $('#towerInfoContent');
+
+        towerInfoContent.html('');
 
         $('.back').click(function() {
             game.state.states.towerInfo.goToTitleScreen();
@@ -21,12 +23,12 @@ class TowerInfo extends DomContentState
 
         for (let i = 0; i < towers.length; i++)
         {
-            $('#towerInfoContent').append('<h3> ' + towers[i].constructor.name + '</h3>');
-            $('#towerInfoContent').append('<p> ' + window[towerClassNames[i]].DESCRIPTION + '</p>');
+            towerInfoContent.append('<h3> ' + towers[i].constructor.name + '</h3>');
+            towerInfoContent.append('<p> ' + window[towerClassNames[i]].DESCRIPTION + '</p>');
 
             let tableId = towers[i].constructor.name + '_stats';
 
-            $('#towerInfoContent').append('<table id="' + tableId + '" class="towers"></table>');
+            towerInfoContent.append('<table id="' + tableId + '" class="towers"></table>');
 
             $('#' + tableId).append('<tr><th>Grade</th><th>Sprite</th><th>Cost</th></tg><th>Damage Value</th><th>Fire Rate (ms)</th><th>Range</th></tr>');
 

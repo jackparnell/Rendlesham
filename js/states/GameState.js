@@ -519,24 +519,20 @@ class GameState extends Phaser.State
             case 'classic':
                 // Classic is unlocked is user had completed the previous level (on any mode)
                 return (level && level.hasOwnProperty('previousLevelName') && this.hasUserCompletedLevel(level.previousLevelName));
-                break;
 
             case 'epic':
                 // Epic is unlocked is user had completed the level on classic mode
                 return (level && level.hasOwnProperty('name') && this.hasUserCompletedLevel(level.name, 'classic'));
-                break;
 
             case 'endless':
                 // Endless is unlocked is user had completed the level on epic mode
                 return (level && level.hasOwnProperty('name') && this.hasUserCompletedLevel(level.name, 'epic'));
-                break;
 
             default:
                 throw {
                     'code': 78401,
                     'description': 'Mode ' + mode + ' invalid.'
                 };
-                break;
         }
 
     }
@@ -654,8 +650,7 @@ class GameState extends Phaser.State
         $('.active').removeClass('active');
         $('.' + this.game.state.current + 'Link').addClass('active');
 
-        $('body').removeClass();
-        $('body').addClass(this.game.state.current);
+        $('body').removeClass().addClass(this.game.state.current);
     }
 
     /**
