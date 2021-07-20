@@ -6,11 +6,10 @@ class Achievements extends DomContentState
 
         this.loadUser();
 
-        $('#achievementsContent').html('');
-
-        $('#achievementsContent').append('<h3>Your High Scores</h3>');
-
-        $('#achievementsContent').append('<table class="stats"><tr><th class="levelName">Level</th><th>Classic</th><th>Epic</th><th>Endless</th></tr></table>');
+        $('#achievementsContent')
+            .html('')
+            .append('<h3>Your High Scores</h3>')
+            .append('<table class="stats"><tr><th class="levelName">Level</th><th>Classic</th><th>Epic</th><th>Endless</th></tr></table>');
         
         let level;
         let classicHighScore;
@@ -27,7 +26,9 @@ class Achievements extends DomContentState
                     continue;
                 }
 
-                $('#achievementsContent table').append('<tr><th class="zoneName" colspan="4">' + ZONE_INFO[zoneName].TITLE + '</th></tr>');
+                let achievementsContentTable =  $('#achievementsContent table');
+
+                achievementsContentTable.append('<tr><th class="zoneName" colspan="4">' + ZONE_INFO[zoneName].TITLE + '</th></tr>');
                 
                 for (let levelNumber in ZONE_INFO[zoneName].LEVEL_ORDERING)
                 {
@@ -64,7 +65,7 @@ class Achievements extends DomContentState
 
                         if (classicHighScore !== '')
                         {
-                            $('#achievementsContent table').append(
+                            achievementsContentTable.append(
                                 '<tr>' +
                                 '<td class="levelName">Level ' + levelNumber + ' (' + level.title + '):</td>' +
                                 '<td>' + classicHighScore + '</td>' +
